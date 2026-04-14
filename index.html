@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Revision Science Medicale</title>
+    <meta name="description" content="Un site de quiz pour réviser entre étudiants." />
+    <link rel="stylesheet" href="./style.css" />
+    <!-- Evite l'erreur console sur /favicon.ico en fournissant une icône inline -->
+    <link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/wcAAgMBgF+YVb0AAAAASUVORK5CYII=" />
+  </head>
+  <body>
+    <div class="bg"></div>
+
+    <section class="card code-screen" id="screenCode">
+      <div class="hero">
+        <img src="./logo.png" alt="Revision Science Medicale" class="hero__img" onerror="this.style.display='none'" />
+      </div>
+      <h1 class="h1">Connexion</h1>
+      <p class="muted">Entre tes identifiants pour accéder aux quiz.</p>
+      <form id="formCode" class="field" style="max-width:280px;margin-top:14px">
+        <label for="inputUsername" class="label">Nom d'utilisateur</label>
+        <input id="inputUsername" class="input" type="text" placeholder="Ex: etudiant1" autocomplete="username" autofocus />
+        <div id="codeError" class="muted small" style="color:var(--bad);margin-top:8px;display:none">Identifiants invalides.</div>
+        <button class="btn btn--primary" type="submit" style="margin-top:12px">Se connecter</button>
+      </form>
+      <p class="code-contact muted small" style="margin-top:20px;text-align:center">
+        Pour obtenir ton code, contacte l’Administrateur :<br />
+        <strong>Tirbuce Beda</strong> 0708190886 — <strong>Brice Appia</strong> 0709282169
+      </p>
+    </section>
+
+    <div id="appContent" class="hidden">
+    <header class="header">
+      <div class="container header__inner">
+        <div class="brand">
+          <div class="brand__mark" aria-hidden="true">Q</div>
+          <div>
+            <div class="brand__name">Revision Science Medicale</div>
+            <div class="brand__tagline">Révise vite, progresse, recommence</div>
+          </div>
+        </div>
+
+        <div id="userInfo" class="muted small" style="margin-right:16px;">Utilisateur: <span id="currentUser"></span></div>
+
+        <div class="header__actions">
+          <button class="btn btn--ghost" id="btnDictionary" type="button">Dictionnaire médical</button>
+          <button class="btn btn--ghost hidden" id="btnAdmin" type="button">Admin</button>
+          <button class="btn btn--ghost" id="btnOpenSettings" type="button">Paramètres</button>
+          <button class="btn btn--ghost" id="btnReset" type="button" title="Effacer la progression">Réinitialiser</button>
+          <button class="btn btn--ghost" id="btnLogout" type="button" title="Changer d'utilisateur">Se déconnecter</button>
+        </div>
+      </div>
+    </header>
+
+    <main class="container">
+      <section class="card" id="screenStart" aria-labelledby="startTitle">
+        <div class="hero">
+          <img src="./logo.png" alt="Revision Science Medicale" class="hero__img" onerror="this.style.display='none'" />
+        </div>
+        <h1 id="startTitle" class="h1">Commencer un quiz</h1>
+        <p class="muted">
+          Choisis une catégorie, puis lance une session. À la fin tu verras ton score et les corrections.
+        </p>
+
+        <div class="row row--space" style="margin-top:8px;justify-content:center;gap:10px">
+          <button class="btn btn--ghost" id="btnModeQuiz" type="button">Quiz</button>
+          <button class="btn btn--ghost" id="btnModeDE" type="button">Examen de Fin de Formation</button>
+        </div>
+
+        <div id="modeNormal">
+          <div class="grid">
+            <div class="field">
+              <label for="selectLevel" class="label">Niveau</label>
+              <select id="selectLevel" class="select"></select>
+            </div>
+            <div class="field">
+              <label for="selectSubject" class="label">Matière</label>
+              <select id="selectSubject" class="select"></select>
+            </div>
+            <div class="field">
+              <label for="selectTopic" class="label">Sujet (thème)</label>
+              <select id="selectTopic" class="select"></select>
+            </div>
+          </div>
+        </div>
+
+        <div id="modeDE" class="hidden">
+          <div class="grid">
+            <div class="field">
+              <label for="selectDETrack" class="label">Voie</label>
+              <select id="selectDETrack" class="select"></select>
+            </div>
+            <div class="field">
+              <label for="selectDESubject" class="label">Matière</label>
+              <select id="selectDESubject" class="select"></select>
+            </div>
+            <div class="field">
+              <label for="selectDETopic" class="label">Sujet</label>
+              <select id="selectDETopic" class="select"></select>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <button class="btn btn--primary" id="btnStart" type="button">Démarrer</button>
+          <div class="pill" id="questionBankInfo" aria-live="polite"></div>
+        </div>
+      </section>
+
+      <section class="card hidden" id="screenQuiz" aria-labelledby="quizTitle">
+        <div class="quiz__top">
+          <div>
+            <div class="pill" id="quizMeta"></div>
+            <h2 id="quizTitle" class="h2">Question</h2>
+          </div>
+          <div class="quiz__progress" aria-label="Progression">
+            <div class="progress">
+              <div class="progress__bar" id="progressBar"></div>
+            </div>
+            <div class="quiz__footer">
+              <div class="muted small" id="progressText"></div>
+              <div class="quiz__timer" id="quizTimer" aria-live="polite">20 s</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="question" id="questionText"></div>
+        <div class="answers" id="answers"></div>
+
+        <div class="row row--space">
+          <div class="row">
+            <button class="btn btn--ghost" id="btnSkip" type="button">Terminer</button>
+            <button class="btn btn--primary" id="btnNext" type="button">Suivant</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="card hidden" id="screenResult" aria-labelledby="resultTitle">
+        <h2 id="resultTitle" class="h2">Résultats</h2>
+        <div class="result__score" id="scoreText"></div>
+        <div class="row">
+          <button class="btn btn--primary" id="btnRetry" type="button">Refaire un quiz</button>
+          <button class="btn" id="btnReview" type="button">Voir les corrections</button>
+        </div>
+      </section>
+
+      <section class="card hidden" id="screenReview" aria-labelledby="reviewTitle">
+        <div class="row row--space">
+          <h2 id="reviewTitle" class="h2">Corrections</h2>
+          <button class="btn" id="btnBackToStart" type="button">Accueil</button>
+        </div>
+        <div class="muted small">
+          Astuce : tu peux éditer les questions dans <code>questions.js</code> (quiz) et <code>questions.eff.js</code> (Examen de Fin de Formation).
+        </div>
+        <div class="review" id="reviewList"></div>
+      </section>
+
+      <section class="card hidden" id="screenAdmin" aria-labelledby="adminTitle">
+        <div class="row row--space">
+          <h2 id="adminTitle" class="h2">Administration - Activités</h2>
+          <button class="btn" id="btnBackToStartFromAdmin" type="button">Accueil</button>
+        </div>
+        <div class="muted small">
+          Liste des activités récentes des utilisateurs.
+        </div>
+        <div class="admin-logs" id="adminLogs"></div>
+      </section>
+
+      <section class="card hidden" id="screenDictionary" aria-labelledby="dictionaryTitle">
+        <div class="row row--space">
+          <h2 id="dictionaryTitle" class="h2">Dictionnaire médical</h2>
+          <button class="btn" id="btnBackToStartFromDictionary" type="button">Accueil</button>
+        </div>
+        <p class="muted small" style="margin-top:-6px">
+          Recherche par terme ou définition. Les données sont dans <code>dictionnaire.medical.js</code>.
+        </p>
+        <div class="grid" style="margin-top:10px">
+          <div class="field" style="grid-column: 1 / -1;">
+            <label for="inputDictionarySearch" class="label">Rechercher</label>
+            <input id="inputDictionarySearch" class="input" type="search" placeholder="Ex: anémie, tachycardie, perfusion..." autocomplete="off" />
+          </div>
+        </div>
+        <div class="dictionary" id="dictionaryList"></div>
+      </section>
+    </main>
+
+    <dialog class="dialog" id="settingsDialog" aria-labelledby="settingsTitle">
+      <form method="dialog" class="dialog__inner">
+        <div class="row row--space">
+          <h3 class="h3" id="settingsTitle">Paramètres</h3>
+          <button class="iconBtn" value="cancel" aria-label="Fermer" type="submit">✕</button>
+        </div>
+
+        <div class="field">
+          <label class="label" for="inputStudentName">Ton nom (optionnel)</label>
+          <input id="inputStudentName" class="input" placeholder="Ex: Amina" autocomplete="off" />
+          <div class="muted small">On l’utilise seulement pour afficher un message, rien n’est envoyé sur Internet.</div>
+        </div>
+
+        <div class="field">
+          <label class="label" for="toggleShuffle">Mélanger les questions</label>
+          <div class="toggle">
+            <input id="toggleShuffle" type="checkbox" />
+            <span class="toggle__ui" aria-hidden="true"></span>
+            <span class="muted small">Recommandé</span>
+          </div>
+        </div>
+
+        <div class="row row--space">
+          <button class="btn" value="cancel" type="submit">Fermer</button>
+          <button class="btn btn--primary" id="btnSaveSettings" value="ok" type="submit">Enregistrer</button>
+        </div>
+      </form>
+    </dialog>
+
+    <footer class="footer container">
+      <div class="muted small">
+        Pour obtenir ton code : <strong>Tirbuce Beda</strong> 0708190886 — <strong>Brice Appia</strong> 0709282169
+      </div>
+      <div class="muted small" style="margin-top:6px">
+        Fonctionne hors-ligne.
+      </div>
+    </footer>
+    </div>
+
+    <script src="./codes.js"></script>
+    <script src="./sujets.js"></script>
+    <script src="./sujets.de.js"></script>
+    <script src="./questions.js"></script>
+    <script src="./questions.eff.js"></script>
+    <script src="./dictionnaire.medical.js"></script>
+    <script src="./app.js"></script>
+  </body>
+</html>
