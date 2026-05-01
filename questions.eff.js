@@ -26,7 +26,7 @@
   // Anti-duplication si le fichier est chargé plusieurs fois
   if (bank.some((q) => q && typeof q === "object" && String(q.id || "").startsWith("eff-"))) return;
 
-  const LEVELS = ["Licence 3 IDE/SFM", "Auxiliaire 2 année"];
+  const LEVELS = ["IDE/SFM", "Auxiliaire"];
   const SUBJECTS = [
     { key: "pf", label: "Planning Famillial" },
     { key: "gy", label: "Gynécologie" },
@@ -210,7 +210,7 @@
   if (bank.some((q) => q && typeof q === "object" && String(q.id || "").startsWith("eff-ped-"))) return;
 
   const SUBJECT = "Pédiatrie";
-  const LEVELS = ["Licence 3 IDE/SFM", "Auxiliaire 2 année"];
+  const LEVELS = ["IDE/SFM", "Auxiliaire"];
   const TOPICS_WITH_COUNT = [
     { topic: "Sujet 1", count: 60 },
     { topic: "Sujet 2", count: 60 },
@@ -336,7 +336,7 @@
   if (bank.some((q) => q && typeof q === "object" && String(q.id || "").startsWith("eff-sp-"))) return;
 
   const SUBJECT = "Santé Publique";
-  const LEVELS = ["Licence 3 IDE/SFM", "Auxiliaire 2 année"];
+  const LEVELS = ["IDE/SFM", "Auxiliaire"];
   const TOPICS_WITH_COUNT = [
     { topic: "Sujet 1", count: 60 },
     { topic: "Sujet 2", count: 60 },
@@ -463,7 +463,7 @@
 
   const SUBJECT = "Médecine";
   const TOPICS = ["Sujet 1", "Sujet 2", "Sujet 3", "Sujet 4", "Sujet 5", "Sujet 6", "Sujet 7", "Sujet 8", "Sujet 9"];
-  const LEVELS = ["Licence 3 IDE/SFM", "Auxiliaire 2 année"];
+  const LEVELS = ["IDE/SFM", "Auxiliaire"];
 
   function mkMcq({ id, level, topic, question, choices, answerIndex, explanation }) {
     return { id, level, subject: SUBJECT, topic, type: "mcq", question, choices, answerIndex, explanation };
@@ -604,7 +604,7 @@
   if (bank.some((q) => q && typeof q === "object" && String(q.id || "").startsWith("eff-multi-"))) return;
 
   const TOPICS = ["Sujet 1", "Sujet 2", "Sujet 3", "Sujet 4", "Sujet 5", "Sujet 6", "Sujet 7", "Sujet 8", "Sujet 9"];
-  const LEVELS = ["Licence 3 IDE/SFM", "Auxiliaire 2 année"];
+  const LEVELS = ["IDE/SFM", "Auxiliaire"];
   const SUBJECTS = [
     { key: "ped", label: "Pédiatrie" },
     { key: "sp", label: "Santé Publique" },
@@ -827,7 +827,7 @@
 
   const SUBJECT = "Chirurgie";
   const TOPICS = ["Sujet 1", "Sujet 2", "Sujet 3", "Sujet 4", "Sujet 5", "Sujet 6", "Sujet 7", "Sujet 8", "Sujet 9"];
-  const LEVELS = ["Licence 3 IDE/SFM", "Auxiliaire 2 année"];
+  const LEVELS = ["IDE/SFM", "Auxiliaire"];
 
   function mkMcq({ id, level, topic, question, choices, answerIndex, explanation }) {
     return { id, level, subject: SUBJECT, topic, type: "mcq", question, choices, answerIndex, explanation };
@@ -969,7 +969,7 @@
 
   bank.push({
     id: "eff-med-s7-001",
-    level: "Licence 3 IDE/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Médecine",
     topic: "Sujet 7",
     type: "mcq",
@@ -981,7 +981,7 @@
 
   bank.push({
     id: "eff-med-s7-002",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Médecine",
     topic: "Sujet 7",
     type: "tf",
@@ -1024,9 +1024,19 @@
     return "";
   }
 
-  function isAllowedLevel(level) {
+  function mapLevelToDE(level) {
     const n = normalizeKey(level);
-    return n.includes("ide/sfm") || n.includes("auxiliaire");
+    // Le mode DE utilise 2 filières dans l’interface : IDE/SFM et Auxiliaire.
+    // Certaines questions anciennes étaient enregistrées avec les niveaux du quiz
+    // normal (ex: "L3-Niveau Accompli INF", "A2-Niveau moyen").
+    // On les convertit ici pour éviter qu’elles soient filtrées et invisibles.
+    if (n.includes("ide/sfm") || n.includes("ide") || n.includes("sfm") || n.includes("inf") || n.includes("l3")) return "IDE/SFM";
+    if (n.includes("auxiliaire") || n.includes("a1") || n.includes("a2")) return "Auxiliaire";
+    return "";
+  }
+
+  function isAllowedLevel(level) {
+    return !!mapLevelToDE(level);
   }
 
   function isAllowedTopic(topic) {
@@ -1046,8 +1056,9 @@
     })
     .map((q) => {
       const mappedSubject = mapSubjectToDE(q.subject);
-      if (!mappedSubject) return null;
-      return { ...q, subject: mappedSubject };
+      const mappedLevel = mapLevelToDE(q.level);
+      if (!mappedSubject || !mappedLevel) return null;
+      return { ...q, level: mappedLevel, subject: mappedSubject };
     })
     .filter(Boolean);
 })();

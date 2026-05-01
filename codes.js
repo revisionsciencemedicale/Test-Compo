@@ -7,17 +7,22 @@ window.USERS = {
     levels: "all"
   },
   "etudiant1": {
-    levels: ["Licence 1 IDE/SFM"]
+    levels: ["L1-Niveau Émergent"]
   },
   "etudiant2": {
-    levels: ["Licence 2 IDE/SFM"]
+    levels: ["L2-Niveau Ascendant"]
   },
   "paterne": {
-    levels: ["Licence 1 IDE/SFM", "Licence 2 IDE/SFM"]
+    levels: ["L1-Niveau Émergent", "L2-Niveau Ascendant"]
   },
   "brice": {
     levels: "all"
-  }
+  },
+  "NDINADL29738": {
+    levels: ["L2-Niveau Ascendant"]
+  },
+  "KONAMOL27378": {
+    levels: ["L2-Niveau Ascendant"]}
 
 
   // Ajoute ici les nouveaux utilisateurs

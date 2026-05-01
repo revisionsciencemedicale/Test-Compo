@@ -8,7 +8,6 @@ window.SUJETS_PAR_MATIERE_QUIZ = {
   "Santé Publique": ["Sujet 1", "Sujet 2", "Sujet 3", "Sujet 4", "Sujet 5"],
   "Pathologies churigicale / Sémiologie": ["Sujet 1", "Sujet 2", "Sujet 3", "Sujet 4", "Sujet 5"],
   "Pathologies médicales / Sémiologie": ["Sujet 1", "Sujet 2", "Sujet 3", "Sujet 4", "Sujet 5"],
-  "Anatomie physiologie cellules tissus ostéologie myologie système nerveux": ["Sujet 1", "Sujet 2", "Sujet 3", "Sujet 4", "Sujet 5"],
   "Anatomie physiologie appareils": ["Sujet 1", "Sujet 2", "Sujet 3", "Sujet 4", "Sujet 5"],
   "Anatomie physiologie obstétricale": ["Sujet 1", "Sujet 2", "Sujet 3", "Sujet 4", "Sujet 5"],
   "Soins aux enfants": ["Sujet 1", "Sujet 2", "Sujet 3", "Sujet 4", "Sujet 5"],
@@ -37,5 +36,379 @@ window.SUJETS_PAR_MATIERE_QUIZ = {
   "Hématologie": ["Sujet 1", "Sujet 2", "Sujet 3", "Sujet 4", "Sujet 5"],
   "Droit administratif": ["Sujet 1", "Sujet 2", "Sujet 3", "Sujet 4", "Sujet 5"],
   "Droit civil": ["Sujet 1", "Sujet 2", "Sujet 3", "Sujet 4", "Sujet 5"],
+  "Chirugie pédiatrique/Pathologies chirurrgicales ": ["Sujet 1", "Sujet 2", "Sujet 3", "Sujet 4", "Sujet 5"],
+  "Initiation a la kinésitherapie ": ["Sujet 1", "Sujet 2", "Sujet 3", "Sujet 4", "Sujet 5"],
+  "Déontologie de la sage femme ": ["Sujet 1", "Sujet 2", "Sujet 3", "Sujet 4", "Sujet 5"],
+  "Santé de la reproduction planification familiale ": ["Sujet 1", "Sujet 2", "Sujet 3", "Sujet 4", "Sujet 5"],
+  "Gériatrie/Gérontologie ": ["Sujet 1", "Sujet 2", "Sujet 3", "Sujet 4", "Sujet 5"],
+  "Approche genre/santé sexuelle/santé de la reproduction des adolescents et des jeunes/gestion logistique": ["Sujet 1", "Sujet 2", "Sujet 3", "Sujet 4", "Sujet 5"],
+  "Psychologie médicale ": ["Sujet 1", "Sujet 2", "Sujet 3", "Sujet 4", "Sujet 5"],
+  "Réanimation": ["Sujet 1", "Sujet 2", "Sujet 3", "Sujet 4", "Sujet 5"],
+  "Soins obstetricaux et néonataux d'urgence ": ["Sujet 1", "Sujet 2", "Sujet 3", "Sujet 4", "Sujet 5"],
+  " Pharmacologie": ["Sujet 1", "Sujet 2", "Sujet 3", "Sujet 4", "Sujet 5"],
+  "Soins infirmiers dans les pathologies médicales": ["Sujet 1", "Sujet 2", "Sujet 3", "Sujet 4", "Sujet 5"],
+  "Techniques de soins infirmiers": ["Sujet 1", "Sujet 2", "Sujet 3", "Sujet 4", "Sujet 5"],
+  " Gynécologie-obstétrique (SFM)": ["Sujet 1", "Sujet 2", "Sujet 3", "Sujet 4", "Sujet 5"],
+  " Gynécologie-obstétrique (IDE)": ["Sujet 1", "Sujet 2", "Sujet 3", "Sujet 4", "Sujet 5"],
+  " Consultation enfant sain": ["Sujet 1", "Sujet 2", "Sujet 3", "Sujet 4", "Sujet 5"],
+  " Techniques de soins infirmiers": ["Sujet 1", "Sujet 2", "Sujet 3", "Sujet 4", "Sujet 5"],
+
+
 
 };
+
+// Matières demandées pour L3-Niveau Accompli INF (6 sujets chacune)
+(function addLicence3IDESubjects() {
+  const licence3IDESubjects = [
+    "Imagerie médicale",
+    "Gestion des catastrophes",
+    "Gouvernance et Organisation du Système de Santé Communautaire",
+    "Organisation d’une séance de Vaccination / Sécurité des injections",
+    "Oncologie",
+    "Neuropsychiatrie",
+    "Endocrinologie",
+    "Hépato-gastro-entérologie",
+    "Cardiologie",
+    "Dermatologie",
+    "Néphrologie",
+    "Odonto-Stomatologie",
+    "Ophtalmologie",
+    "Neurochirurgie",
+    "ORL",
+    "Surveillances thérapeutiques 1",
+    "Surveillance thérapeutique 2",
+    "Stage en soins infirmiers et Obstétricaux",
+    "Droit administratif",
+    "Élaboration d’un projet de soins infirmiers",
+    "Mise en œuvre et évaluation d’un projet de soins infirmiers",
+    "Soins infirmiers spécialisés en médecine",
+    "Soins palliatifs",
+    "Soins infirmiers spécialisés en chirurgie",
+    "Supervision / Suivi - Evaluation",
+    "Gestion Hospitalière",
+  ];
+  window.LICENCE3_IDE_SUBJECTS = licence3IDESubjects.slice();
+
+  const sixTopics = ["Sujet 1", "Sujet 2", "Sujet 3", "Sujet 4", "Sujet 5", "Sujet 6"];
+  for (const subject of licence3IDESubjects) {
+    window.SUJETS_PAR_MATIERE_QUIZ[subject] = sixTopics.slice();
+  }
+})();
+
+// Matières demandées pour L3-Niveau Accompli SF (6 sujets chacune)
+(function addLicence3SFMSubjects() {
+  const licence3SFMSubjects = [
+    "Pathologies gynécologiques III",
+    "Pathologies obstétricales III",
+    "Hygiène menstruelle",
+    "Violences Basées sur Genre / Encadrement (Egalité - Equité)",
+    "Santé sexuelle et reproductive des adolescents et des jeunes / Planification Familiale / IST / VIH-SIDA",
+    "Imagerie médicale",
+    "Documents normatifs",
+    "Gestion des catastrophes",
+    "Gouvernance et Organisation du Système de Santé Communautaire",
+    "Organisation d’une séance de Vaccination / Sécurité des injections",
+    "Psychiatrie",
+    "Pédiatrie (PCIMNE)",
+    "Soins obstétricaux et néonataux d’urgence de base (SONUB)",
+    "Soins obstétricaux et néonataux d’urgence complets (SONUC)",
+    "Présentation de cas cliniques",
+    "Stage en soins infirmiers et Obstétricaux",
+    "Droit administratif / Responsabilité médicale",
+    "Sécurité sociale",
+    "Fonction publique",
+    "Supervision / Suivi - Evaluation",
+    "Gestion Hospitalière / Rédaction Administrative",
+    "Entrepreneuriat / Gestion de la qualité",
+    "Soins infirmiers obstétricaux et néonataux",
+    "Consultation Postnatale (CPoN)",
+    "Ventouse obstétricale",
+    "Aspiration Manuelle Intra-Utérine (AMIU) / Soins Post Avortement",
+    "Prise en charge des substances psychoactives",
+    "Gériatrie",
+    "Soins palliatifs",
+  ];
+  window.LICENCE3_SFM_SUBJECTS = licence3SFMSubjects.slice();
+  window.LICENCE2_SFM_SUBJECTS = licence3SFMSubjects.slice(); // alias de compatibilité
+
+  const sixTopics = ["Sujet 1", "Sujet 2", "Sujet 3", "Sujet 4", "Sujet 5", "Sujet 6"];
+  for (const subject of licence3SFMSubjects) {
+    window.SUJETS_PAR_MATIERE_QUIZ[subject] = sixTopics.slice();
+  }
+})();
+
+// Matières demandées pour A1-Base Santé et A2-Niveau moyen (6 sujets chacune)
+(function addAuxiliaireSubjects() {
+  const auxiliaire1Subjects = [
+    "Sémiologie médical",
+    "Anatomie physiologie",
+    "Spécialités médicales et chirurgicales",
+    "Pédiatrie",
+    "Néonatalogie",
+    "Diététique",
+    "Santé publique et communautaire et psychologique",
+    "Rédaction administrative",
+    "Rédaction de rapports de stage",
+    "Informatique",
+    "Pathologies médicale et chirurgicale",
+    "Radiologie",
+    "Laboratoire et pharmacologie",
+    "Hygiène et assainissement",
+    "Biosecurité",
+    "Éthique et déontologie",
+    "Hygiène hospitalière",
+    "Soins infirmiers de bases-accueil",
+    "SOINS HUMANISES",
+    "ergonomie",
+    "Manutention",
+    "Secourisme",
+  ];
+
+  const auxiliaire2Subjects = [
+    "Sémiologie médical",
+    "Anatomie physiologie",
+    "Spécialités médicales et chirurgicales",
+    "Pédiatrie",
+    "Néonatalogie",
+    "Diététique",
+    "Santé publique et communautaire et psychologique",
+    "Rédaction administrative",
+    "Rédaction de rapports de stage",
+    "Informatique",
+    "Pathologies médicale et chirurgicale",
+    "Radiologie",
+    "Laboratoire et pharmacologie",
+    "Hygiène et assainissement",
+    "Biosecurité",
+    "Éthique et déontologie",
+    "Hygiène hospitalière",
+    "Soins infirmiers de bases-accueil",
+    "SOINS HUMANISES",
+    "ergonomie",
+    "Manutention",
+    "Secourisme",
+  ];
+
+  window.AUXILIAIRE1_SUBJECTS = auxiliaire1Subjects.slice();
+  window.AUXILIAIRE2_SUBJECTS = auxiliaire2Subjects.slice();
+
+  const sixTopics = ["Sujet 1", "Sujet 2", "Sujet 3", "Sujet 4", "Sujet 5", "Sujet 6"];
+  const mergedAuxiliaireSubjects = Array.from(new Set(auxiliaire1Subjects.concat(auxiliaire2Subjects)));
+  for (const subject of mergedAuxiliaireSubjects) {
+    window.SUJETS_PAR_MATIERE_QUIZ[subject] = sixTopics.slice();
+  }
+
+  // Exemple manuel: ajout d'un sujet supplémentaire pour servir de modèle
+  // (ici sur "Sémiologie médical").
+  window.SUJETS_PAR_MATIERE_QUIZ["Sémiologie médical"] = [
+    "Sujet 1",
+    "Sujet 2",
+    "Sujet 3",
+    "Sujet 4",
+    "Sujet 5",
+    "Sujet 6",
+    "Sujet 7",
+  ];
+
+  // Deuxième exemple manuel sur une autre matière.
+  window.SUJETS_PAR_MATIERE_QUIZ["Anatomie physiologie"] = [
+    "Sujet 1",
+    "Sujet 2",
+    "Sujet 3",
+    "Sujet 4",
+    "Sujet 5",
+    "Sujet 6",
+    "Sujet 7",
+  ];
+
+  // Troisième exemple manuel sur une autre matière.
+  window.SUJETS_PAR_MATIERE_QUIZ["Hygiène hospitalière"] = [
+    "Sujet 1",
+    "Sujet 2",
+    "Sujet 3",
+    "Sujet 4",
+    "Sujet 5",
+    "Sujet 6",
+    "Sujet 7",
+  ];
+})();
+
+
+/* Correction personnalisée : matières affichées selon le niveau (30/04/2026). */
+(function configureSubjectsByLevel() {
+  const byLevel = {
+  "A1-Base Santé": [
+     "Sémiologie médical",
+  "Anatomie physiologie",
+  "Spécialités médicales et chirurgicales",
+  "Pédiatrie",
+  "Néonatalogie",
+  "Diététique",
+  "Santé publique et communautaire et psychologique",
+  "Rédaction administrative",
+  "Rédaction de rapports de stage",
+  "Informatique",
+  "Pathologies médicale et chirurgicale",
+  "Radiologie",
+  "Laboratoire et pharmacologie",
+  "Hygiène et assainissement",
+  "Biosecurité",
+  "Éthique et déontologie",
+  "Hygiène hospitalière",
+  "Soins infirmiers de bases-accueil",
+  "SOINS HUMANISES",
+  "ergonomie",
+  "Manutention",
+  "Secourisme",
+  ],
+  "L1-Niveau Émergent": [
+    "Pédiatrie",
+    "Santé Publique",
+    "Pathologies churigicale / Sémiologie",
+    "Pathologies médicales / Sémiologie",
+    "Anatomie physiologie appareils",
+    "Anatomie physiologie obstétricale",
+    "Soins aux enfants",
+    "Diététique",
+    "Bactériologie",
+    "Parasitologie",
+    "IST/VIH",
+    "Maladies parasitaires et infectieuses",
+    "Pathologies respiratoires",
+    "Maladies non transmissibles",
+    "Théorie et concepts des Soins Infirmiers / Obstétricaux / Relation d’aide",
+    "Psycho-sociologie",
+    "Anthropologie de la santé",
+    "Secourisme",
+    "Prévention des infections / Hygiène hospitalière",
+    "Soins infirmiers obstétricaux / néonataux de base / infantiles",
+    "Déontologie et éthique professionnelle",
+    "Législation du travail",
+    "Anglais de la santé",
+    "Informatique",
+    "Hygiène et assainissement",
+    "Soins de santé primaire",
+    "Epidémiologie",
+    "Biochimie",
+    "Immunologie",
+    "Hématologie",
+    "Droit administratif",
+    "Droit civil"
+  ],
+  "L2-Niveau Ascendant": [
+    "Chirugie pédiatrique/Pathologies chirurrgicales",
+    "Initiation a la kinésitherapie",
+    "Déontologie de la sage femme",
+    "Santé de la reproduction planification familiale",
+    "Gériatrie/Gérontologie",
+    "Approche genre/santé sexuelle/santé de la reproduction des adolescents et des jeunes/gestion logistique",
+    "Psychologie médicale",
+    "Réanimation",
+    "Soins obstetricaux et néonataux d'urgence",
+    "Pharmacologie",
+    "Soins infirmiers dans les pathologies médicales",
+    "Techniques de soins infirmiers",
+    "Gynécologie-obstétrique (SFM)",
+    "Gynécologie-obstétrique (IDE)",
+    "Consultation enfant sain",
+    "Pédiatrie",
+    "Santé Publique",
+    "Pathologies churigicale / Sémiologie",
+    "Pathologies médicales / Sémiologie",
+    "Anglais de la santé"
+  ],
+  "L3-Niveau Accompli INF": [
+    "Imagerie médicale",
+    "Gestion des catastrophes",
+    "Gouvernance et Organisation du Système de Santé Communautaire",
+    "Organisation d’une séance de Vaccination / Sécurité des injections",
+    "Oncologie",
+    "Neuropsychiatrie",
+    "Endocrinologie",
+    "Hépato-gastro-entérologie",
+    "Cardiologie",
+    "Dermatologie",
+    "Néphrologie",
+    "Odonto-Stomatologie",
+    "Ophtalmologie",
+    "Neurochirurgie",
+    "ORL",
+    "Surveillances thérapeutiques",
+    "Surveillance thérapeutique",
+    "Droit administratif",
+    "Élaboration d’un projet de soins infirmiers",
+    "Mise en œuvre et évaluation d’un projet de soins infirmiers",
+    "Soins infirmiers spécialisés en médecine",
+    "Soins palliatifs",
+    "Soins infirmiers spécialisés en chirurgie",
+    "Rédaction administrative",
+    "Supervision / Suivi – Evaluation",
+    "Gestion Hospitalière",
+    "Analyse des données quantitatives et qualitatives",
+  ],
+  "L3-Niveau Accompli SF": [
+    "Pathologies gynécologiques III",
+    "Pathologies obstétricales III",
+    "Hygiène menstruelle",
+    "Violences Basées sur Genre / Encadrement (Egalité - Equité)",
+    "Santé sexuelle et reproductive des adolescents et des jeunes / Planification Familiale / IST / VIH-SIDA",
+    "Imagerie médicale",
+    "Gestion des catastrophes",
+    "Gouvernance et Organisation du Système de Santé Communautaire",
+    "Organisation d’une séance de Vaccination / Sécurité des injections",
+    "Psychiatrie",
+    "Pédiatrie (PCIMNE)",
+    "Soins obstétricaux et néonataux d’urgence de base (SONUB)",
+    "Soins obstétricaux et néonataux d’urgence complets (SONUC)",
+    "Présentation de cas cliniques",
+    "Stage en soins infirmiers et Obstétricaux",
+    "Droit administratif / Responsabilité médicale",
+    "Sécurité sociale",
+    "Gestion Hospitalière / Rédaction Administrative",
+    "Soins infirmiers obstétricaux et néonataux",
+    "Consultation Postnatale (CPoN)",
+    "Ventouse obstétricale",
+    "Aspiration Manuelle Intra- Utérine (AMIU) / Soins Post Avortement",
+    "Prise en charge des substances psychoactives",
+    "Gériatrie",
+    "Soins palliatifs",
+    "Analyse des données qualitatives et quantitatives",
+    
+  ],
+  "A2-Niveau moyen": [
+     "Sémiologie médical",
+  "Anatomie physiologie",
+  "Spécialités médicales et chirurgicales",
+  "Pédiatrie",
+  "Néonatalogie",
+  "Diététique",
+  "Santé publique et communautaire et psychologique",
+  "Rédaction administrative",
+  "Rédaction de rapports de stage",
+  "Informatique",
+  "Pathologies médicale et chirurgicale",
+  "Radiologie",
+  "Laboratoire et pharmacologie",
+  "Hygiène et assainissement",
+  "Biosecurité",
+  "Éthique et déontologie",
+  "Hygiène hospitalière",
+  "Soins infirmiers de bases-accueil",
+  "SOINS HUMANISES",
+  "ergonomie",
+  "Manutention",
+  "Secourisme"
+  ]
+};
+  window.SUBJECTS_BY_LEVEL = byLevel;
+
+  const defaultTopics = ["Sujet 1", "Sujet 2", "Sujet 3", "Sujet 4", "Sujet 5", "Sujet 6"];
+  window.SUJETS_PAR_MATIERE_QUIZ = window.SUJETS_PAR_MATIERE_QUIZ || {};
+  for (const subjects of Object.values(byLevel)) {
+    for (const subject of subjects) {
+      if (!window.SUJETS_PAR_MATIERE_QUIZ[subject]) {
+        window.SUJETS_PAR_MATIERE_QUIZ[subject] = defaultTopics.slice();
+      }
+    }
+  }
+})();

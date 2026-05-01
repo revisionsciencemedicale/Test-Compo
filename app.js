@@ -166,8 +166,10 @@ function hasDEAccess() {
 
   if (!Array.isArray(userConfig.levels)) return false;
 
-  return userConfig.levels.includes("Auxiliaire 2 année") ||
-         userConfig.levels.includes("Licence 3 IDE/SFM");
+  return userConfig.levels.includes("A2-Niveau moyen") ||
+         userConfig.levels.includes("L3-Niveau Accompli INF") ||
+         userConfig.levels.includes("L3-Niveau Accompli INF") ||
+         userConfig.levels.includes("L3-Niveau Accompli SF");
 }
 }
 
@@ -210,8 +212,10 @@ function hasDEAccess() {
 
   if (!Array.isArray(userConfig.levels)) return false;
 
-  return userConfig.levels.includes("Auxiliaire 2 année") ||
-         userConfig.levels.includes("Licence 3 IDE/SFM");
+  return userConfig.levels.includes("A2-Niveau moyen") ||
+         userConfig.levels.includes("L3-Niveau Accompli INF") ||
+         userConfig.levels.includes("L3-Niveau Accompli INF") ||
+         userConfig.levels.includes("L3-Niveau Accompli SF");
 }
 
   function renderAdminLogs() {
@@ -342,20 +346,51 @@ function hasDEAccess() {
   function renderDictionary(query) {
     if (!els.dictionaryList) return;
     const q = normalizeKey(query || "");
-    const items = getDictionary()
-      .filter((e) => {
-        if (!q) return true;
-        return normalizeKey(e.term).includes(q) || normalizeKey(e.definition).includes(q);
-      })
-      .sort((a, b) => a.term.localeCompare(b.term, "fr", { sensitivity: "base" }));
+    const raw = Array.isArray(window.MEDICAL_DICTIONARY) ? window.MEDICAL_DICTIONARY : [];
+    const tokens = q.split(" ").filter(Boolean);
 
-    if (items.length === 0) {
-      els.dictionaryList.innerHTML = "<p class='muted'>Aucun résultat.</p>";
+    if (tokens.length === 0) {
+      els.dictionaryList.innerHTML = "<p class='muted'>Saisis un mot dans la barre de recherche pour afficher les termes correspondants.</p>";
       return;
     }
 
-    els.dictionaryList.innerHTML = "";
-    for (const e of items) {
+    const unique = new Map();
+    for (const e of raw) {
+      const term = safeText(e && e.term).trim();
+      const definition = safeText(e && e.definition).trim();
+      if (!term || !definition) continue;
+      const searchableTerm = normalizeKey(term);
+      const old = unique.get(searchableTerm);
+      if (!old || definition.length > old.definition.length) {
+        unique.set(searchableTerm, { term, definition, searchableTerm });
+      }
+    }
+
+    const items = Array.from(unique.values())
+      .filter((e) => tokens.every((token) => e.searchableTerm.includes(token)))
+      .sort((a, b) => {
+        const aStarts = a.searchableTerm.startsWith(q) ? 0 : 1;
+        const bStarts = b.searchableTerm.startsWith(q) ? 0 : 1;
+        if (aStarts !== bStarts) return aStarts - bStarts;
+        const aTermMatch = tokens.every((token) => a.searchableTerm.includes(token)) ? 0 : 1;
+        const bTermMatch = tokens.every((token) => b.searchableTerm.includes(token)) ? 0 : 1;
+        if (aTermMatch !== bTermMatch) return aTermMatch - bTermMatch;
+        return a.term.localeCompare(b.term, "fr", { sensitivity: "base" });
+      });
+
+    if (items.length === 0) {
+      els.dictionaryList.innerHTML = "<p class='muted'>Aucun mot correspondant trouvé.</p>";
+      return;
+    }
+
+    const maxResults = 80;
+    const fragment = document.createDocumentFragment();
+    const info = document.createElement("p");
+    info.className = "muted small";
+    info.textContent = String(items.length) + " résultat(s) trouvé(s)" + (items.length > maxResults ? " — " + String(maxResults) + " affiché(s)" : "");
+    fragment.appendChild(info);
+
+    for (const e of items.slice(0, maxResults)) {
       const item = document.createElement("div");
       item.className = "dictItem";
       const t = document.createElement("div");
@@ -366,8 +401,11 @@ function hasDEAccess() {
       d.textContent = e.definition;
       item.appendChild(t);
       item.appendChild(d);
-      els.dictionaryList.appendChild(item);
+      fragment.appendChild(item);
     }
+
+    els.dictionaryList.innerHTML = "";
+    els.dictionaryList.appendChild(fragment);
   }
 
   function normalizeQuestion(q) {
@@ -476,11 +514,12 @@ function hasDEAccess() {
   }
 
   const ALL_LEVELS = [
-    "Auxiliaire 1 année",
-    "Auxiliaire 2 année",
-    "Licence 1 IDE/SFM",
-    "Licence 2 IDE/SFM",
-    "Licence 3 IDE/SFM",
+    "A1-Base Santé",
+    "A2-Niveau moyen",
+    "L1-Niveau Émergent",
+    "L2-Niveau Ascendant",
+    "L3-Niveau Accompli SF",
+    "L3-Niveau Accompli INF",
   ];
 
   // Matières affichées dans la liste déroulante.
@@ -528,22 +567,60 @@ function hasDEAccess() {
   }
 
   if (Array.isArray(userConfig.levels)) {
-    return userConfig.levels;
+    return userConfig.levels.slice();
   }
 
   return [];
 }
 
   function computeSubjectsForLevel(level) {
-    // Pour l'instant, mêmes matières pour tous les niveaux
-    return ["Toutes les matières", ...ALL_SUBJECTS];
+    const nLevel = normalizeKey(level);
+    const unique = (arr) => Array.from(new Set((arr || []).map((s) => safeText(s).trim()).filter(Boolean)));
+
+    // Liste officielle des matières par niveau, définie dans sujets.js.
+    // Ainsi, quand on change le niveau, seules les matières du niveau choisi s'affichent.
+    if (window.SUBJECTS_BY_LEVEL && typeof window.SUBJECTS_BY_LEVEL === "object") {
+      for (const [levelName, subjects] of Object.entries(window.SUBJECTS_BY_LEVEL)) {
+        if (nLevel === normalizeKey(levelName) && Array.isArray(subjects)) {
+          return ["Toutes les matières", ...unique(subjects)];
+        }
+      }
+    }
+
+    return ["Toutes les matières", ...unique(ALL_SUBJECTS)];
   }
 
   function computeTopicsForSubject(subject) {
     if (!subject || subject === "Toutes les matières") return ["Tous les sujets"];
     const entry = SUBJECT_TOPICS_BY_NORM[normalizeKey(subject)];
-    if (!entry || !Array.isArray(entry.topics) || entry.topics.length === 0) return ["Tous les sujets"];
-    return ["Tous les sujets"].concat(entry.topics);
+    if (entry && Array.isArray(entry.topics) && entry.topics.length > 0) {
+      return ["Tous les sujets"].concat(entry.topics);
+    }
+
+    // Fallback: si la matière n'est pas trouvée dans `sujets.js`,
+    // on dérive les sujets depuis les questions existantes.
+    const byQuestions = Array.from(
+      new Set(
+        getQuestionBank()
+          .filter((q) => normalizeKey(q.subject) === normalizeKey(subject))
+          .map((q) => safeText(q.topic).trim())
+          .filter(Boolean)
+      )
+    );
+
+    if (byQuestions.length > 0) {
+      byQuestions.sort((a, b) => {
+        const na = normalizeKey(a);
+        const nb = normalizeKey(b);
+        const ma = na.match(/^sujet\s*([0-9]+)$/);
+        const mb = nb.match(/^sujet\s*([0-9]+)$/);
+        if (ma && mb) return Number(ma[1]) - Number(mb[1]);
+        return a.localeCompare(b, "fr", { sensitivity: "base" });
+      });
+      return ["Tous les sujets"].concat(byQuestions);
+    }
+
+    return ["Tous les sujets"];
   }
 
   function setOptions(select, options, valueToSelect) {
