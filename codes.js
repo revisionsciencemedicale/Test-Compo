@@ -6,10 +6,10 @@ window.USERS = {
   "tirbuce": {
     levels: "all"
   },
-  "etudiant1": {
+  "e": {
     levels: ["L1-Niveau Émergent"]
   },
-  "etudiant2": {
+  "e": {
     levels: ["L2-Niveau Ascendant"]
   },
   "paterne": {
