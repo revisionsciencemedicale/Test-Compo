@@ -229,10 +229,7 @@
         sessionStorage.setItem(STORAGE_KEYS.user, username);
         startSessionHeartbeat(username);
       } catch (e) {
-        const existing = e.data?.existing;
-        const msg = existing
-          ? `Ce compte est déjà connecté.\n\nUtilisateur : ${username}\nAppareil : ${existing.platform || "inconnu"}\nNavigateur : ${existing.browser || "inconnu"}\nDepuis : ${formatDate(existing.startedAt)}\nDernière activité : ${formatDate(existing.lastSeen)}\n\nDéconnectez d'abord l'autre appareil/navigateur ou contactez un administrateur.`
-          : (e.data?.error || e.message || "Connexion refusée par le serveur.");
+        const msg = e.data?.error || e.message || "Connexion refusée par le serveur.";
         if (els.codeError) {
           els.codeError.textContent = msg.replace(/\n/g, " ");
           els.codeError.style.display = "block";

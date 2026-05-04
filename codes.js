@@ -21,8 +21,18 @@ window.USERS = {
   "NDINADL29738": {
     levels: ["L2-Niveau Ascendant"]
   },
+  "FOFMARL33911": {
+    levels: ["L3-Niveau Accompli SF"]
+  },
+  
+  "DAMFANL22644": {
+    levels: ["L2-Niveau Ascendant"]
+  },
   "KONAMOL27378": {
-    levels: ["L2-Niveau Ascendant"]}
+    levels: ["L2-Niveau Ascendant"]},
+
+    "KAMBINL20052": {
+    levels: ["L2-Niveau Ascendant"]},
 
 
   // Ajoute ici les nouveaux utilisateurs
