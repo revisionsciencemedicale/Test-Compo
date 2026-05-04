@@ -31,6 +31,5 @@ window.USERS = {
 /**
  * Administrateurs : utilisateurs ayant accès à l'interface admin
  */
-window.ADMINS = ["tirbuce", "paterne"]; // Liste des noms d'utilisateurs admin
-window.ADMINS = ["brice"]; // Liste des noms d'utilisateurs admin
+window.ADMINS = ["tirbuce", "paterne", "brice"]; // Liste des noms d'utilisateurs admin
 

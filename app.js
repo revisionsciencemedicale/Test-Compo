@@ -66,65 +66,206 @@
     settings: "quizRevision.settings.v1",
     last: "quizRevision.lastSession.v1",
     user: "quizRevision.user.v1",
-    activeUsers: "quizRevision.activeUsers.v1",
-    activityLog: "quizRevision.activityLog.v1",
     lastResult: "quizRevision.lastResult.v1",
+    sessionToken: "quizRevision.sessionToken.v1",
+    deviceId: "quizRevision.deviceId.v1",
   };
 
-  function isAccessGranted() {
-    const user = sessionStorage.getItem(STORAGE_KEYS.user);
-    return user && window.USERS && window.USERS[user];
+  async function apiPost(path, payload = {}) {
+    const res = await fetch(path, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    });
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok) {
+      const err = new Error(data.error || "Erreur serveur");
+      err.status = res.status;
+      err.data = data;
+      throw err;
+    }
+    return data;
   }
 
-  function grantAccess(username) {
-  if (username) {
-    const active = getActiveUsers();
-    const currentUser = sessionStorage.getItem(STORAGE_KEYS.user);
+  function getSessionToken() {
+    let token = sessionStorage.getItem(STORAGE_KEYS.sessionToken);
+    if (!token) {
+      token = `${Date.now()}-${Math.random().toString(36).slice(2)}`;
+      sessionStorage.setItem(STORAGE_KEYS.sessionToken, token);
+    }
+    return token;
+  }
 
-    // 🔥 corrige bug déjà connecté
-    if (active[username] && currentUser !== username) {
-      alert("Accès refusé. Merci de contacter les administrateurs au 0708190886 / 0709282169 pour obtenir votre compte personnel.");
-      return;
+  function getDeviceId() {
+    let id = localStorage.getItem(STORAGE_KEYS.deviceId);
+    if (!id) {
+      id = `dev-${Date.now()}-${Math.random().toString(36).slice(2)}`;
+      localStorage.setItem(STORAGE_KEYS.deviceId, id);
+    }
+    return id;
+  }
+
+  function detectBrowser() {
+    const ua = navigator.userAgent || "";
+    if (ua.includes("Edg/")) return "Microsoft Edge";
+    if (ua.includes("Firefox/")) return "Firefox";
+    if (ua.includes("OPR/") || ua.includes("Opera")) return "Opera";
+    if (ua.includes("Chrome/")) return "Chrome";
+    if (ua.includes("Safari/") && !ua.includes("Chrome/")) return "Safari";
+    return "Navigateur inconnu";
+  }
+
+  function getDeviceInfo() {
+    const platform = navigator.platform || "Appareil inconnu";
+    const browser = detectBrowser();
+    return {
+      deviceId: getDeviceId(),
+      browser,
+      platform,
+      userAgent: navigator.userAgent || "",
+      language: navigator.language || "",
+      online: navigator.onLine,
+    };
+  }
+
+  function formatDate(ts) {
+    return ts ? new Date(ts).toLocaleString('fr-FR') : "-";
+  }
+
+  function readJsonStorage(key, fallback) {
+    try {
+      const raw = localStorage.getItem(key);
+      return raw ? JSON.parse(raw) : fallback;
+    } catch {
+      return fallback;
+    }
+  }
+
+  function writeJsonStorage(key, value) {
+    localStorage.setItem(key, JSON.stringify(value));
+  }
+
+  function currentAuthPayload(extra = {}) {
+    return {
+      username: sessionStorage.getItem(STORAGE_KEYS.user) || "",
+      sessionToken: sessionStorage.getItem(STORAGE_KEYS.sessionToken) || "",
+      device: getDeviceInfo(),
+      ...extra,
+    };
+  }
+
+  async function logActivity(user, action, details = {}) {
+    try {
+      await apiPost("/api/activity", {
+        username: user,
+        sessionToken: getSessionToken(),
+        action,
+        details,
+        device: getDeviceInfo(),
+      });
+    } catch (e) {
+      // On évite de bloquer le quiz si le journal d'activité ne peut pas être écrit.
+      console.warn("Journal d'activité non enregistré:", e.message);
+    }
+  }
+
+  async function isAccessGranted() {
+    const user = sessionStorage.getItem(STORAGE_KEYS.user);
+    const token = sessionStorage.getItem(STORAGE_KEYS.sessionToken);
+    if (!user || !token || !window.USERS || !window.USERS[user]) return false;
+    try {
+      await apiPost("/api/heartbeat", { username: user, sessionToken: token, device: getDeviceInfo() });
+      return true;
+    } catch {
+      return false;
+    }
+  }
+
+  function startSessionHeartbeat(username) {
+    stopSessionHeartbeat();
+    heartbeatTimerId = setInterval(async () => {
+      const current = sessionStorage.getItem(STORAGE_KEYS.user);
+      if (current !== username) return;
+      try {
+        await apiPost("/api/heartbeat", currentAuthPayload());
+      } catch (e) {
+        alert("Votre session est expirée ou le compte est ouvert ailleurs. Vous allez être déconnecté.");
+        denyAccess(false);
+      }
+    }, 30000);
+  }
+
+  function stopSessionHeartbeat() {
+    if (heartbeatTimerId) {
+      clearInterval(heartbeatTimerId);
+      heartbeatTimerId = null;
+    }
+  }
+
+  function releaseCurrentSession(action = 'logout') {
+    const user = sessionStorage.getItem(STORAGE_KEYS.user);
+    const token = sessionStorage.getItem(STORAGE_KEYS.sessionToken);
+    if (!user || !token) return;
+    const payload = JSON.stringify({ username: user, sessionToken: token, action, device: getDeviceInfo() });
+    try {
+      if (navigator.sendBeacon) {
+        navigator.sendBeacon("/api/logout", new Blob([payload], { type: "application/json" }));
+      } else {
+        fetch("/api/logout", { method: "POST", headers: { "Content-Type": "application/json" }, body: payload, keepalive: true });
+      }
+    } catch (e) {
+      console.warn("Déconnexion serveur non confirmée:", e.message);
+    }
+  }
+
+  async function grantAccess(username) {
+    if (username) {
+      try {
+        const data = await apiPost("/api/login", {
+          username,
+          sessionToken: getSessionToken(),
+          device: getDeviceInfo(),
+        });
+        sessionStorage.setItem(STORAGE_KEYS.user, username);
+        startSessionHeartbeat(username);
+      } catch (e) {
+        const existing = e.data?.existing;
+        const msg = existing
+          ? `Ce compte est déjà connecté.\n\nUtilisateur : ${username}\nAppareil : ${existing.platform || "inconnu"}\nNavigateur : ${existing.browser || "inconnu"}\nDepuis : ${formatDate(existing.startedAt)}\nDernière activité : ${formatDate(existing.lastSeen)}\n\nDéconnectez d'abord l'autre appareil/navigateur ou contactez un administrateur.`
+          : (e.data?.error || e.message || "Connexion refusée par le serveur.");
+        if (els.codeError) {
+          els.codeError.textContent = msg.replace(/\n/g, " ");
+          els.codeError.style.display = "block";
+        }
+        alert(msg);
+        return false;
+      }
     }
 
-    active[username] = Date.now();
-    setActiveUsers(active);
+    if (els.screenCode) els.screenCode.classList.add("hidden");
+    if (els.appContent) els.appContent.classList.remove("hidden");
 
-    sessionStorage.setItem(STORAGE_KEYS.user, username);
-    logActivity(username, 'login');
-  }
+    if (els.currentUser) els.currentUser.textContent = username;
 
-  if (els.screenCode) els.screenCode.classList.add("hidden");
-  if (els.appContent) els.appContent.classList.remove("hidden");
+    if (els.btnModeQuiz) els.btnModeQuiz.style.display = "";
 
-  if (els.currentUser) els.currentUser.textContent = username;
-
-  // ✅ QUIZ toujours visible
-  if (els.btnModeQuiz) els.btnModeQuiz.style.display = "";
-
-  // 🔒 DE selon niveau
-  if (!hasDEAccess()) {
-    if (els.btnModeDE) els.btnModeDE.style.display = "none";
-  } else {
-    if (els.btnModeDE) els.btnModeDE.style.display = "";
-  }
-
-  // admin
-  if (els.btnAdmin && window.ADMINS && window.ADMINS.includes(username)) {
-    els.btnAdmin.classList.remove("hidden");
-  } else if (els.btnAdmin) {
-    els.btnAdmin.classList.add("hidden");
-  }
-}
-
-  function denyAccess() {
-    const user = sessionStorage.getItem(STORAGE_KEYS.user);
-    if (user) {
-      const active = getActiveUsers();
-      delete active[user];
-      setActiveUsers(active);
-      logActivity(user, 'logout');
+    if (!hasDEAccess()) {
+      if (els.btnModeDE) els.btnModeDE.style.display = "none";
+    } else {
+      if (els.btnModeDE) els.btnModeDE.style.display = "";
     }
+
+    if (els.btnAdmin && window.ADMINS && window.ADMINS.includes(username)) {
+      els.btnAdmin.classList.remove("hidden");
+    } else if (els.btnAdmin) {
+      els.btnAdmin.classList.add("hidden");
+    }
+    return true;
+  }
+
+  function denyAccess(sendLogout = true) {
+    if (sendLogout) releaseCurrentSession('logout');
+    stopSessionHeartbeat();
     sessionStorage.removeItem(STORAGE_KEYS.user);
     if (els.screenCode) els.screenCode.classList.remove("hidden");
     if (els.appContent) els.appContent.classList.add("hidden");
@@ -136,106 +277,91 @@
     if (els.currentUser) els.currentUser.textContent = "";
   }
 
-  function getActiveUsers() {
-  try {
-    const raw = localStorage.getItem(STORAGE_KEYS.activeUsers);
-    const users = raw ? JSON.parse(raw) : {};
-
-    const now = Date.now();
-    const TIMEOUT = 5 * 60 * 1000; // 5 minutes
-
-    for (const u in users) {
-      if (now - users[u] > TIMEOUT) {
-        delete users[u];
-      }
-    }
-
-    localStorage.setItem(STORAGE_KEYS.activeUsers, JSON.stringify(users));
-
-    return users;
-  } catch {
-    return {};
-  }
-function hasDEAccess() {
-  const user = sessionStorage.getItem(STORAGE_KEYS.user);
-  const userConfig = window.USERS?.[user];
-
-  if (!userConfig) return false;
-
-  if (userConfig.levels === "all") return true;
-
-  if (!Array.isArray(userConfig.levels)) return false;
-
-  return userConfig.levels.includes("A2-Niveau moyen") ||
-         userConfig.levels.includes("L3-Niveau Accompli INF") ||
-         userConfig.levels.includes("L3-Niveau Accompli INF") ||
-         userConfig.levels.includes("L3-Niveau Accompli SF");
-}
-}
-
-  function setActiveUsers(users) {
-    localStorage.setItem(STORAGE_KEYS.activeUsers, JSON.stringify(users));
-  }
-
-  function logActivity(user, action, details = {}) {
-    const log = {
-      user,
-      action,
-      timestamp: Date.now(),
-      ...details
-    };
-    try {
-      const logs = JSON.parse(localStorage.getItem(STORAGE_KEYS.activityLog) || '[]');
-      logs.push(log);
-      // Garder seulement les 1000 derniers logs
-      if (logs.length > 1000) logs.shift();
-      localStorage.setItem(STORAGE_KEYS.activityLog, JSON.stringify(logs));
-    } catch (e) {
-      console.error('Erreur lors du logging:', e);
-    }
-  }
-
-  function getActivityLogs() {
-    try {
-      return JSON.parse(localStorage.getItem(STORAGE_KEYS.activityLog) || '[]');
-    } catch {
-      return [];
-    }
-  }
   function hasDEAccess() {
-  const user = sessionStorage.getItem(STORAGE_KEYS.user);
-  const userConfig = window.USERS?.[user];
+    const user = sessionStorage.getItem(STORAGE_KEYS.user);
+    const userConfig = window.USERS?.[user];
 
-  if (!userConfig) return false;
+    if (!userConfig) return false;
+    if (userConfig.levels === "all") return true;
+    if (!Array.isArray(userConfig.levels)) return false;
 
-  if (userConfig.levels === "all") return true;
+    return userConfig.levels.includes("A2-Niveau moyen") ||
+           userConfig.levels.includes("L3-Niveau Accompli INF") ||
+           userConfig.levels.includes("L3-Niveau Accompli SF");
+  }
 
-  if (!Array.isArray(userConfig.levels)) return false;
+  function escapeHtml(value) {
+    return String(value ?? "")
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+  }
 
-  return userConfig.levels.includes("A2-Niveau moyen") ||
-         userConfig.levels.includes("L3-Niveau Accompli INF") ||
-         userConfig.levels.includes("L3-Niveau Accompli INF") ||
-         userConfig.levels.includes("L3-Niveau Accompli SF");
-}
+  async function renderAdminLogs() {
+    if (!els.adminLogs) return;
+    els.adminLogs.innerHTML = "<p class='muted'>Chargement des journaux serveur...</p>";
 
-  function renderAdminLogs() {
-    const logs = getActivityLogs();
-    els.adminLogs.innerHTML = "";
-    if (logs.length === 0) {
-      els.adminLogs.innerHTML = "<p class='muted'>Aucune activité enregistrée.</p>";
+    let payload;
+    try {
+      payload = await apiPost("/api/admin/logs", currentAuthPayload());
+    } catch (e) {
+      els.adminLogs.innerHTML = `<p class="muted" style="color:var(--bad)">${escapeHtml(e.data?.error || e.message || "Impossible de charger les journaux.")}</p>`;
       return;
     }
-    logs.reverse().forEach(log => {
+
+    const logs = payload.loginLogs || [];
+    const active = payload.activeSessions || {};
+    els.adminLogs.innerHTML = "";
+
+    const loginCounts = logs.reduce((acc, log) => {
+      if (log.action === 'login') acc[log.user] = (acc[log.user] || 0) + 1;
+      return acc;
+    }, {});
+
+    const summary = document.createElement("div");
+    summary.className = "admin-summary";
+    const activeRows = Object.values(active).sort((a, b) => (b.lastSeen || 0) - (a.lastSeen || 0));
+    summary.innerHTML = `
+      <h3 class="h3">Comptes actuellement en ligne</h3>
+      ${activeRows.length ? activeRows.map(s => `
+        <div class="admin-log-item">
+          <strong>${escapeHtml(s.username)}</strong><br>
+          <small>Appareil : ${escapeHtml(s.platform)} | Navigateur : ${escapeHtml(s.browser)} | Connexion : ${formatDate(s.startedAt)} | Dernière activité : ${formatDate(s.lastSeen)}</small>
+        </div>
+      `).join("") : "<p class='muted'>Aucun compte en ligne actuellement.</p>"}
+      <h3 class="h3" style="margin-top:14px">Nombre de connexions par compte</h3>
+      ${Object.keys(loginCounts).length ? Object.entries(loginCounts).sort((a,b)=>b[1]-a[1]).map(([user,count]) => `
+        <div class="admin-count-row"><strong>${escapeHtml(user)}</strong><span>${count} connexion(s)</span></div>
+      `).join("") : "<p class='muted'>Aucune connexion enregistrée.</p>"}
+      <h3 class="h3" style="margin-top:14px">Historique détaillé</h3>
+    `;
+    els.adminLogs.appendChild(summary);
+
+    if (logs.length === 0) {
+      const empty = document.createElement("p");
+      empty.className = "muted";
+      empty.textContent = "Aucune activité enregistrée.";
+      els.adminLogs.appendChild(empty);
+      return;
+    }
+
+    [...logs].reverse().forEach(log => {
       const item = document.createElement("div");
       item.className = "admin-log-item";
-      const date = new Date(log.timestamp).toLocaleString('fr-FR');
-      let details = "";
+      const date = formatDate(log.timestamp);
+      const device = log.device || {};
+      const detailsObj = log.details || {};
+      let details = `Appareil: ${escapeHtml(device.platform || "-")} | Navigateur: ${escapeHtml(device.browser || "-")} | En ligne: ${device.online ? "oui" : "non"}`;
       if (log.action === 'start_quiz') {
-        details = `Niveau: ${log.level}, Matière: ${log.subject}, Sujet: ${log.topic}, Questions: ${log.questionCount}`;
+        details += `<br>Niveau: ${escapeHtml(detailsObj.level)}, Matière: ${escapeHtml(detailsObj.subject)}, Sujet: ${escapeHtml(detailsObj.topic)}, Questions: ${escapeHtml(detailsObj.questionCount)}`;
       } else if (log.action === 'finish_quiz') {
-        details = `Score: ${log.correct}/${log.total} (${log.percentage}%), Répondu: ${log.answered}/${log.total}`;
+        details += `<br>Score: ${escapeHtml(detailsObj.correct)}/${escapeHtml(detailsObj.total)} (${escapeHtml(detailsObj.percentage)}%), Répondu: ${escapeHtml(detailsObj.answered)}/${escapeHtml(detailsObj.total)}`;
+      } else if (log.action === 'login_refused_already_online' && log.blockedBy) {
+        details += `<br>Refusé car déjà connecté sur ${escapeHtml(log.blockedBy.platform)} / ${escapeHtml(log.blockedBy.browser)}. Dernière activité: ${formatDate(log.blockedBy.lastSeen)}`;
       }
-      item.innerHTML = `<strong>${log.user}</strong> - ${log.action} - ${date}<br><small>${details}</small>`;
+      item.innerHTML = `<strong>${escapeHtml(log.user)}</strong> - ${escapeHtml(log.action)} - ${date}<br><small>${details}</small>`;
       els.adminLogs.appendChild(item);
     });
   }
@@ -246,6 +372,7 @@ function hasDEAccess() {
   let questionTimerRemaining = 0;
   let lastTimedQuestionIndex = -1;
   let abandonListener = null;
+  let heartbeatTimerId = null;
 
   function safeText(s) {
     return String(s ?? "");
@@ -1289,9 +1416,9 @@ head.textContent = `${correct}/${total} correct • ${pct}% • Score: ${score} 
   });
 
   if (els.btnAdmin) {
-    els.btnAdmin.addEventListener("click", () => {
+    els.btnAdmin.addEventListener("click", async () => {
       showScreen(els.screenAdmin);
-      renderAdminLogs();
+      await renderAdminLogs();
     });
   }
 
@@ -1348,23 +1475,16 @@ head.textContent = `${correct}/${total} correct • ${pct}% • Score: ${score} 
   });
 
   if (els.formCode) {
-    els.formCode.addEventListener("submit", (e) => {
+    els.formCode.addEventListener("submit", async (e) => {
       e.preventDefault();
       const username = (els.inputUsername?.value || "").trim();
-      const users = window.USERS || {};
-      if (users[username]) {
-        grantAccess(username);
-        els.inputStudentName.value = settings.studentName;
-        els.toggleShuffle.checked = settings.shuffleQuestions;
-        updateStartInfo();
-        setupDESelectors();
-        showScreen(els.screenStart);
-      } else {
-        if (els.codeError) {
-          els.codeError.textContent = "Identifiants invalides.";
-          els.codeError.style.display = "block";
-        }
-      }
+      const ok = await grantAccess(username);
+      if (!ok) return;
+      els.inputStudentName.value = settings.studentName;
+      els.toggleShuffle.checked = settings.shuffleQuestions;
+      updateStartInfo();
+      setupDESelectors();
+      showScreen(els.screenStart);
     });
   }
 
@@ -1374,16 +1494,24 @@ head.textContent = `${correct}/${total} correct • ${pct}% • Score: ${score} 
     });
   }
 
+  window.addEventListener("beforeunload", () => {
+    // Libère la session lors d’une fermeture normale; les sessions crashées expirent automatiquement.
+    releaseCurrentSession("window_closed");
+  });
+
+
   // init
-  if (isAccessGranted()) {
-    const user = sessionStorage.getItem(STORAGE_KEYS.user);
-    grantAccess(user);
-    els.inputStudentName.value = settings.studentName;
-    els.toggleShuffle.checked = settings.shuffleQuestions;
-    updateStartInfo();
-    setupDESelectors();
-    showScreen(els.screenStart);
-  } else {
-    denyAccess();
-  }
+  (async () => {
+    if (await isAccessGranted()) {
+      const user = sessionStorage.getItem(STORAGE_KEYS.user);
+      await grantAccess(user);
+      els.inputStudentName.value = settings.studentName;
+      els.toggleShuffle.checked = settings.shuffleQuestions;
+      updateStartInfo();
+      setupDESelectors();
+      showScreen(els.screenStart);
+    } else {
+      denyAccess(false);
+    }
+  })();
 })();

@@ -1,0 +1,16 @@
+{
+  "name": "revision-science-medicale-server",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Application de quiz optimisée pour Render gratuit + Neon PostgreSQL, avec session unique par compte.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "pg": "^8.13.1"
+  }
+}

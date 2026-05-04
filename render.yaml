@@ -1,0 +1,21 @@
+services:
+  - type: web
+    name: revision-science-medicale
+    env: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: SESSION_TIMEOUT_MS
+        value: 600000
+      - key: PGSSLMODE
+        value: require
+      - key: DATABASE_URL
+        sync: false
+
+      - key: LOGIN_RATE_LIMIT_MAX
+        value: 30
+      - key: LOGIN_RATE_LIMIT_WINDOW_MS
+        value: 900000

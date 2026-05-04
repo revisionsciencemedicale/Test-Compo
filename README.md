@@ -66,3 +66,42 @@ Ce projet est un site statique (HTML/CSS/JS) et peut être publié facilement. V
 > 📌 Astuce : si tu utilises GitHub, ajoute un `.gitignore` pour exclure les fichiers temporaires ou les secrets, puis crée un commit initial et pousse-le.
 
 Ces étapes te permettront de rendre ton quiz accessible sur Internet pour tes camarades.
+
+## Démarrage avec serveur et base de données
+
+Cette version contient un serveur Node.js et une base de données locale `database.json`.
+
+### Lancer l'application
+
+1. Installer Node.js 18 ou supérieur.
+2. Ouvrir un terminal dans ce dossier.
+3. Lancer :
+
+```bash
+npm start
+```
+
+4. Ouvrir dans le navigateur :
+
+```text
+http://localhost:3000
+```
+
+### Sécurité de connexion ajoutée
+
+- Un même identifiant ne peut avoir qu'une seule session active à la fois.
+- Si le compte est déjà connecté sur un autre appareil ou navigateur, la nouvelle connexion est refusée.
+- Les sessions expirent automatiquement après environ 2 minutes sans activité serveur.
+- Les administrateurs peuvent voir :
+  - les comptes actuellement en ligne ;
+  - l'heure de connexion et la dernière activité ;
+  - l'appareil et le navigateur ;
+  - le nombre de connexions par identifiant ;
+  - l'historique détaillé des connexions, refus et activités.
+
+### Fichiers importants
+
+- `server.js` : serveur HTTP et API backend.
+- `database.json` : base de données locale persistante.
+- `codes.js` : liste des utilisateurs et administrateurs.
+- `app.js` : application front-end connectée au serveur.

@@ -224,3 +224,22 @@ code{color: rgba(16,185,129,.95)}
 }
 .dictItem__term{font-weight:800; margin-bottom:6px; letter-spacing:.2px}
 .dictItem__def{color:var(--muted); line-height:1.35}
+
+
+.admin-summary{display:grid; gap:8px; margin-top:12px}
+.admin-log-item{
+  padding:12px;
+  border-radius:14px;
+  background:rgba(255,255,255,.05);
+  border:1px solid rgba(255,255,255,.10);
+  margin-top:8px;
+}
+.admin-count-row{
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  padding:9px 12px;
+  border-radius:12px;
+  background:rgba(255,255,255,.05);
+  border:1px solid rgba(255,255,255,.08);
+}
