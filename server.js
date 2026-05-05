@@ -299,7 +299,7 @@ const server = http.createServer(async (req, res) => {
           await client.query('COMMIT');
           return sendJson(res, 409, {
             ok: false,
-            error: 'Accès refusé.\nCe compte est déjà connecté sur un autre appareil ou un autre navigateur.\nDéconnectez d\'abord l\'autre session ou contactez un administrateur au 0708190886 / 0709282169.',
+            error: 'Accès refusé.\nVous n\'êtes pas propriétaire de ce compte.\nMerci de contacte un administrateur au 0708190886 / 0709282169.',
             activeSession: publicSession(existing),
           });
         }
