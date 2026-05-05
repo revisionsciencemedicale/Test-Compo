@@ -22,3 +22,4 @@ let topicsMissing=[]; for(const [s,set] of Object.entries(bySub)){ const key=Obj
 console.log('topics in questions not in sujets list',topicsMissing.length,topicsMissing.slice(0,30));
 let emptyListed=[]; for(const [s,topics] of Object.entries(window.SUJETS_PAR_MATIERE_QUIZ)){ for(const t of topics){ const has=quiz.some(q=>norm(q.subject)==norm(s)&&norm(q.topic)==norm(t)); if(!has) emptyListed.push({s,t}); }}
 console.log('listed subject-topic no questions', emptyListed.length, emptyListed.slice(0,30));
+

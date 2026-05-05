@@ -238,3 +238,4 @@
       "Le tri à la source limite les expositions et améliore la sécurité de la filière d'élimination des déchets.",
   });
 })();
+

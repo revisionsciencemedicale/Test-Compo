@@ -51,6 +51,7 @@
     toggleShuffle: document.getElementById("toggleShuffle"),
     btnSaveSettings: document.getElementById("btnSaveSettings"),
     btnLogout: document.getElementById("btnLogout"),
+    btnHome: document.getElementById("btnHome"),
     currentUser: document.getElementById("currentUser"),
     btnAdmin: document.getElementById("btnAdmin"),
     adminLogs: document.getElementById("adminLogs"),
@@ -169,16 +170,28 @@
     }
   }
 
-  async function isAccessGranted() {
+  function clearLocalLogin() {
+    localStorage.removeItem(STORAGE_KEYS.user);
+    localStorage.removeItem(STORAGE_KEYS.sessionToken);
+  }
+
+  async function checkCurrentSession() {
     const user = localStorage.getItem(STORAGE_KEYS.user);
     const token = localStorage.getItem(STORAGE_KEYS.sessionToken);
-    if (!user || !token || !window.USERS || !window.USERS[user]) return false;
-    try {
-      await apiPost("/api/heartbeat", { username: user, sessionToken: token, device: getDeviceInfo() });
-      return true;
-    } catch {
-      return false;
+    if (!user || !token || !window.USERS || !window.USERS[user]) {
+      return { loggedIn: false, forceLogout: false };
     }
+    try {
+      return await apiPost("/api/check-session", { username: user, sessionToken: token, device: getDeviceInfo() });
+    } catch {
+      return { loggedIn: false, forceLogout: false };
+    }
+  }
+
+  async function isAccessGranted() {
+    const status = await checkCurrentSession();
+    if (status.forceLogout) clearLocalLogin();
+    return !!status.loggedIn && !status.forceLogout;
   }
 
   function startSessionHeartbeat(username) {
@@ -186,13 +199,15 @@
     heartbeatTimerId = setInterval(async () => {
       const current = localStorage.getItem(STORAGE_KEYS.user);
       if (current !== username) return;
-      try {
-        await apiPost("/api/heartbeat", currentAuthPayload());
-      } catch (e) {
-        alert(e.data?.forcedLogout ? "Votre compte a été déconnecté par un administrateur." : "Votre session est expirée ou le compte est ouvert ailleurs. Vous allez être déconnecté.");
+      const status = await checkCurrentSession();
+      if (status.forceLogout) {
+        alert("Votre compte a été déconnecté par un administrateur.");
+        denyAccess(false);
+      } else if (!status.loggedIn) {
+        alert("Votre session est expirée ou le compte est ouvert ailleurs. Vous allez être déconnecté.");
         denyAccess(false);
       }
-    }, 30000);
+    }, 5000);
   }
 
   function stopSessionHeartbeat() {
@@ -231,8 +246,7 @@
       } catch (e) {
         const msg = e.data?.error || e.message || "Connexion refusée par le serveur.";
         if (e.data?.forcedLogout) {
-          localStorage.removeItem(STORAGE_KEYS.user);
-          localStorage.removeItem(STORAGE_KEYS.sessionToken);
+          clearLocalLogin();
         }
         if (els.codeError) {
           els.codeError.textContent = msg.replace(/\n/g, " ");
@@ -267,8 +281,7 @@
   function denyAccess(sendLogout = true) {
     if (sendLogout) releaseCurrentSession('logout');
     stopSessionHeartbeat();
-    localStorage.removeItem(STORAGE_KEYS.user);
-    localStorage.removeItem(STORAGE_KEYS.sessionToken);
+    clearLocalLogin();
     if (els.screenCode) els.screenCode.classList.remove("hidden");
     if (els.appContent) els.appContent.classList.add("hidden");
     if (els.inputUsername) els.inputUsername.value = "";
@@ -1548,3 +1561,4 @@ head.textContent = `${correct}/${total} correct • ${pct}% • Score: ${score} 
     }
   })();
 })();
+

@@ -106,11 +106,20 @@ async function initDb() {
     );
   `);
   await pool.query(`CREATE INDEX IF NOT EXISTS idx_revoked_sessions_revoked_at ON revoked_sessions(revoked_at DESC);`);
+  await pool.query(`
+    CREATE TABLE IF NOT EXISTS force_logout_requests (
+      username TEXT PRIMARY KEY,
+      requested_at BIGINT NOT NULL,
+      requested_by TEXT,
+      reason TEXT DEFAULT 'admin_force_logout'
+    );
+  `);
 }
 
 async function cleanupExpired(client = pool) {
   await client.query('DELETE FROM active_sessions WHERE $1 - last_seen > $2', [now(), SESSION_TIMEOUT_MS]);
   await client.query('DELETE FROM revoked_sessions WHERE $1 - revoked_at > $2', [now(), SESSION_TIMEOUT_MS]);
+  await client.query('DELETE FROM force_logout_requests WHERE $1 - requested_at > $2', [now(), SESSION_TIMEOUT_MS]);
 }
 
 function rowToSession(row) {
@@ -318,6 +327,40 @@ const server = http.createServer(async (req, res) => {
     });
   }
 
+  if (req.method === 'POST' && url.pathname === '/api/check-session') {
+    const body = await readJsonBody(req);
+    const username = String(body.username || '').trim();
+    const sessionToken = String(body.sessionToken || '').trim();
+    return withDb(res, async (client) => {
+      if (!username || !sessionToken) return sendJson(res, 200, { ok: true, loggedIn: false, forceLogout: false });
+
+      const revokedResult = await client.query(
+        'SELECT revoked_by, revoked_at, reason FROM revoked_sessions WHERE username=$1 AND session_token=$2',
+        [username, sessionToken]
+      );
+      if (revokedResult.rowCount) {
+        return sendJson(res, 200, {
+          ok: true,
+          loggedIn: false,
+          forceLogout: true,
+          error: 'Session déconnectée par un administrateur.',
+          details: revokedResult.rows[0],
+        });
+      }
+
+      const sessionResult = await client.query(
+        'SELECT * FROM active_sessions WHERE username=$1 AND session_token=$2',
+        [username, sessionToken]
+      );
+      if (!sessionResult.rowCount) {
+        return sendJson(res, 200, { ok: true, loggedIn: false, forceLogout: false });
+      }
+
+      await client.query('UPDATE active_sessions SET last_seen=$1, online=TRUE WHERE username=$2 AND session_token=$3', [now(), username, sessionToken]);
+      return sendJson(res, 200, { ok: true, loggedIn: true, forceLogout: false });
+    });
+  }
+
   if (req.method === 'POST' && url.pathname === '/api/heartbeat') {
     const body = await readJsonBody(req);
     const username = String(body.username || '').trim();
@@ -388,6 +431,12 @@ const server = http.createServer(async (req, res) => {
       }
       if (!targetUser) return sendJson(res, 400, { ok: false, error: 'Utilisateur cible manquant.' });
       if (targetUser === adminUsername) return sendJson(res, 400, { ok: false, error: 'Vous ne pouvez pas déconnecter votre propre compte depuis ce bouton.' });
+      await client.query(
+        `INSERT INTO force_logout_requests(username, requested_at, requested_by, reason)
+         VALUES($1,$2,$3,'admin_force_logout')
+         ON CONFLICT(username) DO UPDATE SET requested_at=EXCLUDED.requested_at, requested_by=EXCLUDED.requested_by`,
+        [targetUser, now(), adminUsername]
+      );
       const sessionsToRevoke = await client.query('SELECT session_token FROM active_sessions WHERE username=$1', [targetUser]);
       for (const row of sessionsToRevoke.rows) {
         await client.query(
@@ -399,7 +448,7 @@ const server = http.createServer(async (req, res) => {
       }
       const deleted = await client.query('DELETE FROM active_sessions WHERE username=$1 RETURNING username', [targetUser]);
       await addLog(client, { user: targetUser, action: 'admin_force_logout', details: { by: adminUsername, disconnected: deleted.rowCount } });
-      return sendJson(res, 200, { ok: true, disconnected: deleted.rowCount });
+      return sendJson(res, 200, { ok: true, disconnected: deleted.rowCount, forceLogout: true });
     });
   }
 
@@ -428,3 +477,4 @@ initDb()
     console.error('Impossible d\'initialiser PostgreSQL:', err);
     process.exit(1);
   });
+

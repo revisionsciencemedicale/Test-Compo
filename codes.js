@@ -43,3 +43,4 @@ window.USERS = {
  */
 window.ADMINS = ["tirbuce", "paterne", "brice"]; // Liste des noms d'utilisateurs admin
 
+

@@ -15,3 +15,4 @@ for (const subject of W.SUBJECTS_BY_LEVEL[level]) {
   }
 }
 console.log(JSON.stringify({subjects:W.SUBJECTS_BY_LEVEL[level].length,totalQuestions:W.QUIZ_QUESTIONS_QUIZ.length,added:W.A1_BASE_SANTE_COMPLEMENT_RAPPORT,emptyCount:empty.length,minCount:Math.min(...counts),maxCount:Math.max(...counts),examplesEmpty:empty.slice(0,10)},null,2));
+

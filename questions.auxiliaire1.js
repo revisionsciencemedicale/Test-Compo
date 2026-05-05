@@ -235,3 +235,4 @@
     explanation: "Les objets piquants/tranchants doivent être éliminés dans un collecteur sécurisé conforme.",
   });
 })();
+

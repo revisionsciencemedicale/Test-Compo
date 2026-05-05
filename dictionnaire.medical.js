@@ -53446,3 +53446,4 @@ window.MEDICAL_DICTIONARY = [
     "definition": "nom féminin ; sous-unité de l’hormone de grossesse mesurée en labo."
   }
 ];
+

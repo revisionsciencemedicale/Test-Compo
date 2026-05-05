@@ -171,3 +171,4 @@
     eff: traiter(window.QUIZ_QUESTIONS_EFF)
   };
 })();
+
