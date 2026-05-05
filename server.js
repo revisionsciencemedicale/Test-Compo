@@ -285,7 +285,11 @@ const server = http.createServer(async (req, res) => {
         const existingResult = await client.query('SELECT * FROM active_sessions WHERE username = $1 FOR UPDATE', [username]);
         const existing = rowToSession(existingResult.rows[0]);
 
-        if (existing && existing.sessionToken !== sessionToken) {
+        const incomingDeviceId = String(device.deviceId || '-');
+        const isSameSession = existing && existing.sessionToken === sessionToken && existing.deviceId === incomingDeviceId;
+        const isDifferentActiveAccess = existing && !isSameSession;
+
+        if (isDifferentActiveAccess) {
           await addLog(client, {
             user: username,
             action: 'login_refused_already_online',
@@ -295,9 +299,11 @@ const server = http.createServer(async (req, res) => {
           await client.query('COMMIT');
           return sendJson(res, 409, {
             ok: false,
-            error: 'Accès refusé.\nvous n\'êtes pas propriétaire de ce compte.\nMerci de contacter les administrateurs au 0708190886 / 0709282169 pour obtenir votre compte personnel.',
+            error: 'Accès refusé.\nCe compte est déjà connecté sur un autre appareil ou un autre navigateur.\nDéconnectez d\'abord l\'autre session ou contactez un administrateur au 0708190886 / 0709282169.',
+            activeSession: publicSession(existing),
           });
         }
+
 
         const startedAt = existing?.startedAt || now();
         const lastSeen = now();
@@ -348,6 +354,8 @@ const server = http.createServer(async (req, res) => {
         });
       }
 
+      const device = body.device || {};
+      const incomingDeviceId = String(device.deviceId || '-');
       const sessionResult = await client.query(
         'SELECT * FROM active_sessions WHERE username=$1 AND session_token=$2',
         [username, sessionToken]
@@ -355,8 +363,18 @@ const server = http.createServer(async (req, res) => {
       if (!sessionResult.rowCount) {
         return sendJson(res, 200, { ok: true, loggedIn: false, forceLogout: false });
       }
+      const active = rowToSession(sessionResult.rows[0]);
+      if (active.deviceId !== incomingDeviceId) {
+        await addLog(client, { user: username, action: 'session_refused_wrong_device', device, blockedBy: publicSession(active) });
+        return sendJson(res, 200, {
+          ok: true,
+          loggedIn: false,
+          forceLogout: false,
+          error: 'Session refusée: appareil ou navigateur différent.',
+        });
+      }
 
-      await client.query('UPDATE active_sessions SET last_seen=$1, online=TRUE WHERE username=$2 AND session_token=$3', [now(), username, sessionToken]);
+      await client.query('UPDATE active_sessions SET last_seen=$1, online=TRUE WHERE username=$2 AND session_token=$3 AND device_id=$4', [now(), username, sessionToken, incomingDeviceId]);
       return sendJson(res, 200, { ok: true, loggedIn: true, forceLogout: false });
     });
   }
@@ -368,8 +386,10 @@ const server = http.createServer(async (req, res) => {
     return withDb(res, async (client) => {
       const revokedResult = await client.query('SELECT 1 FROM revoked_sessions WHERE username=$1 AND session_token=$2', [username, sessionToken]);
       if (revokedResult.rowCount) return sendJson(res, 401, { ok: false, error: 'Session déconnectée par un administrateur.', forcedLogout: true });
-      const result = await client.query('UPDATE active_sessions SET last_seen=$1, online=TRUE WHERE username=$2 AND session_token=$3 RETURNING username', [now(), username, sessionToken]);
-      if (!result.rowCount) return sendJson(res, 401, { ok: false, error: 'Session expirée ou remplacée.' });
+      const device = body.device || {};
+      const incomingDeviceId = String(device.deviceId || '-');
+      const result = await client.query('UPDATE active_sessions SET last_seen=$1, online=TRUE WHERE username=$2 AND session_token=$3 AND device_id=$4 RETURNING username', [now(), username, sessionToken, incomingDeviceId]);
+      if (!result.rowCount) return sendJson(res, 401, { ok: false, error: 'Session expirée, remplacée ou ouverte depuis un autre appareil/navigateur.' });
       return sendJson(res, 200, { ok: true });
     });
   }

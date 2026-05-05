@@ -18,6 +18,9 @@ window.USERS = {
   "brice": {
     levels: "all"
   },
+    "bbappia": {
+    levels: "all"
+  },
   "NDINADL29738": {
     levels: ["L2-Niveau Ascendant"]
   },
@@ -34,6 +37,13 @@ window.USERS = {
     "KAMBINL20052": {
     levels: ["L2-Niveau Ascendant"]},
 
+    "BONRUSL28384": {
+    levels: ["L2-Niveau Ascendant"]},
+    
+   "KOFMARL25613": {
+    levels: ["L2-Niveau Ascendant"]},
+  
+
 
   // Ajoute ici les nouveaux utilisateurs
 };
@@ -41,6 +51,6 @@ window.USERS = {
 /**
  * Administrateurs : utilisateurs ayant accès à l'interface admin
  */
-window.ADMINS = ["tirbuce", "paterne", "brice"]; // Liste des noms d'utilisateurs admin
+window.ADMINS = ["tirbuce", "paterne", "brice", "bbappia"]; // Liste des noms d'utilisateurs admin
 
 
