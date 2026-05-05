@@ -189,7 +189,7 @@
       try {
         await apiPost("/api/heartbeat", currentAuthPayload());
       } catch (e) {
-        alert("Votre session est expirée ou le compte est ouvert ailleurs. Vous allez être déconnecté.");
+        alert(e.data?.forcedLogout ? "Votre compte a été déconnecté par un administrateur." : "Votre session est expirée ou le compte est ouvert ailleurs. Vous allez être déconnecté.");
         denyAccess(false);
       }
     }, 30000);
@@ -230,6 +230,10 @@
         startSessionHeartbeat(username);
       } catch (e) {
         const msg = e.data?.error || e.message || "Connexion refusée par le serveur.";
+        if (e.data?.forcedLogout) {
+          localStorage.removeItem(STORAGE_KEYS.user);
+          localStorage.removeItem(STORAGE_KEYS.sessionToken);
+        }
         if (els.codeError) {
           els.codeError.textContent = msg.replace(/\n/g, " ");
           els.codeError.style.display = "block";
@@ -324,9 +328,12 @@
     summary.innerHTML = `
       <h3 class="h3">Comptes actuellement en ligne</h3>
       ${activeRows.length ? activeRows.map(s => `
-        <div class="admin-log-item">
-          <strong>${escapeHtml(s.username)}</strong><br>
-          <small>Appareil : ${escapeHtml(s.platform)} | Navigateur : ${escapeHtml(s.browser)} | Connexion : ${formatDate(s.startedAt)} | Dernière activité : ${formatDate(s.lastSeen)}</small>
+        <div class="admin-log-item admin-session-row">
+          <div>
+            <strong>${escapeHtml(s.username)}</strong><br>
+            <small>Appareil : ${escapeHtml(s.platform)} | Navigateur : ${escapeHtml(s.browser)} | Connexion : ${formatDate(s.startedAt)} | Dernière activité : ${formatDate(s.lastSeen)}</small>
+          </div>
+          <button class="btn btn--danger btnForceLogout" type="button" data-user="${escapeHtml(s.username)}" ${s.username === (localStorage.getItem(STORAGE_KEYS.user) || "") ? "disabled title='Impossible de déconnecter votre propre compte ici'" : ""}>Déconnecter</button>
         </div>
       `).join("") : "<p class='muted'>Aucun compte en ligne actuellement.</p>"}
       <h3 class="h3" style="margin-top:14px">Nombre de connexions par compte</h3>
@@ -336,6 +343,26 @@
       <h3 class="h3" style="margin-top:14px">Historique détaillé</h3>
     `;
     els.adminLogs.appendChild(summary);
+
+    els.adminLogs.querySelectorAll('.btnForceLogout').forEach((button) => {
+      button.addEventListener('click', async () => {
+        const targetUser = button.getAttribute('data-user') || '';
+        if (!targetUser) return;
+        const ok = confirm(`Déconnecter le compte ${targetUser} ?`);
+        if (!ok) return;
+        button.disabled = true;
+        button.textContent = 'Déconnexion...';
+        try {
+          const result = await apiPost('/api/admin/force-logout', currentAuthPayload({ targetUser }));
+          alert(result.disconnected ? `Le compte ${targetUser} a été déconnecté.` : `Aucune session active trouvée pour ${targetUser}.`);
+          await renderAdminLogs();
+        } catch (e) {
+          alert(e.data?.error || e.message || 'Impossible de déconnecter ce compte.');
+          button.disabled = false;
+          button.textContent = 'Déconnecter';
+        }
+      });
+    });
 
     if (logs.length === 0) {
       const empty = document.createElement("p");

@@ -95,10 +95,22 @@ async function initDb() {
   `);
   await pool.query(`CREATE INDEX IF NOT EXISTS idx_login_logs_timestamp ON login_logs(timestamp DESC);`);
   await pool.query(`CREATE INDEX IF NOT EXISTS idx_login_logs_username ON login_logs(username);`);
+  await pool.query(`
+    CREATE TABLE IF NOT EXISTS revoked_sessions (
+      username TEXT NOT NULL,
+      session_token TEXT NOT NULL,
+      revoked_at BIGINT NOT NULL,
+      revoked_by TEXT,
+      reason TEXT DEFAULT 'admin_force_logout',
+      PRIMARY KEY(username, session_token)
+    );
+  `);
+  await pool.query(`CREATE INDEX IF NOT EXISTS idx_revoked_sessions_revoked_at ON revoked_sessions(revoked_at DESC);`);
 }
 
 async function cleanupExpired(client = pool) {
   await client.query('DELETE FROM active_sessions WHERE $1 - last_seen > $2', [now(), SESSION_TIMEOUT_MS]);
+  await client.query('DELETE FROM revoked_sessions WHERE $1 - revoked_at > $2', [now(), SESSION_TIMEOUT_MS]);
 }
 
 function rowToSession(row) {
@@ -249,6 +261,16 @@ const server = http.createServer(async (req, res) => {
         return sendJson(res, 401, { ok: false, error: 'Identifiants invalides.' });
       }
 
+      const revokedResult = await client.query('SELECT 1 FROM revoked_sessions WHERE username=$1 AND session_token=$2', [username, sessionToken]);
+      if (revokedResult.rowCount) {
+        await addLog(client, { user: username, action: 'login_refused_admin_logout', device });
+        return sendJson(res, 403, {
+          ok: false,
+          error: 'Ce compte a été déconnecté par un administrateur. Reconnectez-vous manuellement.',
+          forcedLogout: true,
+        });
+      }
+
       await client.query('BEGIN');
       try {
         const existingResult = await client.query('SELECT * FROM active_sessions WHERE username = $1 FOR UPDATE', [username]);
@@ -301,6 +323,8 @@ const server = http.createServer(async (req, res) => {
     const username = String(body.username || '').trim();
     const sessionToken = String(body.sessionToken || '').trim();
     return withDb(res, async (client) => {
+      const revokedResult = await client.query('SELECT 1 FROM revoked_sessions WHERE username=$1 AND session_token=$2', [username, sessionToken]);
+      if (revokedResult.rowCount) return sendJson(res, 401, { ok: false, error: 'Session déconnectée par un administrateur.', forcedLogout: true });
       const result = await client.query('UPDATE active_sessions SET last_seen=$1, online=TRUE WHERE username=$2 AND session_token=$3 RETURNING username', [now(), username, sessionToken]);
       if (!result.rowCount) return sendJson(res, 401, { ok: false, error: 'Session expirée ou remplacée.' });
       return sendJson(res, 200, { ok: true });
@@ -363,8 +387,18 @@ const server = http.createServer(async (req, res) => {
         return sendJson(res, 403, { ok: false, error: 'Accès administrateur refusé.' });
       }
       if (!targetUser) return sendJson(res, 400, { ok: false, error: 'Utilisateur cible manquant.' });
+      if (targetUser === adminUsername) return sendJson(res, 400, { ok: false, error: 'Vous ne pouvez pas déconnecter votre propre compte depuis ce bouton.' });
+      const sessionsToRevoke = await client.query('SELECT session_token FROM active_sessions WHERE username=$1', [targetUser]);
+      for (const row of sessionsToRevoke.rows) {
+        await client.query(
+          `INSERT INTO revoked_sessions(username, session_token, revoked_at, revoked_by, reason)
+           VALUES($1,$2,$3,$4,'admin_force_logout')
+           ON CONFLICT(username, session_token) DO UPDATE SET revoked_at=EXCLUDED.revoked_at, revoked_by=EXCLUDED.revoked_by`,
+          [targetUser, row.session_token, now(), adminUsername]
+        );
+      }
       const deleted = await client.query('DELETE FROM active_sessions WHERE username=$1 RETURNING username', [targetUser]);
-      await addLog(client, { user: targetUser, action: 'admin_force_logout', details: { by: adminUsername } });
+      await addLog(client, { user: targetUser, action: 'admin_force_logout', details: { by: adminUsername, disconnected: deleted.rowCount } });
       return sendJson(res, 200, { ok: true, disconnected: deleted.rowCount });
     });
   }

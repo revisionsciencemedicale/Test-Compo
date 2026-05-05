@@ -243,3 +243,21 @@ code{color: rgba(16,185,129,.95)}
   background:rgba(255,255,255,.05);
   border:1px solid rgba(255,255,255,.08);
 }
+
+
+.admin-session-row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+}
+.btn--danger{
+  border-color:rgba(255,80,80,.45);
+  background:rgba(255,80,80,.12);
+  color:#ffd6d6;
+}
+.btn--danger:hover{background:rgba(255,80,80,.20)}
+.btn--danger:disabled{opacity:.55; cursor:not-allowed}
+@media (max-width:640px){
+  .admin-session-row{align-items:flex-start; flex-direction:column}
+}
