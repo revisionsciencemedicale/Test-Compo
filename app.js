@@ -88,10 +88,10 @@
   }
 
   function getSessionToken() {
-    let token = sessionStorage.getItem(STORAGE_KEYS.sessionToken);
+    let token = localStorage.getItem(STORAGE_KEYS.sessionToken);
     if (!token) {
       token = `${Date.now()}-${Math.random().toString(36).slice(2)}`;
-      sessionStorage.setItem(STORAGE_KEYS.sessionToken, token);
+      localStorage.setItem(STORAGE_KEYS.sessionToken, token);
     }
     return token;
   }
@@ -147,8 +147,8 @@
 
   function currentAuthPayload(extra = {}) {
     return {
-      username: sessionStorage.getItem(STORAGE_KEYS.user) || "",
-      sessionToken: sessionStorage.getItem(STORAGE_KEYS.sessionToken) || "",
+      username: localStorage.getItem(STORAGE_KEYS.user) || "",
+      sessionToken: localStorage.getItem(STORAGE_KEYS.sessionToken) || "",
       device: getDeviceInfo(),
       ...extra,
     };
@@ -170,8 +170,8 @@
   }
 
   async function isAccessGranted() {
-    const user = sessionStorage.getItem(STORAGE_KEYS.user);
-    const token = sessionStorage.getItem(STORAGE_KEYS.sessionToken);
+    const user = localStorage.getItem(STORAGE_KEYS.user);
+    const token = localStorage.getItem(STORAGE_KEYS.sessionToken);
     if (!user || !token || !window.USERS || !window.USERS[user]) return false;
     try {
       await apiPost("/api/heartbeat", { username: user, sessionToken: token, device: getDeviceInfo() });
@@ -184,7 +184,7 @@
   function startSessionHeartbeat(username) {
     stopSessionHeartbeat();
     heartbeatTimerId = setInterval(async () => {
-      const current = sessionStorage.getItem(STORAGE_KEYS.user);
+      const current = localStorage.getItem(STORAGE_KEYS.user);
       if (current !== username) return;
       try {
         await apiPost("/api/heartbeat", currentAuthPayload());
@@ -203,8 +203,8 @@
   }
 
   function releaseCurrentSession(action = 'logout') {
-    const user = sessionStorage.getItem(STORAGE_KEYS.user);
-    const token = sessionStorage.getItem(STORAGE_KEYS.sessionToken);
+    const user = localStorage.getItem(STORAGE_KEYS.user);
+    const token = localStorage.getItem(STORAGE_KEYS.sessionToken);
     if (!user || !token) return;
     const payload = JSON.stringify({ username: user, sessionToken: token, action, device: getDeviceInfo() });
     try {
@@ -226,7 +226,7 @@
           sessionToken: getSessionToken(),
           device: getDeviceInfo(),
         });
-        sessionStorage.setItem(STORAGE_KEYS.user, username);
+        localStorage.setItem(STORAGE_KEYS.user, username);
         startSessionHeartbeat(username);
       } catch (e) {
         const msg = e.data?.error || e.message || "Connexion refusée par le serveur.";
@@ -263,7 +263,8 @@
   function denyAccess(sendLogout = true) {
     if (sendLogout) releaseCurrentSession('logout');
     stopSessionHeartbeat();
-    sessionStorage.removeItem(STORAGE_KEYS.user);
+    localStorage.removeItem(STORAGE_KEYS.user);
+    localStorage.removeItem(STORAGE_KEYS.sessionToken);
     if (els.screenCode) els.screenCode.classList.remove("hidden");
     if (els.appContent) els.appContent.classList.add("hidden");
     if (els.inputUsername) els.inputUsername.value = "";
@@ -275,7 +276,7 @@
   }
 
   function hasDEAccess() {
-    const user = sessionStorage.getItem(STORAGE_KEYS.user);
+    const user = localStorage.getItem(STORAGE_KEYS.user);
     const userConfig = window.USERS?.[user];
 
     if (!userConfig) return false;
@@ -681,7 +682,7 @@
   })();
 
  function computeLevels() {
-  const user = sessionStorage.getItem(STORAGE_KEYS.user);
+  const user = localStorage.getItem(STORAGE_KEYS.user);
   const userConfig = window.USERS?.[user];
 
   if (!userConfig) return [];
@@ -1136,7 +1137,7 @@ function renderResult() {
     const pct = total === 0 ? 0 : Math.round((correct / total) * 100);
     els.scoreText.textContent =
   `${correct}/${total} correct • ${pct}% • Score: ${score} • répondu: ${answered}/${total}`;
-    const user = sessionStorage.getItem(STORAGE_KEYS.user);
+    const user = localStorage.getItem(STORAGE_KEYS.user);
     logActivity(user, 'finish_quiz', { correct, answered, total, percentage: pct, score });
     localStorage.setItem(
   STORAGE_KEYS.lastResult,
@@ -1246,7 +1247,7 @@ head.textContent = `${correct}/${total} correct • ${pct}% • Score: ${score} 
         abandoned: false,
       };
 
-      const user = sessionStorage.getItem(STORAGE_KEYS.user);
+      const user = localStorage.getItem(STORAGE_KEYS.user);
       logActivity(user, "start_quiz", { level: track, subject, topic, questionCount: picked.length });
 
       showScreen(els.screenQuiz);
@@ -1272,7 +1273,7 @@ head.textContent = `${correct}/${total} correct • ${pct}% • Score: ${score} 
       abandoned: false,
     };
 
-    const user = sessionStorage.getItem(STORAGE_KEYS.user);
+    const user = localStorage.getItem(STORAGE_KEYS.user);
     logActivity(user, "start_quiz", { level, subject, topic, questionCount: picked.length });
 
     try {
@@ -1412,6 +1413,16 @@ head.textContent = `${correct}/${total} correct • ${pct}% • Score: ${score} 
     else updateDEStartInfo();
   });
 
+  function goHome() {
+    showScreen(els.screenStart);
+    if (currentMode === "normal") updateStartInfo();
+    else updateDEStartInfo();
+  }
+
+  if (els.btnHome) {
+    els.btnHome.addEventListener("click", goHome);
+  }
+
   if (els.btnAdmin) {
     els.btnAdmin.addEventListener("click", async () => {
       showScreen(els.screenAdmin);
@@ -1491,16 +1502,14 @@ head.textContent = `${correct}/${total} correct • ${pct}% • Score: ${score} 
     });
   }
 
-  window.addEventListener("beforeunload", () => {
-    // Libère la session lors d’une fermeture normale; les sessions crashées expirent automatiquement.
-    releaseCurrentSession("window_closed");
-  });
+  // Important : on ne libère plus la session lors d'une actualisation ou fermeture d'onglet.
+  // Le compte reste connecté sur le même appareil jusqu'au clic explicite sur "Se déconnecter".
 
 
   // init
   (async () => {
     if (await isAccessGranted()) {
-      const user = sessionStorage.getItem(STORAGE_KEYS.user);
+      const user = localStorage.getItem(STORAGE_KEYS.user);
       await grantAccess(user);
       els.inputStudentName.value = settings.studentName;
       els.toggleShuffle.checked = settings.shuffleQuestions;

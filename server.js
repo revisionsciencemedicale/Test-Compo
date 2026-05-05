@@ -7,7 +7,7 @@ const { Pool } = require('pg');
 
 const PORT = Number(process.env.PORT || 3000);
 const ROOT = __dirname;
-const SESSION_TIMEOUT_MS = Number(process.env.SESSION_TIMEOUT_MS || 10 * 60 * 1000);
+const SESSION_TIMEOUT_MS = Number(process.env.SESSION_TIMEOUT_MS || 365 * 24 * 60 * 60 * 1000);
 const MAX_BODY_BYTES = Number(process.env.MAX_BODY_BYTES || 200_000);
 const LOGIN_RATE_LIMIT_WINDOW_MS = Number(process.env.LOGIN_RATE_LIMIT_WINDOW_MS || 15 * 60 * 1000);
 const LOGIN_RATE_LIMIT_MAX = Number(process.env.LOGIN_RATE_LIMIT_MAX || 30);
@@ -213,6 +213,7 @@ function serveStatic(req, res) {
 async function withDb(res, handler) {
   const client = await pool.connect();
   try {
+    // Les sessions restent actives jusqu’à une déconnexion explicite ou une expiration très longue.
     await cleanupExpired(client);
     return await handler(client);
   } catch (err) {
@@ -377,7 +378,8 @@ const server = http.createServer(async (req, res) => {
       if (!admins.includes(adminUsername) || !sessionResult.rowCount) {
         return sendJson(res, 403, { ok: false, error: 'Accès administrateur refusé.' });
       }
-      await cleanupExpired(client);
+      // Les sessions restent actives jusqu’à une déconnexion explicite ou une expiration très longue.
+    await cleanupExpired(client);
       await addLog(client, { user: adminUsername, action: 'admin_clear_expired' });
       return sendJson(res, 200, { ok: true });
     });
