@@ -35,6 +35,7 @@
     answers: document.getElementById("answers"),
     btnSkip: document.getElementById("btnSkip"),
     btnNext: document.getElementById("btnNext"),
+    btnFinish: document.getElementById("btnFinish"),
     progressBar: document.getElementById("progressBar"),
     progressText: document.getElementById("progressText"),
     quizTimer: document.getElementById("quizTimer"),
@@ -1159,10 +1160,18 @@ if (!levels.includes(session.level)) {
     );
     els.progressText.textContent = `Question ${pos}/${total} • Répondu: ${answeredCount}/${total}`;
 
-    els.btnNext.textContent = session.index === total - 1 ? "Terminer" : "Suivant";
+    // Les boutons Précédent/Suivant servent uniquement à naviguer entre les questions.
+    // La validation du quiz se fait uniquement avec le bouton Terminer.
+    if (els.btnNext) {
+      els.btnNext.textContent = "Suivant";
+      els.btnNext.disabled = session.index >= total - 1;
+    }
     if (els.btnSkip) {
       els.btnSkip.textContent = "Précédent";
       els.btnSkip.disabled = session.index === 0;
+    }
+    if (els.btnFinish) {
+      els.btnFinish.classList.toggle("btn--primary", session.index >= total - 1);
     }
 
     els.answers.innerHTML = "";
@@ -1251,13 +1260,22 @@ if (!levels.includes(session.level)) {
   function formatNoteSur20(note) {
     if (!Number.isFinite(note)) return "0";
     const rounded = Math.round(note * 100) / 100;
-    return Number.isInteger(rounded) ? String(rounded) : String(rounded).replace('.', ',');
+    const text = Number.isInteger(rounded) ? String(rounded) : rounded.toFixed(2).replace(/0+$/, "").replace(/\.$/, "");
+    return text.replace(".", ",");
   }
 
   function getNoteSur20(result) {
     const total = result?.total || 0;
     if (total === 0) return 0;
+    // Note scolaire sur 20 basée sur le nombre de bonnes réponses.
     return (result.correct / total) * 20;
+  }
+
+  function formatResultSummary(result) {
+    const { correct, answered, total, score } = result;
+    const pct = total === 0 ? 0 : Math.round((correct / total) * 100);
+    const note20 = formatNoteSur20(getNoteSur20(result));
+    return `${correct}/${total} correct • ${pct}% • Score: ${score} • répondu: ${answered}/${total} • Note sur 20: ${note20}/20`;
   }
 
   function computeScore() {
@@ -1298,8 +1316,7 @@ function renderResult() {
     const { correct, answered, total, score } = result;
     const pct = total === 0 ? 0 : Math.round((correct / total) * 100);
     const note20 = formatNoteSur20(getNoteSur20(result));
-    els.scoreText.textContent =
-  `${correct}/${total} correct • ${pct}% • Score: ${score} • répondu: ${answered}/${total} • Note: ${note20}/20`;
+    els.scoreText.textContent = formatResultSummary(result);
     const user = localStorage.getItem(STORAGE_KEYS.user);
     logActivity(user, 'finish_quiz', { correct, answered, total, percentage: pct, score, note20 });
     localStorage.setItem(
@@ -1314,14 +1331,11 @@ function renderResult() {
   function renderReview() {
     els.reviewList.innerHTML = "";
     const result = computeScore();
-    const { correct, answered, total, score } = result;
-const pct = total === 0 ? 0 : Math.round((correct / total) * 100);
-const note20 = formatNoteSur20(getNoteSur20(result));
 
 const head = document.createElement("div");
 head.className = "pill";
 head.style.marginBottom = "12px";
-head.textContent = `${correct}/${total} correct • ${pct}% • Score: ${score} • répondu: ${answered}/${total} • Note: ${note20}/20`;
+head.textContent = formatResultSummary(result);
 els.reviewList.appendChild(head);
 
     for (let i = 0; i < session.questions.length; i++) {
@@ -1471,8 +1485,7 @@ els.reviewList.appendChild(head);
   function goNext() {
     const atLast = session.index >= session.questions.length - 1;
     if (atLast) {
-      showScreen(els.screenResult);
-      renderResult();
+      renderQuiz();
       return;
     }
     session.index++;
@@ -1574,6 +1587,7 @@ els.reviewList.appendChild(head);
 
   els.btnNext.addEventListener("click", goNext);
   els.btnSkip.addEventListener("click", goPrev);
+  if (els.btnFinish) els.btnFinish.addEventListener("click", finishQuiz);
 
   els.btnRetry.addEventListener("click", () => {
     showScreen(els.screenStart);
