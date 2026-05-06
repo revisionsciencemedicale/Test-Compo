@@ -820,6 +820,9 @@
   }
 
   if (Array.isArray(userConfig.levels)) {
+    if (userConfig.levels.some((lv) => normalizeKey(lv) === "all" || normalizeKey(lv) === "tous les niveaux")) {
+      return ALL_LEVELS;
+    }
     return userConfig.levels.slice();
   }
 
@@ -939,11 +942,27 @@
     if (valueToSelect && items.some((i) => i.value === valueToSelect)) select.value = valueToSelect;
   }
 
+  const LEVEL_ALIASES = {
+    "a1-base sante": ["a1-base sante", "auxiliaire 1 annee"],
+    "a2-niveau moyen": ["a2-niveau moyen", "auxiliaire 2 annee"],
+    "l1-niveau emergent": ["l1-niveau emergent", "licence 1 ide/sfm"],
+    "l2-niveau ascendant": ["l2-niveau ascendant", "licence 2 ide/sfm"],
+    "l3-niveau accompli inf": ["l3-niveau accompli inf", "licence 3 ide", "licence 3 ide/sfm"],
+    "l3-niveau accompli sf": ["l3-niveau accompli sf", "licence 3 sfm", "licence 3 ide/sfm"],
+  };
+
+  function levelMatches(questionLevel, selectedLevel) {
+    const nSelected = normalizeKey(selectedLevel);
+    const nQuestion = normalizeKey(questionLevel);
+    const aliases = LEVEL_ALIASES[nSelected] || [nSelected];
+    return aliases.includes(nQuestion);
+  }
+
   function filterBank(bank, { level, subject, topic }) {
   let out = bank;
 
   if (level && level !== "Tous les niveaux") {
-    out = out.filter(q => normalizeKey(q.level) === normalizeKey(level));
+    out = out.filter(q => levelMatches(q.level, level));
   }
 
   if (subject && subject !== "Toutes les matières") {
