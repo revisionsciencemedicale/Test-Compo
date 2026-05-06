@@ -265,6 +265,10 @@ const server = http.createServer(async (req, res) => {
     const device = body.device || {};
 
     return withDb(res, async (client) => {
+      if (!username) {
+        await addLog(client, { user: '-', action: 'login_empty_username', device });
+        return sendJson(res, 400, { ok: false, error: 'Veuillez entrer votre nom d’utilisateur avant de vous connecter.' });
+      }
       if (!users[username]) {
         await addLog(client, { user: username || '-', action: 'login_invalid', device });
         return sendJson(res, 401, { ok: false, error: 'Identifiants invalides.' });
@@ -299,7 +303,7 @@ const server = http.createServer(async (req, res) => {
           await client.query('COMMIT');
           return sendJson(res, 409, {
             ok: false,
-            error: 'Accès refusé.\nVous n\'êtes pas propriétaire de ce compte.\nMerci de contacte un administrateur au 0708190886 / 0709282169.',
+            error: 'Accès refusé.\nVous n\'êtes pas propriétaire de ce compte.\nMerci de contacter un administrateur au 0708190886 / 0709282169.',
             activeSession: publicSession(existing),
           });
         }

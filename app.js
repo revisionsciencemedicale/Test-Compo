@@ -309,8 +309,18 @@
   }
 
   async function grantAccess(username) {
+    username = String(username || "").trim();
     const freeTrial = isFreeTrialUser(username);
-    if (username && !freeTrial) {
+    if (!username) {
+      const msg = "Veuillez entrer votre nom d’utilisateur avant de vous connecter.";
+      if (els.codeError) {
+        els.codeError.textContent = msg;
+        els.codeError.style.display = "block";
+      }
+      alert(msg);
+      return false;
+    }
+    if (!freeTrial) {
       try {
         const data = await apiPost("/api/login", {
           username,
@@ -1759,6 +1769,16 @@ els.reviewList.appendChild(head);
     els.formCode.addEventListener("submit", async (e) => {
       e.preventDefault();
       const username = (els.inputUsername?.value || "").trim();
+      if (!username) {
+        const msg = "Veuillez entrer votre nom d’utilisateur avant de vous connecter.";
+        if (els.codeError) {
+          els.codeError.textContent = msg;
+          els.codeError.style.display = "block";
+        }
+        alert(msg);
+        els.inputUsername?.focus();
+        return;
+      }
       const ok = await grantAccess(username);
       if (!ok) return;
       els.inputStudentName.value = settings.studentName;
