@@ -1264,11 +1264,33 @@ if (!levels.includes(session.level)) {
     return text.replace(".", ",");
   }
 
+  function getQuestionBasePoint(q) {
+    // Permet d'utiliser une note/pondération personnalisée si elle existe dans une question.
+    // Exemples acceptés : note, points, point, bareme, barème, mark, coefficient, coef.
+    const values = [q?.note, q?.points, q?.point, q?.bareme, q?.["barème"], q?.mark, q?.coefficient, q?.coef];
+    for (const value of values) {
+      const n = Number(value);
+      if (Number.isFinite(n) && n > 0) return n;
+    }
+    return 1;
+  }
+
+  function getQuestionMarksOn20(questions) {
+    const list = Array.isArray(questions) ? questions : [];
+    const basePoints = list.map(getQuestionBasePoint);
+    const totalBase = basePoints.reduce((sum, n) => sum + n, 0);
+    if (!list.length || totalBase <= 0) return new Map();
+    const marks = new Map();
+    list.forEach((q, index) => {
+      marks.set(q.id, (basePoints[index] / totalBase) * 20);
+    });
+    return marks;
+  }
+
   function getNoteSur20(result) {
+    if (Number.isFinite(result?.note20)) return result.note20;
     const total = result?.total || 0;
     if (total === 0) return 0;
-    // Note sur 20 basée sur le score réel (+1 bonne réponse, -1 mauvaise réponse, 0 non répondu).
-    // Exemple: score -1 sur 5 questions = (-1 / 5) * 20 = -4/20.
     return ((result.score || 0) / total) * 20;
   }
 
@@ -1280,37 +1302,50 @@ if (!levels.includes(session.level)) {
   }
 
   function computeScore() {
-  if (session.abandoned) {
-    return { correct: 0, answered: 0, total: session.questions.length, score: 0 };
-  }
+    const total = session.questions.length;
+    const marksById = getQuestionMarksOn20(session.questions);
 
-  let correct = 0;
-  let answered = 0;
-  let wrong = 0;
-  let score = 0;
-
-  for (const q of session.questions) {
-    const a = session.answersById[q.id];
-
-    if (isAnswered(q, a)) {
-      answered++;
-
-      if (isCorrect(q, a)) {
-        correct++;
-        score += 1; // +1 bonne réponse
-      } else {
-        wrong++;
-        score -= 1; // ❌ pénalité
-      }
+    if (session.abandoned) {
+      return { correct: 0, wrong: 0, answered: 0, total, score: 0, note20: 0, marksById: {} };
     }
-  }
 
-  // Règle demandée:
-  // - bonne réponse: +1
-  // - mauvaise réponse: -1
-  // - non répondu: 0 (donc score inchangé)
-  return { correct, wrong, answered, total: session.questions.length, score };
-}
+    let correct = 0;
+    let answered = 0;
+    let wrong = 0;
+    let score = 0;
+    let note20 = 0;
+    const marksResultById = {};
+
+    for (const q of session.questions) {
+      const a = session.answersById[q.id];
+      const questionMark = marksById.get(q.id) || 0;
+      let markObtained = 0;
+
+      if (isAnswered(q, a)) {
+        answered++;
+
+        if (isCorrect(q, a)) {
+          correct++;
+          score += 1;
+          markObtained = questionMark;
+        } else {
+          wrong++;
+          score -= 1;
+          markObtained = -questionMark;
+        }
+      }
+
+      note20 += markObtained;
+      marksResultById[q.id] = {
+        questionMark,
+        obtained: markObtained
+      };
+    }
+
+    // La note sur 20 applique directement la pondération et les pénalités de chaque question.
+    // Exemple : 5 questions => 4 points/question ; score -1 => -4/20.
+    return { correct, wrong, answered, total, score, note20, marksById: marksResultById };
+  }
 
 function renderResult() {
     const result = computeScore();
@@ -1362,6 +1397,11 @@ els.reviewList.appendChild(head);
       tag2.textContent = ok ? "Correct" : answered ? "Incorrect" : "Non répondu";
       meta.appendChild(tag1);
       meta.appendChild(tag2);
+      const markInfo = result.marksById && result.marksById[q.id] ? result.marksById[q.id] : null;
+      const tag3 = document.createElement("span");
+      tag3.className = `tag ${markInfo && markInfo.obtained > 0 ? "tag--ok" : markInfo && markInfo.obtained < 0 ? "tag--bad" : ""}`;
+      tag3.textContent = `Note question: ${markInfo && markInfo.obtained > 0 ? "+" : ""}${formatNoteSur20(markInfo ? markInfo.obtained : 0)}/20`;
+      meta.appendChild(tag3);
 
       const body = document.createElement("div");
       body.className = "muted";
