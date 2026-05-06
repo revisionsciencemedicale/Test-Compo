@@ -3,45 +3,49 @@
  * Ajoute ou modifie les utilisateurs selon tes besoins.
  */
 window.USERS = {
-  "tirbuce": {
-    levels: "all"
-  },
+  
+  //ACCES ADMINISTRATEUR
+
+  "tirbuce": { levels: "all"},
+  "brice": {levels: "all" },
+  "bbappia": { levels: "all" },
+  "paterne": { levels: ["all"]},
+
+
+//ACCES A1-Base Santé
+
+
+//ACCES A2-Niveau moyen
+
+
+//ACCES L1-Niveau Émergent
+
   "e": {
     levels: ["L1-Niveau Émergent"]
   },
-  "e": {
-    levels: ["L2-Niveau Ascendant"]
-  },
-  "paterne": {
-    levels: ["L1-Niveau Émergent", "L2-Niveau Ascendant"]
-  },
-  "brice": {
-    levels: "all"
-  },
-    "bbappia": {
-    levels: "all"
-  },
-  "NDINADL29738": {
-    levels: ["L2-Niveau Ascendant"]
-  },
-  "FOFMARL33911": {
-    levels: ["L3-Niveau Accompli SF"]
-  },
+
+  //ACCES L2-Niveau Ascendant
+
+
+  "DAMFANL22644": { levels: ["L2-Niveau Ascendant"] },
+  "KONAMOL27378": {levels: ["L2-Niveau Ascendant"]},
+  "KAMBINL20052": {levels: ["L2-Niveau Ascendant"]},
+  "BONRUSL28384": {levels: ["L2-Niveau Ascendant"]},
+  "KOFMARL25613": { levels: ["L2-Niveau Ascendant"]},
+  "NDINADL29738": {levels: ["L2-Niveau Ascendant"] },
+  "KOUYAOL27276": {levels: ["L2-Niveau Ascendant"] },
+  "TOUMAKL20169": {levels: ["L2-Niveau Ascendant"] },
+  "OUAADJL25621": {levels: ["L2-Niveau Ascendant"] },
+  "BASLUCL20850": {levels: ["L2-Niveau Ascendant"] },
+
+
+
+  //ACCES L3-Niveau Accompli SF
+
+  "FOFMARL33911": {levels: ["L3-Niveau Accompli SF"] },
   
-  "DAMFANL22644": {
-    levels: ["L2-Niveau Ascendant"]
-  },
-  "KONAMOL27378": {
-    levels: ["L2-Niveau Ascendant"]},
+  //ACCES L3-Niveau Accompli IDE
 
-    "KAMBINL20052": {
-    levels: ["L2-Niveau Ascendant"]},
-
-    "BONRUSL28384": {
-    levels: ["L2-Niveau Ascendant"]},
-    
-   "KOFMARL25613": {
-    levels: ["L2-Niveau Ascendant"]},
   
 
 
