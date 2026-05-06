@@ -7,6 +7,7 @@
     formCode: document.getElementById("formCode"),
     inputUsername: document.getElementById("inputUsername"),
     codeError: document.getElementById("codeError"),
+    btnFreeTrial: document.getElementById("btnFreeTrial"),
 
     screenStart: document.getElementById("screenStart"),
     screenQuiz: document.getElementById("screenQuiz"),
@@ -71,6 +72,75 @@
     sessionToken: "quizRevision.sessionToken.v1",
     deviceId: "quizRevision.deviceId.v1",
   };
+
+  const FREE_TRIAL_USER = "__ESSAI_GRATUIT__";
+  const FREE_TRIAL_LEVEL = "Essai gratuit";
+  const FREE_TRIAL_SUBJECT = "Sujet d’essai gratuit";
+  const FREE_TRIAL_TOPIC = "Sujet essai";
+  const FREE_TRIAL_BLOCK_MESSAGE =
+    "Veuillez disposer d’un compte personnel pour accéder à tous les quiz ainsi qu’aux corrections expliquées.\n" +
+    "Merci de contacter les administrateurs au +225 0708190886 / +225 0709282169 pour obtenir votre compte personnel.";
+
+  const FREE_TRIAL_QUESTIONS = [
+    {
+      id: "essai-gratuit-1",
+      level: FREE_TRIAL_LEVEL,
+      subject: FREE_TRIAL_SUBJECT,
+      topic: FREE_TRIAL_TOPIC,
+      type: "mcq",
+      question: "Quel est le signe principal de la fièvre ?",
+      choices: ["Température élevée", "Peau toujours froide", "Absence de pouls", "Vision trouble uniquement"],
+      answerIndex: 0,
+      explanation: "La fièvre correspond à une élévation anormale de la température corporelle."
+    },
+    {
+      id: "essai-gratuit-2",
+      level: FREE_TRIAL_LEVEL,
+      subject: FREE_TRIAL_SUBJECT,
+      topic: FREE_TRIAL_TOPIC,
+      type: "mcq",
+      question: "Quel geste est prioritaire avant de faire un pansement ?",
+      choices: ["Se laver ou se désinfecter les mains", "Toucher directement la plaie", "Réutiliser une compresse sale", "Souffler sur la plaie"],
+      answerIndex: 0,
+      explanation: "L’hygiène des mains réduit le risque de contamination de la plaie."
+    },
+    {
+      id: "essai-gratuit-3",
+      level: FREE_TRIAL_LEVEL,
+      subject: FREE_TRIAL_SUBJECT,
+      topic: FREE_TRIAL_TOPIC,
+      type: "tf",
+      question: "Une mauvaise hydratation peut entraîner une fatigue et une sécheresse des muqueuses.",
+      answer: true,
+      explanation: "La déshydratation peut provoquer fatigue, soif, sécheresse buccale et diminution des urines."
+    },
+    {
+      id: "essai-gratuit-4",
+      level: FREE_TRIAL_LEVEL,
+      subject: FREE_TRIAL_SUBJECT,
+      topic: FREE_TRIAL_TOPIC,
+      type: "mcq",
+      question: "Quel est le rôle principal d’un antiseptique ?",
+      choices: ["Détruire ou réduire les microbes", "Augmenter le saignement", "Remplacer l’eau de boisson", "Endormir le patient"],
+      answerIndex: 0,
+      explanation: "Un antiseptique sert à réduire ou éliminer les micro-organismes sur les tissus vivants."
+    },
+    {
+      id: "essai-gratuit-5",
+      level: FREE_TRIAL_LEVEL,
+      subject: FREE_TRIAL_SUBJECT,
+      topic: FREE_TRIAL_TOPIC,
+      type: "mcq",
+      question: "Quel élément est indispensable pour prendre la température ?",
+      choices: ["Un thermomètre", "Un tensiomètre", "Une seringue", "Une bande plâtrée"],
+      answerIndex: 0,
+      explanation: "Le thermomètre est l’instrument utilisé pour mesurer la température corporelle."
+    }
+  ];
+
+  function isFreeTrialUser(user = localStorage.getItem(STORAGE_KEYS.user)) {
+    return user === FREE_TRIAL_USER;
+  }
 
   async function apiPost(path, payload = {}) {
     const res = await fetch(path, {
@@ -156,6 +226,7 @@
   }
 
   async function logActivity(user, action, details = {}) {
+    if (isFreeTrialUser(user)) return;
     try {
       await apiPost("/api/activity", {
         username: user,
@@ -178,6 +249,9 @@
   async function checkCurrentSession() {
     const user = localStorage.getItem(STORAGE_KEYS.user);
     const token = localStorage.getItem(STORAGE_KEYS.sessionToken);
+    if (isFreeTrialUser(user)) {
+      return { loggedIn: true, forceLogout: false };
+    }
     if (!user || !token || !window.USERS || !window.USERS[user]) {
       return { loggedIn: false, forceLogout: false };
     }
@@ -234,7 +308,8 @@
   }
 
   async function grantAccess(username) {
-    if (username) {
+    const freeTrial = isFreeTrialUser(username);
+    if (username && !freeTrial) {
       try {
         const data = await apiPost("/api/login", {
           username,
@@ -260,17 +335,24 @@
     if (els.screenCode) els.screenCode.classList.add("hidden");
     if (els.appContent) els.appContent.classList.remove("hidden");
 
-    if (els.currentUser) els.currentUser.textContent = username;
+    if (els.currentUser) els.currentUser.textContent = freeTrial ? "Essai gratuit" : username;
 
     if (els.btnModeQuiz) els.btnModeQuiz.style.display = "";
 
-    if (!hasDEAccess()) {
+    if (freeTrial || !hasDEAccess()) {
       if (els.btnModeDE) els.btnModeDE.style.display = "none";
     } else {
       if (els.btnModeDE) els.btnModeDE.style.display = "";
     }
 
-    if (els.btnAdmin && window.ADMINS && window.ADMINS.includes(username)) {
+    if (freeTrial && els.btnOpenSettings) els.btnOpenSettings.style.display = "none";
+    else if (els.btnOpenSettings) els.btnOpenSettings.style.display = "";
+    if (freeTrial && els.btnDictionary) els.btnDictionary.style.display = "none";
+    else if (els.btnDictionary) els.btnDictionary.style.display = "";
+    if (freeTrial && els.btnReset) els.btnReset.style.display = "none";
+    else if (els.btnReset) els.btnReset.style.display = "";
+
+    if (!freeTrial && els.btnAdmin && window.ADMINS && window.ADMINS.includes(username)) {
       els.btnAdmin.classList.remove("hidden");
     } else if (els.btnAdmin) {
       els.btnAdmin.classList.add("hidden");
@@ -294,6 +376,7 @@
 
   function hasDEAccess() {
     const user = localStorage.getItem(STORAGE_KEYS.user);
+    if (isFreeTrialUser(user)) return false;
     const userConfig = window.USERS?.[user];
 
     if (!userConfig) return false;
@@ -614,9 +697,9 @@
     return { ...base, type: "mcq", choices, answerIndex };
   }
 
-  const QUIZ_QUESTIONS_SOURCE = Array.isArray(window.QUIZ_QUESTIONS_QUIZ)
+  const QUIZ_QUESTIONS_SOURCE = (Array.isArray(window.QUIZ_QUESTIONS_QUIZ)
     ? window.QUIZ_QUESTIONS_QUIZ
-    : (Array.isArray(window.QUIZ_QUESTIONS) ? window.QUIZ_QUESTIONS : []);
+    : (Array.isArray(window.QUIZ_QUESTIONS) ? window.QUIZ_QUESTIONS : [])).concat(FREE_TRIAL_QUESTIONS);
   const DE_QUESTIONS_SOURCE = Array.isArray(window.QUIZ_QUESTIONS_DE) ? window.QUIZ_QUESTIONS_DE : [];
   const ALL_RAW_QUESTIONS = QUIZ_QUESTIONS_SOURCE.concat(DE_QUESTIONS_SOURCE);
 
@@ -723,6 +806,7 @@
 
  function computeLevels() {
   const user = localStorage.getItem(STORAGE_KEYS.user);
+  if (isFreeTrialUser(user)) return [FREE_TRIAL_LEVEL];
   const userConfig = window.USERS?.[user];
 
   if (!userConfig) return [];
@@ -739,6 +823,7 @@
 }
 
   function computeSubjectsForLevel(level) {
+    if (isFreeTrialUser()) return [FREE_TRIAL_SUBJECT];
     const nLevel = normalizeKey(level);
     const unique = (arr) => Array.from(new Set((arr || []).map((s) => safeText(s).trim()).filter(Boolean)));
 
@@ -756,6 +841,7 @@
   }
 
   function computeTopicsForSubject(subject) {
+    if (isFreeTrialUser()) return [FREE_TRIAL_TOPIC];
     if (!subject || subject === "Toutes les matières") return ["Tous les sujets"];
     const entry = SUBJECT_TOPICS_BY_NORM[normalizeKey(subject)];
     if (entry && Array.isArray(entry.topics) && entry.topics.length > 0) {
@@ -911,6 +997,11 @@
 
   function setMode(nextMode) {
 
+  if (isFreeTrialUser() && nextMode !== "normal") {
+    alert(FREE_TRIAL_BLOCK_MESSAGE);
+    return;
+  }
+
   // 🔒 sécurité : bloquer accès DE
   if (nextMode === "de" && !hasDEAccess()) {
     alert("Accès refusé à l'Examen de Fin de Formation.");
@@ -1001,6 +1092,11 @@
 
   function updateStartInfo() {
     bank = getQuestionBank();
+    if (isFreeTrialUser()) {
+      session.level = FREE_TRIAL_LEVEL;
+      session.subject = FREE_TRIAL_SUBJECT;
+      session.topic = FREE_TRIAL_TOPIC;
+    }
     const levels = computeLevels();
     setOptions(els.selectLevel, levels, session.level);
 if (!levels.includes(session.level)) {
@@ -1260,6 +1356,13 @@ head.textContent = `${correct}/${total} correct • ${pct}% • Score: ${score} 
   }
 
   function startNewSession() {
+    if (isFreeTrialUser()) {
+      if (currentMode !== "normal" || els.selectLevel.value !== FREE_TRIAL_LEVEL || els.selectSubject.value !== FREE_TRIAL_SUBJECT || els.selectTopic.value !== FREE_TRIAL_TOPIC) {
+        alert(FREE_TRIAL_BLOCK_MESSAGE);
+        return;
+      }
+    }
+
     alert(
       "Règles de score :\n\n" +
         "Bonne réponse : +1\n" +
@@ -1299,7 +1402,7 @@ head.textContent = `${correct}/${total} correct • ${pct}% • Score: ${score} 
     const subject = els.selectSubject.value;
     const topic = els.selectTopic?.value || "Tous les sujets";
     const filtered = filterBank(bank, { level, subject, topic });
-    const picked = pickQuestions(filtered, settings.shuffleQuestions);
+    const picked = isFreeTrialUser() ? filtered.slice(0, 5) : pickQuestions(filtered, settings.shuffleQuestions);
 
     lastTimedQuestionIndex = -1;
     session = {
@@ -1521,6 +1624,19 @@ head.textContent = `${correct}/${total} correct • ${pct}% • Score: ${score} 
     if (!ok) return;
     resetAll();
   });
+
+  if (els.btnFreeTrial) {
+    els.btnFreeTrial.addEventListener("click", async () => {
+      localStorage.setItem(STORAGE_KEYS.user, FREE_TRIAL_USER);
+      localStorage.setItem(STORAGE_KEYS.sessionToken, getSessionToken());
+      const ok = await grantAccess(FREE_TRIAL_USER);
+      if (!ok) return;
+      setMode("normal");
+      updateStartInfo();
+      setupDESelectors();
+      showScreen(els.screenStart);
+    });
+  }
 
   if (els.formCode) {
     els.formCode.addEventListener("submit", async (e) => {
