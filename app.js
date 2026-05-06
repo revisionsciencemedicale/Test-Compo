@@ -1267,8 +1267,9 @@ if (!levels.includes(session.level)) {
   function getNoteSur20(result) {
     const total = result?.total || 0;
     if (total === 0) return 0;
-    // Note scolaire sur 20 basée sur le nombre de bonnes réponses.
-    return (result.correct / total) * 20;
+    // Note sur 20 basée sur le score réel (+1 bonne réponse, -1 mauvaise réponse, 0 non répondu).
+    // Exemple: score -1 sur 5 questions = (-1 / 5) * 20 = -4/20.
+    return ((result.score || 0) / total) * 20;
   }
 
   function formatResultSummary(result) {
