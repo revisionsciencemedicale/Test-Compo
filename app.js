@@ -1160,6 +1160,10 @@ if (!levels.includes(session.level)) {
     els.progressText.textContent = `Question ${pos}/${total} • Répondu: ${answeredCount}/${total}`;
 
     els.btnNext.textContent = session.index === total - 1 ? "Terminer" : "Suivant";
+    if (els.btnSkip) {
+      els.btnSkip.textContent = "Précédent";
+      els.btnSkip.disabled = session.index === 0;
+    }
 
     els.answers.innerHTML = "";
     const currentAnswer = session.answersById[q.id] || {};
@@ -1185,7 +1189,7 @@ if (!levels.includes(session.level)) {
         if (input.checked) item.classList.add("answer--selected");
         item.addEventListener("click", () => {
           session.answersById[q.id] = { selectedBool: c.value };
-          goNext();
+          renderQuiz();
         });
         els.answers.appendChild(item);
       }
@@ -1238,10 +1242,22 @@ if (!levels.includes(session.level)) {
       if (input.checked) item.classList.add("answer--selected");
       item.addEventListener("click", () => {
         session.answersById[q.id] = { selectedIndex: idx };
-        goNext();
+        renderQuiz();
       });
       els.answers.appendChild(item);
     }
+  }
+
+  function formatNoteSur20(note) {
+    if (!Number.isFinite(note)) return "0";
+    const rounded = Math.round(note * 100) / 100;
+    return Number.isInteger(rounded) ? String(rounded) : String(rounded).replace('.', ',');
+  }
+
+  function getNoteSur20(result) {
+    const total = result?.total || 0;
+    if (total === 0) return 0;
+    return (result.correct / total) * 20;
   }
 
   function computeScore() {
@@ -1278,12 +1294,14 @@ if (!levels.includes(session.level)) {
 }
 
 function renderResult() {
-    const { correct, answered, total, score } = computeScore();
+    const result = computeScore();
+    const { correct, answered, total, score } = result;
     const pct = total === 0 ? 0 : Math.round((correct / total) * 100);
+    const note20 = formatNoteSur20(getNoteSur20(result));
     els.scoreText.textContent =
-  `${correct}/${total} correct • ${pct}% • Score: ${score} • répondu: ${answered}/${total}`;
+  `${correct}/${total} correct • ${pct}% • Score: ${score} • répondu: ${answered}/${total} • Note: ${note20}/20`;
     const user = localStorage.getItem(STORAGE_KEYS.user);
-    logActivity(user, 'finish_quiz', { correct, answered, total, percentage: pct, score });
+    logActivity(user, 'finish_quiz', { correct, answered, total, percentage: pct, score, note20 });
     localStorage.setItem(
   STORAGE_KEYS.lastResult,
   JSON.stringify({
@@ -1295,12 +1313,16 @@ function renderResult() {
 
   function renderReview() {
     els.reviewList.innerHTML = "";
-    const { correct, answered, total, score } = computeScore();
+    const result = computeScore();
+    const { correct, answered, total, score } = result;
 const pct = total === 0 ? 0 : Math.round((correct / total) * 100);
+const note20 = formatNoteSur20(getNoteSur20(result));
 
 const head = document.createElement("div");
 head.className = "pill";
-head.textContent = `${correct}/${total} correct • ${pct}% • Score: ${score} • répondu: ${answered}/${total}`;
+head.style.marginBottom = "12px";
+head.textContent = `${correct}/${total} correct • ${pct}% • Score: ${score} • répondu: ${answered}/${total} • Note: ${note20}/20`;
+els.reviewList.appendChild(head);
 
     for (let i = 0; i < session.questions.length; i++) {
       const q = session.questions[i];
@@ -1459,8 +1481,8 @@ head.textContent = `${correct}/${total} correct • ${pct}% • Score: ${score} 
 
   function goPrev() {
     if (session.index <= 0) {
-      showScreen(els.screenResult);
-      renderResult();
+      session.index = 0;
+      renderQuiz();
       return;
     }
     session.index--;
@@ -1551,7 +1573,7 @@ head.textContent = `${correct}/${total} correct • ${pct}% • Score: ${score} 
   if (els.selectDETopic) els.selectDETopic.addEventListener("change", updateDEStartInfo);
 
   els.btnNext.addEventListener("click", goNext);
-  els.btnSkip.addEventListener("click", finishQuiz);
+  els.btnSkip.addEventListener("click", goPrev);
 
   els.btnRetry.addEventListener("click", () => {
     showScreen(els.screenStart);
