@@ -37,7 +37,8 @@ window.USERS = {
   "TOUMAKL20169": {levels: ["L2-Niveau Ascendant"] },
   "OUAADJL25621": {levels: ["L2-Niveau Ascendant"] },
   "BASLUCL20850": {levels: ["L2-Niveau Ascendant"] },
-
+  "ANGYOUL29170": {levels: ["L2-Niveau Ascendant"] },
+  "KONSACL28441": {levels: ["L2-Niveau Ascendant"] },
 
 
   //ACCES L3-Niveau Accompli SF
