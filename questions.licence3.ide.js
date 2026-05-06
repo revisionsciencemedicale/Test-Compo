@@ -1,5 +1,5 @@
 /**
- * Génère automatiquement les questions de L3-Niveau Accompli INF:
+ * Génère automatiquement les questions de Licence 3 IDE:
  * - 36 matières
  * - 6 sujets par matière
  * - 50 questions par sujet
@@ -7,9 +7,10 @@
 (function addLicence3IDEQuestions() {
   if (!Array.isArray(window.QUIZ_QUESTIONS_QUIZ)) return;
 
-  const level = "L3-Niveau Accompli INF";
+  const level = "Licence 3 IDE";
   const subjects = [
     "Imagerie médicale",
+    "Documents normatifs",
     "Gestion des catastrophes",
     "Gouvernance et Organisation du Système de Santé Communautaire",
     "Organisation d’une séance de Vaccination / Sécurité des injections",
@@ -26,15 +27,24 @@
     "ORL",
     "Surveillances thérapeutiques 1",
     "Surveillance thérapeutique 2",
+    "Processus de mise en Stages",
+    "Stage en soins infirmiers et Obstétricaux",
     "Droit administratif",
+    "Sécurité sociale",
+    "Fonction publique",
+    "Élaboration d’un projet de soins infirmiers",
     "Mise en œuvre et évaluation d’un projet de soins infirmiers",
     "Entreprenariat / Gestion de la qualité",
     "Soins infirmiers spécialisés en médecine",
     "Soins palliatifs",
     "Soins infirmiers spécialisés en chirurgie",
+    "Rédaction administrative",
     "Supervision / Suivi - Evaluation",
     "Gestion Hospitalière",
     "Analyse des données quantitatives et qualitatives",
+    "Rédaction document final mémoire",
+    "Stages en soins infirmiers et obstétricaux + Rapport",
+    "Stage communautaire + Rapport",
   ];
   const topics = ["Sujet 1", "Sujet 2", "Sujet 3", "Sujet 4", "Sujet 5", "Sujet 6"];
   const questionsPerTopic = 50;
@@ -103,4 +113,3 @@
     }
   }
 })();
-

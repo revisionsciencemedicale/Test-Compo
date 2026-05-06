@@ -57,10 +57,11 @@ window.SUJETS_PAR_MATIERE_QUIZ = {
 
 };
 
-// Matières demandées pour L3-Niveau Accompli INF (6 sujets chacune)
+// Matières demandées pour Licence 3 IDE (6 sujets chacune)
 (function addLicence3IDESubjects() {
   const licence3IDESubjects = [
     "Imagerie médicale",
+    "Documents normatifs",
     "Gestion des catastrophes",
     "Gouvernance et Organisation du Système de Santé Communautaire",
     "Organisation d’une séance de Vaccination / Sécurité des injections",
@@ -77,15 +78,24 @@ window.SUJETS_PAR_MATIERE_QUIZ = {
     "ORL",
     "Surveillances thérapeutiques 1",
     "Surveillance thérapeutique 2",
+    "Processus de mise en Stages",
     "Stage en soins infirmiers et Obstétricaux",
     "Droit administratif",
+    "Sécurité sociale",
+    "Fonction publique",
     "Élaboration d’un projet de soins infirmiers",
     "Mise en œuvre et évaluation d’un projet de soins infirmiers",
+    "Entreprenariat / Gestion de la qualité",
     "Soins infirmiers spécialisés en médecine",
     "Soins palliatifs",
     "Soins infirmiers spécialisés en chirurgie",
+    "Rédaction administrative",
     "Supervision / Suivi - Evaluation",
     "Gestion Hospitalière",
+    "Analyse des données quantitatives et qualitatives",
+    "Rédaction document final mémoire",
+    "Stages en soins infirmiers et obstétricaux + Rapport",
+    "Stage communautaire + Rapport",
   ];
   window.LICENCE3_IDE_SUBJECTS = licence3IDESubjects.slice();
 
@@ -95,7 +105,7 @@ window.SUJETS_PAR_MATIERE_QUIZ = {
   }
 })();
 
-// Matières demandées pour L3-Niveau Accompli SF (6 sujets chacune)
+// Matières demandées pour Licence 3 SFM (6 sujets chacune)
 (function addLicence3SFMSubjects() {
   const licence3SFMSubjects = [
     "Pathologies gynécologiques III",
@@ -113,6 +123,7 @@ window.SUJETS_PAR_MATIERE_QUIZ = {
     "Soins obstétricaux et néonataux d’urgence de base (SONUB)",
     "Soins obstétricaux et néonataux d’urgence complets (SONUC)",
     "Présentation de cas cliniques",
+    "Processus de mise en Stages",
     "Stage en soins infirmiers et Obstétricaux",
     "Droit administratif / Responsabilité médicale",
     "Sécurité sociale",
@@ -127,6 +138,10 @@ window.SUJETS_PAR_MATIERE_QUIZ = {
     "Prise en charge des substances psychoactives",
     "Gériatrie",
     "Soins palliatifs",
+    "Analyse des données qualitatives et quantitatives",
+    "Rédaction de Mémoire",
+    "Stages en soins infirmiers et obstétricaux + Rapport",
+    "Stage communautaire + Rapport",
   ];
   window.LICENCE3_SFM_SUBJECTS = licence3SFMSubjects.slice();
   window.LICENCE2_SFM_SUBJECTS = licence3SFMSubjects.slice(); // alias de compatibilité
@@ -137,7 +152,7 @@ window.SUJETS_PAR_MATIERE_QUIZ = {
   }
 })();
 
-// Matières demandées pour A1-Base Santé et A2-Niveau moyen (6 sujets chacune)
+// Matières demandées pour Auxiliaire 1 année et Auxiliaire 2 année (6 sujets chacune)
 (function addAuxiliaireSubjects() {
   const auxiliaire1Subjects = [
     "Sémiologie médical",
@@ -232,184 +247,3 @@ window.SUJETS_PAR_MATIERE_QUIZ = {
     "Sujet 7",
   ];
 })();
-
-
-/* Correction personnalisée : matières affichées selon le niveau (30/04/2026). */
-(function configureSubjectsByLevel() {
-  const byLevel = {
-  "A1-Base Santé": [
-     "Sémiologie médical",
-  "Anatomie physiologie",
-  "Spécialités médicales et chirurgicales",
-  "Pédiatrie",
-  "Néonatalogie",
-  "Diététique",
-  "Santé publique et communautaire et psychologique",
-  "Rédaction administrative",
-  "Rédaction de rapports de stage",
-  "Informatique",
-  "Pathologies médicale et chirurgicale",
-  "Radiologie",
-  "Laboratoire et pharmacologie",
-  "Hygiène et assainissement",
-  "Biosecurité",
-  "Éthique et déontologie",
-  "Hygiène hospitalière",
-  "Soins infirmiers de bases-accueil",
-  "SOINS HUMANISES",
-  "ergonomie",
-  "Manutention",
-  "Secourisme",
-  ],
-  "L1-Niveau Émergent": [
-    "Pédiatrie",
-    "Santé Publique",
-    "Pathologies churigicale / Sémiologie",
-    "Pathologies médicales / Sémiologie",
-    "Anatomie physiologie appareils",
-    "Anatomie physiologie obstétricale",
-    "Soins aux enfants",
-    "Diététique",
-    "Bactériologie",
-    "Parasitologie",
-    "IST/VIH",
-    "Maladies parasitaires et infectieuses",
-    "Pathologies respiratoires",
-    "Maladies non transmissibles",
-    "Théorie et concepts des Soins Infirmiers / Obstétricaux / Relation d’aide",
-    "Psycho-sociologie",
-    "Anthropologie de la santé",
-    "Secourisme",
-    "Prévention des infections / Hygiène hospitalière",
-    "Soins infirmiers obstétricaux / néonataux de base / infantiles",
-    "Déontologie et éthique professionnelle",
-    "Législation du travail",
-    "Anglais de la santé",
-    "Informatique",
-    "Hygiène et assainissement",
-    "Soins de santé primaire",
-    "Epidémiologie",
-    "Biochimie",
-    "Immunologie",
-    "Hématologie",
-    "Droit administratif",
-    "Droit civil"
-  ],
-  "L2-Niveau Ascendant": [
-    "Chirugie pédiatrique/Pathologies chirurrgicales",
-    "Initiation a la kinésitherapie",
-    "Déontologie de la sage femme",
-    "Santé de la reproduction planification familiale",
-    "Gériatrie/Gérontologie",
-    "Approche genre/santé sexuelle/santé de la reproduction des adolescents et des jeunes/gestion logistique",
-    "Psychologie médicale",
-    "Réanimation",
-    "Soins obstetricaux et néonataux d'urgence",
-    "Pharmacologie",
-    "Soins infirmiers dans les pathologies médicales",
-    "Techniques de soins infirmiers",
-    "Gynécologie-obstétrique (SFM)",
-    "Gynécologie-obstétrique (IDE)",
-    "Consultation enfant sain",
-    "Pédiatrie",
-    "Santé Publique",
-    "Pathologies churigicale / Sémiologie",
-    "Pathologies médicales / Sémiologie",
-    "Anglais de la santé"
-  ],
-  "L3-Niveau Accompli INF": [
-    "Imagerie médicale",
-    "Gestion des catastrophes",
-    "Gouvernance et Organisation du Système de Santé Communautaire",
-    "Organisation d’une séance de Vaccination / Sécurité des injections",
-    "Oncologie",
-    "Neuropsychiatrie",
-    "Endocrinologie",
-    "Hépato-gastro-entérologie",
-    "Cardiologie",
-    "Dermatologie",
-    "Néphrologie",
-    "Odonto-Stomatologie",
-    "Ophtalmologie",
-    "Neurochirurgie",
-    "ORL",
-    "Surveillances thérapeutiques",
-    "Surveillance thérapeutique",
-    "Droit administratif",
-    "Élaboration d’un projet de soins infirmiers",
-    "Mise en œuvre et évaluation d’un projet de soins infirmiers",
-    "Soins infirmiers spécialisés en médecine",
-    "Soins palliatifs",
-    "Soins infirmiers spécialisés en chirurgie",
-    "Rédaction administrative",
-    "Supervision / Suivi – Evaluation",
-    "Gestion Hospitalière",
-    "Analyse des données quantitatives et qualitatives",
-  ],
-  "L3-Niveau Accompli SF": [
-    "Pathologies gynécologiques III",
-    "Pathologies obstétricales III",
-    "Hygiène menstruelle",
-    "Violences Basées sur Genre / Encadrement (Egalité - Equité)",
-    "Santé sexuelle et reproductive des adolescents et des jeunes / Planification Familiale / IST / VIH-SIDA",
-    "Imagerie médicale",
-    "Gestion des catastrophes",
-    "Gouvernance et Organisation du Système de Santé Communautaire",
-    "Organisation d’une séance de Vaccination / Sécurité des injections",
-    "Psychiatrie",
-    "Pédiatrie (PCIMNE)",
-    "Soins obstétricaux et néonataux d’urgence de base (SONUB)",
-    "Soins obstétricaux et néonataux d’urgence complets (SONUC)",
-    "Présentation de cas cliniques",
-    "Stage en soins infirmiers et Obstétricaux",
-    "Droit administratif / Responsabilité médicale",
-    "Sécurité sociale",
-    "Gestion Hospitalière / Rédaction Administrative",
-    "Soins infirmiers obstétricaux et néonataux",
-    "Consultation Postnatale (CPoN)",
-    "Ventouse obstétricale",
-    "Aspiration Manuelle Intra- Utérine (AMIU) / Soins Post Avortement",
-    "Prise en charge des substances psychoactives",
-    "Gériatrie",
-    "Soins palliatifs",
-    "Analyse des données qualitatives et quantitatives",
-    
-  ],
-  "A2-Niveau moyen": [
-     "Sémiologie médical",
-  "Anatomie physiologie",
-  "Spécialités médicales et chirurgicales",
-  "Pédiatrie",
-  "Néonatalogie",
-  "Diététique",
-  "Santé publique et communautaire et psychologique",
-  "Rédaction administrative",
-  "Rédaction de rapports de stage",
-  "Informatique",
-  "Pathologies médicale et chirurgicale",
-  "Radiologie",
-  "Laboratoire et pharmacologie",
-  "Hygiène et assainissement",
-  "Biosecurité",
-  "Éthique et déontologie",
-  "Hygiène hospitalière",
-  "Soins infirmiers de bases-accueil",
-  "SOINS HUMANISES",
-  "ergonomie",
-  "Manutention",
-  "Secourisme"
-  ]
-};
-  window.SUBJECTS_BY_LEVEL = byLevel;
-
-  const defaultTopics = ["Sujet 1", "Sujet 2", "Sujet 3", "Sujet 4", "Sujet 5", "Sujet 6"];
-  window.SUJETS_PAR_MATIERE_QUIZ = window.SUJETS_PAR_MATIERE_QUIZ || {};
-  for (const subjects of Object.values(byLevel)) {
-    for (const subject of subjects) {
-      if (!window.SUJETS_PAR_MATIERE_QUIZ[subject]) {
-        window.SUJETS_PAR_MATIERE_QUIZ[subject] = defaultTopics.slice();
-      }
-    }
-  }
-})();
-

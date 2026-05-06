@@ -1,5 +1,5 @@
 /**
- * Génère automatiquement les questions de L3-Niveau Accompli SF:
+ * Génère automatiquement les questions de Licence 3 SFM:
  * - 34 matières
  * - 6 sujets par matière
  * - 50 questions par sujet
@@ -7,7 +7,7 @@
 (function addLicence3SFMQuestions() {
   if (!Array.isArray(window.QUIZ_QUESTIONS_QUIZ)) return;
 
-  const level = "L3-Niveau Accompli SF";
+  const level = "Licence 3 SFM";
   const subjects = [
     "Pathologies gynécologiques III",
     "Pathologies obstétricales III",
@@ -15,6 +15,7 @@
     "Violences Basées sur Genre / Encadrement (Egalité - Equité)",
     "Santé sexuelle et reproductive des adolescents et des jeunes / Planification Familiale / IST / VIH-SIDA",
     "Imagerie médicale",
+    "Documents normatifs",
     "Gestion des catastrophes",
     "Gouvernance et Organisation du Système de Santé Communautaire",
     "Organisation d’une séance de Vaccination / Sécurité des injections",
@@ -23,8 +24,11 @@
     "Soins obstétricaux et néonataux d’urgence de base (SONUB)",
     "Soins obstétricaux et néonataux d’urgence complets (SONUC)",
     "Présentation de cas cliniques",
+    "Processus de mise en Stages",
     "Stage en soins infirmiers et Obstétricaux",
     "Droit administratif / Responsabilité médicale",
+    "Sécurité sociale",
+    "Fonction publique",
     "Supervision / Suivi - Evaluation",
     "Gestion Hospitalière / Rédaction Administrative",
     "Entrepreneuriat / Gestion de la qualité",
@@ -36,6 +40,9 @@
     "Gériatrie",
     "Soins palliatifs",
     "Analyse des données qualitatives et quantitatives",
+    "Rédaction de Mémoire",
+    "Stages en soins infirmiers et obstétricaux + Rapport",
+    "Stage communautaire + Rapport",
   ];
   const topics = ["Sujet 1", "Sujet 2", "Sujet 3", "Sujet 4", "Sujet 5", "Sujet 6"];
   const questionsPerTopic = 50;
@@ -104,4 +111,3 @@
     }
   }
 })();
-

@@ -12,4 +12,3 @@ window.SUJETS_PAR_MATIERE_DE = {
   "Planning Famillial": ["Sujet 1", "Sujet 2", "Sujet 3", "Sujet 4", "Sujet 5", "Sujet 6", "Sujet 7", "Sujet 8", "Sujet 9"],
   "Gynécologie": ["Sujet 1", "Sujet 2", "Sujet 3", "Sujet 4", "Sujet 5", "Sujet 6", "Sujet 7", "Sujet 8", "Sujet 9"],
 };
-

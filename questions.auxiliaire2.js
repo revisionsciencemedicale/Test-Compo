@@ -1,5 +1,5 @@
 /**
- * Génère automatiquement les questions pour A2-Niveau moyen:
+ * Génère automatiquement les questions pour Auxiliaire 2 année:
  * - 22 matières
  * - 6 sujets par matière
  * - 50 questions par sujet
@@ -7,7 +7,7 @@
 (function addAuxiliaire2Questions() {
   if (!Array.isArray(window.QUIZ_QUESTIONS_QUIZ)) return;
 
-  const level = "A2-Niveau moyen";
+  const level = "Auxiliaire 2 année";
   const subjects = [
     "Sémiologie médical",
     "Anatomie physiologie",
@@ -99,10 +99,10 @@
   }
 
   // Exemple manuel (non automatique) pour vous montrer le modèle:
-  // Matière: Sémiologie médical / Sujet 7 / A2-Niveau moyen
+  // Matière: Sémiologie médical / Sujet 7 / Auxiliaire 2 année
   pushUnique({
     id: "a2-semiologie-s7-1",
-    level: "A2-Niveau moyen",
+    level: "Auxiliaire 2 année",
     subject: "Sémiologie médical",
     topic: "Sujet 7",
     type: "mcq",
@@ -119,7 +119,7 @@
 
   pushUnique({
     id: "a2-semiologie-s7-2",
-    level: "A2-Niveau moyen",
+    level: "Auxiliaire 2 année",
     subject: "Sémiologie médical",
     topic: "Sujet 7",
     type: "tf",
@@ -130,7 +130,7 @@
 
   pushUnique({
     id: "a2-semiologie-s7-3",
-    level: "A2-Niveau moyen",
+    level: "Auxiliaire 2 année",
     subject: "Sémiologie médical",
     topic: "Sujet 7",
     type: "mcq",
@@ -147,10 +147,10 @@
   });
 
   // Deuxième exemple manuel sur une autre matière:
-  // Matière: Anatomie physiologie / Sujet 7 / A2-Niveau moyen
+  // Matière: Anatomie physiologie / Sujet 7 / Auxiliaire 2 année
   pushUnique({
     id: "a2-anatomie-s7-1",
-    level: "A2-Niveau moyen",
+    level: "Auxiliaire 2 année",
     subject: "Anatomie physiologie",
     topic: "Sujet 7",
     type: "mcq",
@@ -162,7 +162,7 @@
 
   pushUnique({
     id: "a2-anatomie-s7-2",
-    level: "A2-Niveau moyen",
+    level: "Auxiliaire 2 année",
     subject: "Anatomie physiologie",
     topic: "Sujet 7",
     type: "tf",
@@ -173,7 +173,7 @@
 
   pushUnique({
     id: "a2-anatomie-s7-3",
-    level: "A2-Niveau moyen",
+    level: "Auxiliaire 2 année",
     subject: "Anatomie physiologie",
     topic: "Sujet 7",
     type: "mcq",
@@ -189,10 +189,10 @@
   });
 
   // Troisième exemple manuel sur une autre matière:
-  // Matière: Hygiène hospitalière / Sujet 7 / A2-Niveau moyen
+  // Matière: Hygiène hospitalière / Sujet 7 / Auxiliaire 2 année
   pushUnique({
     id: "a2-hygienehosp-s7-1",
-    level: "A2-Niveau moyen",
+    level: "Auxiliaire 2 année",
     subject: "Hygiène hospitalière",
     topic: "Sujet 7",
     type: "mcq",
@@ -210,7 +210,7 @@
 
   pushUnique({
     id: "a2-hygienehosp-s7-2",
-    level: "A2-Niveau moyen",
+    level: "Auxiliaire 2 année",
     subject: "Hygiène hospitalière",
     topic: "Sujet 7",
     type: "tf",
@@ -222,7 +222,7 @@
 
   pushUnique({
     id: "a2-hygienehosp-s7-3",
-    level: "A2-Niveau moyen",
+    level: "Auxiliaire 2 année",
     subject: "Hygiène hospitalière",
     topic: "Sujet 7",
     type: "mcq",
@@ -238,4 +238,3 @@
       "Le tri à la source limite les expositions et améliore la sécurité de la filière d'élimination des déchets.",
   });
 })();
-
