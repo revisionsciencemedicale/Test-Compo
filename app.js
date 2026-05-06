@@ -347,8 +347,9 @@
 
     if (freeTrial && els.btnOpenSettings) els.btnOpenSettings.style.display = "none";
     else if (els.btnOpenSettings) els.btnOpenSettings.style.display = "";
-    if (freeTrial && els.btnDictionary) els.btnDictionary.style.display = "none";
-    else if (els.btnDictionary) els.btnDictionary.style.display = "";
+    // En mode essai gratuit, le bouton du dictionnaire reste visible.
+    // Son ouverture est bloquée par un message explicatif.
+    if (els.btnDictionary) els.btnDictionary.style.display = "";
     if (freeTrial && els.btnReset) els.btnReset.style.display = "none";
     else if (els.btnReset) els.btnReset.style.display = "";
 
@@ -806,7 +807,9 @@
 
  function computeLevels() {
   const user = localStorage.getItem(STORAGE_KEYS.user);
-  if (isFreeTrialUser(user)) return [FREE_TRIAL_LEVEL];
+  // En mode essai, l'utilisateur doit voir tout le contenu disponible.
+  // Le niveau "Essai gratuit" reste disponible uniquement pour lancer le sujet d'essai autorisé.
+  if (isFreeTrialUser(user)) return ["Tous les niveaux", ...ALL_LEVELS, FREE_TRIAL_LEVEL];
   const userConfig = window.USERS?.[user];
 
   if (!userConfig) return [];
@@ -823,7 +826,7 @@
 }
 
   function computeSubjectsForLevel(level) {
-    if (isFreeTrialUser()) return [FREE_TRIAL_SUBJECT];
+    if (isFreeTrialUser() && normalizeKey(level) === normalizeKey(FREE_TRIAL_LEVEL)) return [FREE_TRIAL_SUBJECT];
     const nLevel = normalizeKey(level);
     const unique = (arr) => Array.from(new Set((arr || []).map((s) => safeText(s).trim()).filter(Boolean)));
 
@@ -841,7 +844,7 @@
   }
 
   function computeTopicsForSubject(subject) {
-    if (isFreeTrialUser()) return [FREE_TRIAL_TOPIC];
+    if (isFreeTrialUser() && normalizeKey(subject) === normalizeKey(FREE_TRIAL_SUBJECT)) return [FREE_TRIAL_TOPIC];
     if (!subject || subject === "Toutes les matières") return ["Tous les sujets"];
     const entry = SUBJECT_TOPICS_BY_NORM[normalizeKey(subject)];
     if (entry && Array.isArray(entry.topics) && entry.topics.length > 0) {
@@ -1092,24 +1095,30 @@
 
   function updateStartInfo() {
     bank = getQuestionBank();
-    if (isFreeTrialUser()) {
-      session.level = FREE_TRIAL_LEVEL;
-      session.subject = FREE_TRIAL_SUBJECT;
-      session.topic = FREE_TRIAL_TOPIC;
-    }
     const levels = computeLevels();
+    if (isFreeTrialUser() && !levels.includes(session.level)) {
+      // Ne plus forcer l'utilisateur d'essai sur le sujet d'essai.
+      // Il doit voir l'aperçu général des niveaux, matières et sujets.
+      session.level = "Tous les niveaux";
+      session.subject = "Toutes les matières";
+      session.topic = "Tous les sujets";
+    }
     setOptions(els.selectLevel, levels, session.level);
 if (!levels.includes(session.level)) {
   session.level = levels[0];
   els.selectLevel.value = session.level;
 }
     const subjects = computeSubjectsForLevel(els.selectLevel.value);
-    const desiredSubject = subjects.includes(session.subject) ? session.subject : "Toutes les matières";
+    const desiredSubject = subjects.includes(session.subject)
+      ? session.subject
+      : "Toutes les matières";
     setOptions(els.selectSubject, subjects, desiredSubject);
     session.subject = els.selectSubject.value;
 
     const topics = computeTopicsForSubject(els.selectSubject.value);
-    const desiredTopic = topics.includes(session.topic) ? session.topic : "Tous les sujets";
+    const desiredTopic = topics.includes(session.topic)
+      ? session.topic
+      : "Tous les sujets";
     setOptions(els.selectTopic, topics, desiredTopic);
     session.topic = els.selectTopic.value;
 
@@ -1500,6 +1509,9 @@ head.textContent = `${correct}/${total} correct • ${pct}% • Score: ${score} 
     els.selectTopic.addEventListener("change", () => {
       if (currentMode !== "normal") return;
       session.topic = els.selectTopic.value;
+      if (isFreeTrialUser() && (els.selectLevel.value !== FREE_TRIAL_LEVEL || els.selectSubject.value !== FREE_TRIAL_SUBJECT || els.selectTopic.value !== FREE_TRIAL_TOPIC)) {
+        alert(FREE_TRIAL_BLOCK_MESSAGE);
+      }
       updateStartInfo();
     });
   }
@@ -1583,6 +1595,10 @@ head.textContent = `${correct}/${total} correct • ${pct}% • Score: ${score} 
 
   if (els.btnDictionary) {
     els.btnDictionary.addEventListener("click", () => {
+      if (isFreeTrialUser()) {
+        alert(FREE_TRIAL_BLOCK_MESSAGE);
+        return;
+      }
       showScreen(els.screenDictionary);
       if (els.inputDictionarySearch) els.inputDictionarySearch.value = "";
       renderDictionary("");
@@ -1628,6 +1644,11 @@ head.textContent = `${correct}/${total} correct • ${pct}% • Score: ${score} 
   if (els.btnFreeTrial) {
     els.btnFreeTrial.addEventListener("click", async () => {
       localStorage.setItem(STORAGE_KEYS.user, FREE_TRIAL_USER);
+      // Afficher d'abord l'aperçu complet du site en mode essai.
+      // Le visiteur ne pourra démarrer que le sujet "Essai gratuit".
+      session.level = "Tous les niveaux";
+      session.subject = "Toutes les matières";
+      session.topic = "Tous les sujets";
       localStorage.setItem(STORAGE_KEYS.sessionToken, getSessionToken());
       const ok = await grantAccess(FREE_TRIAL_USER);
       if (!ok) return;
