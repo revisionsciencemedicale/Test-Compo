@@ -6,7 +6,7 @@
  * Ajoute tes questions ici (ou utilise les générateurs ci-dessous).
  *
  * Convention:
- * - level: "Licence X IDE/SFM" ou "Auxiliaire X année"
+ * - level: "Licence X INF/SAG-M" ou "AUXI X année"
  * - subject: "Pédiatrie" | "Santé Publique" | "Médecine" | "Chirurgie" | "Planning Famillial" | "Gynécologie"
  * - topic: "Sujet 1" ... "Sujet 9"
  */
@@ -17,7 +17,7 @@
 
 // ============================================================
 // Générateur: Planning Famillial + Gynécologie
-// Sujets 1..3, 60 questions par sujet, niveaux IDE/SFM + Auxiliaire
+// Sujets 1..3, 60 questions par sujet, niveaux INF/SAG-M + AUXI
 // ============================================================
 (function () {
   const bank = window.QUIZ_QUESTIONS_EFF;
@@ -26,7 +26,7 @@
   // Anti-duplication si le fichier est chargé plusieurs fois
   if (bank.some((q) => q && typeof q === "object" && String(q.id || "").startsWith("eff-"))) return;
 
-  const LEVELS = ["Licence 3 IDE/SFM", "Auxiliaire 2 année"];
+  const LEVELS = ["Licence 3 INF/SAG-M", "AUXI 2 année"];
   const SUBJECTS = [
     { key: "pf", label: "Planning Famillial" },
     { key: "gy", label: "Gynécologie" },
@@ -210,7 +210,7 @@
   if (bank.some((q) => q && typeof q === "object" && String(q.id || "").startsWith("eff-ped-"))) return;
 
   const SUBJECT = "Pédiatrie";
-  const LEVELS = ["Licence 3 IDE/SFM", "Auxiliaire 2 année"];
+  const LEVELS = ["Licence 3 INF/SAG-M", "AUXI 2 année"];
   const TOPICS_WITH_COUNT = [
     { topic: "Sujet 1", count: 60 },
     { topic: "Sujet 2", count: 60 },
@@ -336,7 +336,7 @@
   if (bank.some((q) => q && typeof q === "object" && String(q.id || "").startsWith("eff-sp-"))) return;
 
   const SUBJECT = "Santé Publique";
-  const LEVELS = ["Licence 3 IDE/SFM", "Auxiliaire 2 année"];
+  const LEVELS = ["Licence 3 INF/SAG-M", "AUXI 2 année"];
   const TOPICS_WITH_COUNT = [
     { topic: "Sujet 1", count: 60 },
     { topic: "Sujet 2", count: 60 },
@@ -463,7 +463,7 @@
 
   const SUBJECT = "Médecine";
   const TOPICS = ["Sujet 1", "Sujet 2", "Sujet 3", "Sujet 4", "Sujet 5", "Sujet 6", "Sujet 7", "Sujet 8", "Sujet 9"];
-  const LEVELS = ["Licence 3 IDE/SFM", "Auxiliaire 2 année"];
+  const LEVELS = ["Licence 3 INF/SAG-M", "AUXI 2 année"];
 
   function mkMcq({ id, level, topic, question, choices, answerIndex, explanation }) {
     return { id, level, subject: SUBJECT, topic, type: "mcq", question, choices, answerIndex, explanation };
@@ -604,7 +604,7 @@
   if (bank.some((q) => q && typeof q === "object" && String(q.id || "").startsWith("eff-multi-"))) return;
 
   const TOPICS = ["Sujet 1", "Sujet 2", "Sujet 3", "Sujet 4", "Sujet 5", "Sujet 6", "Sujet 7", "Sujet 8", "Sujet 9"];
-  const LEVELS = ["Licence 3 IDE/SFM", "Auxiliaire 2 année"];
+  const LEVELS = ["Licence 3 INF/SAG-M", "AUXI 2 année"];
   const SUBJECTS = [
     { key: "ped", label: "Pédiatrie" },
     { key: "sp", label: "Santé Publique" },
@@ -827,7 +827,7 @@
 
   const SUBJECT = "Chirurgie";
   const TOPICS = ["Sujet 1", "Sujet 2", "Sujet 3", "Sujet 4", "Sujet 5", "Sujet 6", "Sujet 7", "Sujet 8", "Sujet 9"];
-  const LEVELS = ["Licence 3 IDE/SFM", "Auxiliaire 2 année"];
+  const LEVELS = ["Licence 3 INF/SAG-M", "AUXI 2 année"];
 
   function mkMcq({ id, level, topic, question, choices, answerIndex, explanation }) {
     return { id, level, subject: SUBJECT, topic, type: "mcq", question, choices, answerIndex, explanation };
@@ -969,7 +969,7 @@
 
   bank.push({
     id: "eff-med-s7-001",
-    level: "Licence 3 IDE/SFM",
+    level: "Licence 3 INF/SAG-M",
     subject: "Médecine",
     topic: "Sujet 7",
     type: "mcq",
@@ -981,7 +981,7 @@
 
   bank.push({
     id: "eff-med-s7-002",
-    level: "Auxiliaire 2 année",
+    level: "AUXI 2 année",
     subject: "Médecine",
     topic: "Sujet 7",
     type: "tf",
@@ -1026,7 +1026,7 @@
 
   function isAllowedLevel(level) {
     const n = normalizeKey(level);
-    return n.includes("ide/sfm") || n.includes("auxiliaire");
+    return n.includes("inf/sag-m") || n.includes("ide/sfm") || n.includes("auxi") || n.includes("auxiliaire");
   }
 
   function isAllowedTopic(topic) {

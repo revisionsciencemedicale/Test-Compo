@@ -143,6 +143,10 @@
     return user === FREE_TRIAL_USER;
   }
 
+  function canUseOfflineMode() {
+    return location.protocol === "file:" || !navigator.onLine;
+  }
+
   async function apiPost(path, payload = {}) {
     const res = await fetch(path, {
       method: "POST",
@@ -259,6 +263,9 @@
     try {
       return await apiPost("/api/check-session", { username: user, sessionToken: token, device: getDeviceInfo() });
     } catch {
+      if (canUseOfflineMode()) {
+        return { loggedIn: true, forceLogout: false, offlineMode: true };
+      }
       return { loggedIn: false, forceLogout: false };
     }
   }
@@ -330,16 +337,22 @@
         localStorage.setItem(STORAGE_KEYS.user, username);
         startSessionHeartbeat(username);
       } catch (e) {
-        const msg = e.data?.error || e.message || "Connexion refusée par le serveur.";
-        if (e.data?.forcedLogout) {
-          clearLocalLogin();
+        if (canUseOfflineMode() && window.USERS && window.USERS[username]) {
+          console.warn("Mode hors ligne activé pour", username);
+          localStorage.setItem(STORAGE_KEYS.user, username);
+          alert("Mode local hors ligne activé. Certaines fonctions serveur peuvent être indisponibles.");
+        } else {
+          const msg = e.data?.error || e.message || "Connexion refusée par le serveur.";
+          if (e.data?.forcedLogout) {
+            clearLocalLogin();
+          }
+          if (els.codeError) {
+            els.codeError.textContent = msg.replace(/\n/g, " ");
+            els.codeError.style.display = "block";
+          }
+          alert(msg);
+          return false;
         }
-        if (els.codeError) {
-          els.codeError.textContent = msg.replace(/\n/g, " ");
-          els.codeError.style.display = "block";
-        }
-        alert(msg);
-        return false;
       }
     }
 
@@ -904,10 +917,39 @@
 
   let currentMode = "normal";
 
-  const DE_TRACKS = [
-    { value: "IDE/SFM", label: "IDE/SFM" },
-    { value: "Auxiliaire", label: "Auxiliaire" },
+  const DE_TRACKS_ALL = [
+    { value: "INF/SAG-M", label: "INF/SAG-M" },
+    { value: "AUXI", label: "AUXI" },
   ];
+
+  function getAllowedDETracks() {
+    const user = localStorage.getItem(STORAGE_KEYS.user);
+    const userConfig = window.USERS?.[user];
+    if (!userConfig) return [];
+
+    if (userConfig.levels === "all") return DE_TRACKS_ALL.slice();
+    if (!Array.isArray(userConfig.levels)) return [];
+
+    const levels = userConfig.levels.map((lv) => normalizeKey(lv));
+    const tracks = [];
+
+    // A2-Niveau moyen : accès uniquement aux sujets du niveau AUXI.
+    if (levels.includes(normalizeKey("A2-Niveau moyen"))) {
+      tracks.push({ value: "AUXI", label: "AUXI" });
+    }
+
+    // L3-Niveau Accompli SF / INF : accès uniquement aux sujets du niveau INF/SAG-M.
+    if (levels.includes(normalizeKey("L3-Niveau Accompli SF")) || levels.includes(normalizeKey("L3-Niveau Accompli INF"))) {
+      tracks.push({ value: "INF/SAG-M", label: "INF/SAG-M" });
+    }
+
+    const seen = new Set();
+    return tracks.filter((track) => {
+      if (seen.has(track.value)) return false;
+      seen.add(track.value);
+      return true;
+    });
+  }
 
   const DE_SUBJECTS_FIXED = [
     "Pédiatrie",
@@ -954,11 +996,11 @@
 
   const LEVEL_ALIASES = {
     "a1-base sante": ["a1-base sante", "auxiliaire 1 annee"],
-    "a2-niveau moyen": ["a2-niveau moyen", "auxiliaire 2 annee"],
-    "l1-niveau emergent": ["l1-niveau emergent", "licence 1 ide/sfm"],
-    "l2-niveau ascendant": ["l2-niveau ascendant", "licence 2 ide/sfm"],
-    "l3-niveau accompli inf": ["l3-niveau accompli inf", "licence 3 ide", "licence 3 ide/sfm"],
-    "l3-niveau accompli sf": ["l3-niveau accompli sf", "licence 3 sfm", "licence 3 ide/sfm"],
+    "a2-niveau moyen": ["a2-niveau moyen", "auxiliaire 2 annee", "auxi 2 annee"],
+    "l1-niveau emergent": ["l1-niveau emergent", "licence 1 ide/sfm", "licence 1 inf/sag-m"],
+    "l2-niveau ascendant": ["l2-niveau ascendant", "licence 2 ide/sfm", "licence 2 inf/sag-m"],
+    "l3-niveau accompli inf": ["l3-niveau accompli inf", "licence 3 ide", "licence 3 ide/sfm", "licence 3 inf/sag-m"],
+    "l3-niveau accompli sf": ["l3-niveau accompli sf", "licence 3 sfm", "licence 3 ide/sfm", "licence 3 inf/sag-m"],
   };
 
   function levelMatches(questionLevel, selectedLevel) {
@@ -989,8 +1031,18 @@
   function filterBankDE(bank, { track, subject, topic }) {
     let out = bank;
     const nTrack = normalizeKey(track);
-    if (nTrack.includes("ide/sfm")) out = out.filter((q) => normalizeKey(q.level).includes("ide/sfm"));
-    if (nTrack.includes("auxiliaire")) out = out.filter((q) => normalizeKey(q.level).includes("auxiliaire"));
+    if (nTrack.includes("inf/sag-m")) {
+      out = out.filter((q) => {
+        const lv = normalizeKey(q.level);
+        return lv.includes("inf/sag-m") || lv.includes("ide/sfm") || lv.includes("licence 3 ide") || lv.includes("licence 3 sfm");
+      });
+    }
+    if (nTrack.includes("auxi")) {
+      out = out.filter((q) => {
+        const lv = normalizeKey(q.level);
+        return lv.includes("auxi") || lv.includes("auxiliaire");
+      });
+    }
 
     if (subject) out = out.filter((q) => normalizeKey(q.subject) === normalizeKey(subject));
     if (topic) out = out.filter((q) => normalizeKey(q.topic) === normalizeKey(topic));
@@ -1012,7 +1064,16 @@
   function setupDESelectors() {
     if (!els.selectDETrack || !els.selectDESubject || !els.selectDETopic) return;
 
-    setOptionsObjects(els.selectDETrack, DE_TRACKS, DE_TRACKS[0].value);
+    const tracks = getAllowedDETracks();
+    if (tracks.length === 0) {
+      setOptionsObjects(els.selectDETrack, [{ value: "", label: "Aucun niveau autorisé" }], "");
+      setOptionsObjects(els.selectDESubject, [{ value: "", label: "Aucune matière DE" }], "");
+      setOptions(els.selectDETopic, ["Aucun sujet"], "Aucun sujet");
+      updateDEStartInfo();
+      return;
+    }
+
+    setOptionsObjects(els.selectDETrack, tracks, tracks[0].value);
     const subjects = getDESubjects();
     if (subjects.length === 0) {
       setOptionsObjects(els.selectDESubject, [{ value: "", label: "Aucune matière DE" }], "");

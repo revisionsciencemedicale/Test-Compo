@@ -20,9 +20,7 @@ window.USERS = {
 
 //ACCES L1-Niveau Émergent
 
-  "e": {
-    levels: ["L1-Niveau Émergent"]
-  },
+  "YAPACHL18103": {levels: ["L1-Niveau Émergent"] },
 
   //ACCES L2-Niveau Ascendant
 
@@ -39,6 +37,9 @@ window.USERS = {
   "BASLUCL20850": {levels: ["L2-Niveau Ascendant"] },
   "ANGYOUL29170": {levels: ["L2-Niveau Ascendant"] },
   "KONSACL28441": {levels: ["L2-Niveau Ascendant"] },
+  "EKIRITL28681": {levels: ["L2-Niveau Ascendant"] },
+  "ANGALIL27956": {levels: ["L2-Niveau Ascendant"] },
+  
 
 
   //ACCES L3-Niveau Accompli SF
