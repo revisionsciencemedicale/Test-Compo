@@ -21,7 +21,7 @@
       <form id="formCode" class="field" style="max-width:280px;margin-top:14px">
         <label for="inputUsername" class="label">Nom d'utilisateur</label>
         <input id="inputUsername" class="input" type="text" placeholder="Ex: etudiant1" autocomplete="username" autofocus />
-        <div id="codeError" class="muted small" style="color:var(--bad);margin-top:8px;display:none">Identifiants invalides.</div>
+        <div id="codeError" class="muted small" style="color:var(--bad);margin-top:8px;display:block">Identifiants invalides.</div>
         <button class="btn btn--primary" type="submit" style="margin-top:12px">Se connecter</button>
       </form>
       <button class="btn btn--ghost btn--trial" id="btnFreeTrial" type="button" style="max-width:280px;width:100%;margin-top:12px">Essai gratuit</button>
@@ -50,15 +50,14 @@
           </div>
         </div>
 
-        <div id="userInfo" class="muted small" style="margin-right:16px;">Utilisateur: <span id="currentUser"></span></div>
-
         <div class="header__actions">
-          <button class="btn btn--ghost" id="btnHome" type="button">Accueil</button>
+          <div class="header__home-stack">
+            <button class="btn btn--ghost" id="btnHome" type="button">Accueil</button>
+            <button class="btn btn--ghost" id="btnLogout" type="button" title="Changer d'utilisateur">Se déconnecter</button>
+          </div>
           <button class="btn btn--ghost" id="btnDictionary" type="button">Dictionnaire médical</button>
           <button class="btn btn--ghost hidden" id="btnAdmin" type="button">Admin</button>
-          <button class="btn btn--ghost" id="btnOpenSettings" type="button">Paramètres</button>
-          <button class="btn btn--ghost" id="btnReset" type="button" title="Effacer la progression">Réinitialiser</button>
-          <button class="btn btn--ghost" id="btnLogout" type="button" title="Changer d'utilisateur">Se déconnecter</button>
+          <button class="btn btn--ghost hidden" id="btnReset" type="button" title="Reprendre le quiz en cours avec un nouvel ordre">Réinitialiser</button>
         </div>
       </div>
     </header>
@@ -138,10 +137,9 @@
         <div class="question" id="questionText"></div>
         <div class="answers" id="answers"></div>
 
-        <div class="row row--space">
+        <div class="row row--space quiz-actions">
           <div class="row">
-            <button class="btn btn--ghost" id="btnSkip" type="button">Précédent</button>
-            <button class="btn btn--ghost" id="btnNext" type="button">Suivant</button>
+            <button class="btn" id="btnNext" type="button">Suivant</button>
             <button class="btn btn--primary" id="btnFinish" type="button">Terminer</button>
           </div>
         </div>
@@ -251,5 +249,6 @@
     <script src="./questions.eff.js"></script>
     <script src="./dictionnaire.medical.js"></script>
     <script src="./app.js"></script>
-  </body>
+  
+</body>
 </html>

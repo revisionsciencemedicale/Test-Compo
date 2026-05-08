@@ -374,8 +374,7 @@
     // En mode essai gratuit, le bouton du dictionnaire reste visible.
     // Son ouverture est bloquée par un message explicatif.
     if (els.btnDictionary) els.btnDictionary.style.display = "";
-    if (freeTrial && els.btnReset) els.btnReset.style.display = "none";
-    else if (els.btnReset) els.btnReset.style.display = "";
+    if (els.btnReset) els.btnReset.classList.add("hidden");
 
     if (!freeTrial && els.btnAdmin && window.ADMINS && window.ADMINS.includes(username)) {
       els.btnAdmin.classList.remove("hidden");
@@ -568,9 +567,29 @@
       if (els.quizTimer) els.quizTimer.textContent = `${questionTimerRemaining} s`;
       if (questionTimerRemaining <= 0) {
         clearQuestionTimer();
-        goNext();
+        advanceAfterAnswer();
       }
     }, 1000);
+  }
+
+  function getRequiredAnswerCount(q) {
+    if (!q) return 1;
+    if (q.type === "mcq_multi" && Array.isArray(q.answerIndices)) return q.answerIndices.length;
+    return 1;
+  }
+
+  function advanceAfterAnswer() {
+    const atLast = session.index >= session.questions.length - 1;
+    if (atLast) {
+      renderQuiz();
+      return;
+    }
+    goNext();
+  }
+
+  function advanceAfterAnswerSoon() {
+    clearQuestionTimer();
+    setTimeout(advanceAfterAnswer, 250);
   }
 
   function showScreen(which) {
@@ -600,6 +619,9 @@
     ].filter(Boolean);
     for (const s of screens) s.classList.add("hidden");
     which.classList.remove("hidden");
+    if (els.btnReset) {
+      els.btnReset.classList.toggle("hidden", which !== els.screenQuiz);
+    }
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
@@ -852,19 +874,196 @@
   return [];
 }
 
-  function computeSubjectsForLevel(level) {
-    if (isFreeTrialUser() && normalizeKey(level) === normalizeKey(FREE_TRIAL_LEVEL)) return [FREE_TRIAL_SUBJECT];
-    const nLevel = normalizeKey(level);
-    const unique = (arr) => Array.from(new Set((arr || []).map((s) => safeText(s).trim()).filter(Boolean)));
 
-    // Liste officielle des matières par niveau, définie dans sujets.js.
-    // Ainsi, quand on change le niveau, seules les matières du niveau choisi s'affichent.
+  const SUBJECTS_BY_LEVEL_RESTRICTED = {
+  "A1-Base Santé": [
+    "Sémiologie médical",
+    "Anatomie physiologie",
+    "Spécialités médicales et chirurgicales",
+    "Pédiatrie",
+    "Néonatalogie",
+    "Diététique",
+    "Santé publique et communautaire et psychologique",
+    "Rédaction administrative",
+    "Rédaction de rapports de stage",
+    "Informatique",
+    "Pathologies médicale et chirurgicale",
+    "Radiologie",
+    "Laboratoire et pharmacologie",
+    "Hygiène et assainissement",
+    "Biosecurité",
+    "Éthique et déontologie",
+    "Hygiène hospitalière",
+    "Soins infirmiers de bases-accueil",
+    "SOINS HUMANISES",
+    "ergonomie",
+    "Manutention",
+    "Secourisme"
+  ],
+  "L1-Niveau Émergent": [
+    "Pédiatrie",
+    "Santé Publique",
+    "Pathologies churigicale / Sémiologie",
+    "Pathologies médicales / Sémiologie",
+    "Anatomie physiologie appareils",
+    "Anatomie physiologie obstétricale",
+    "Soins aux enfants",
+    "Diététique",
+    "Bactériologie",
+    "Parasitologie",
+    "IST/VIH",
+    "Maladies parasitaires et infectieuses",
+    "Pathologies respiratoires",
+    "Maladies non transmissibles",
+    "Théorie et concepts des Soins Infirmiers / Obstétricaux / Relation d’aide",
+    "Psycho-sociologie",
+    "Anthropologie de la santé",
+    "Secourisme",
+    "Prévention des infections / Hygiène hospitalière",
+    "Soins infirmiers obstétricaux / néonataux de base / infantiles",
+    "Déontologie et éthique professionnelle",
+    "Législation du travail",
+    "Anglais de la santé",
+    "Informatique",
+    "Hygiène et assainissement",
+    "Soins de santé primaire",
+    "Epidémiologie",
+    "Biochimie",
+    "Immunologie",
+    "Hématologie",
+    "Droit administratif",
+    "Droit civil"
+  ],
+  "L2-Niveau Ascendant": [
+    "Chirugie pédiatrique/Pathologies chirurrgicales",
+    "Initiation a la kinésitherapie",
+    "Déontologie de la sage femme",
+    "Santé de la reproduction planification familiale",
+    "Gériatrie/Gérontologie",
+    "Approche genre/santé sexuelle/santé de la reproduction des adolescents et des jeunes/gestion logistique",
+    "Psychologie médicale",
+    "Réanimation",
+    "Soins obstetricaux et néonataux d'urgence",
+    "Pharmacologie",
+    "Soins infirmiers dans les pathologies médicales",
+    "Techniques de soins infirmiers",
+    "Gynécologie-obstétrique (SFM)",
+    "Gynécologie-obstétrique (IDE)",
+    "Consultation enfant sain",
+    "Pédiatrie",
+    "Santé Publique",
+    "Pathologies churigicale / Sémiologie",
+    "Pathologies médicales / Sémiologie",
+    "Anglais de la santé"
+  ],
+  "L3-Niveau Accompli INF": [
+    "Imagerie médicale",
+    "Gestion des catastrophes",
+    "Gouvernance et Organisation du Système de Santé Communautaire",
+    "Organisation d’une séance de Vaccination / Sécurité des injections",
+    "Oncologie",
+    "Neuropsychiatrie",
+    "Endocrinologie",
+    "Hépato-gastro-entérologie",
+    "Cardiologie",
+    "Dermatologie",
+    "Néphrologie",
+    "Odonto-Stomatologie",
+    "Ophtalmologie",
+    "Neurochirurgie",
+    "ORL",
+    "Surveillances thérapeutiques",
+    "Surveillance thérapeutique",
+    "Droit administratif",
+    "Élaboration d’un projet de soins infirmiers",
+    "Mise en œuvre et évaluation d’un projet de soins infirmiers",
+    "Soins infirmiers spécialisés en médecine",
+    "Soins palliatifs",
+    "Soins infirmiers spécialisés en chirurgie",
+    "Rédaction administrative",
+    "Supervision / Suivi – Evaluation",
+    "Gestion Hospitalière",
+    "Analyse des données quantitatives et qualitatives"
+  ],
+  "L3-Niveau Accompli SF": [
+    "Pathologies gynécologiques III",
+    "Pathologies obstétricales III",
+    "Hygiène menstruelle",
+    "Violences Basées sur Genre / Encadrement (Egalité - Equité)",
+    "Santé sexuelle et reproductive des adolescents et des jeunes / Planification Familiale / IST / VIH-SIDA",
+    "Imagerie médicale",
+    "Gestion des catastrophes",
+    "Gouvernance et Organisation du Système de Santé Communautaire",
+    "Organisation d’une séance de Vaccination / Sécurité des injections",
+    "Psychiatrie",
+    "Pédiatrie (PCIMNE)",
+    "Soins obstétricaux et néonataux d’urgence de base (SONUB)",
+    "Soins obstétricaux et néonataux d’urgence complets (SONUC)",
+    "Présentation de cas cliniques",
+    "Stage en soins infirmiers et Obstétricaux",
+    "Droit administratif / Responsabilité médicale",
+    "Sécurité sociale",
+    "Gestion Hospitalière / Rédaction Administrative",
+    "Soins infirmiers obstétricaux et néonataux",
+    "Consultation Postnatale (CPoN)",
+    "Ventouse obstétricale",
+    "Aspiration Manuelle Intra- Utérine (AMIU) / Soins Post Avortement",
+    "Prise en charge des substances psychoactives",
+    "Gériatrie",
+    "Soins palliatifs",
+    "Analyse des données qualitatives et quantitatives"
+  ],
+  "A2-Niveau moyen": [
+    "Sémiologie médical",
+    "Anatomie physiologie",
+    "Spécialités médicales et chirurgicales",
+    "Pédiatrie",
+    "Néonatalogie",
+    "Diététique",
+    "Santé publique et communautaire et psychologique",
+    "Rédaction administrative",
+    "Rédaction de rapports de stage",
+    "Informatique",
+    "Pathologies médicale et chirurgicale",
+    "Radiologie",
+    "Laboratoire et pharmacologie",
+    "Hygiène et assainissement",
+    "Biosecurité",
+    "Éthique et déontologie",
+    "Hygiène hospitalière",
+    "Soins infirmiers de bases-accueil",
+    "SOINS HUMANISES",
+    "ergonomie",
+    "Manutention",
+    "Secourisme"
+  ]
+};
+
+  function getAllowedSubjectsForLevel(level) {
+    const nLevel = normalizeKey(level);
+    for (const [levelName, subjects] of Object.entries(SUBJECTS_BY_LEVEL_RESTRICTED)) {
+      if (nLevel === normalizeKey(levelName) && Array.isArray(subjects)) {
+        return subjects.map((s) => safeText(s).trim()).filter(Boolean);
+      }
+    }
     if (window.SUBJECTS_BY_LEVEL && typeof window.SUBJECTS_BY_LEVEL === "object") {
       for (const [levelName, subjects] of Object.entries(window.SUBJECTS_BY_LEVEL)) {
         if (nLevel === normalizeKey(levelName) && Array.isArray(subjects)) {
-          return ["Toutes les matières", ...unique(subjects)];
+          return subjects.map((s) => safeText(s).trim()).filter(Boolean);
         }
       }
+    }
+    return [];
+  }
+
+  function computeSubjectsForLevel(level) {
+    if (isFreeTrialUser() && normalizeKey(level) === normalizeKey(FREE_TRIAL_LEVEL)) return [FREE_TRIAL_SUBJECT];
+    const unique = (arr) => Array.from(new Set((arr || []).map((s) => safeText(s).trim()).filter(Boolean)));
+
+    // Affiche uniquement les matières autorisées pour le niveau sélectionné.
+    const restrictedSubjects = getAllowedSubjectsForLevel(level);
+    if (restrictedSubjects.length > 0) {
+      return ["Toutes les matières", ...unique(restrictedSubjects)];
     }
 
     return ["Toutes les matières", ...unique(ALL_SUBJECTS)];
@@ -1015,6 +1214,12 @@
 
   if (level && level !== "Tous les niveaux") {
     out = out.filter(q => levelMatches(q.level, level));
+
+    // Sécurité: même avec "Toutes les matières", on ne garde que les matières autorisées du niveau choisi.
+    const allowedSubjects = getAllowedSubjectsForLevel(level).map((s) => normalizeKey(s));
+    if (allowedSubjects.length > 0) {
+      out = out.filter(q => allowedSubjects.includes(normalizeKey(q.subject)));
+    }
   }
 
   if (subject && subject !== "Toutes les matières") {
@@ -1250,18 +1455,16 @@ if (!levels.includes(session.level)) {
     );
     els.progressText.textContent = `Question ${pos}/${total} • Répondu: ${answeredCount}/${total}`;
 
-    // Les boutons Précédent/Suivant servent uniquement à naviguer entre les questions.
-    // La validation du quiz se fait uniquement avec le bouton Terminer.
+    // Les boutons Suivant et Terminer sont visibles uniquement dans l'écran du quiz.
     if (els.btnNext) {
-      els.btnNext.textContent = "Suivant";
+      els.btnNext.classList.remove("hidden");
       els.btnNext.disabled = session.index >= total - 1;
+      els.btnNext.title = session.index >= total - 1 ? "Dernière question" : "Passer à la question suivante";
     }
-    if (els.btnSkip) {
-      els.btnSkip.textContent = "Précédent";
-      els.btnSkip.disabled = session.index === 0;
-    }
+    if (els.btnSkip) els.btnSkip.classList.add("hidden");
     if (els.btnFinish) {
-      els.btnFinish.classList.toggle("btn--primary", session.index >= total - 1);
+      els.btnFinish.classList.remove("hidden");
+      els.btnFinish.disabled = false;
     }
 
     els.answers.innerHTML = "";
@@ -1289,6 +1492,7 @@ if (!levels.includes(session.level)) {
         item.addEventListener("click", () => {
           session.answersById[q.id] = { selectedBool: c.value };
           renderQuiz();
+          advanceAfterAnswerSoon();
         });
         els.answers.appendChild(item);
       }
@@ -1296,6 +1500,13 @@ if (!levels.includes(session.level)) {
     }
 
     if (q.type === "mcq_multi") {
+      const requiredCount = getRequiredAnswerCount(q);
+      const instruction = document.createElement("div");
+      instruction.className = "pill";
+      instruction.style.margin = "0 0 12px 0";
+      instruction.textContent = `Nombre de propositions justes à cocher : ${requiredCount}`;
+      els.answers.appendChild(instruction);
+
       const selected = normalizeSelectedIndices(currentAnswer.selectedIndices, q.choices.length);
       for (let idx = 0; idx < q.choices.length; idx++) {
         const choiceText = q.choices[idx];
@@ -1313,11 +1524,15 @@ if (!levels.includes(session.level)) {
         item.appendChild(text);
         if (input.checked) item.classList.add("answer--selected");
         item.addEventListener("click", () => {
-          const next = new Set(selected);
+          const next = new Set(normalizeSelectedIndices(session.answersById[q.id]?.selectedIndices, q.choices.length));
           if (next.has(idx)) next.delete(idx);
           else next.add(idx);
-          session.answersById[q.id] = { selectedIndices: Array.from(next) };
+          const nextSelected = Array.from(next).sort((a, b) => a - b);
+          session.answersById[q.id] = { selectedIndices: nextSelected };
           renderQuiz();
+          if (nextSelected.length >= requiredCount) {
+            advanceAfterAnswerSoon();
+          }
         });
         els.answers.appendChild(item);
       }
@@ -1342,6 +1557,7 @@ if (!levels.includes(session.level)) {
       item.addEventListener("click", () => {
         session.answersById[q.id] = { selectedIndex: idx };
         renderQuiz();
+        advanceAfterAnswerSoon();
       });
       els.answers.appendChild(item);
     }
@@ -1645,6 +1861,27 @@ els.reviewList.appendChild(head);
     renderResult();
   }
 
+  function restartCurrentQuizWithNewOrder() {
+    if (!Array.isArray(session.questions) || session.questions.length === 0) return;
+    const oldOrder = session.questions.map((q) => q.id).join("|");
+    const nextQuestions = session.questions.slice();
+    shuffleInPlace(nextQuestions);
+    if (nextQuestions.length > 1 && nextQuestions.map((q) => q.id).join("|") === oldOrder) {
+      nextQuestions.push(nextQuestions.shift());
+    }
+    clearQuestionTimer();
+    lastTimedQuestionIndex = -1;
+    session = {
+      ...session,
+      startedAt: Date.now(),
+      questions: nextQuestions,
+      answersById: {},
+      index: 0,
+      abandoned: false,
+    };
+    renderQuiz();
+  }
+
   function resetAll() {
     localStorage.removeItem(STORAGE_KEYS.last);
     localStorage.removeItem(STORAGE_KEYS.settings);
@@ -1716,8 +1953,8 @@ els.reviewList.appendChild(head);
   }
   if (els.selectDETopic) els.selectDETopic.addEventListener("change", updateDEStartInfo);
 
-  els.btnNext.addEventListener("click", goNext);
-  els.btnSkip.addEventListener("click", goPrev);
+  if (els.btnNext) els.btnNext.addEventListener("click", goNext);
+  if (els.btnSkip) els.btnSkip.addEventListener("click", goPrev);
   if (els.btnFinish) els.btnFinish.addEventListener("click", finishQuiz);
 
   els.btnRetry.addEventListener("click", () => {
@@ -1787,13 +2024,15 @@ els.reviewList.appendChild(head);
     });
   }
 
-  els.btnOpenSettings.addEventListener("click", () => {
-    els.inputStudentName.value = settings.studentName;
-    // Mélange forcé: garder le toggle en "on" et empêcher de le désactiver.
-    els.toggleShuffle.checked = true;
-    els.toggleShuffle.disabled = true;
-    els.settingsDialog.showModal();
-  });
+  if (els.btnOpenSettings) {
+    els.btnOpenSettings.addEventListener("click", () => {
+      els.inputStudentName.value = settings.studentName;
+      // Mélange forcé: garder le toggle en "on" et empêcher de le désactiver.
+      els.toggleShuffle.checked = true;
+      els.toggleShuffle.disabled = true;
+      els.settingsDialog.showModal();
+    });
+  }
   els.btnSaveSettings.addEventListener("click", () => {
     settings = {
       studentName: safeText(els.inputStudentName.value).slice(0, 40),
@@ -1802,11 +2041,12 @@ els.reviewList.appendChild(head);
     saveSettings(settings);
   });
 
-  els.btnReset.addEventListener("click", () => {
-    const ok = confirm("Réinitialiser la progression et les paramètres ?");
-    if (!ok) return;
-    resetAll();
-  });
+  if (els.btnReset) {
+    els.btnReset.addEventListener("click", () => {
+      if (els.screenQuiz && els.screenQuiz.classList.contains("hidden")) return;
+      restartCurrentQuizWithNewOrder();
+    });
+  }
 
   if (els.btnFreeTrial) {
     els.btnFreeTrial.addEventListener("click", async () => {

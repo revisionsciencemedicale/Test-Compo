@@ -21,6 +21,8 @@ window.USERS = {
 //ACCES L1-Niveau Émergent
 
   "YAPACHL18103": {levels: ["L1-Niveau Émergent"] },
+  "OUASALL13782": {levels: ["L1-Niveau Émergent"] },
+
 
   //ACCES L2-Niveau Ascendant
 
@@ -47,6 +49,14 @@ window.USERS = {
   "KOUAKIL29836": {levels: ["L2-Niveau Ascendant"] },
   "NIATANL29711": {levels: ["L2-Niveau Ascendant"] },
   "ATSCHIL20821": {levels: ["L2-Niveau Ascendant"] },
+  "KOUANGL27058": {levels: ["L2-Niveau Ascendant"] },
+  "OUAMARL25853": {levels: ["L2-Niveau Ascendant"] },
+  "NGUDEBL24301": {levels: ["L2-Niveau Ascendant"] },
+  "KPIYOUL20707": {levels: ["L2-Niveau Ascendant"] },
+  "YAPANGL21649": {levels: ["L2-Niveau Ascendant"] },
+
+
+
 
 
   //ACCES L3-Niveau Accompli SF
