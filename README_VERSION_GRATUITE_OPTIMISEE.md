@@ -20,7 +20,7 @@ Dans Render > ton Web Service > Environment :
 ```text
 DATABASE_URL=postgresql://...neon.tech/...?...sslmode=require
 NODE_ENV=production
-SESSION_TIMEOUT_MS=600000
+SESSION_TIMEOUT_MS=0
 PGSSLMODE=require
 LOGIN_RATE_LIMIT_MAX=30
 LOGIN_RATE_LIMIT_WINDOW_MS=900000

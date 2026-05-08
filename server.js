@@ -7,7 +7,9 @@ const { Pool } = require('pg');
 
 const PORT = Number(process.env.PORT || 3000);
 const ROOT = __dirname;
-const SESSION_TIMEOUT_MS = Number(process.env.SESSION_TIMEOUT_MS || 365 * 24 * 60 * 60 * 1000);
+// Les sessions ne doivent pas expirer automatiquement.
+// Elles restent actives jusqu'à une déconnexion volontaire ou une déconnexion forcée par l'administrateur.
+const SESSION_TIMEOUT_MS = Number(process.env.SESSION_TIMEOUT_MS || 0);
 const MAX_BODY_BYTES = Number(process.env.MAX_BODY_BYTES || 200_000);
 const LOGIN_RATE_LIMIT_WINDOW_MS = Number(process.env.LOGIN_RATE_LIMIT_WINDOW_MS || 15 * 60 * 1000);
 const LOGIN_RATE_LIMIT_MAX = Number(process.env.LOGIN_RATE_LIMIT_MAX || 30);
@@ -117,9 +119,10 @@ async function initDb() {
 }
 
 async function cleanupExpired(client = pool) {
-  await client.query('DELETE FROM active_sessions WHERE $1 - last_seen > $2', [now(), SESSION_TIMEOUT_MS]);
-  await client.query('DELETE FROM revoked_sessions WHERE $1 - revoked_at > $2', [now(), SESSION_TIMEOUT_MS]);
-  await client.query('DELETE FROM force_logout_requests WHERE $1 - requested_at > $2', [now(), SESSION_TIMEOUT_MS]);
+  // Désactivé volontairement : aucune session active n'est supprimée pour inactivité.
+  // La session est supprimée uniquement si l'utilisateur clique sur "Se déconnecter"
+  // ou si un administrateur force la déconnexion depuis l'interface admin.
+  return;
 }
 
 function rowToSession(row) {
@@ -234,7 +237,7 @@ function serveStatic(req, res) {
 async function withDb(res, handler) {
   const client = await pool.connect();
   try {
-    // Les sessions restent actives jusqu’à une déconnexion explicite ou une expiration très longue.
+    // Les sessions restent actives jusqu’à une déconnexion explicite ou admin.
     await cleanupExpired(client);
     return await handler(client);
   } catch (err) {
@@ -485,7 +488,7 @@ const server = http.createServer(async (req, res) => {
       if (!admins.includes(adminUsername) || !sessionResult.rowCount) {
         return sendJson(res, 403, { ok: false, error: 'Accès administrateur refusé.' });
       }
-      // Les sessions restent actives jusqu’à une déconnexion explicite ou une expiration très longue.
+      // Les sessions restent actives jusqu’à une déconnexion explicite ou admin.
     await cleanupExpired(client);
       await addLog(client, { user: adminUsername, action: 'admin_clear_expired' });
       return sendJson(res, 200, { ok: true });

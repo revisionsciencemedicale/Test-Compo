@@ -9,7 +9,7 @@ services:
       - key: NODE_ENV
         value: production
       - key: SESSION_TIMEOUT_MS
-        value: 600000
+        value: 0
       - key: PGSSLMODE
         value: require
       - key: DATABASE_URL

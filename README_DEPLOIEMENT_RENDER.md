@@ -27,7 +27,7 @@ Cette version utilise PostgreSQL pour enregistrer :
    - Start Command : `npm start`
 4. Ajoute les variables d'environnement :
    - `DATABASE_URL` : l'External/Internal Database URL fournie par Render ;
-   - `SESSION_TIMEOUT_MS` : `120000`.
+   - `SESSION_TIMEOUT_MS` : `0` pour désactiver l’expiration automatique des sessions.
 
 ## Utilisation
 
@@ -45,7 +45,7 @@ Quand un compte est déjà connecté :
 - une connexion depuis un autre téléphone, navigateur ou ordinateur est refusée ;
 - l'événement est enregistré dans l'historique admin.
 
-Une session inactive est libérée automatiquement après `SESSION_TIMEOUT_MS` sans signal de présence. Par défaut : 2 minutes.
+Les sessions ne sont plus libérées automatiquement pour inactivité. Elles restent actives jusqu’à une déconnexion volontaire ou une déconnexion forcée par un administrateur.
 
 ## Administration
 
