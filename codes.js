@@ -39,7 +39,14 @@ window.USERS = {
   "KONSACL28441": {levels: ["L2-Niveau Ascendant"] },
   "EKIRITL28681": {levels: ["L2-Niveau Ascendant"] },
   "ANGALIL27956": {levels: ["L2-Niveau Ascendant"] },
-  
+  "SERGUIL26978": {levels: ["L2-Niveau Ascendant"] },
+  "MAKLOLL26421": {levels: ["L2-Niveau Ascendant"] },
+  "SERANGL23587": {levels: ["L2-Niveau Ascendant"] },
+  "OUADJEL27634": {levels: ["L2-Niveau Ascendant"] },
+  "SORYOHL21179": {levels: ["L2-Niveau Ascendant"] },
+  "KOUAKIL29836": {levels: ["L2-Niveau Ascendant"] },
+  "NIATANL29711": {levels: ["L2-Niveau Ascendant"] },
+  "ATSCHIL20821": {levels: ["L2-Niveau Ascendant"] },
 
 
   //ACCES L3-Niveau Accompli SF
