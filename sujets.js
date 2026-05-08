@@ -57,7 +57,7 @@ window.SUJETS_PAR_MATIERE_QUIZ = {
 
 };
 
-// Matières demandées pour Licence 3 IDE (6 sujets chacune)
+// Matières demandées pour L3-Niveau Accompli INF (6 sujets chacune)
 (function addLicence3IDESubjects() {
   const licence3IDESubjects = [
     "Imagerie médicale",
@@ -105,7 +105,7 @@ window.SUJETS_PAR_MATIERE_QUIZ = {
   }
 })();
 
-// Matières demandées pour Licence 3 SFM (6 sujets chacune)
+// Matières demandées pour L3-Niveau Accompli SF (6 sujets chacune)
 (function addLicence3SFMSubjects() {
   const licence3SFMSubjects = [
     "Pathologies gynécologiques III",
@@ -152,7 +152,7 @@ window.SUJETS_PAR_MATIERE_QUIZ = {
   }
 })();
 
-// Matières demandées pour Auxiliaire 1 année et Auxiliaire 2 année (6 sujets chacune)
+// Matières demandées pour A1-Base Santé et Auxiliaire 2 année (6 sujets chacune)
 (function addAuxiliaireSubjects() {
   const auxiliaire1Subjects = [
     "Sémiologie médical",

@@ -1,5 +1,5 @@
 /**
- * Génère automatiquement les questions de Licence 3 IDE:
+ * Génère automatiquement les questions de L3-Niveau Accompli INF:
  * - 36 matières
  * - 6 sujets par matière
  * - 50 questions par sujet
@@ -7,7 +7,7 @@
 (function addLicence3IDEQuestions() {
   if (!Array.isArray(window.QUIZ_QUESTIONS_QUIZ)) return;
 
-  const level = "Licence 3 IDE";
+  const level = "L3-Niveau Accompli INF";
   const subjects = [
     "Imagerie médicale",
     "Documents normatifs",

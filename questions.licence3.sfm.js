@@ -1,5 +1,5 @@
 /**
- * Génère automatiquement les questions de Licence 3 SFM:
+ * Génère automatiquement les questions de L3-Niveau Accompli SF:
  * - 34 matières
  * - 6 sujets par matière
  * - 50 questions par sujet
@@ -7,7 +7,7 @@
 (function addLicence3SFMQuestions() {
   if (!Array.isArray(window.QUIZ_QUESTIONS_QUIZ)) return;
 
-  const level = "Licence 3 SFM";
+  const level = "L3-Niveau Accompli SF";
   const subjects = [
     "Pathologies gynécologiques III",
     "Pathologies obstétricales III",

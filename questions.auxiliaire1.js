@@ -1,5 +1,5 @@
 /**
- * Génère automatiquement les questions pour Auxiliaire 1 année:
+ * Génère automatiquement les questions pour A1-Base Santé:
  * - 22 matières
  * - 6 sujets par matière
  * - 50 questions par sujet
@@ -7,7 +7,7 @@
 (function addAuxiliaire1Questions() {
   if (!Array.isArray(window.QUIZ_QUESTIONS_QUIZ)) return;
 
-  const level = "Auxiliaire 1 année";
+  const level = "A1-Base Santé";
   const subjects = [
     "Sémiologie médical",
     "Anatomie physiologie",
@@ -99,10 +99,10 @@
   }
 
   // Exemple manuel (non automatique) pour vous montrer le modèle:
-  // Matière: Sémiologie médical / Sujet 7 / Auxiliaire 1 année
+  // Matière: Sémiologie médical / Sujet 7 / A1-Base Santé
   pushUnique({
     id: "a1-semiologie-s7-1",
-    level: "Auxiliaire 1 année",
+    level: "A1-Base Santé",
     subject: "Sémiologie médical",
     topic: "Sujet 7",
     type: "mcq",
@@ -119,7 +119,7 @@
 
   pushUnique({
     id: "a1-semiologie-s7-2",
-    level: "Auxiliaire 1 année",
+    level: "A1-Base Santé",
     subject: "Sémiologie médical",
     topic: "Sujet 7",
     type: "tf",
@@ -130,7 +130,7 @@
 
   pushUnique({
     id: "a1-semiologie-s7-3",
-    level: "Auxiliaire 1 année",
+    level: "A1-Base Santé",
     subject: "Sémiologie médical",
     topic: "Sujet 7",
     type: "mcq",
@@ -146,10 +146,10 @@
   });
 
   // Deuxième exemple manuel sur une autre matière:
-  // Matière: Anatomie physiologie / Sujet 7 / Auxiliaire 1 année
+  // Matière: Anatomie physiologie / Sujet 7 / A1-Base Santé
   pushUnique({
     id: "a1-anatomie-s7-1",
-    level: "Auxiliaire 1 année",
+    level: "A1-Base Santé",
     subject: "Anatomie physiologie",
     topic: "Sujet 7",
     type: "mcq",
@@ -161,7 +161,7 @@
 
   pushUnique({
     id: "a1-anatomie-s7-2",
-    level: "Auxiliaire 1 année",
+    level: "A1-Base Santé",
     subject: "Anatomie physiologie",
     topic: "Sujet 7",
     type: "tf",
@@ -172,7 +172,7 @@
 
   pushUnique({
     id: "a1-anatomie-s7-3",
-    level: "Auxiliaire 1 année",
+    level: "A1-Base Santé",
     subject: "Anatomie physiologie",
     topic: "Sujet 7",
     type: "mcq",
@@ -188,10 +188,10 @@
   });
 
   // Troisième exemple manuel sur une autre matière:
-  // Matière: Hygiène hospitalière / Sujet 7 / Auxiliaire 1 année
+  // Matière: Hygiène hospitalière / Sujet 7 / A1-Base Santé
   pushUnique({
     id: "a1-hygienehosp-s7-1",
-    level: "Auxiliaire 1 année",
+    level: "A1-Base Santé",
     subject: "Hygiène hospitalière",
     topic: "Sujet 7",
     type: "mcq",
@@ -208,7 +208,7 @@
 
   pushUnique({
     id: "a1-hygienehosp-s7-2",
-    level: "Auxiliaire 1 année",
+    level: "A1-Base Santé",
     subject: "Hygiène hospitalière",
     topic: "Sujet 7",
     type: "tf",
@@ -220,7 +220,7 @@
 
   pushUnique({
     id: "a1-hygienehosp-s7-3",
-    level: "Auxiliaire 1 année",
+    level: "A1-Base Santé",
     subject: "Hygiène hospitalière",
     topic: "Sujet 7",
     type: "mcq",
