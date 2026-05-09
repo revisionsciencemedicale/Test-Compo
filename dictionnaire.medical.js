@@ -1,9 +1,4 @@
 /* global window */
-/**
- * Dictionnaire médical enrichi.
- * Définitions pédagogiques originales, inspirées de la terminologie médicale courante, de l’approche OMS en santé publique et des rubriques de type Vidal pour les médicaments.
- * Doublons supprimés automatiquement par terme.
- */
 window.MEDICAL_DICTIONARY = [
   {
     "term": "2,3-BPG",
@@ -27,7 +22,7 @@ window.MEDICAL_DICTIONARY = [
   },
   {
     "term": "aarskog (syndrome d')",
-    "definition": "Syndrome malformatif héréditaire touchant la face, l’extrémité des membres et les organes génitaux."
+    "definition": "nom masculin ; Syndrome malformatif héréditaire touchant la face, l’extrémité des membres et les organes génitaux."
   },
   {
     "term": "Abaisse-langue",
@@ -35,11 +30,11 @@ window.MEDICAL_DICTIONARY = [
   },
   {
     "term": "Abaissement de dose",
-    "definition": "Réduire la quantité de médicament pour limiter les effets indésirables."
+    "definition": "nom masculin ; Réduire la quantité de médicament pour limiter les effets indésirables."
   },
   {
     "term": "Abaissement thérapeutique",
-    "definition": "Baisser volontairement la dose pour réduire les effets indésirables."
+    "definition": "nom masculin ; Baisser volontairement la dose pour réduire les effets indésirables."
   },
   {
     "term": "ABCDE",
@@ -216,10 +211,6 @@ window.MEDICAL_DICTIONARY = [
   {
     "term": "ablation de pansement de plaie post‑exérèse",
     "definition": "nom féminin ; enlever un pansement après excision d’un tissu."
-  },
-  {
-    "term": "ablation de pansement de plaie post‑greffe",
-    "definition": "nom féminin ; enlever le pansement protégeant une greffe cutanée."
   },
   {
     "term": "ablation de pansement de plaie post‑hospitalisation",
@@ -2954,10 +2945,6 @@ window.MEDICAL_DICTIONARY = [
     "definition": "nom féminin, aiguille robotisée pour interventions articulaires précises."
   },
   {
-    "term": "Aiguille de ponction articulaire percutanée robotisée",
-    "definition": "nom féminin, aiguille robotisée pour interventions articulaires précises."
-  },
-  {
     "term": "Aiguille de ponction articulaire percutanée stéréotaxique",
     "definition": "nom féminin, aiguille pour interventions articulaires par la peau guidées 3D."
   },
@@ -3034,10 +3021,6 @@ window.MEDICAL_DICTIONARY = [
     "definition": "nom féminin, aiguille robotisée pour biopsie du foie très précise."
   },
   {
-    "term": "Aiguille de ponction hépatique percutanée robotisée",
-    "definition": "nom féminin, aiguille robotisée pour biopsie du foie très précise."
-  },
-  {
     "term": "Aiguille de ponction hépatique percutanée stéréotaxique",
     "definition": "nom féminin, aiguille pour biopsie du foie par la peau avec guidage 3D."
   },
@@ -3071,10 +3054,6 @@ window.MEDICAL_DICTIONARY = [
   },
   {
     "term": "Aiguille de ponction lombaire percutanée guidée par robot",
-    "definition": "nom féminin, aiguille robotisée pour ponction lombaire avec guidage automatique."
-  },
-  {
-    "term": "Aiguille de ponction lombaire percutanée robotisée",
     "definition": "nom féminin, aiguille robotisée pour ponction lombaire avec guidage automatique."
   },
   {
@@ -3198,10 +3177,6 @@ window.MEDICAL_DICTIONARY = [
     "definition": "nom féminin, aiguille robotisée pour drainer le péricarde en sécurité."
   },
   {
-    "term": "Aiguille de ponction péricardique percutanée robotisée",
-    "definition": "nom féminin, aiguille robotisée pour drainer le péricarde en sécurité."
-  },
-  {
     "term": "Aiguille de ponction péricardique percutanée stéréotaxique",
     "definition": "nom féminin, aiguille pour drainer le péricarde par la peau guidée 3D."
   },
@@ -3275,10 +3250,6 @@ window.MEDICAL_DICTIONARY = [
   },
   {
     "term": "Aiguille de ponction thyroïdienne percutanée guidée par robot",
-    "definition": "nom féminin, aiguille robotisée pour biopsie thyroïdienne précise."
-  },
-  {
-    "term": "Aiguille de ponction thyroïdienne percutanée robotisée",
     "definition": "nom féminin, aiguille robotisée pour biopsie thyroïdienne précise."
   },
   {
@@ -4994,10 +4965,6 @@ window.MEDICAL_DICTIONARY = [
     "definition": "nom féminin ; promouvoir la solidarité pour que personne ne soit laissé·e de côté."
   },
   {
-    "term": "Alloéthique et protection des droits reproductifs en contexte de responsabilité solidaire, inclusive et proactive",
-    "definition": "nom féminin ; bâtir des politiques qui protègent toutes les personnes, maintenant et demain."
-  },
-  {
     "term": "Alloéthique et protection des droits reproductifs en contexte de responsabilité transformative",
     "definition": "nom féminin ; viser des changements profonds pour garantir l’accès et la justice reproductive."
   },
@@ -5050,10 +5017,6 @@ window.MEDICAL_DICTIONARY = [
     "definition": "nom féminin ; encadrer la consultation à distance pour la fertilité et la grossesse."
   },
   {
-    "term": "Alloéthique et protection des droits reproductifs en contexte de télémedecine",
-    "definition": "nom féminin ; encadrer la consultation à distance pour la fertilité et la grossesse."
-  },
-  {
     "term": "Alloéthique et protection des droits reproductifs en contexte de vieillissement démographique",
     "definition": "nom féminin ; réfléchir aux enjeux des grossesses tardives et de la fertilité assistée."
   },
@@ -5064,10 +5027,6 @@ window.MEDICAL_DICTIONARY = [
   {
     "term": "Alloéthique et protection des droits reproductifs en contexte d’innovation technologique",
     "definition": "nom féminin ; évaluer l’impact des nouvelles technologies sur la reproduction."
-  },
-  {
-    "term": "Alloéthique et protection des droits reproductifs en contexte d’innovation thérapeutique",
-    "definition": "nom féminin ; évaluer l’éthique des nouveaux traitements avant leur diffusion."
   },
   {
     "term": "Alloéthique et protection des droits reproductifs en contexte d’intelligence artificielle",
@@ -5116,10 +5075,6 @@ window.MEDICAL_DICTIONARY = [
   {
     "term": "Alloéthique et protection des professionnels",
     "definition": "nom féminin ; encadrer les pratiques pour protéger les soignants des conflits éthiques."
-  },
-  {
-    "term": "Alloéthique et protection des receveurs",
-    "definition": "nom féminin ; assurer que les receveurs comprennent les implications médicales et sociales."
   },
   {
     "term": "Alloéthique et protection des travailleurs de la PMA",
@@ -6906,10 +6861,6 @@ window.MEDICAL_DICTIONARY = [
     "definition": "nom féminin. Suivi et ajustement des traitements anti‑caillots en ville."
   },
   {
-    "term": "Anticoagulation clinique",
-    "definition": "nom féminin. Gestion des traitements qui empêchent la formation de caillots sanguins."
-  },
-  {
     "term": "anticoagulation d’urgence",
     "definition": "nom féminin ; mise en route rapide d’un traitement pour prévenir ou traiter un caillot"
   },
@@ -7746,10 +7697,6 @@ window.MEDICAL_DICTIONARY = [
     "definition": "nom masculin. Règle pratique courte utilisée par les cliniciens pour guider la prise en charge."
   },
   {
-    "term": "Aphoristique clinique",
-    "definition": "nom masculin. Règle pratique courte utilisée par les cliniciens pour guider la prise en charge."
-  },
-  {
     "term": "Aphte",
     "definition": "nom masculin. Petite ulcération douloureuse de la bouche traitée par soins locaux."
   },
@@ -8572,10 +8519,6 @@ window.MEDICAL_DICTIONARY = [
   {
     "term": "Appendice iléal",
     "definition": "nom masculin, petit diverticule lymphoïde à la jonction iléo-caecale."
-  },
-  {
-    "term": "appendicectomie",
-    "definition": "nom féminin ; opération pour retirer l'appendice en cas d'appendicite chez l'enfant."
   },
   {
     "term": "Appendices épiploïques",
@@ -10195,10 +10138,6 @@ window.MEDICAL_DICTIONARY = [
   },
   {
     "term": "Audiométrie",
-    "definition": "nom féminin. Test simple pour mesurer l'audition et détecter une perte auditive."
-  },
-  {
-    "term": "Audiométrie tonale",
     "definition": "nom féminin. Test simple pour mesurer l'audition et détecter une perte auditive."
   },
   {
@@ -12022,10 +11961,6 @@ window.MEDICAL_DICTIONARY = [
     "definition": "nom féminin. Prélèvement d'un fragment de rein pour analyser une maladie rénale."
   },
   {
-    "term": "Biopsie trophoblastique",
-    "definition": "nom féminin ; prélèvement du placenta précoce pour dépistage génétique."
-  },
-  {
     "term": "Biopsychosocial",
     "definition": "adjectif. Approche qui prend en compte facteurs biologiques, psychologiques et sociaux dans la maladie."
   },
@@ -12526,10 +12461,6 @@ window.MEDICAL_DICTIONARY = [
     "definition": "nom féminin, petit sac rempli de liquide qui réduit les frottements entre tendons et os."
   },
   {
-    "term": "Bourse séreuse prépatellaire",
-    "definition": "nom féminin, petit sac de liquide devant la rotule qui réduit les frottements."
-  },
-  {
     "term": "Bourse séreuse sous-acromiale",
     "definition": "nom féminin, poche de liquide sous l'acromion qui évite les frottements à l'épaule."
   },
@@ -12998,10 +12929,6 @@ window.MEDICAL_DICTIONARY = [
     "definition": "nom masculin ; organisation pour ramener le bébé à la maison en toute sécurité."
   },
   {
-    "term": "Bruit de la consultation de préparation à la sortie de maternité",
-    "definition": "nom masculin ; organisation pour ramener le bébé à la maison en toute sécurité."
-  },
-  {
     "term": "Bruit de la consultation de préparation à l’accouchement",
     "definition": "nom masculin ; cours et exercices pour se préparer physiquement et mentalement."
   },
@@ -13326,10 +13253,6 @@ window.MEDICAL_DICTIONARY = [
     "definition": "nom masculin ; services adaptés aux réalités et contraintes des zones rurales."
   },
   {
-    "term": "Bruit de la consultation de soutien à la parentalité pour personnes âgées",
-    "definition": "nom masculin ; soutien pour les parents plus âgés et leurs besoins spécifiques."
-  },
-  {
     "term": "Bruit de la consultation de soutien à la reprise d’activité physique",
     "definition": "nom masculin ; conseils pour reprendre le sport après l’accouchement."
   },
@@ -13414,18 +13337,6 @@ window.MEDICAL_DICTIONARY = [
     "definition": "nom masculin ; information et administration des vaccins recommandés pendant la grossesse."
   },
   {
-    "term": "Bruit de la consultation d’accompagnement nutritionnel",
-    "definition": "nom masculin ; conseils diététiques pour la grossesse, l’allaitement et la récupération."
-  },
-  {
-    "term": "Bruit de la consultation d’accompagnement spirituel",
-    "definition": "nom masculin ; soutien religieux ou spirituel proposé aux familles en détresse."
-  },
-  {
-    "term": "Bruit de la consultation d’accès aux contraceptifs d’urgence",
-    "definition": "nom masculin ; disponibilité rapide de moyens pour prévenir une grossesse après un rapport non protégé."
-  },
-  {
     "term": "Bruit de la consultation d’accès aux soins",
     "definition": "nom masculin ; discussion sur la possibilité d’obtenir des services gynécologiques et obstétricaux."
   },
@@ -13436,14 +13347,6 @@ window.MEDICAL_DICTIONARY = [
   {
     "term": "Bruit de la consultation d’accès aux soins pour migrantes",
     "definition": "nom masculin ; mesures pour garantir l’accès aux services gynécologiques aux personnes migrantes."
-  },
-  {
-    "term": "Bruit de la consultation d’accès aux techniques de procréation assistée",
-    "definition": "nom masculin ; principe d’égalité d’accès aux traitements de fertilité."
-  },
-  {
-    "term": "Bruit de la consultation d’accès à l’information sur la fertilité",
-    "definition": "nom masculin ; ressources pour comprendre la fertilité et les options disponibles."
   },
   {
     "term": "Bruit de la consultation d’allaitement",
@@ -14039,10 +13942,6 @@ window.MEDICAL_DICTIONARY = [
   },
   {
     "term": "Bébé hypotrophe",
-    "definition": "nom masculin ; bébé qui pèse moins que prévu pour son âge gestationnel."
-  },
-  {
-    "term": "Bébé hypotrophique",
     "definition": "nom masculin ; bébé qui pèse moins que prévu pour son âge gestationnel."
   },
   {
@@ -17202,10 +17101,6 @@ window.MEDICAL_DICTIONARY = [
     "definition": "nom féminin. Opérations du thorax par petites incisions pour réduire douleur et récupération."
   },
   {
-    "term": "Chirurgie thoracique pédiatrique",
-    "definition": "nom féminin. Interventions sur poumons et cœur chez l'enfant pour malformations ou tumeurs."
-  },
-  {
     "term": "Chirurgie uro-oncologique",
     "definition": "nom féminin. Ablation et traitements des cancers urologiques avec préservation fonctionnelle quand possible."
   },
@@ -19422,20 +19317,8 @@ window.MEDICAL_DICTIONARY = [
     "definition": "nom masculin ; accompagnement pour introduire progressivement les aliments solides chez le bébé."
   },
   {
-    "term": "Conseil en fertilité",
-    "definition": "nom masculin ; information et options pour les personnes qui veulent concevoir."
-  },
-  {
     "term": "conseil en génétique familiale",
     "definition": "nom masculin ; accompagnement pour comprendre les risques et options pour la famille d'un enfant."
-  },
-  {
-    "term": "Conseil en planification familiale pour adolescents",
-    "definition": "nom masculin ; information adaptée pour les jeunes sur contraception et sexualité."
-  },
-  {
-    "term": "Conseil en planification familiale pour personnes LGBTQIA+",
-    "definition": "nom masculin ; information et accompagnement adaptés aux besoins des personnes LGBTQIA+."
   },
   {
     "term": "conseil génétique",
@@ -20486,10 +20369,6 @@ window.MEDICAL_DICTIONARY = [
     "definition": "nom féminin ; traitement long par cortisone nécessitant surveillance des effets."
   },
   {
-    "term": "Corticothérapie spécialisée",
-    "definition": "nom féminin. Utilisation encadrée des corticoïdes pour traiter inflammations sévères."
-  },
-  {
     "term": "Corticoïde",
     "definition": "nom masculin ; médicament anti‑inflammatoire puissant."
   },
@@ -21184,10 +21063,6 @@ window.MEDICAL_DICTIONARY = [
   {
     "term": "Cytogénétique",
     "definition": "nom féminin. Étude des chromosomes pour détecter anomalies génétiques."
-  },
-  {
-    "term": "Cytogénétique clinique",
-    "definition": "nom féminin. Analyse des chromosomes pour diagnostiquer anomalies génétiques."
   },
   {
     "term": "Cytokine",
@@ -22970,10 +22845,6 @@ window.MEDICAL_DICTIONARY = [
     "definition": "nom féminin. Gestion du placenta et des complications après l'accouchement."
   },
   {
-    "term": "Délivrance obstétricale avancée",
-    "definition": "nom féminin. Gestion du placenta et des complications après l'accouchement."
-  },
-  {
     "term": "Délivrance tardive",
     "definition": "nom féminin. Expulsion du placenta retardée après accouchement nécessitant surveillance et parfois intervention."
   },
@@ -23198,10 +23069,6 @@ window.MEDICAL_DICTIONARY = [
     "definition": "nom féminin. Étude des besoins de santé pour planifier services et ressources."
   },
   {
-    "term": "Démographie sanitaire appliquée",
-    "definition": "nom féminin. Étude des besoins de santé pour planifier services et ressources."
-  },
-  {
     "term": "Démultiplication synaptique",
     "definition": "nom féminin, amplification du signal entre neurones par recrutement de voies supplémentaires."
   },
@@ -23228,10 +23095,6 @@ window.MEDICAL_DICTIONARY = [
   {
     "term": "dépistage auditif",
     "definition": "nom masculin ; test pour vérifier si bébé entend bien dès la naissance."
-  },
-  {
-    "term": "Dépistage auditif néonatal",
-    "definition": "nom masculin ; test pour vérifier l’audition du nouveau-né dès la naissance."
   },
   {
     "term": "dépistage auditif scolaire",
@@ -23296,10 +23159,6 @@ window.MEDICAL_DICTIONARY = [
   {
     "term": "dépistage visuel",
     "definition": "nom masculin ; vérification de la vue chez le tout-petit."
-  },
-  {
-    "term": "Dépistage visuel néonatal",
-    "definition": "nom masculin ; examen pour détecter des problèmes oculaires précoces chez le bébé."
   },
   {
     "term": "dépistage visuel scolaire",
@@ -25826,10 +25685,6 @@ window.MEDICAL_DICTIONARY = [
     "definition": "nom féminin. Enseignement et mise à jour des compétences des professionnels de santé."
   },
   {
-    "term": "Formation médicale continue",
-    "definition": "nom féminin. Actualisation régulière des connaissances des professionnels de santé."
-  },
-  {
     "term": "Formation réticulée",
     "definition": "nom féminin, réseau diffus dans le tronc cérébral qui régule l'éveil et l'attention."
   },
@@ -27003,10 +26858,6 @@ window.MEDICAL_DICTIONARY = [
   },
   {
     "term": "Grossesse à haut risque",
-    "definition": "nom féminin. Suivi renforcé des grossesses avec complications maternelles ou fœtales."
-  },
-  {
-    "term": "Grossesse à risque",
     "definition": "nom féminin. Suivi renforcé des grossesses avec complications maternelles ou fœtales."
   },
   {
@@ -29394,14 +29245,6 @@ window.MEDICAL_DICTIONARY = [
     "definition": "nom masculin ; chiffres qui montrent l'état de santé des enfants d'une région."
   },
   {
-    "term": "Indicateurs de santé maternelle",
-    "definition": "nom masculin ; mesures utilisées pour suivre la santé des mères (mortalité, morbidité)."
-  },
-  {
-    "term": "Indicateurs de santé néonatale",
-    "definition": "nom masculin ; mesures pour suivre la santé des nouveau-nés (mortalité, prématurité)."
-  },
-  {
     "term": "Indication",
     "definition": "Raison médicale pour laquelle on prescrit un médicament."
   },
@@ -31250,10 +31093,6 @@ window.MEDICAL_DICTIONARY = [
     "definition": "nom masculin. Cellule testiculaire qui produit la testostérone."
   },
   {
-    "term": "Liaison gériatrique",
-    "definition": "nom féminin. Intervention gériatrique auprès des services hospitaliers pour patients âgés."
-  },
-  {
     "term": "liaison phosphodiester",
     "definition": "Lien qui relie les nucléotides entre eux dans l'ADN/ARN."
   },
@@ -31315,10 +31154,6 @@ window.MEDICAL_DICTIONARY = [
   },
   {
     "term": "Ligament annulaire de l'ulna",
-    "definition": "nom masculin, ligament qui entoure la tête du radius et stabilise l'articulation du coude."
-  },
-  {
-    "term": "Ligament annulaire du radius",
     "definition": "nom masculin, ligament qui entoure la tête du radius et stabilise l'articulation du coude."
   },
   {
@@ -34126,10 +33961,6 @@ window.MEDICAL_DICTIONARY = [
     "definition": "nom masculin. Hormones et traitements pour troubles métaboliques."
   },
   {
-    "term": "Médicaments de l'infectiologie",
-    "definition": "nom masculin. Antibiotiques, antiviraux et antifongiques pour traiter infections."
-  },
-  {
     "term": "Médicaments de l'oncologie",
     "definition": "nom masculin. Chimiothérapies, immunothérapies et thérapies ciblées anticancéreuses."
   },
@@ -34276,10 +34107,6 @@ window.MEDICAL_DICTIONARY = [
   {
     "term": "Médication à domicile",
     "definition": "nom féminin ; médicaments que le patient doit prendre chez lui après sortie."
-  },
-  {
-    "term": "Médicine de réadaptation cardiaque",
-    "definition": "nom féminin. Programmes pour récupérer après infarctus ou chirurgie cardiaque."
   },
   {
     "term": "Médico‑social",
@@ -35542,10 +35369,6 @@ window.MEDICAL_DICTIONARY = [
     "definition": "nom masculin, relais électrique du cœur qui transmet l'impulsion des oreillettes aux ventricules."
   },
   {
-    "term": "Nœud auriculo-ventriculaire",
-    "definition": "nom masculin, relais électrique du cœur qui transmet l'impulsion des oreillettes aux ventricules."
-  },
-  {
     "term": "Nœud de Ranvier",
     "definition": "nom masculin, petit espace entre deux segments de myéline où le signal nerveux se régénère."
   },
@@ -36132,10 +35955,6 @@ window.MEDICAL_DICTIONARY = [
   {
     "term": "Os vomer",
     "definition": "nom masculin, synonyme courant de vomer, os central de la cloison nasale."
-  },
-  {
-    "term": "Osmoconcentration rénale",
-    "definition": "nom féminin, capacité du rein à concentrer l'urine pour économiser l'eau."
   },
   {
     "term": "Osmolarité",
@@ -36758,16 +36577,8 @@ window.MEDICAL_DICTIONARY = [
     "definition": "Rendre disponibles les données pour vérification et réutilisation par d'autres."
   },
   {
-    "term": "Partenariat mère-enfant",
-    "definition": "nom masculin ; relation et soins partagés pour favoriser le développement du bébé."
-  },
-  {
     "term": "partenariat public-privé",
     "definition": "Collaboration entre institutions publiques et entreprises privées pour un projet."
-  },
-  {
-    "term": "Partenariats locaux",
-    "definition": "nom masculin ; collaboration entre hôpitaux, associations et autorités pour la santé reproductive."
   },
   {
     "term": "participation communautaire",
@@ -37714,10 +37525,6 @@ window.MEDICAL_DICTIONARY = [
     "definition": "nom féminin ; aplatissement d'une partie du crâne du bébé souvent lié à la position, traitable par repositionnement ou casque."
   },
   {
-    "term": "Plaidoyer pour la santé reproductive",
-    "definition": "nom masculin ; actions pour promouvoir les droits et l’accès aux soins."
-  },
-  {
     "term": "Plaie",
     "definition": "Lésion de la peau"
   },
@@ -37840,10 +37647,6 @@ window.MEDICAL_DICTIONARY = [
   {
     "term": "plan de médication",
     "definition": "nom masculin ; liste claire des médicaments et des doses pour l'enfant."
-  },
-  {
-    "term": "Plan de naissance",
-    "definition": "nom masculin ; document où la future maman note ses souhaits pour l’accouchement."
   },
   {
     "term": "plan de protection",
@@ -38199,10 +38002,6 @@ window.MEDICAL_DICTIONARY = [
   },
   {
     "term": "Plexus sous-muqueux",
-    "definition": "nom masculin, réseau nerveux qui régule la sécrétion et la circulation locale dans la paroi intestinale."
-  },
-  {
-    "term": "Plexus sous-muqueux de Meissner",
     "definition": "nom masculin, réseau nerveux qui régule la sécrétion et la circulation locale dans la paroi intestinale."
   },
   {
@@ -41742,10 +41541,6 @@ window.MEDICAL_DICTIONARY = [
     "definition": "Capacité d'obtenir des résultats similaires dans différents laboratoires."
   },
   {
-    "term": "Respect de l’autonomie",
-    "definition": "nom masculin ; principe de respecter les choix et le consentement de la patiente."
-  },
-  {
     "term": "Respect des choix reproductifs",
     "definition": "nom masculin ; principe de soutenir les décisions éclairées des femmes."
   },
@@ -42758,10 +42553,6 @@ window.MEDICAL_DICTIONARY = [
     "definition": "nom masculin ; ensemble de professionnels coordonnés pour offrir des soins de confort aux enfants gravement malades."
   },
   {
-    "term": "Réseau de soins postnatals",
-    "definition": "nom masculin ; coordination entre professionnels pour le suivi après la naissance."
-  },
-  {
     "term": "Réseau de soins périnataux",
     "definition": "nom masculin ; coordination entre structures pour assurer une prise en charge complète."
   },
@@ -42823,10 +42614,6 @@ window.MEDICAL_DICTIONARY = [
   },
   {
     "term": "Réserve antioxydante",
-    "definition": "nom féminin. Ensemble des molécules qui protègent la cellule contre les radicaux libres."
-  },
-  {
-    "term": "Réserve antioxydante cellulaire",
     "definition": "nom féminin. Ensemble des molécules qui protègent la cellule contre les radicaux libres."
   },
   {
@@ -42894,10 +42681,6 @@ window.MEDICAL_DICTIONARY = [
     "definition": "nom féminin. Capacité du foie à stocker et libérer des nutriments selon les besoins."
   },
   {
-    "term": "Réserve osseuse de calcium",
-    "definition": "nom féminin. Stock de calcium dans l’os mobilisable pour maintenir la calcémie."
-  },
-  {
     "term": "Réserve ovarienne",
     "definition": "nom féminin. Nombre d’ovocytes disponibles dans les ovaires, indicateur de fertilité."
   },
@@ -42908,10 +42691,6 @@ window.MEDICAL_DICTIONARY = [
   {
     "term": "Réserve rénale",
     "definition": "nom féminin. Capacité des reins à augmenter leur fonction en cas de besoin."
-  },
-  {
-    "term": "Réserve stem cell niche",
-    "definition": "nom féminin. Micro-environnement qui protège et régule les cellules souches dans un tissu."
   },
   {
     "term": "Réserve tampon tissulaire",
@@ -43160,10 +42939,6 @@ window.MEDICAL_DICTIONARY = [
   {
     "term": "rééducation auditive",
     "definition": "nom féminin ; apprentissage et exercices pour optimiser l'usage d'une prothèse auditive ou d'un implant."
-  },
-  {
-    "term": "Rééducation cardiaque",
-    "definition": "nom féminin. Programme d'exercices et conseils après un problème cardiaque."
   },
   {
     "term": "rééducation de la main",
@@ -44582,10 +44357,6 @@ window.MEDICAL_DICTIONARY = [
     "definition": "nom masculin, gouttière à l'humérus où passe le nerf radial et qui peut être blessée lors de fractures."
   },
   {
-    "term": "Sillon du nerf radial (humérus)",
-    "definition": "nom masculin, gouttière à l'humérus où passe le nerf radial et qui peut être blessée lors de fractures."
-  },
-  {
     "term": "Sillon du nerf tibial",
     "definition": "nom masculin, passage osseux derrière la malléole interne où glisse le nerf tibial."
   },
@@ -44922,20 +44693,12 @@ window.MEDICAL_DICTIONARY = [
     "definition": "nom masculin ; accompagnement médical et humain quand la mort est proche"
   },
   {
-    "term": "Soins de la mère après césarienne",
-    "definition": "nom masculin ; surveillance et conseils spécifiques après une opération."
-  },
-  {
     "term": "soins de la peau",
     "definition": "nom masculin ; gestes simples pour protéger la peau fragile des bébés (nettoyage doux, hydratation)."
   },
   {
     "term": "Soins de longue durée",
     "definition": "nom masculin. Accompagnement médical et social pour personnes dépendantes sur le long terme."
-  },
-  {
-    "term": "Soins de peau du nouveau-né",
-    "definition": "nom masculin ; conseils pour nettoyer et protéger la peau fragile du bébé."
   },
   {
     "term": "Soins de plaie",
@@ -44982,10 +44745,6 @@ window.MEDICAL_DICTIONARY = [
     "definition": "nom masculin ; service pour les bébés qui ont besoin de surveillance rapprochée."
   },
   {
-    "term": "Soins kangourou",
-    "definition": "nom masculin ; peau à peau entre parent et bébé pour favoriser le lien et la santé."
-  },
-  {
     "term": "soins mère kangourou",
     "definition": "méthode de soins peau à peau pour maintenir chaleur, allaitement et lien parent-enfant"
   },
@@ -45000,10 +44759,6 @@ window.MEDICAL_DICTIONARY = [
   {
     "term": "soins palliatifs pédiatriques à domicile",
     "definition": "nom masculin ; accompagnement et soins pour un enfant en fin de vie chez lui, centrés sur le confort."
-  },
-  {
-    "term": "Soins palliatifs périnataux",
-    "definition": "nom masculin ; accompagnement quand une maladie grave du fœtus ou du nouveau-né est diagnostiquée."
   },
   {
     "term": "Soins post-opératoires",
@@ -45554,36 +45309,12 @@ window.MEDICAL_DICTIONARY = [
     "definition": "Technique pour détecter une séquence d'ADN spécifique sur un gel."
   },
   {
-    "term": "Soutien aux couples",
-    "definition": "nom masculin ; aide pour gérer les changements relationnels après la naissance."
-  },
-  {
     "term": "soutien aux familles",
     "definition": "nom masculin ; accompagnement et information des proches d’un patient en urgence"
   },
   {
-    "term": "Soutien aux familles en situation de catastrophe",
-    "definition": "nom masculin ; aide spécifique pour les femmes enceintes et les nouveau-nés en contexte d’urgence."
-  },
-  {
-    "term": "Soutien aux familles monoparentales",
-    "definition": "nom masculin ; aides et services pour les parents élevant seuls leurs enfants."
-  },
-  {
-    "term": "Soutien aux familles vulnérables",
-    "definition": "nom masculin ; aides ciblées pour les familles en difficulté pendant la grossesse et après."
-  },
-  {
-    "term": "Soutien aux mères isolées",
-    "definition": "nom masculin ; aides spécifiques pour les femmes enceintes sans réseau familial."
-  },
-  {
     "term": "Soutien aux professionnels",
     "definition": "nom masculin ; formation, ressources et bien-être pour les soignants en gynécologie-obstétrique."
-  },
-  {
-    "term": "Soutien aux victimes de violences sexuelles",
-    "definition": "nom masculin ; prise en charge médicale et psychologique après une agression."
   },
   {
     "term": "Soutien communautaire",
@@ -45654,10 +45385,6 @@ window.MEDICAL_DICTIONARY = [
     "definition": "nom masculin ; accompagnement pour aider les nouveaux parents à s’adapter."
   },
   {
-    "term": "Soutien à la parentalité après adoption",
-    "definition": "nom masculin ; accompagnement pour les parents adoptifs et l’intégration de l’enfant."
-  },
-  {
     "term": "Soutien à la parentalité après perte périnatale",
     "definition": "nom masculin ; accompagnement pour faire face au deuil après une perte de grossesse ou néonatale."
   },
@@ -45666,64 +45393,8 @@ window.MEDICAL_DICTIONARY = [
     "definition": "nom masculin ; actions pour aider les parents à rester impliqués et soutenus pendant l'hospitalisation de leur enfant."
   },
   {
-    "term": "Soutien à la parentalité en milieu isolé",
-    "definition": "nom masculin ; services mobiles ou à distance pour les familles éloignées des centres de soins."
-  },
-  {
-    "term": "Soutien à la parentalité en milieu urbain",
-    "definition": "nom masculin ; services adaptés aux défis spécifiques des villes pour les familles."
-  },
-  {
-    "term": "Soutien à la parentalité en situation de handicap",
-    "definition": "nom masculin ; adaptations et aides pour parents en situation de handicap."
-  },
-  {
-    "term": "Soutien à la parentalité pour familles en situation de catastrophe naturelle",
-    "definition": "nom masculin ; interventions d’urgence pour protéger les mères et les nouveau-nés."
-  },
-  {
-    "term": "Soutien à la parentalité pour familles en situation de conflit",
-    "definition": "nom masculin ; services humanitaires pour assurer la santé maternelle et néonatale en zones de conflit."
-  },
-  {
-    "term": "Soutien à la parentalité pour familles en situation de handicap",
-    "definition": "nom masculin ; adaptations et ressources pour les parents et enfants en situation de handicap."
-  },
-  {
-    "term": "Soutien à la parentalité pour familles en situation de migration forcée",
-    "definition": "nom masculin ; accompagnement spécifique pour réfugiés et déplacés."
-  },
-  {
-    "term": "Soutien à la parentalité pour familles en situation de précarité énergétique",
-    "definition": "nom masculin ; aides pour assurer un environnement sûr et chaud pour la mère et le bébé."
-  },
-  {
-    "term": "Soutien à la parentalité pour familles en situation de violence",
-    "definition": "nom masculin ; prise en charge globale pour protéger la mère et l’enfant."
-  },
-  {
-    "term": "Soutien à la parentalité pour familles en situation de vulnérabilité multiple",
-    "definition": "nom masculin ; approche globale pour les familles confrontées à plusieurs facteurs de risque."
-  },
-  {
     "term": "Soutien à la parentalité pour familles LGBTQIA+ adoptives",
     "definition": "nom masculin ; accompagnement spécifique pour les familles adoptives LGBTQIA+."
-  },
-  {
-    "term": "Soutien à la parentalité pour familles migrantes",
-    "definition": "nom masculin ; services adaptés aux besoins culturels et linguistiques des familles migrantes."
-  },
-  {
-    "term": "Soutien à la parentalité pour familles monoparentales en difficulté",
-    "definition": "nom masculin ; aides ciblées pour les parents seuls en situation précaire."
-  },
-  {
-    "term": "Soutien à la parentalité pour familles recomposées",
-    "definition": "nom masculin ; accompagnement pour gérer les dynamiques familiales après recomposition."
-  },
-  {
-    "term": "Soutien à la parentalité pour familles rurales",
-    "definition": "nom masculin ; services adaptés aux réalités et contraintes des zones rurales."
   },
   {
     "term": "Soutien à la parentalité précoce",
@@ -45732,14 +45403,6 @@ window.MEDICAL_DICTIONARY = [
   {
     "term": "Soutien à la reprise d’activité physique",
     "definition": "nom masculin ; conseils pour reprendre le sport après l’accouchement en toute sécurité."
-  },
-  {
-    "term": "Soutien à la reprise d’études",
-    "definition": "nom masculin ; aides pour les mères qui veulent continuer ou reprendre leur formation."
-  },
-  {
-    "term": "Soutien à la santé mentale",
-    "definition": "nom masculin ; prise en charge des troubles psychologiques liés à la maternité."
   },
   {
     "term": "Soutien à l’allaitement en milieu de travail",
@@ -46350,10 +46013,6 @@ window.MEDICAL_DICTIONARY = [
     "definition": "nom masculin ; contrôles réguliers du cœur chez les enfants à risque."
   },
   {
-    "term": "Suivi cardiologique maternel",
-    "definition": "nom masculin ; surveillance du cœur chez les femmes avec problèmes cardiaques pendant la grossesse."
-  },
-  {
     "term": "suivi chronique",
     "definition": "nom masculin ; surveillance régulière d'une maladie qui dure dans le temps."
   },
@@ -46398,20 +46057,8 @@ window.MEDICAL_DICTIONARY = [
     "definition": "nom masculin ; prise en charge spécialisée pour les femmes ayant eu un cancer et souhaitant une grossesse."
   },
   {
-    "term": "Suivi des grossesses après césarienne",
-    "definition": "nom masculin ; surveillance particulière pour les femmes ayant eu une césarienne antérieure."
-  },
-  {
-    "term": "Suivi des grossesses après greffe d’organe",
-    "definition": "nom masculin ; prise en charge spécialisée pour les femmes transplantées qui tombent enceintes."
-  },
-  {
     "term": "Suivi des grossesses vulnérables",
     "definition": "nom masculin ; prise en charge renforcée pour les femmes en situation précaire."
-  },
-  {
-    "term": "Suivi des grossesses à haut risque",
-    "definition": "nom masculin ; surveillance spécialisée pour prévenir complications."
   },
   {
     "term": "suivi des maladies rares",
@@ -46436,10 +46083,6 @@ window.MEDICAL_DICTIONARY = [
   {
     "term": "suivi du diabète",
     "definition": "nom masculin ; surveillance régulière du sucre et de l'insuline chez l'enfant."
-  },
-  {
-    "term": "Suivi du développement",
-    "definition": "nom masculin ; contrôles réguliers pour vérifier la croissance et le développement du bébé."
   },
   {
     "term": "suivi du développement neurologique",
@@ -46540,10 +46183,6 @@ window.MEDICAL_DICTIONARY = [
   {
     "term": "suivi psychologique familial",
     "definition": "nom masculin ; soutien pour toute la famille confrontée à la maladie d'un enfant."
-  },
-  {
-    "term": "Suivi psychologique post-IVG",
-    "definition": "nom masculin ; accompagnement pour gérer les émotions après une interruption de grossesse."
   },
   {
     "term": "Suivi pédiatrique",
@@ -47048,10 +46687,6 @@ window.MEDICAL_DICTIONARY = [
   {
     "term": "Synérèse",
     "definition": "nom féminin. Rétraction d’un caillot ou d’un tissu qui modifie son volume et sa consistance."
-  },
-  {
-    "term": "Syphilis",
-    "definition": "Infection sexuellement transmissible bactérienne"
   },
   {
     "term": "syphilis congénitale",
@@ -48962,10 +48597,6 @@ window.MEDICAL_DICTIONARY = [
     "definition": "nom féminin. Commande cérébrale qui coordonne la production et la perte de chaleur pour maintenir la température interne."
   },
   {
-    "term": "Thermorégulation comportementale",
-    "definition": "nom féminin. Ajustements de comportement (se couvrir, chercher l’ombre) pour maintenir la température corporelle."
-  },
-  {
     "term": "Thermorégulation fœtale",
     "definition": "nom féminin. Mécanismes par lesquels le fœtus maintient sa température via la mère et le placenta."
   },
@@ -49822,10 +49453,6 @@ window.MEDICAL_DICTIONARY = [
     "definition": "nom masculin ; transfert organisé d’un nouveau-né vers une unité adaptée"
   },
   {
-    "term": "Transport paracellulaire",
-    "definition": "nom masculin. Passage de substances entre les cellules via les jonctions serrées quand elles sont perméables."
-  },
-  {
     "term": "Transport passif",
     "definition": "nom masculin, mouvement de substances sans dépense d'énergie, guidé par les gradients de concentration ou électrique."
   },
@@ -50194,10 +49821,6 @@ window.MEDICAL_DICTIONARY = [
     "definition": "nom masculin, bosse sur l'humérus où s'attachent plusieurs muscles de l'épaule."
   },
   {
-    "term": "Tubercule majeur de l'humérus",
-    "definition": "nom masculin, bosse sur l'humérus où s'attachent plusieurs muscles de l'épaule."
-  },
-  {
     "term": "Tubercule majeur huméral",
     "definition": "nom masculin, grosse bosse sur l'humérus où s'attachent des muscles de l'épaule."
   },
@@ -50211,10 +49834,6 @@ window.MEDICAL_DICTIONARY = [
   },
   {
     "term": "Tubercule mineur de l'humérus",
-    "definition": "nom masculin, petite bosse sur l'humérus servant d'attache à d'autres muscles de l'épaule."
-  },
-  {
-    "term": "Tubercule mineur huméral",
     "definition": "nom masculin, petite bosse sur l'humérus servant d'attache à d'autres muscles de l'épaule."
   },
   {
@@ -51786,10 +51405,6 @@ window.MEDICAL_DICTIONARY = [
     "definition": "nom féminin, couche protectrice autour de l'ovocyte qui joue un rôle lors de la fécondation."
   },
   {
-    "term": "Zone pellucide ovocytaire",
-    "definition": "nom féminin, couche protectrice autour de l'ovocyte qui joue un rôle lors de la fécondation."
-  },
-  {
     "term": "zone tampon microbienne",
     "definition": "Zone qui atténue l'impact d'une pollution grâce à l'activité microbienne."
   },
@@ -52546,10 +52161,6 @@ window.MEDICAL_DICTIONARY = [
     "definition": "nom féminin. Étude des maladies dans les populations pour comprendre et prévenir les épidémies."
   },
   {
-    "term": "Épidémiologie clinique",
-    "definition": "nom féminin. Application des méthodes épidémiologiques pour améliorer la pratique clinique."
-  },
-  {
     "term": "Épidémiologie clinique appliquée",
     "definition": "nom féminin. Utilisation des données épidémiologiques pour améliorer la pratique médicale."
   },
@@ -52866,10 +52477,6 @@ window.MEDICAL_DICTIONARY = [
     "definition": "nom masculin. Balance entre pressions hydrostatique et oncotique qui régule les échanges capillaires."
   },
   {
-    "term": "Équilibre travail-famille",
-    "definition": "nom masculin ; mesures pour concilier vie professionnelle et parentalité."
-  },
-  {
     "term": "Équilibre électrolytique",
     "definition": "nom masculin. Maintien des bonnes concentrations d’ions pour la fonction cellulaire et nerveuse."
   },
@@ -53051,10 +52658,6 @@ window.MEDICAL_DICTIONARY = [
   },
   {
     "term": "Éthique de la recherche",
-    "definition": "nom féminin. Principes qui encadrent essais cliniques et protection des participants."
-  },
-  {
-    "term": "Éthique de la recherche biomédicale",
     "definition": "nom féminin. Principes qui encadrent essais cliniques et protection des participants."
   },
   {
@@ -53444,6 +53047,125 @@ window.MEDICAL_DICTIONARY = [
   {
     "term": "β-hCG",
     "definition": "nom féminin ; sous-unité de l’hormone de grossesse mesurée en labo."
-  }
+  },
+  {
+    "term": "Artère",
+    "definition": "nom féminin. Vaisseau sanguin transportant le sang du cœur vers les organes."
+  },
+  {
+    "term": "Veine",
+    "definition": "nom féminin. Vaisseau sanguin ramenant le sang des organes vers le cœur."
+  },
+  {
+    "term": "Ligament",
+    "definition": "nom masculin. Structure fibreuse reliant deux os entre eux."
+  },
+  {
+    "term": "Tendon",
+    "definition": "nom masculin. Structure fibreuse reliant un muscle à un os."
+  },
+  {
+    "term": "Plexus brachial",
+    "definition": "nom masculin. Réseau nerveux innervant le membre supérieur."
+  },
+  {
+    "term": "Aménorrhée",
+    "definition": "nom féminin. Absence anormale des menstruations. "
+  },
+  {
+    "term": "Dysménorrhée",
+    "definition": "nom féminin. Douleurs associées aux règles. "
+  },
+  {
+    "term": "Colposcopie",
+    "definition": "nom féminin. Examen du col utérin à l’aide d’un colposcope. "
+  },
+  {
+    "term": "Partogramme",
+    "definition": "nom masculin. Document de surveillance du travail d’accouchement. "
+  },
+  {
+    "term": "Délivrance",
+    "definition": "nom féminin. Expulsion du placenta après l’accouchement. "
+  },
+  {
+    "term": "Présentation céphalique",
+    "definition": "nom féminin. Présentation du fœtus avec la tête vers le bassin. "
+  },
+  {
+    "term": "Métastase clinique",
+    "definition": "nom féminin. Propagation d’un cancer vers un autre organe. "
+  },
+  {
+    "term": "Chimiothérapie",
+    "definition": "nom féminin. Traitement des cancers par médicaments cytotoxiques. "
+  },
+  {
+    "term": "Radiothérapie",
+    "definition": "nom féminin. Traitement utilisant des rayonnements ionisants. "
+  },
+  {
+    "term": "Macronutriment",
+    "definition": "nom masculin. Nutriment nécessaire en grande quantité. "
+  },
+  {
+    "term": "Micronutriment",
+    "definition": "nom masculin. Nutriment nécessaire en faible quantité. "
+  },
+  {
+    "term": "Indice glycémique",
+    "definition": "nom masculin. Mesure de l’effet d’un aliment sur la glycémie. "
+  },
+  {
+    "term": "Oxymètre de pouls",
+    "definition": "nom masculin. Appareil mesurant la saturation en oxygène du sang. "
+  },
+  {
+    "term": "Électrocardiographe",
+    "definition": "nom masculin. Appareil enregistrant l’activité électrique du cœur. "
+  },
+  {
+    "term": "Défibrillateur",
+    "definition": "nom masculin. Appareil délivrant un choc électrique au cœur. "
+  },
+  {
+    "term": "Spéculum",
+    "definition": "nom masculin. Instrument permettant l’examen des cavités naturelles. "
+  },
+  {
+    "term": "Stéthoscope",
+    "definition": "nom masculin. Instrument utilisé pour l’auscultation. "
+  },
+  {
+    "term": "Scalpel",
+    "definition": "nom masculin. Instrument chirurgical servant à inciser. "
+  },
+  {
+    "term": "Cardiologie",
+    "definition": "nom féminin. Discipline médicale spécialisée dans les maladies du cœur. "
+  },
+  {
+    "term": "Neurologie",
+    "definition": "nom féminin. Discipline médicale étudiant le système nerveux. "
+  },
+  {
+    "term": "Pneumologie",
+    "definition": "nom féminin. Discipline médicale spécialisée dans les maladies respiratoires. "
+  },
+  {
+    "term": "CHU",
+    "definition": "Centre Hospitalier Universitaire."
+  },
+  {
+    "term": "CHR",
+    "definition": "Centre Hospitalier Régional."
+  },
+  {
+    "term": "CHRU",
+    "definition": "Centre Hospitalier Régional Universitaire."
+  },
+  {
+    "term": "EPHD",
+    "definition": "Établissement Public Hospitalier Départemental."
+  },
 ];
-

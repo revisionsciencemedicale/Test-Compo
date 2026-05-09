@@ -22,7 +22,7 @@ window.USERS = {
 
   "YAPACHL18103": {levels: ["L1-Niveau Émergent"] },
   "OUASALL13782": {levels: ["L1-Niveau Émergent"] },
-
+  "SEKSONL13656": {levels: ["L1-Niveau Émergent"] },
 
   //ACCES L2-Niveau Ascendant
 
@@ -54,7 +54,9 @@ window.USERS = {
   "NGUDEBL24301": {levels: ["L2-Niveau Ascendant"] },
   "KPIYOUL20707": {levels: ["L2-Niveau Ascendant"] },
   "YAPANGL21649": {levels: ["L2-Niveau Ascendant"] },
-
+  "KONSARL25431": {levels: ["L2-Niveau Ascendant"] },
+  "SONLOGL27307": {levels: ["L2-Niveau Ascendant"] },
+  "TOUPENL28476": {levels: ["L2-Niveau Ascendant"] },
 
 
 

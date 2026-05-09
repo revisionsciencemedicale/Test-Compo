@@ -65,7 +65,7 @@
       subject,
       topic,
       type: "mcq",
-      question: "Dans cette matière, quelle conduite est la plus correcte concernant " + situation + " ?",
+      question: "Quelle conduite est la plus correcte concernant " + situation + " ?",
       choices: [
         "Évaluer la situation, sécuriser le patient et appliquer le protocole",
         "Agir sans vérifier l'identité du patient",
