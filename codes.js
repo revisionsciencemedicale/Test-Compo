@@ -57,7 +57,10 @@ window.USERS = {
   "KONSARL25431": {levels: ["L2-Niveau Ascendant"] },
   "SONLOGL27307": {levels: ["L2-Niveau Ascendant"] },
   "TOUPENL28476": {levels: ["L2-Niveau Ascendant"] },
-
+  "TIELOUL24531": {levels: ["L2-Niveau Ascendant"] },
+  "BAKOUML22605": {levels: ["L2-Niveau Ascendant"] },
+  "KOUAMAL28535": {levels: ["L2-Niveau Ascendant"] },
+  "CAMSEKL24574": {levels: ["L2-Niveau Ascendant"] },
 
 
 
