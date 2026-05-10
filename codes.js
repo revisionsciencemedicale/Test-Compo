@@ -23,6 +23,11 @@ window.USERS = {
   "YAPACHL18103": {levels: ["L1-Niveau Émergent"] },
   "OUASALL13782": {levels: ["L1-Niveau Émergent"] },
   "SEKSONL13656": {levels: ["L1-Niveau Émergent"] },
+  "GRASANL17380": {levels: ["L1-Niveau Émergent"] },
+
+
+
+
 
   //ACCES L2-Niveau Ascendant
 
@@ -61,7 +66,7 @@ window.USERS = {
   "BAKOUML22605": {levels: ["L2-Niveau Ascendant"] },
   "KOUAMAL28535": {levels: ["L2-Niveau Ascendant"] },
   "CAMSEKL24574": {levels: ["L2-Niveau Ascendant"] },
-
+  "YAPASSL27613": {levels: ["L2-Niveau Ascendant"] },
 
 
   //ACCES L3-Niveau Accompli SF

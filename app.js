@@ -136,6 +136,113 @@
       choices: ["Un thermomètre", "Un tensiomètre", "Une seringue", "Une bande plâtrée"],
       answerIndex: 0,
       explanation: "Le thermomètre est l’instrument utilisé pour mesurer la température corporelle."
+    },
+    {
+      id: "essai-gratuit-6",
+      level: FREE_TRIAL_LEVEL,
+      subject: FREE_TRIAL_SUBJECT,
+      topic: FREE_TRIAL_TOPIC,
+      type: "mcq",
+      question: "Quelle est la fréquence normale du lavage des mains en milieu de soins ?",
+      choices: ["Avant et après chaque soin", "Une fois par jour", "Seulement si les mains sont sales", "Uniquement avant les repas"],
+      answerIndex: 0,
+      explanation: "Le lavage ou la désinfection des mains doit être réalisé avant et après chaque soin."
+    },
+    {
+      id: "essai-gratuit-7",
+      level: FREE_TRIAL_LEVEL,
+      subject: FREE_TRIAL_SUBJECT,
+      topic: FREE_TRIAL_TOPIC,
+      type: "tf",
+      question: "Le port des gants peut aider à prévenir certaines infections.",
+      answer: true,
+      explanation: "Les gants réduisent le risque de transmission des microbes pendant les soins."
+    },
+    {
+      id: "essai-gratuit-8",
+      level: FREE_TRIAL_LEVEL,
+      subject: FREE_TRIAL_SUBJECT,
+      topic: FREE_TRIAL_TOPIC,
+      type: "mcq",
+      question: "Quel organe permet principalement la respiration ?",
+      choices: ["Les poumons", "Le foie", "Les reins", "L’estomac"],
+      answerIndex: 0,
+      explanation: "Les poumons assurent les échanges gazeux nécessaires à la respiration."
+    },
+    {
+      id: "essai-gratuit-9",
+      level: FREE_TRIAL_LEVEL,
+      subject: FREE_TRIAL_SUBJECT,
+      topic: FREE_TRIAL_TOPIC,
+      type: "mcq",
+      question: "Quelle est la position recommandée pour un patient en difficulté respiratoire ?",
+      choices: ["Position semi-assise", "Position couchée à plat ventre", "Position tête en bas", "Position debout sans appui"],
+      answerIndex: 0,
+      explanation: "La position semi-assise facilite généralement la respiration."
+    },
+    {
+      id: "essai-gratuit-10",
+      level: FREE_TRIAL_LEVEL,
+      subject: FREE_TRIAL_SUBJECT,
+      topic: FREE_TRIAL_TOPIC,
+      type: "tf",
+      question: "Une douleur intense doit être signalée rapidement au personnel soignant.",
+      answer: true,
+      explanation: "Toute douleur importante doit être évaluée et prise en charge rapidement."
+    },
+    {
+      id: "essai-gratuit-11",
+      level: FREE_TRIAL_LEVEL,
+      subject: FREE_TRIAL_SUBJECT,
+      topic: FREE_TRIAL_TOPIC,
+      type: "mcq",
+      question: "Quel appareil permet de mesurer la tension artérielle ?",
+      choices: ["Le tensiomètre", "Le thermomètre", "Le stéthoscope seul", "Le glucomètre"],
+      answerIndex: 0,
+      explanation: "Le tensiomètre est utilisé pour mesurer la pression artérielle."
+    },
+    {
+      id: "essai-gratuit-12",
+      level: FREE_TRIAL_LEVEL,
+      subject: FREE_TRIAL_SUBJECT,
+      topic: FREE_TRIAL_TOPIC,
+      type: "mcq",
+      question: "Quel est le premier réflexe devant un saignement important ?",
+      choices: ["Comprimer la plaie", "Donner à boire", "Faire marcher le patient", "Appliquer du parfum"],
+      answerIndex: 0,
+      explanation: "La compression permet de limiter la perte de sang."
+    },
+    {
+      id: "essai-gratuit-13",
+      level: FREE_TRIAL_LEVEL,
+      subject: FREE_TRIAL_SUBJECT,
+      topic: FREE_TRIAL_TOPIC,
+      type: "tf",
+      question: "La vaccination aide à prévenir certaines maladies infectieuses.",
+      answer: true,
+      explanation: "La vaccination protège contre plusieurs maladies graves."
+    },
+    {
+      id: "essai-gratuit-14",
+      level: FREE_TRIAL_LEVEL,
+      subject: FREE_TRIAL_SUBJECT,
+      topic: FREE_TRIAL_TOPIC,
+      type: "mcq",
+      question: "Quel est le signe fréquent d’une hypoglycémie ?",
+      choices: ["Sueurs et malaise", "Peau bleue uniquement", "Perte des cheveux", "Douleur au genou uniquement"],
+      answerIndex: 0,
+      explanation: "Une hypoglycémie peut provoquer des sueurs, tremblements et malaises."
+    },
+    {
+      id: "essai-gratuit-15",
+      level: FREE_TRIAL_LEVEL,
+      subject: FREE_TRIAL_SUBJECT,
+      topic: FREE_TRIAL_TOPIC,
+      type: "mcq",
+      question: "Pourquoi faut-il respecter les horaires des médicaments ?",
+      choices: ["Pour assurer leur efficacité", "Pour décorer le dossier", "Pour fatiguer le patient", "Sans raison particulière"],
+      answerIndex: 0,
+      explanation: "Le respect des horaires permet une meilleure efficacité du traitement."
     }
   ];
 
