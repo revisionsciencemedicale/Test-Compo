@@ -364,16 +364,29 @@
     if (isFreeTrialUser(user)) {
       return { loggedIn: true, forceLogout: false };
     }
-    if (!user || !token || !window.USERS || !window.USERS[user]) {
+    if (!user || !token) {
       return { loggedIn: false, forceLogout: false };
     }
     try {
-      return await apiPost("/api/check-session", { username: user, sessionToken: token, device: getDeviceInfo() });
+      const status = await apiPost("/api/check-session", { username: user, sessionToken: token, device: getDeviceInfo() });
+      if (status.userConfig) {
+        window.USERS = window.USERS || {};
+        window.USERS[user] = status.userConfig;
+      }
+      // Ne plus déconnecter automatiquement les comptes créés localement / depuis le site
+      // quand la session serveur n'est pas retrouvée ou quand l'appareil change.
+      // Seule une déconnexion forcée par l'administrateur doit vraiment couper l'accès.
+      if (status && status.forceLogout) return status;
+      if (status && status.loggedIn === false) {
+        return { ...status, loggedIn: true, forceLogout: false, localSessionMaintained: true };
+      }
+      return status;
     } catch {
-      if (canUseOfflineMode()) {
+      if (canUseOfflineMode() && window.USERS && window.USERS[user]) {
         return { loggedIn: true, forceLogout: false, offlineMode: true };
       }
-      return { loggedIn: false, forceLogout: false };
+      // Ne pas déconnecter automatiquement un compte créé sur le site si le serveur répond mal.
+      return { loggedIn: true, forceLogout: false, pendingServerCheck: true };
     }
   }
 
@@ -393,10 +406,11 @@
         alert("Votre compte a été déconnecté par un administrateur.");
         denyAccess(false);
       } else if (!status.loggedIn) {
-        alert("Votre session est expirée ou le compte est ouvert ailleurs. Vous allez être déconnecté.");
-        denyAccess(false);
+        // On ne déconnecte plus automatiquement l'utilisateur.
+        // La déconnexion automatique posait problème aux comptes créés directement depuis le site.
+        console.warn("Session non confirmée par le serveur, maintien de l'accès local.", status);
       }
-    }, 5000);
+    }, 30000);
   }
 
   function stopSessionHeartbeat() {
@@ -441,6 +455,10 @@
           sessionToken: getSessionToken(),
           device: getDeviceInfo(),
         });
+        if (data.userConfig) {
+          window.USERS = window.USERS || {};
+          window.USERS[username] = data.userConfig;
+        }
         localStorage.setItem(STORAGE_KEYS.user, username);
         startSessionHeartbeat(username);
       } catch (e) {
@@ -505,10 +523,41 @@
     if (els.currentUser) els.currentUser.textContent = "";
   }
 
+  function normalizeAccountLevel(level) {
+    const n = normalizeKey(level);
+    if (n === normalizeKey("Auxiliaire 2 année") || n === normalizeKey("AUXI")) return "A2-Niveau moyen";
+    if (n === normalizeKey("L3-Niveau Accompli INF/SFM")) return "L3-Niveau Accompli INF";
+    if (n === normalizeKey("Licence 3 INF/SAG-M") || n === normalizeKey("INF/SAG-M")) return "L3-Niveau Accompli SF";
+    return String(level || "").trim();
+  }
+
+  function normalizeAccountLevels(levels) {
+    if (levels === "all") return "all";
+    if (!Array.isArray(levels)) return [];
+    const out = [];
+    const seen = new Set();
+    for (const level of levels) {
+      const normalized = normalizeAccountLevel(level);
+      if (!normalized) continue;
+      const key = normalizeKey(normalized);
+      if (seen.has(key)) continue;
+      seen.add(key);
+      out.push(normalized);
+    }
+    return out;
+  }
+
+  function getCurrentUserConfig() {
+    const user = localStorage.getItem(STORAGE_KEYS.user);
+    const cfg = window.USERS?.[user];
+    if (cfg && Array.isArray(cfg.levels)) cfg.levels = normalizeAccountLevels(cfg.levels);
+    return cfg;
+  }
+
   function hasDEAccess() {
     const user = localStorage.getItem(STORAGE_KEYS.user);
     if (isFreeTrialUser(user)) return false;
-    const userConfig = window.USERS?.[user];
+    const userConfig = getCurrentUserConfig();
 
     if (!userConfig) return false;
     if (userConfig.levels === "all") return true;
@@ -528,9 +577,14 @@
       .replace(/'/g, "&#039;");
   }
 
-  async function renderAdminLogs() {
+  async function renderAdminLogs(options = {}) {
     if (!els.adminLogs) return;
-    els.adminLogs.innerHTML = "<p class='muted'>Chargement des paramètres administrateur...</p>";
+    const silent = !!options.silent;
+    // Ne plus afficher "Chargement des paramètres administrateur..." à chaque action.
+    // Le panneau reste visible pendant que les données se mettent à jour en arrière-plan.
+    if (!silent && !els.adminLogs.dataset.rendered) {
+      els.adminLogs.innerHTML = "";
+    }
 
     let payload;
     let adminWarning = "";
@@ -572,6 +626,7 @@
       .filter(level => !removedAccountLevels.has(normalizeKey(level)))
       .sort();
 
+    els.adminLogs.dataset.rendered = "1";
     els.adminLogs.innerHTML = `
       ${adminWarning ? `<div class="notice" style="margin-bottom:12px"><strong>Information :</strong> ${escapeHtml(adminWarning)}<br><small>Le menu reste visible. Les actions qui modifient les comptes nécessitent que le serveur et la base de données soient bien connectés.</small></div>` : ""}
       <div class="admin-tabs">
@@ -667,6 +722,17 @@
       </div>
     `;
 
+
+    // Empêche les actions du panneau admin de provoquer un rechargement complet de la page.
+    if (!els.adminLogs.dataset.noReloadGuard) {
+      els.adminLogs.dataset.noReloadGuard = "1";
+      els.adminLogs.addEventListener('submit', (event) => { event.preventDefault(); });
+      els.adminLogs.addEventListener('click', (event) => {
+        const button = event.target.closest('button');
+        if (button) event.preventDefault();
+      });
+    }
+
     function renderUsers(filter = '') {
       const box = document.getElementById('adminUsersList');
       if (!box) return;
@@ -688,18 +754,22 @@
       const body = currentAuthPayload({ lastName: document.getElementById('adminLastName')?.value, firstName: document.getElementById('adminFirstName')?.value, phone: document.getElementById('adminPhone')?.value, levels });
       try {
         const r = await apiPost('/api/admin/create-user', body);
-        window.__LAST_CREATED_USER = { username: r.username };
-        await renderAdminLogs();
+        window.__LAST_CREATED_USER = { username: r.username, levels: r.levels || levels };
+        if (r.userConfig) {
+          window.USERS = window.USERS || {};
+          window.USERS[r.username] = r.userConfig;
+        }
+        await renderAdminLogs({ silent: true });
       } catch(e) { alert(e.data?.error || e.message); }
     });
 
     els.adminLogs.querySelectorAll('.btnForceLogout').forEach(button => button.addEventListener('click', async () => {
       const targetUser = button.dataset.user || ''; if (!targetUser || !confirm(`Déconnecter ${targetUser} ?`)) return;
-      try { await apiPost('/api/admin/force-logout', currentAuthPayload({ targetUser })); await renderAdminLogs(); } catch(e) { alert(e.data?.error || e.message); }
+      try { await apiPost('/api/admin/force-logout', currentAuthPayload({ targetUser })); await renderAdminLogs({ silent: true }); } catch(e) { alert(e.data?.error || e.message); }
     }));
-    document.getElementById('btnDisconnectAll')?.addEventListener('click', async () => { if (!confirm('Déconnecter tous les autres appareils ?')) return; try { const r = await apiPost('/api/admin/disconnect-all', currentAuthPayload()); alert(`${r.disconnected} session(s) déconnectée(s).`); await renderAdminLogs(); } catch(e) { alert(e.data?.error || e.message); } });
-    els.adminLogs.querySelectorAll('.btnUserAction').forEach(btn => btn.addEventListener('click', async () => { if (btn.dataset.action === 'delete' && !confirm(`Supprimer ${btn.dataset.user} ?`)) return; try { await apiPost('/api/admin/update-user', currentAuthPayload({ targetUser: btn.dataset.user, action: btn.dataset.action })); await renderAdminLogs(); } catch(e) { alert(e.data?.error || e.message); } }));
-    els.adminLogs.querySelectorAll('.btnUserRename').forEach(btn => btn.addEventListener('click', async () => { const newUsername = prompt('Nouveau nom d’utilisateur :', btn.dataset.user); if (!newUsername) return; try { await apiPost('/api/admin/update-user', currentAuthPayload({ targetUser: btn.dataset.user, action: 'rename', newUsername })); await renderAdminLogs(); } catch(e) { alert(e.data?.error || e.message); } }));
+    document.getElementById('btnDisconnectAll')?.addEventListener('click', async () => { if (!confirm('Déconnecter tous les autres appareils ?')) return; try { const r = await apiPost('/api/admin/disconnect-all', currentAuthPayload()); alert(`${r.disconnected} session(s) déconnectée(s).`); await renderAdminLogs({ silent: true }); } catch(e) { alert(e.data?.error || e.message); } });
+    els.adminLogs.querySelectorAll('.btnUserAction').forEach(btn => btn.addEventListener('click', async () => { if (btn.dataset.action === 'delete' && !confirm(`Supprimer ${btn.dataset.user} ?`)) return; try { await apiPost('/api/admin/update-user', currentAuthPayload({ targetUser: btn.dataset.user, action: btn.dataset.action })); await renderAdminLogs({ silent: true }); } catch(e) { alert(e.data?.error || e.message); } }));
+    els.adminLogs.querySelectorAll('.btnUserRename').forEach(btn => btn.addEventListener('click', async () => { const newUsername = prompt('Nouveau nom d’utilisateur :', btn.dataset.user); if (!newUsername) return; try { await apiPost('/api/admin/update-user', currentAuthPayload({ targetUser: btn.dataset.user, action: 'rename', newUsername })); await renderAdminLogs({ silent: true }); } catch(e) { alert(e.data?.error || e.message); } }));
     document.getElementById('btnClearCache')?.addEventListener('click', () => { localStorage.removeItem(STORAGE_KEYS.last); localStorage.removeItem(STORAGE_KEYS.lastResult); alert('Cache local vidé.'); });
     els.adminLogs.querySelectorAll('.btnSaveAdminSettings').forEach(btn => btn.addEventListener('click', async () => {
       const settings = {};
@@ -1053,7 +1123,7 @@
   // En mode essai, l'utilisateur doit voir tout le contenu disponible.
   // Le niveau "Essai gratuit" reste disponible uniquement pour lancer le sujet d'essai autorisé.
   if (isFreeTrialUser(user)) return ["Tous les niveaux", ...ALL_LEVELS, FREE_TRIAL_LEVEL];
-  const userConfig = window.USERS?.[user];
+  const userConfig = getCurrentUserConfig();
 
   if (!userConfig) return [];
 
@@ -1065,7 +1135,7 @@
     if (userConfig.levels.some((lv) => normalizeKey(lv) === "all" || normalizeKey(lv) === "tous les niveaux")) {
       return ALL_LEVELS;
     }
-    return userConfig.levels.slice();
+    return normalizeAccountLevels(userConfig.levels).filter((lv) => ALL_LEVELS.includes(lv));
   }
 
   return [];
@@ -1320,13 +1390,13 @@
 
   function getAllowedDETracks() {
     const user = localStorage.getItem(STORAGE_KEYS.user);
-    const userConfig = window.USERS?.[user];
+    const userConfig = getCurrentUserConfig();
     if (!userConfig) return [];
 
     if (userConfig.levels === "all") return DE_TRACKS_ALL.slice();
     if (!Array.isArray(userConfig.levels)) return [];
 
-    const levels = userConfig.levels.map((lv) => normalizeKey(lv));
+    const levels = normalizeAccountLevels(userConfig.levels).map((lv) => normalizeKey(lv));
     const tracks = [];
 
     // A2-Niveau moyen : accès uniquement aux sujets du niveau AUXI.
@@ -2182,7 +2252,7 @@ els.reviewList.appendChild(head);
   if (els.btnAdmin) {
     els.btnAdmin.addEventListener("click", async () => {
       showScreen(els.screenAdmin);
-      await renderAdminLogs();
+      await renderAdminLogs({ silent: true });
     });
   }
 

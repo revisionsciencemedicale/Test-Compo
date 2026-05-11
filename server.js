@@ -36,6 +36,47 @@ function loadUsersConfig() {
   };
 }
 
+
+function normalizeTextKey(value) {
+  return String(value || '')
+    .trim()
+    .replace(/\s+/g, ' ')
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '');
+}
+
+function normalizeAccountLevel(level) {
+  const key = normalizeTextKey(level);
+  if (key === normalizeTextKey('Auxiliaire 2 année') || key === normalizeTextKey('AUXI')) return 'A2-Niveau moyen';
+  if (key === normalizeTextKey('L3-Niveau Accompli INF/SFM')) return 'L3-Niveau Accompli INF';
+  if (key === normalizeTextKey('Licence 3 INF/SAG-M') || key === normalizeTextKey('INF/SAG-M')) return 'L3-Niveau Accompli SF';
+  return String(level || '').trim();
+}
+
+function normalizeAccountLevels(levels) {
+  if (levels === 'all') return 'all';
+  const allowed = new Set([
+    'A1-Base Santé',
+    'A2-Niveau moyen',
+    'L1-Niveau Émergent',
+    'L2-Niveau Ascendant',
+    'L3-Niveau Accompli INF',
+    'L3-Niveau Accompli SF',
+  ]);
+  const out = [];
+  const seen = new Set();
+  for (const level of Array.isArray(levels) ? levels : []) {
+    const normalized = normalizeAccountLevel(level);
+    if (!allowed.has(normalized)) continue;
+    const key = normalizeTextKey(normalized);
+    if (seen.has(key)) continue;
+    seen.add(key);
+    out.push(normalized);
+  }
+  return out;
+}
+
 function cleanPart(value, length) {
   return String(value || '')
     .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
@@ -55,7 +96,7 @@ async function getAllUsers(client, staticUsers) {
   const result = await client.query('SELECT * FROM app_users ORDER BY username ASC');
   const users = { ...staticUsers };
   for (const row of result.rows) {
-    if (!row.deleted) users[row.username] = { levels: row.levels || [], suspended: row.suspended, dynamic: true, fullName: row.full_name || '' };
+    if (!row.deleted) users[row.username] = { levels: normalizeAccountLevels(row.levels || []), suspended: row.suspended, dynamic: true, fullName: row.full_name || '' };
   }
   return users;
 }
@@ -421,26 +462,36 @@ const server = http.createServer(async (req, res) => {
 
       const device = body.device || {};
       const incomingDeviceId = String(device.deviceId || '-');
-      const sessionResult = await client.query(
-        'SELECT * FROM active_sessions WHERE username=$1 AND session_token=$2',
-        [username, sessionToken]
-      );
-      if (!sessionResult.rowCount) {
+      const allUsers = await getAllUsers(client, staticUsers);
+      const userConfig = allUsers[username] || null;
+      if (!userConfig) {
         return sendJson(res, 200, { ok: true, loggedIn: false, forceLogout: false });
       }
-      const active = rowToSession(sessionResult.rows[0]);
-      if (active.deviceId !== incomingDeviceId) {
-        await addLog(client, { user: username, action: 'session_refused_wrong_device', device, blockedBy: publicSession(active) });
-        return sendJson(res, 200, {
-          ok: true,
-          loggedIn: false,
-          forceLogout: false,
-          error: 'Session refusée: appareil ou navigateur différent.',
-        });
+      if (userConfig.suspended) {
+        return sendJson(res, 200, { ok: true, loggedIn: false, forceLogout: true, error: 'Compte suspendu.' });
       }
 
-      await client.query('UPDATE active_sessions SET last_seen=$1, online=TRUE WHERE username=$2 AND session_token=$3 AND device_id=$4', [now(), username, sessionToken, incomingDeviceId]);
-      return sendJson(res, 200, { ok: true, loggedIn: true, forceLogout: false });
+      // Correction : un compte créé depuis le site ne doit plus être déconnecté automatiquement
+      // après un déploiement Render, un redémarrage serveur, une perte de ligne active ou un changement
+      // d'identifiant appareil/navigateur. La session est recréée/rafraîchie tant que l'administrateur
+      // ne l'a pas explicitement déconnectée dans revoked_sessions.
+      const ts = now();
+      await client.query(
+        `INSERT INTO active_sessions(username, session_token, device_id, browser, platform, user_agent, language, online, started_at, last_seen, ip)
+         VALUES($1,$2,$3,$4,$5,$6,$7,TRUE,$8,$8,$9)
+         ON CONFLICT(username) DO UPDATE SET
+           session_token = EXCLUDED.session_token,
+           device_id = EXCLUDED.device_id,
+           browser = EXCLUDED.browser,
+           platform = EXCLUDED.platform,
+           user_agent = EXCLUDED.user_agent,
+           language = EXCLUDED.language,
+           online = TRUE,
+           last_seen = EXCLUDED.last_seen,
+           ip = EXCLUDED.ip`,
+        [username, sessionToken, incomingDeviceId, device.browser || '-', device.platform || '-', device.userAgent || '-', device.language || '-', ts, getClientIp(req)]
+      );
+      return sendJson(res, 200, { ok: true, loggedIn: true, forceLogout: false, userConfig });
     });
   }
 
@@ -453,9 +504,30 @@ const server = http.createServer(async (req, res) => {
       if (revokedResult.rowCount) return sendJson(res, 401, { ok: false, error: 'Session déconnectée par un administrateur.', forcedLogout: true });
       const device = body.device || {};
       const incomingDeviceId = String(device.deviceId || '-');
-      const result = await client.query('UPDATE active_sessions SET last_seen=$1, online=TRUE WHERE username=$2 AND session_token=$3 AND device_id=$4 RETURNING username', [now(), username, sessionToken, incomingDeviceId]);
-      if (!result.rowCount) return sendJson(res, 401, { ok: false, error: 'Session expirée, remplacée ou ouverte depuis un autre appareil/navigateur.' });
-      return sendJson(res, 200, { ok: true });
+      const allUsers = await getAllUsers(client, staticUsers);
+      const userConfig = allUsers[username] || null;
+      if (!userConfig) return sendJson(res, 200, { ok: false, loggedIn: false });
+      if (userConfig.suspended) return sendJson(res, 401, { ok: false, error: 'Compte suspendu.', forcedLogout: true });
+
+      // Ne plus expirer automatiquement les comptes créés localement / depuis le site.
+      // Si la ligne active a disparu après déploiement, on la recrée au lieu de déconnecter l'utilisateur.
+      const ts = now();
+      await client.query(
+        `INSERT INTO active_sessions(username, session_token, device_id, browser, platform, user_agent, language, online, started_at, last_seen, ip)
+         VALUES($1,$2,$3,$4,$5,$6,$7,TRUE,$8,$8,$9)
+         ON CONFLICT(username) DO UPDATE SET
+           session_token = EXCLUDED.session_token,
+           device_id = EXCLUDED.device_id,
+           browser = EXCLUDED.browser,
+           platform = EXCLUDED.platform,
+           user_agent = EXCLUDED.user_agent,
+           language = EXCLUDED.language,
+           online = TRUE,
+           last_seen = EXCLUDED.last_seen,
+           ip = EXCLUDED.ip`,
+        [username, sessionToken, incomingDeviceId, device.browser || '-', device.platform || '-', device.userAgent || '-', device.language || '-', ts, getClientIp(req)]
+      );
+      return sendJson(res, 200, { ok: true, loggedIn: true });
     });
   }
 
@@ -477,8 +549,20 @@ const server = http.createServer(async (req, res) => {
     const sessionToken = String(body.sessionToken || '').trim();
     return withDb(res, async (client) => {
       const result = await client.query('SELECT * FROM active_sessions WHERE username=$1 AND session_token=$2', [username, sessionToken]);
-      const session = rowToSession(result.rows[0]);
-      if (!session) return sendJson(res, 401, { ok: false });
+      let session = rowToSession(result.rows[0]);
+      if (!session) {
+        const allUsers = await getAllUsers(client, staticUsers);
+        if (!allUsers[username]) return sendJson(res, 200, { ok: false });
+        const device = body.device || {};
+        const ts = now();
+        await client.query(
+          `INSERT INTO active_sessions(username, session_token, device_id, browser, platform, user_agent, language, online, started_at, last_seen, ip)
+           VALUES($1,$2,$3,$4,$5,$6,$7,TRUE,$8,$8,$9)
+           ON CONFLICT(username) DO UPDATE SET session_token=EXCLUDED.session_token, device_id=EXCLUDED.device_id, browser=EXCLUDED.browser, platform=EXCLUDED.platform, user_agent=EXCLUDED.user_agent, language=EXCLUDED.language, online=TRUE, last_seen=EXCLUDED.last_seen, ip=EXCLUDED.ip`,
+          [username, sessionToken, device.deviceId || '-', device.browser || '-', device.platform || '-', device.userAgent || '-', device.language || '-', ts, getClientIp(req)]
+        );
+        session = { username, sessionToken, deviceId: device.deviceId || '-', browser: device.browser || '-', platform: device.platform || '-', userAgent: device.userAgent || '-', language: device.language || '-', online: true, startedAt: ts, lastSeen: ts, ip: getClientIp(req) };
+      }
       await addLog(client, { user: username, action: String(body.action || 'activity'), details: body.details || {}, device: publicSession(session) });
       return sendJson(res, 200, { ok: true });
     });
@@ -503,7 +587,7 @@ const server = http.createServer(async (req, res) => {
         activeSessions: Object.fromEntries(activeResult.rows.map((r) => [r.username, publicSession(rowToSession(r))])),
         loginLogs: logsResult.rows.map(rowToLog),
         dashboard: { connectedUsers: activeResult.rowCount, quizDone: quizCount },
-        dynamicUsers: dynamicUsers.rows,
+        dynamicUsers: dynamicUsers.rows.map((u) => ({ ...u, levels: normalizeAccountLevels(u.levels || []) })),
         appSettings: settingsResult.rows[0]?.value || {},
       });
     });
@@ -566,16 +650,17 @@ const server = http.createServer(async (req, res) => {
     const sessionToken = String(body.sessionToken || '').trim();
     return withDb(res, async (client) => {
       if (!(await assertAdmin(client, adminUsername, sessionToken, admins))) return sendJson(res, 403, { ok: false, error: 'Accès administrateur refusé.' });
-      const levels = Array.isArray(body.levels) ? body.levels.filter(Boolean) : [];
-      if (!levels.length) return sendJson(res, 400, { ok: false, error: 'Veuillez cocher au moins un niveau.' });
+      const levels = normalizeAccountLevels(Array.isArray(body.levels) ? body.levels.filter(Boolean) : []);
+      if (!levels.length) return sendJson(res, 400, { ok: false, error: 'Veuillez cocher au moins un niveau valide.' });
       const generated = generateUsername({ lastName: body.lastName, firstName: body.firstName, levels, phone: body.phone });
       let username = generated;
       let i = 1;
       while ((await client.query('SELECT 1 FROM app_users WHERE username=$1 AND deleted=FALSE', [username])).rowCount || staticUsers[username]) username = `${generated}${i++}`;
       await client.query(`INSERT INTO app_users(username, full_name, first_name, last_name, phone, levels, created_at, updated_at)
         VALUES($1,$2,$3,$4,$5,$6::jsonb,$7,$7)`, [username, `${body.lastName || ''} ${body.firstName || ''}`.trim(), body.firstName || '', body.lastName || '', body.phone || '', JSON.stringify(levels), now()]);
+      const userConfig = { levels, suspended: false, dynamic: true, fullName: `${body.lastName || ''} ${body.firstName || ''}`.trim() };
       await addLog(client, { user: username, action: 'admin_create_user', details: { by: adminUsername, levels } });
-      return sendJson(res, 200, { ok: true, username });
+      return sendJson(res, 200, { ok: true, username, levels, userConfig });
     });
   }
 
