@@ -340,3 +340,39 @@ textarea.input{min-height:130px;resize:vertical}
   -webkit-user-select: none;
   user-select: none;
 }
+
+
+/* Prise de vue obligatoire avant quiz */
+.camera-check-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: rgba(0, 0, 0, 0.72);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 18px;
+}
+.camera-check-box {
+  width: min(560px, 100%);
+  background: #fff;
+  color: #111827;
+  border-radius: 18px;
+  padding: 18px;
+  box-shadow: 0 18px 45px rgba(0, 0, 0, 0.25);
+}
+.camera-check-video,
+.camera-check-canvas {
+  width: 100%;
+  max-height: 420px;
+  border-radius: 14px;
+  background: #111827;
+  object-fit: cover;
+  margin-top: 10px;
+}
+.camera-check-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}

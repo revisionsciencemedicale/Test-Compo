@@ -297,7 +297,8 @@
       instantCorrection: toBool(merged.instantCorrection, false),
       finalScore: toBool(merged.finalScore, true),
       negativePoints: toBool(merged.negativePoints, true),
-      qpqMode: toBool(merged.qpqMode, true),
+      // Si la prise de vue est obligatoire, le Mode QPQ doit toujours être actif.
+      qpqMode: toBool(merged.photoRequired, false) ? true : toBool(merged.qpqMode, true),
       photoRequired: toBool(merged.photoRequired, false),
       cheatDetection: toBool(merged.cheatDetection, false),
       notifyCheat: toBool(merged.notifyCheat, false),
@@ -359,21 +360,128 @@
 
   async function ensureQuizPhotoAllowed() {
     if (!appSettings.photoRequired) return true;
+
     return await new Promise((resolve) => {
-      const input = document.createElement('input');
-      input.type = 'file';
-      input.accept = 'image/*';
-      input.capture = 'user';
-      input.style.display = 'none';
-      document.body.appendChild(input);
-      input.addEventListener('change', () => {
-        const ok = !!(input.files && input.files[0]);
-        if (ok) session.quizPhotoTakenAt = Date.now();
-        input.remove();
-        if (!ok) alert('Photo obligatoire : veuillez prendre ou choisir une photo avant de commencer le quiz.');
-        resolve(ok);
-      }, { once: true });
-      input.click();
+      let stream = null;
+      let done = false;
+
+      const close = (ok) => {
+        if (done) return;
+        done = true;
+        try {
+          if (stream) stream.getTracks().forEach(track => track.stop());
+        } catch (_) {}
+        overlay.remove();
+        resolve(!!ok);
+      };
+
+      const overlay = document.createElement('div');
+      overlay.className = 'camera-check-overlay';
+      overlay.innerHTML = `
+        <div class="camera-check-box">
+          <h3>Prise de vue obligatoire avant quiz</h3>
+          <p class="muted small">Veuillez activer votre caméra puis prendre une photo de vous pour commencer le quiz.</p>
+          <video class="camera-check-video" autoplay playsinline muted></video>
+          <canvas class="camera-check-canvas hidden"></canvas>
+          <div class="camera-check-actions">
+            <button class="btn btn--primary" type="button" data-action="start-camera">Activer la caméra</button>
+            <button class="btn btn--primary hidden" type="button" data-action="capture">Prendre la photo</button>
+            <button class="btn hidden" type="button" data-action="retake">Reprendre</button>
+            <button class="btn btn--primary hidden" type="button" data-action="validate">Valider et commencer</button>
+            <button class="btn" type="button" data-action="fallback">Choisir une photo</button>
+            <button class="btn btn--danger" type="button" data-action="cancel">Annuler</button>
+          </div>
+          <div class="camera-check-status muted small"></div>
+        </div>`;
+      document.body.appendChild(overlay);
+
+      const video = overlay.querySelector('video');
+      const canvas = overlay.querySelector('canvas');
+      const status = overlay.querySelector('.camera-check-status');
+      const btnStart = overlay.querySelector('[data-action="start-camera"]');
+      const btnCapture = overlay.querySelector('[data-action="capture"]');
+      const btnRetake = overlay.querySelector('[data-action="retake"]');
+      const btnValidate = overlay.querySelector('[data-action="validate"]');
+      const btnFallback = overlay.querySelector('[data-action="fallback"]');
+
+      const setStatus = (msg) => { if (status) status.textContent = msg || ''; };
+
+      const startCamera = async () => {
+        try {
+          if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+            setStatus('Caméra non disponible sur ce navigateur. Choisissez une photo pour continuer.');
+            return;
+          }
+          stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user' }, audio: false });
+          video.srcObject = stream;
+          video.classList.remove('hidden');
+          canvas.classList.add('hidden');
+          btnStart.classList.add('hidden');
+          btnCapture.classList.remove('hidden');
+          btnRetake.classList.add('hidden');
+          btnValidate.classList.add('hidden');
+          setStatus('Caméra activée. Cliquez sur « Prendre la photo ».');
+        } catch (e) {
+          setStatus('Accès caméra refusé ou indisponible. Autorisez la caméra ou choisissez une photo.');
+        }
+      };
+
+      const capturePhoto = () => {
+        const width = video.videoWidth || 640;
+        const height = video.videoHeight || 480;
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(video, 0, 0, width, height);
+        session.quizPhotoTakenAt = Date.now();
+        session.quizPhotoDataUrl = canvas.toDataURL('image/jpeg', 0.85);
+        video.classList.add('hidden');
+        canvas.classList.remove('hidden');
+        btnCapture.classList.add('hidden');
+        btnRetake.classList.remove('hidden');
+        btnValidate.classList.remove('hidden');
+        setStatus('Photo prise. Validez pour commencer le quiz.');
+      };
+
+      const choosePhotoFallback = () => {
+        const input = document.createElement('input');
+        input.type = 'file';
+        input.accept = 'image/*';
+        input.capture = 'user';
+        input.style.display = 'none';
+        document.body.appendChild(input);
+        input.addEventListener('change', () => {
+          const file = input.files && input.files[0];
+          input.remove();
+          if (!file) {
+            setStatus('Aucune photo sélectionnée. La photo est obligatoire pour commencer.');
+            return;
+          }
+          const reader = new FileReader();
+          reader.onload = () => {
+            session.quizPhotoTakenAt = Date.now();
+            session.quizPhotoDataUrl = String(reader.result || '');
+            setStatus('Photo enregistrée avec succès.');
+            close(true);
+          };
+          reader.readAsDataURL(file);
+        }, { once: true });
+        input.click();
+      };
+
+      overlay.addEventListener('click', (event) => {
+        const action = event.target?.dataset?.action;
+        if (!action) return;
+        if (action === 'start-camera') startCamera();
+        if (action === 'capture') capturePhoto();
+        if (action === 'retake') startCamera();
+        if (action === 'validate') close(!!session.quizPhotoTakenAt);
+        if (action === 'fallback') choosePhotoFallback();
+        if (action === 'cancel') {
+          alert('Prise de vue obligatoire : vous devez prendre une photo avant de commencer le quiz.');
+          close(false);
+        }
+      });
     });
   }
 
@@ -849,9 +957,10 @@
         <h3 class="h3">🧠 Paramètres des questions</h3>
         <div class="checkbox-grid adminSettings">
           ${[
-            ['shuffleQuestions','Mélanger les questions'],['shuffleAnswers','Mélanger les réponses'],['instantCorrection','Afficher correction immédiatement'],['finalScore','Afficher note finale'],['negativePoints','Points négatifs'],['qpqMode','Mode QPQ activé/désactivé'],['photoRequired','Photo obligatoire avant quiz'],['cheatDetection','Gestion tentatives de tricherie'],['notifyCheat','Recevoir notification/appel'],['antiScreenshot','Anti capture d’écran'],['antiTabChange','Anti changement d’onglet ou réduction'],['antiCopyPaste','Anti copier/coller'],['autoPenalty','Pénalité automatique'],['autoSubmitCheat','Soumission automatique en cas de tricherie']
+            ['shuffleQuestions','Mélanger les questions'],['shuffleAnswers','Mélanger les réponses'],['instantCorrection','Afficher correction immédiatement'],['finalScore','Afficher note finale'],['negativePoints','Points négatifs'],['qpqMode','Mode QPQ activé/désactivé'],['photoRequired','Prise de vue obligatoire avant quiz'],['cheatDetection','Gestion tentatives de tricherie'],['notifyCheat','Recevoir notification/appel'],['antiScreenshot','Anti capture d’écran'],['antiTabChange','Anti changement d’onglet ou réduction'],['antiCopyPaste','Anti copier/coller'],['autoPenalty','Pénalité automatique'],['autoSubmitCheat','Soumission automatique en cas de tricherie']
           ].map(([k,label]) => `<label><input type="checkbox" data-setting="${k}" ${appSettings[k] ? 'checked' : ''}> ${label}</label>`).join('')}
         </div>
+        <p class="muted small">Lorsque <strong>Prise de vue obligatoire avant quiz</strong> est cochée, le <strong>Mode QPQ</strong> est automatiquement activé. L’utilisateur devra autoriser sa caméra et prendre une photo avant de débuter le quiz.</p>
         <div class="grid"><div class="field"><label class="label">Temps par question (secondes)</label><input class="input" data-setting="questionTime" type="number" value="${escapeHtml(appSettings.questionTime || 40)}"></div><div class="field"><label class="label">Temps total du quiz (minutes)</label><input class="input" data-setting="quizTotalTime" type="number" value="${escapeHtml(appSettings.quizTotalTime || '')}"></div><div class="field"><label class="label">Nombre maximal d’avertissements</label><input class="input" data-setting="maxWarnings" type="number" min="1" value="${escapeHtml(appSettings.maxWarnings || 3)}"></div></div>
         <button class="btn btn--primary btnSaveAdminSettings" type="button">Enregistrer les paramètres quiz</button>
       </div>
@@ -925,6 +1034,7 @@
       els.adminLogs.querySelectorAll('[data-setting]').forEach(input => {
         settings[input.dataset.setting] = input.type === 'checkbox' ? input.checked : input.value;
       });
+      if (settings.photoRequired) settings.qpqMode = true;
       return normalizeAppSettings(settings);
     }
 
