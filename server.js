@@ -10,7 +10,7 @@ const ROOT = __dirname;
 // Les sessions ne doivent pas expirer automatiquement.
 // Elles restent actives jusqu'à une déconnexion volontaire ou une déconnexion forcée par l'administrateur.
 const SESSION_TIMEOUT_MS = Number(process.env.SESSION_TIMEOUT_MS || 0);
-const MAX_BODY_BYTES = Number(process.env.MAX_BODY_BYTES || 200_000);
+const MAX_BODY_BYTES = Number(process.env.MAX_BODY_BYTES || 5_000_000);
 const LOGIN_RATE_LIMIT_WINDOW_MS = Number(process.env.LOGIN_RATE_LIMIT_WINDOW_MS || 15 * 60 * 1000);
 const LOGIN_RATE_LIMIT_MAX = Number(process.env.LOGIN_RATE_LIMIT_MAX || 30);
 const DATABASE_URL = process.env.DATABASE_URL;
@@ -565,6 +565,14 @@ const server = http.createServer(async (req, res) => {
       }
       await addLog(client, { user: username, action: String(body.action || 'activity'), details: body.details || {}, device: publicSession(session) });
       return sendJson(res, 200, { ok: true });
+    });
+  }
+
+
+  if (req.method === 'GET' && url.pathname === '/api/settings') {
+    return withDb(res, async (client) => {
+      const result = await client.query("SELECT value FROM app_settings WHERE key='global'");
+      return sendJson(res, 200, { ok: true, settings: result.rows[0]?.value || {} });
     });
   }
 

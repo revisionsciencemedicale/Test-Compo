@@ -333,3 +333,10 @@ textarea.input{min-height:130px;resize:vertical}
 .mini-table th {
   font-size: .85rem;
 }
+
+
+.copy-blocked #screenQuiz,
+.anti-screenshot-enabled #screenQuiz {
+  -webkit-user-select: none;
+  user-select: none;
+}

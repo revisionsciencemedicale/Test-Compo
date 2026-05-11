@@ -72,6 +72,7 @@
     lastResult: "quizRevision.lastResult.v1",
     sessionToken: "quizRevision.sessionToken.v1",
     deviceId: "quizRevision.deviceId.v1",
+    appSettings: "quizRevision.appSettings.v1",
   };
 
   const FREE_TRIAL_USER = "__ESSAI_GRATUIT__";
@@ -246,6 +247,98 @@
     }
   ];
 
+  const DEFAULT_APP_SETTINGS = {
+    shuffleQuestions: true,
+    shuffleAnswers: false,
+    instantCorrection: false,
+    finalScore: true,
+    negativePoints: true,
+    qpqMode: true,
+    photoRequired: false,
+    cheatDetection: false,
+    notifyCheat: false,
+    antiScreenshot: false,
+    antiTabChange: false,
+    antiCopyPaste: false,
+    maxWarnings: false,
+    autoPenalty: false,
+    autoSubmitCheat: false,
+    questionTime: 40,
+    quizTotalTime: "",
+    freeTrialQuestions: 15,
+    freeTrialDuration: "",
+    freeTrialMaxAttempts: 1,
+    autoBackup: false,
+    serverSync: true,
+    keepAlive: false,
+    customQuestions: []
+  };
+
+  let appSettings = { ...DEFAULT_APP_SETTINGS };
+
+  function toBool(value, fallback = false) {
+    if (typeof value === "boolean") return value;
+    if (value === "true") return true;
+    if (value === "false") return false;
+    return fallback;
+  }
+
+  function toPositiveNumber(value, fallback) {
+    const n = Number(value);
+    return Number.isFinite(n) && n > 0 ? n : fallback;
+  }
+
+  function normalizeAppSettings(raw = {}) {
+    const merged = { ...DEFAULT_APP_SETTINGS, ...(raw || {}) };
+    return {
+      ...merged,
+      shuffleQuestions: toBool(merged.shuffleQuestions, true),
+      shuffleAnswers: toBool(merged.shuffleAnswers, false),
+      instantCorrection: toBool(merged.instantCorrection, false),
+      finalScore: toBool(merged.finalScore, true),
+      negativePoints: toBool(merged.negativePoints, true),
+      qpqMode: toBool(merged.qpqMode, true),
+      photoRequired: toBool(merged.photoRequired, false),
+      cheatDetection: toBool(merged.cheatDetection, false),
+      notifyCheat: toBool(merged.notifyCheat, false),
+      antiScreenshot: toBool(merged.antiScreenshot, false),
+      antiTabChange: toBool(merged.antiTabChange, false),
+      antiCopyPaste: toBool(merged.antiCopyPaste, false),
+      maxWarnings: toBool(merged.maxWarnings, false),
+      autoPenalty: toBool(merged.autoPenalty, false),
+      autoSubmitCheat: toBool(merged.autoSubmitCheat, false),
+      questionTime: toPositiveNumber(merged.questionTime, 40),
+      freeTrialQuestions: Math.max(1, Math.floor(toPositiveNumber(merged.freeTrialQuestions, 15))),
+      freeTrialMaxAttempts: Math.max(1, Math.floor(toPositiveNumber(merged.freeTrialMaxAttempts, 1))),
+      customQuestions: Array.isArray(merged.customQuestions) ? merged.customQuestions : []
+    };
+  }
+
+  async function loadAppSettingsFromServer() {
+    try {
+      const data = await apiGet('/api/settings');
+      appSettings = normalizeAppSettings(data.settings || {});
+      localStorage.setItem(STORAGE_KEYS.appSettings, JSON.stringify(appSettings));
+    } catch (_) {
+      try {
+        appSettings = normalizeAppSettings(JSON.parse(localStorage.getItem(STORAGE_KEYS.appSettings) || '{}'));
+      } catch {
+        appSettings = normalizeAppSettings({});
+      }
+    }
+    applyRuntimeSettings();
+    return appSettings;
+  }
+
+  function shouldAutoAdvance() {
+    return appSettings.qpqMode !== false;
+  }
+
+  function applyRuntimeSettings() {
+    document.body?.classList.toggle('anti-screenshot-enabled', !!appSettings.antiScreenshot);
+    document.body?.classList.toggle('copy-blocked', !!appSettings.antiCopyPaste);
+  }
+
   function isFreeTrialUser(user = localStorage.getItem(STORAGE_KEYS.user)) {
     return user === FREE_TRIAL_USER;
   }
@@ -260,6 +353,18 @@
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload),
     });
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok) {
+      const err = new Error(data.error || "Erreur serveur");
+      err.status = res.status;
+      err.data = data;
+      throw err;
+    }
+    return data;
+  }
+
+  async function apiGet(path) {
+    const res = await fetch(path, { method: "GET", headers: { "Accept": "application/json" } });
     const data = await res.json().catch(() => ({}));
     if (!res.ok) {
       const err = new Error(data.error || "Erreur serveur");
@@ -608,7 +713,8 @@
     const active = payload.activeSessions || {};
     const activeRows = Object.values(active).sort((a, b) => (b.lastSeen || 0) - (a.lastSeen || 0));
     const dynamicUsers = payload.dynamicUsers || [];
-    const appSettings = payload.appSettings || {};
+    appSettings = normalizeAppSettings(payload.appSettings || appSettings || {});
+    localStorage.setItem(STORAGE_KEYS.appSettings, JSON.stringify(appSettings));
     const dashboard = payload.dashboard || { connectedUsers: activeRows.length, quizDone: logs.filter(l => l.action === 'finish_quiz').length };
     const allQuestionsForLevels = []
       .concat(Array.isArray(window.QUIZ_QUESTIONS) ? window.QUIZ_QUESTIONS : [])
@@ -693,9 +799,14 @@
       <div class="adminTab hidden" data-panel="quiz">
         <h3 class="h3">📚 Ajouter de nouvelles matières et de nouveaux sujets</h3>
         <div class="admin-box">
-          <p class="muted small">Prévu dans l’interface : import Word/Excel ou collage d’un script JavaScript. Le serveur prépare l’espace, mais l’import automatique nécessite encore un convertisseur de fichier sécurisé.</p>
-          <input class="input" type="file" accept=".doc,.docx,.xls,.xlsx,.js">
-          <textarea class="input" rows="6" placeholder="Coller un script JavaScript ici..."></textarea>
+          <p class="muted small">Import actif : collez un tableau JavaScript de questions ou sélectionnez un fichier <code>.js</code>. Les questions ajoutées seront enregistrées dans les paramètres du serveur et visibles sur le site après enregistrement.</p>
+          <input class="input" id="adminImportFile" type="file" accept=".js,.txt,.json">
+          <textarea class="input" id="adminImportScript" rows="8" placeholder="Exemple : [{ level: 'A1-Base Santé', subject: 'Anatomie', topic: 'Sujet 1', type: 'mcq', question: '...', choices: ['A','B'], answerIndex: 0, explanation: '...' }]"></textarea>
+          <div class="row" style="margin-top:10px">
+            <button class="btn" id="btnPreviewImport" type="button">Vérifier l’import</button>
+            <button class="btn btn--primary" id="btnApplyImport" type="button">Ajouter ces questions au site</button>
+          </div>
+          <div id="adminImportStatus" class="muted small" style="margin-top:8px"></div>
         </div>
         <h3 class="h3">🧠 Paramètres des questions</h3>
         <div class="checkbox-grid adminSettings">
@@ -771,14 +882,84 @@
     els.adminLogs.querySelectorAll('.btnUserAction').forEach(btn => btn.addEventListener('click', async () => { if (btn.dataset.action === 'delete' && !confirm(`Supprimer ${btn.dataset.user} ?`)) return; try { await apiPost('/api/admin/update-user', currentAuthPayload({ targetUser: btn.dataset.user, action: btn.dataset.action })); await renderAdminLogs({ silent: true }); } catch(e) { alert(e.data?.error || e.message); } }));
     els.adminLogs.querySelectorAll('.btnUserRename').forEach(btn => btn.addEventListener('click', async () => { const newUsername = prompt('Nouveau nom d’utilisateur :', btn.dataset.user); if (!newUsername) return; try { await apiPost('/api/admin/update-user', currentAuthPayload({ targetUser: btn.dataset.user, action: 'rename', newUsername })); await renderAdminLogs({ silent: true }); } catch(e) { alert(e.data?.error || e.message); } }));
     document.getElementById('btnClearCache')?.addEventListener('click', () => { localStorage.removeItem(STORAGE_KEYS.last); localStorage.removeItem(STORAGE_KEYS.lastResult); alert('Cache local vidé.'); });
+    function collectAdminSettings() {
+      const settings = { ...appSettings };
+      els.adminLogs.querySelectorAll('[data-setting]').forEach(input => {
+        settings[input.dataset.setting] = input.type === 'checkbox' ? input.checked : input.value;
+      });
+      return normalizeAppSettings(settings);
+    }
+
+    function parseImportedQuestions(text) {
+      const src = String(text || '').trim();
+      if (!src) throw new Error('Collez d’abord un tableau de questions ou choisissez un fichier .js.');
+      let value;
+      try {
+        value = JSON.parse(src);
+      } catch (_) {
+        const cleaned = src
+          .replace(/^\s*(?:window\.)?[A-Z0-9_]+\s*=\s*/i, '')
+          .replace(/;\s*$/, '');
+        value = Function(`"use strict"; return (${cleaned});`)();
+      }
+      if (!Array.isArray(value)) throw new Error('Le contenu doit être un tableau de questions : [{...}, {...}].');
+      const normalized = value.map(normalizeQuestion).filter(Boolean);
+      if (!normalized.length) throw new Error('Aucune question valide trouvée. Vérifiez level, subject, topic, type, question et réponses.');
+      return normalized;
+    }
+
+    document.getElementById('adminImportFile')?.addEventListener('change', async (event) => {
+      const file = event.target.files && event.target.files[0];
+      if (!file) return;
+      const text = await file.text();
+      const area = document.getElementById('adminImportScript');
+      if (area) area.value = text;
+    });
+
+    document.getElementById('btnPreviewImport')?.addEventListener('click', () => {
+      const status = document.getElementById('adminImportStatus');
+      try {
+        const imported = parseImportedQuestions(document.getElementById('adminImportScript')?.value || '');
+        if (status) status.textContent = `${imported.length} question(s) valide(s) détectée(s).`;
+      } catch (e) {
+        if (status) status.textContent = e.message;
+      }
+    });
+
+    document.getElementById('btnApplyImport')?.addEventListener('click', async () => {
+      const status = document.getElementById('adminImportStatus');
+      try {
+        const imported = parseImportedQuestions(document.getElementById('adminImportScript')?.value || '');
+        const existing = Array.isArray(appSettings.customQuestions) ? appSettings.customQuestions : [];
+        const byId = new Map(existing.map(q => [q.id, q]));
+        for (const q of imported) byId.set(q.id, q);
+        const settings = normalizeAppSettings({ ...collectAdminSettings(), customQuestions: Array.from(byId.values()) });
+        await apiPost('/api/admin/save-settings', currentAuthPayload({ settings }));
+        appSettings = settings;
+        localStorage.setItem(STORAGE_KEYS.appSettings, JSON.stringify(appSettings));
+        bank = getQuestionBank();
+        updateStartInfo();
+        if (status) status.textContent = `${imported.length} question(s) ajoutée(s). Total importé : ${appSettings.customQuestions.length}.`;
+      } catch(e) {
+        if (status) status.textContent = e.data?.error || e.message;
+        else alert(e.data?.error || e.message);
+      }
+    });
+
     els.adminLogs.querySelectorAll('.btnSaveAdminSettings').forEach(btn => btn.addEventListener('click', async () => {
-      const settings = {};
-      els.adminLogs.querySelectorAll('[data-setting]').forEach(input => { settings[input.dataset.setting] = input.type === 'checkbox' ? input.checked : input.value; });
-      try { await apiPost('/api/admin/save-settings', currentAuthPayload({ settings })); alert('Paramètres enregistrés.'); } catch(e) { alert(e.data?.error || e.message); }
+      const settings = collectAdminSettings();
+      try {
+        await apiPost('/api/admin/save-settings', currentAuthPayload({ settings }));
+        appSettings = settings;
+        localStorage.setItem(STORAGE_KEYS.appSettings, JSON.stringify(appSettings));
+        applyRuntimeSettings();
+        bank = getQuestionBank();
+        alert('Paramètres enregistrés et appliqués sur le site.');
+      } catch(e) { alert(e.data?.error || e.message); }
     }));
   }
 
-  const QUESTION_TIME_SEC = 40;
+  const QUESTION_TIME_SEC = 40; // valeur par défaut si aucun paramètre serveur
   const MAX_QUESTIONS_PER_SESSION = 100;
   let questionTimerId = null;
   let questionTimerRemaining = 0;
@@ -827,7 +1008,7 @@
 
   function startQuestionTimer() {
     clearQuestionTimer();
-    questionTimerRemaining = QUESTION_TIME_SEC;
+    questionTimerRemaining = Math.max(5, Math.floor(Number(appSettings.questionTime || QUESTION_TIME_SEC)));
     if (els.quizTimer) els.quizTimer.textContent = `${questionTimerRemaining} s`;
     questionTimerId = setInterval(() => {
       questionTimerRemaining--;
@@ -1062,7 +1243,7 @@
   })();
 
   function getQuestionBank() {
-    const raw = ALL_RAW_QUESTIONS;
+    const raw = ALL_RAW_QUESTIONS.concat(Array.isArray(appSettings.customQuestions) ? appSettings.customQuestions : []);
     const normalized = raw.map(normalizeQuestion).filter(Boolean);
     // remove duplicates by id (keep first)
     const seen = new Set();
@@ -1329,11 +1510,15 @@
 
     // Affiche uniquement les matières autorisées pour le niveau sélectionné.
     const restrictedSubjects = getAllowedSubjectsForLevel(level);
+    const subjectsFromQuestions = getQuestionBank()
+      .filter((q) => !level || level === "Tous les niveaux" || levelMatches(q.level, level))
+      .map((q) => q.subject);
+
     if (restrictedSubjects.length > 0) {
-      return ["Toutes les matières", ...unique(restrictedSubjects)];
+      return ["Toutes les matières", ...unique(restrictedSubjects.concat(subjectsFromQuestions))];
     }
 
-    return ["Toutes les matières", ...unique(ALL_SUBJECTS)];
+    return ["Toutes les matières", ...unique(ALL_SUBJECTS.concat(subjectsFromQuestions))];
   }
 
   function computeTopicsForSubject(subject) {
@@ -1595,9 +1780,7 @@
 
   function pickQuestions(filtered, shuffleQuestions) {
     const pool = filtered.slice();
-    // Toujours mélanger pour chaque session (Quiz + EFF)
-    // afin que refaire "Sujet 1" change l'ordre et la numérotation.
-    shuffleInPlace(pool);
+    if (shuffleQuestions !== false) shuffleInPlace(pool);
     return pool.slice(0, MAX_QUESTIONS_PER_SESSION);
   }
 
@@ -1652,6 +1835,7 @@
     topic: "Tous les sujets",
     questions: [],
     answersById: {}, // { [id]: { selectedIndex? , selectedBool? } }
+    choiceOrderById: {},
     index: 0,
     abandoned: false,
   };
@@ -1694,6 +1878,17 @@ if (!levels.includes(session.level)) {
 
     const max = filtered.length;
     els.btnStart.disabled = max === 0;
+  }
+
+  function getChoiceOrder(q) {
+    const len = Array.isArray(q?.choices) ? q.choices.length : 0;
+    const normal = Array.from({ length: len }, (_, i) => i);
+    if (!appSettings.shuffleAnswers || len < 2) return normal;
+    session.choiceOrderById = session.choiceOrderById || {};
+    if (!Array.isArray(session.choiceOrderById[q.id]) || session.choiceOrderById[q.id].length !== len) {
+      session.choiceOrderById[q.id] = shuffleInPlace(normal.slice());
+    }
+    return session.choiceOrderById[q.id];
   }
 
   function renderQuiz() {
@@ -1759,7 +1954,7 @@ if (!levels.includes(session.level)) {
         item.addEventListener("click", () => {
           session.answersById[q.id] = { selectedBool: c.value };
           renderQuiz();
-          advanceAfterAnswerSoon();
+          if (shouldAutoAdvance()) advanceAfterAnswerSoon();
         });
         els.answers.appendChild(item);
       }
@@ -1775,7 +1970,7 @@ if (!levels.includes(session.level)) {
       els.answers.appendChild(instruction);
 
       const selected = normalizeSelectedIndices(currentAnswer.selectedIndices, q.choices.length);
-      for (let idx = 0; idx < q.choices.length; idx++) {
+      for (const idx of getChoiceOrder(q)) {
         const choiceText = q.choices[idx];
         const item = document.createElement("label");
         item.className = "answer";
@@ -1797,7 +1992,7 @@ if (!levels.includes(session.level)) {
           const nextSelected = Array.from(next).sort((a, b) => a - b);
           session.answersById[q.id] = { selectedIndices: nextSelected };
           renderQuiz();
-          if (nextSelected.length >= requiredCount) {
+          if (nextSelected.length >= requiredCount && shouldAutoAdvance()) {
             advanceAfterAnswerSoon();
           }
         });
@@ -1806,7 +2001,7 @@ if (!levels.includes(session.level)) {
       return;
     }
 
-    for (let idx = 0; idx < q.choices.length; idx++) {
+    for (const idx of getChoiceOrder(q)) {
       const choiceText = q.choices[idx];
       const item = document.createElement("label");
       item.className = "answer";
@@ -1824,7 +2019,7 @@ if (!levels.includes(session.level)) {
       item.addEventListener("click", () => {
         session.answersById[q.id] = { selectedIndex: idx };
         renderQuiz();
-        advanceAfterAnswerSoon();
+        if (shouldAutoAdvance()) advanceAfterAnswerSoon();
       });
       els.answers.appendChild(item);
     }
@@ -1903,8 +2098,12 @@ if (!levels.includes(session.level)) {
           markObtained = questionMark;
         } else {
           wrong++;
-          score -= 1;
-          markObtained = -questionMark;
+          if (appSettings.negativePoints) {
+            score -= 1;
+            markObtained = -questionMark;
+          } else {
+            markObtained = 0;
+          }
         }
       }
 
@@ -1925,7 +2124,7 @@ function renderResult() {
     const { correct, answered, total, score } = result;
     const pct = total === 0 ? 0 : Math.round((correct / total) * 100);
     const note20 = formatNoteSur20(getNoteSur20(result));
-    els.scoreText.textContent = formatResultSummary(result);
+    els.scoreText.textContent = appSettings.finalScore === false ? "Quiz soumis avec succès. La note finale est masquée par l’administrateur." : formatResultSummary(result);
     const user = localStorage.getItem(STORAGE_KEYS.user);
     logActivity(user, 'finish_quiz', { correct, answered, total, percentage: pct, score, note20 });
     localStorage.setItem(
@@ -1944,7 +2143,7 @@ function renderResult() {
 const head = document.createElement("div");
 head.className = "pill";
 head.style.marginBottom = "12px";
-head.textContent = formatResultSummary(result);
+head.textContent = appSettings.finalScore === false ? "Correction du quiz — note masquée par l’administrateur." : formatResultSummary(result);
 els.reviewList.appendChild(head);
 
     for (let i = 0; i < session.questions.length; i++) {
@@ -2035,7 +2234,7 @@ els.reviewList.appendChild(head);
       const topic = els.selectDETopic?.value || "";
 
       const filtered = filterBankDE(bank, { track, subject, topic });
-      const picked = pickQuestions(filtered, settings.shuffleQuestions);
+      const picked = pickQuestions(filtered, appSettings.shuffleQuestions);
 
       lastTimedQuestionIndex = -1;
       session = {
@@ -2045,6 +2244,7 @@ els.reviewList.appendChild(head);
         topic,
         questions: picked,
         answersById: {},
+        choiceOrderById: {},
         index: 0,
         abandoned: false,
       };
@@ -2061,7 +2261,7 @@ els.reviewList.appendChild(head);
     const subject = els.selectSubject.value;
     const topic = els.selectTopic?.value || "Tous les sujets";
     const filtered = filterBank(bank, { level, subject, topic });
-    const picked = isFreeTrialUser() ? filtered.slice(0, 5) : pickQuestions(filtered, settings.shuffleQuestions);
+    const picked = isFreeTrialUser() ? filtered.slice(0, appSettings.freeTrialQuestions || 15) : pickQuestions(filtered, appSettings.shuffleQuestions);
 
     lastTimedQuestionIndex = -1;
     session = {
@@ -2071,6 +2271,7 @@ els.reviewList.appendChild(head);
       topic,
       questions: picked,
       answersById: {},
+      choiceOrderById: {},
       index: 0,
       abandoned: false,
     };
@@ -2143,6 +2344,7 @@ els.reviewList.appendChild(head);
       startedAt: Date.now(),
       questions: nextQuestions,
       answersById: {},
+      choiceOrderById: {},
       index: 0,
       abandoned: false,
     };
@@ -2367,8 +2569,23 @@ els.reviewList.appendChild(head);
   // Le compte reste connecté sur le même appareil jusqu'au clic explicite sur "Se déconnecter".
 
 
+  document.addEventListener('copy', (event) => {
+    if (appSettings.antiCopyPaste) event.preventDefault();
+  });
+  document.addEventListener('paste', (event) => {
+    if (appSettings.antiCopyPaste && els.screenQuiz && !els.screenQuiz.classList.contains('hidden')) event.preventDefault();
+  });
+  document.addEventListener('visibilitychange', () => {
+    if (appSettings.antiTabChange && document.hidden && els.screenQuiz && !els.screenQuiz.classList.contains('hidden')) {
+      session.cheatWarning = { at: Date.now(), reason: 'Changement d’onglet ou réduction de la page' };
+    }
+  });
+
   // init
   (async () => {
+    await loadAppSettingsFromServer();
+    settings = loadSettings();
+    bank = getQuestionBank();
     if (await isAccessGranted()) {
       const user = localStorage.getItem(STORAGE_KEYS.user);
       await grantAccess(user);
