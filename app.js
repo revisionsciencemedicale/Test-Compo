@@ -260,7 +260,7 @@
     antiScreenshot: false,
     antiTabChange: false,
     antiCopyPaste: false,
-    maxWarnings: false,
+    maxWarnings: 3,
     autoPenalty: false,
     autoSubmitCheat: false,
     questionTime: 40,
@@ -304,7 +304,7 @@
       antiScreenshot: toBool(merged.antiScreenshot, false),
       antiTabChange: toBool(merged.antiTabChange, false),
       antiCopyPaste: toBool(merged.antiCopyPaste, false),
-      maxWarnings: toBool(merged.maxWarnings, false),
+      maxWarnings: Math.max(1, Math.floor(toPositiveNumber(merged.maxWarnings, 3))),
       autoPenalty: toBool(merged.autoPenalty, false),
       autoSubmitCheat: toBool(merged.autoSubmitCheat, false),
       questionTime: toPositiveNumber(merged.questionTime, 40),
@@ -337,6 +337,44 @@
   function applyRuntimeSettings() {
     document.body?.classList.toggle('anti-screenshot-enabled', !!appSettings.antiScreenshot);
     document.body?.classList.toggle('copy-blocked', !!appSettings.antiCopyPaste);
+  }
+
+  function recordCheatAttempt(reason) {
+    if (!appSettings.cheatDetection) return;
+    if (!session || !Array.isArray(session.questions) || !session.questions.length) return;
+    session.cheatAttempts = Array.isArray(session.cheatAttempts) ? session.cheatAttempts : [];
+    const attempt = { at: Date.now(), reason: reason || 'Tentative de tricherie' };
+    session.cheatAttempts.push(attempt);
+    session.cheatWarning = attempt;
+    const maxWarnings = Math.max(1, Number(appSettings.maxWarnings || 3));
+    const user = localStorage.getItem(STORAGE_KEYS.user);
+    if (appSettings.notifyCheat) {
+      logActivity(user, 'cheat_attempt', { reason: attempt.reason, count: session.cheatAttempts.length, at: attempt.at });
+    }
+    if (appSettings.autoSubmitCheat && session.cheatAttempts.length >= maxWarnings) {
+      session.autoSubmittedForCheat = true;
+      finishQuiz();
+    }
+  }
+
+  async function ensureQuizPhotoAllowed() {
+    if (!appSettings.photoRequired) return true;
+    return await new Promise((resolve) => {
+      const input = document.createElement('input');
+      input.type = 'file';
+      input.accept = 'image/*';
+      input.capture = 'user';
+      input.style.display = 'none';
+      document.body.appendChild(input);
+      input.addEventListener('change', () => {
+        const ok = !!(input.files && input.files[0]);
+        if (ok) session.quizPhotoTakenAt = Date.now();
+        input.remove();
+        if (!ok) alert('Photo obligatoire : veuillez prendre ou choisir une photo avant de commencer le quiz.');
+        resolve(ok);
+      }, { once: true });
+      input.click();
+    });
   }
 
   function isFreeTrialUser(user = localStorage.getItem(STORAGE_KEYS.user)) {
@@ -811,10 +849,10 @@
         <h3 class="h3">🧠 Paramètres des questions</h3>
         <div class="checkbox-grid adminSettings">
           ${[
-            ['shuffleQuestions','Mélanger les questions'],['shuffleAnswers','Mélanger les réponses'],['instantCorrection','Afficher correction immédiatement'],['finalScore','Afficher note finale'],['negativePoints','Points négatifs'],['qpqMode','Mode QPQ activé/désactivé'],['photoRequired','Photo obligatoire avant quiz'],['cheatDetection','Gestion tentatives de tricherie'],['notifyCheat','Recevoir notification/appel'],['antiScreenshot','Anti capture d’écran'],['antiTabChange','Anti changement d’onglet ou réduction'],['antiCopyPaste','Anti copier/coller'],['maxWarnings','Nombre maximal d’avertissements'],['autoPenalty','Pénalité automatique'],['autoSubmitCheat','Soumission automatique en cas de tricherie']
+            ['shuffleQuestions','Mélanger les questions'],['shuffleAnswers','Mélanger les réponses'],['instantCorrection','Afficher correction immédiatement'],['finalScore','Afficher note finale'],['negativePoints','Points négatifs'],['qpqMode','Mode QPQ activé/désactivé'],['photoRequired','Photo obligatoire avant quiz'],['cheatDetection','Gestion tentatives de tricherie'],['notifyCheat','Recevoir notification/appel'],['antiScreenshot','Anti capture d’écran'],['antiTabChange','Anti changement d’onglet ou réduction'],['antiCopyPaste','Anti copier/coller'],['autoPenalty','Pénalité automatique'],['autoSubmitCheat','Soumission automatique en cas de tricherie']
           ].map(([k,label]) => `<label><input type="checkbox" data-setting="${k}" ${appSettings[k] ? 'checked' : ''}> ${label}</label>`).join('')}
         </div>
-        <div class="grid"><div class="field"><label class="label">Temps par question (secondes)</label><input class="input" data-setting="questionTime" type="number" value="${escapeHtml(appSettings.questionTime || 40)}"></div><div class="field"><label class="label">Temps total du quiz (minutes)</label><input class="input" data-setting="quizTotalTime" type="number" value="${escapeHtml(appSettings.quizTotalTime || '')}"></div></div>
+        <div class="grid"><div class="field"><label class="label">Temps par question (secondes)</label><input class="input" data-setting="questionTime" type="number" value="${escapeHtml(appSettings.questionTime || 40)}"></div><div class="field"><label class="label">Temps total du quiz (minutes)</label><input class="input" data-setting="quizTotalTime" type="number" value="${escapeHtml(appSettings.quizTotalTime || '')}"></div><div class="field"><label class="label">Nombre maximal d’avertissements</label><input class="input" data-setting="maxWarnings" type="number" min="1" value="${escapeHtml(appSettings.maxWarnings || 3)}"></div></div>
         <button class="btn btn--primary btnSaveAdminSettings" type="button">Enregistrer les paramètres quiz</button>
       </div>
 
@@ -954,7 +992,13 @@
         localStorage.setItem(STORAGE_KEYS.appSettings, JSON.stringify(appSettings));
         applyRuntimeSettings();
         bank = getQuestionBank();
-        alert('Paramètres enregistrés et appliqués sur le site.');
+        updateStartInfo();
+        if (currentMode === "de") updateDEStartInfo();
+        if (els.screenQuiz && !els.screenQuiz.classList.contains('hidden')) {
+          lastTimedQuestionIndex = -1;
+          renderQuiz();
+        }
+        alert('Paramètres enregistrés et appliqués immédiatement sur les quiz.');
       } catch(e) { alert(e.data?.error || e.message); }
     }));
   }
@@ -1037,7 +1081,8 @@
 
   function advanceAfterAnswerSoon() {
     clearQuestionTimer();
-    setTimeout(advanceAfterAnswer, 250);
+    const delay = appSettings.instantCorrection ? 1600 : 250;
+    setTimeout(advanceAfterAnswer, delay);
   }
 
   function showScreen(which) {
@@ -1891,6 +1936,20 @@ if (!levels.includes(session.level)) {
     return session.choiceOrderById[q.id];
   }
 
+  function appendInstantCorrection(q, answer) {
+    if (!appSettings.instantCorrection || !isAnswered(q, answer)) return;
+    const ok = isCorrect(q, answer);
+    const box = document.createElement('div');
+    box.className = `reviewItem ${ok ? 'tag--ok' : 'tag--bad'}`;
+    box.style.marginTop = '12px';
+    let good = '';
+    if (q.type === 'tf') good = q.answer ? 'Vrai' : 'Faux';
+    else if (q.type === 'mcq_multi') good = (q.answerIndices || []).map(i => q.choices[i]).filter(Boolean).join(', ');
+    else good = q.choices?.[q.answerIndex] || '';
+    box.textContent = ok ? `Bonne réponse. ${q.explanation || ''}` : `Réponse incorrecte. Bonne réponse : ${good}. ${q.explanation || ''}`;
+    els.answers.appendChild(box);
+  }
+
   function renderQuiz() {
     const q = session.questions[session.index];
     if (!q) return;
@@ -1917,9 +1976,10 @@ if (!levels.includes(session.level)) {
     );
     els.progressText.textContent = `Question ${pos}/${total} • Répondu: ${answeredCount}/${total}`;
 
-    // Les boutons Suivant et Terminer sont visibles uniquement dans l'écran du quiz.
+    // Mode QPQ : une question à la fois avec passage automatique.
+    // Mode QPQ désactivé : l'utilisateur avance manuellement avec le bouton Suivant.
     if (els.btnNext) {
-      els.btnNext.classList.remove("hidden");
+      els.btnNext.classList.toggle("hidden", shouldAutoAdvance());
       els.btnNext.disabled = session.index >= total - 1;
       els.btnNext.title = session.index >= total - 1 ? "Dernière question" : "Passer à la question suivante";
     }
@@ -1951,6 +2011,10 @@ if (!levels.includes(session.level)) {
         item.appendChild(input);
         item.appendChild(text);
         if (input.checked) item.classList.add("answer--selected");
+        if (appSettings.instantCorrection && isAnswered(q, currentAnswer)) {
+          if (c.value === q.answer) item.classList.add("answer--correct");
+          else if (input.checked) item.classList.add("answer--wrong");
+        }
         item.addEventListener("click", () => {
           session.answersById[q.id] = { selectedBool: c.value };
           renderQuiz();
@@ -1958,6 +2022,7 @@ if (!levels.includes(session.level)) {
         });
         els.answers.appendChild(item);
       }
+      appendInstantCorrection(q, currentAnswer);
       return;
     }
 
@@ -1985,6 +2050,10 @@ if (!levels.includes(session.level)) {
         item.appendChild(input);
         item.appendChild(text);
         if (input.checked) item.classList.add("answer--selected");
+        if (appSettings.instantCorrection && isAnswered(q, currentAnswer)) {
+          if ((q.answerIndices || []).includes(idx)) item.classList.add("answer--correct");
+          else if (input.checked) item.classList.add("answer--wrong");
+        }
         item.addEventListener("click", () => {
           const next = new Set(normalizeSelectedIndices(session.answersById[q.id]?.selectedIndices, q.choices.length));
           if (next.has(idx)) next.delete(idx);
@@ -1998,6 +2067,7 @@ if (!levels.includes(session.level)) {
         });
         els.answers.appendChild(item);
       }
+      appendInstantCorrection(q, currentAnswer);
       return;
     }
 
@@ -2016,6 +2086,10 @@ if (!levels.includes(session.level)) {
       item.appendChild(input);
       item.appendChild(text);
       if (input.checked) item.classList.add("answer--selected");
+      if (appSettings.instantCorrection && isAnswered(q, currentAnswer)) {
+        if (idx === q.answerIndex) item.classList.add("answer--correct");
+        else if (input.checked) item.classList.add("answer--wrong");
+      }
       item.addEventListener("click", () => {
         session.answersById[q.id] = { selectedIndex: idx };
         renderQuiz();
@@ -2023,6 +2097,7 @@ if (!levels.includes(session.level)) {
       });
       els.answers.appendChild(item);
     }
+    appendInstantCorrection(q, currentAnswer);
   }
 
   function formatNoteSur20(note) {
@@ -2114,6 +2189,12 @@ if (!levels.includes(session.level)) {
       };
     }
 
+    if (appSettings.autoPenalty && Array.isArray(session.cheatAttempts) && session.cheatAttempts.length) {
+      const penalty = session.cheatAttempts.length;
+      score -= penalty;
+      note20 -= penalty;
+    }
+
     // La note sur 20 applique directement la pondération et les pénalités de chaque question.
     // Exemple : 5 questions => 4 points/question ; score -1 => -4/20.
     return { correct, wrong, answered, total, score, note20, marksById: marksResultById };
@@ -2124,7 +2205,10 @@ function renderResult() {
     const { correct, answered, total, score } = result;
     const pct = total === 0 ? 0 : Math.round((correct / total) * 100);
     const note20 = formatNoteSur20(getNoteSur20(result));
-    els.scoreText.textContent = appSettings.finalScore === false ? "Quiz soumis avec succès. La note finale est masquée par l’administrateur." : formatResultSummary(result);
+    const cheatText = Array.isArray(session.cheatAttempts) && session.cheatAttempts.length
+      ? `\nTentative de tricherie détectée : ${session.cheatAttempts.length} avertissement(s). Dernier motif : ${session.cheatAttempts[session.cheatAttempts.length - 1].reason}. Heure : ${new Date(session.cheatAttempts[session.cheatAttempts.length - 1].at).toLocaleString()}. ${session.autoSubmittedForCheat ? 'Quiz soumis automatiquement.' : 'Quiz soumis.'}`
+      : '';
+    els.scoreText.textContent = (appSettings.finalScore === false ? "Quiz soumis avec succès. La note finale est masquée par l’administrateur." : formatResultSummary(result)) + cheatText;
     const user = localStorage.getItem(STORAGE_KEYS.user);
     logActivity(user, 'finish_quiz', { correct, answered, total, percentage: pct, score, note20 });
     localStorage.setItem(
@@ -2213,7 +2297,7 @@ els.reviewList.appendChild(head);
     }
   }
 
-  function startNewSession() {
+  async function startNewSession() {
     if (isFreeTrialUser()) {
       if (currentMode !== "normal" || els.selectLevel.value !== FREE_TRIAL_LEVEL || els.selectSubject.value !== FREE_TRIAL_SUBJECT || els.selectTopic.value !== FREE_TRIAL_TOPIC) {
         alert(FREE_TRIAL_BLOCK_MESSAGE);
@@ -2221,11 +2305,13 @@ els.reviewList.appendChild(head);
       }
     }
 
+    if (!(await ensureQuizPhotoAllowed())) return;
+
     alert(
       "Règles de score :\n\n" +
         "Bonne réponse : +1\n" +
-        "Mauvaise réponse : -1\n" +
-        "Réponse non répondu : +0"
+        (appSettings.negativePoints ? "Mauvaise réponse : -1\n" : "Mauvaise réponse : 0\n") +
+        "Réponse non répondue : 0"
     );
 
     if (currentMode === "de") {
@@ -2247,6 +2333,7 @@ els.reviewList.appendChild(head);
         choiceOrderById: {},
         index: 0,
         abandoned: false,
+        cheatAttempts: [],
       };
 
       const user = localStorage.getItem(STORAGE_KEYS.user);
@@ -2274,6 +2361,7 @@ els.reviewList.appendChild(head);
       choiceOrderById: {},
       index: 0,
       abandoned: false,
+      cheatAttempts: [],
     };
 
     const user = localStorage.getItem(STORAGE_KEYS.user);
@@ -2347,6 +2435,7 @@ els.reviewList.appendChild(head);
       choiceOrderById: {},
       index: 0,
       abandoned: false,
+      cheatAttempts: [],
     };
     renderQuiz();
   }
@@ -2570,14 +2659,20 @@ els.reviewList.appendChild(head);
 
 
   document.addEventListener('copy', (event) => {
-    if (appSettings.antiCopyPaste) event.preventDefault();
+    if (appSettings.antiCopyPaste && els.screenQuiz && !els.screenQuiz.classList.contains('hidden')) {
+      event.preventDefault();
+      recordCheatAttempt('Copie interdite pendant le quiz');
+    }
   });
   document.addEventListener('paste', (event) => {
-    if (appSettings.antiCopyPaste && els.screenQuiz && !els.screenQuiz.classList.contains('hidden')) event.preventDefault();
+    if (appSettings.antiCopyPaste && els.screenQuiz && !els.screenQuiz.classList.contains('hidden')) {
+      event.preventDefault();
+      recordCheatAttempt('Collage interdit pendant le quiz');
+    }
   });
   document.addEventListener('visibilitychange', () => {
     if (appSettings.antiTabChange && document.hidden && els.screenQuiz && !els.screenQuiz.classList.contains('hidden')) {
-      session.cheatWarning = { at: Date.now(), reason: 'Changement d’onglet ou réduction de la page' };
+      recordCheatAttempt('Changement d’onglet ou réduction de la page');
     }
   });
 
