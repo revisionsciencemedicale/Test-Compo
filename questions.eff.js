@@ -26,7 +26,7 @@
   // Anti-duplication si le fichier est chargé plusieurs fois
   if (bank.some((q) => q && typeof q === "object" && String(q.id || "").startsWith("eff-"))) return;
 
-  const LEVELS = ["Licence 3 INF/SAG-M", "A2-Niveau moyen"];
+  const LEVELS = ["L3-Niveau Accompli SF", "A2-Niveau moyen"];
   const SUBJECTS = [
     { key: "pf", label: "Planning Famillial" },
     { key: "gy", label: "Gynécologie" },
@@ -210,7 +210,7 @@
   if (bank.some((q) => q && typeof q === "object" && String(q.id || "").startsWith("eff-ped-"))) return;
 
   const SUBJECT = "Pédiatrie";
-  const LEVELS = ["Licence 3 INF/SAG-M", "A2-Niveau moyen"];
+  const LEVELS = ["L3-Niveau Accompli SF", "A2-Niveau moyen"];
   const TOPICS_WITH_COUNT = [
     { topic: "Sujet 1", count: 60 },
     { topic: "Sujet 2", count: 60 },
@@ -336,7 +336,7 @@
   if (bank.some((q) => q && typeof q === "object" && String(q.id || "").startsWith("eff-sp-"))) return;
 
   const SUBJECT = "Santé Publique";
-  const LEVELS = ["Licence 3 INF/SAG-M", "A2-Niveau moyen"];
+  const LEVELS = ["L3-Niveau Accompli SF", "A2-Niveau moyen"];
   const TOPICS_WITH_COUNT = [
     { topic: "Sujet 1", count: 60 },
     { topic: "Sujet 2", count: 60 },
@@ -463,7 +463,7 @@
 
   const SUBJECT = "Médecine";
   const TOPICS = ["Sujet 1", "Sujet 2", "Sujet 3", "Sujet 4", "Sujet 5", "Sujet 6", "Sujet 7", "Sujet 8", "Sujet 9"];
-  const LEVELS = ["Licence 3 INF/SAG-M", "A2-Niveau moyen"];
+  const LEVELS = ["L3-Niveau Accompli SF", "A2-Niveau moyen"];
 
   function mkMcq({ id, level, topic, question, choices, answerIndex, explanation }) {
     return { id, level, subject: SUBJECT, topic, type: "mcq", question, choices, answerIndex, explanation };
@@ -604,7 +604,7 @@
   if (bank.some((q) => q && typeof q === "object" && String(q.id || "").startsWith("eff-multi-"))) return;
 
   const TOPICS = ["Sujet 1", "Sujet 2", "Sujet 3", "Sujet 4", "Sujet 5", "Sujet 6", "Sujet 7", "Sujet 8", "Sujet 9"];
-  const LEVELS = ["Licence 3 INF/SAG-M", "A2-Niveau moyen"];
+  const LEVELS = ["L3-Niveau Accompli SF", "A2-Niveau moyen"];
   const SUBJECTS = [
     { key: "ped", label: "Pédiatrie" },
     { key: "sp", label: "Santé Publique" },
@@ -827,7 +827,7 @@
 
   const SUBJECT = "Chirurgie";
   const TOPICS = ["Sujet 1", "Sujet 2", "Sujet 3", "Sujet 4", "Sujet 5", "Sujet 6", "Sujet 7", "Sujet 8", "Sujet 9"];
-  const LEVELS = ["Licence 3 INF/SAG-M", "A2-Niveau moyen"];
+  const LEVELS = ["L3-Niveau Accompli SF", "A2-Niveau moyen"];
 
   function mkMcq({ id, level, topic, question, choices, answerIndex, explanation }) {
     return { id, level, subject: SUBJECT, topic, type: "mcq", question, choices, answerIndex, explanation };
@@ -969,7 +969,7 @@
 
   bank.push({
     id: "eff-med-s7-001",
-    level: "Licence 3 INF/SAG-M",
+    level: "L3-Niveau Accompli SF",
     subject: "Médecine",
     topic: "Sujet 7",
     type: "mcq",

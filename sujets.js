@@ -152,7 +152,7 @@ window.SUJETS_PAR_MATIERE_QUIZ = {
   }
 })();
 
-// Matières demandées pour A1-Base Santé et Auxiliaire 2 année (6 sujets chacune)
+// Matières demandées pour A1-Base Santé et A2-Niveau moyen (6 sujets chacune)
 (function addAuxiliaireSubjects() {
   const auxiliaire1Subjects = [
     "Sémiologie médical",

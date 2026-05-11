@@ -304,3 +304,32 @@ code{color: rgba(16,185,129,.95)}
 .checkbox-grid label{padding:8px 10px;border-radius:12px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08)}
 .admin-log-list{max-height:520px;overflow:auto;padding-right:4px}
 textarea.input{min-height:130px;resize:vertical}
+
+/* Affichage du nom d'utilisateur généré après création de compte */
+.create-user-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+.created-username-box {
+  min-width: 240px;
+}
+.mini-table {
+  border-collapse: collapse;
+  width: 100%;
+  background: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 1px 6px rgba(0,0,0,.08);
+}
+.mini-table th,
+.mini-table td {
+  border: 1px solid rgba(0,0,0,.08);
+  padding: 8px 10px;
+  text-align: left;
+}
+.mini-table th {
+  font-size: .85rem;
+}

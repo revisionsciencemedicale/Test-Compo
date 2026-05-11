@@ -1298,10 +1298,10 @@ window.QUIZ_QUESTIONS_QUIZ = [
     answerIndex: 0,
     explanation: "Le carnet de santé rassemble les données de croissance, de vaccination et les antécédents de l'enfant.",
   },
-  // Questions pour Pédiatrie - Auxiliaire 2 année - Sujet 2
+  // Questions pour Pédiatrie - A2-Niveau moyen - Sujet 2
   {
     id: "a2-ped-s2-1",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet 2",
     type: "tf",
@@ -1311,7 +1311,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-ped-s2-2",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet 2",
     type: "tf",
@@ -1321,7 +1321,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-ped-s2-3",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet 2",
     type: "tf",
@@ -1331,7 +1331,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-ped-s2-4",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet 2",
     type: "tf",
@@ -1341,7 +1341,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-ped-s2-5",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet 2",
     type: "tf",
@@ -1351,7 +1351,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-ped-s2-6",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet 2",
     type: "tf",
@@ -1361,7 +1361,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-ped-s2-7",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet 2",
     type: "tf",
@@ -1371,7 +1371,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-ped-s2-8",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet 2",
     type: "tf",
@@ -1381,7 +1381,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-ped-s2-9",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet 2",
     type: "tf",
@@ -1391,7 +1391,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-ped-s2-10",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet 2",
     type: "tf",
@@ -1401,7 +1401,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-ped-s2-11",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet 2",
     type: "mcq",
@@ -1412,7 +1412,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-ped-s2-12",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet 2",
     type: "mcq",
@@ -1423,7 +1423,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-ped-s2-13",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet 2",
     type: "mcq",
@@ -1434,7 +1434,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-ped-s2-14",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet 2",
     type: "mcq",
@@ -1445,7 +1445,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-ped-s2-15",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet 2",
     type: "mcq",
@@ -1456,7 +1456,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-ped-s2-16",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet 2",
     type: "mcq",
@@ -1467,7 +1467,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-ped-s2-17",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet 2",
     type: "mcq",
@@ -1478,7 +1478,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-ped-s2-18",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet 2",
     type: "mcq",
@@ -1489,7 +1489,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-ped-s2-19",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet 2",
     type: "mcq",
@@ -1500,7 +1500,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-ped-s2-20",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet 2",
     type: "mcq",
@@ -1511,7 +1511,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-ped-s2-21",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet 2",
     type: "mcq_multi",
@@ -1522,7 +1522,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-ped-s2-22",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet 2",
     type: "mcq_multi",
@@ -1533,7 +1533,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-ped-s2-23",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet 2",
     type: "mcq_multi",
@@ -1544,7 +1544,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-ped-s2-24",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet 2",
     type: "mcq_multi",
@@ -1555,7 +1555,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-ped-s2-25",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet 2",
     type: "mcq_multi",
@@ -1566,7 +1566,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-ped-s2-26",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet 2",
     type: "mcq_multi",
@@ -1577,7 +1577,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-ped-s2-27",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet 2",
     type: "mcq_multi",
@@ -1588,7 +1588,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-ped-s2-28",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet 2",
     type: "mcq_multi",
@@ -1599,7 +1599,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-ped-s2-29",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet 2",
     type: "mcq_multi",
@@ -1610,7 +1610,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-ped-s2-30",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet 2",
     type: "mcq_multi",
@@ -1620,10 +1620,10 @@ window.QUIZ_QUESTIONS_QUIZ = [
     explanation: "Ictère, fièvre et douleurs abdominales sont présents.",
   },
 
-  // Questions pour Pédiatrie - Auxiliaire 2 année - Sujet 3
+  // Questions pour Pédiatrie - A2-Niveau moyen - Sujet 3
   {
     id: "a2-ped-s3-1",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet 3",
     type: "tf",
@@ -1633,7 +1633,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-ped-s3-2",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet 3",
     type: "mcq",
@@ -1644,7 +1644,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-ped-s3-3",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet 3",
     type: "tf",
@@ -1654,7 +1654,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-ped-s3-4",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet 3",
     type: "mcq_multi",
@@ -1665,7 +1665,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-ped-s3-5",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet 3",
     type: "tf",
@@ -1675,7 +1675,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-ped-s3-6",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet 3",
     type: "mcq",
@@ -1686,7 +1686,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-ped-s3-7",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet 3",
     type: "tf",
@@ -1696,7 +1696,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-ped-s3-8",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet 3",
     type: "mcq_multi",
@@ -1707,7 +1707,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-ped-s3-9",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet 3",
     type: "tf",
@@ -1717,7 +1717,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-ped-s3-10",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet 3",
     type: "mcq",
@@ -1728,7 +1728,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-ped-s3-11",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet 3",
     type: "tf",
@@ -1738,7 +1738,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-ped-s3-12",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet 3",
     type: "mcq_multi",
@@ -1749,7 +1749,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-ped-s3-13",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet 3",
     type: "tf",
@@ -1759,7 +1759,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-ped-s3-14",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet 3",
     type: "mcq",
@@ -1770,7 +1770,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-ped-s3-15",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet 3",
     type: "tf",
@@ -1780,7 +1780,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-ped-s3-16",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet 3",
     type: "mcq_multi",
@@ -1791,7 +1791,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-ped-s3-17",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet 3",
     type: "tf",
@@ -1801,7 +1801,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-ped-s3-18",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet 3",
     type: "mcq",
@@ -1812,7 +1812,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-ped-s3-19",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet 3",
     type: "tf",
@@ -1822,7 +1822,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-ped-s3-20",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet 3",
     type: "mcq_multi",
@@ -1833,7 +1833,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-ped-s3-21",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet 3",
     type: "tf",
@@ -1843,7 +1843,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-ped-s3-22",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet 3",
     type: "mcq",
@@ -1854,7 +1854,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-ped-s3-23",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet 3",
     type: "tf",
@@ -1864,7 +1864,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-ped-s3-24",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet 3",
     type: "mcq_multi",
@@ -1875,7 +1875,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-ped-s3-25",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet 3",
     type: "tf",
@@ -1885,7 +1885,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-ped-s3-26",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet 3",
     type: "mcq",
@@ -1896,7 +1896,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-ped-s3-27",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet 3",
     type: "tf",
@@ -1906,7 +1906,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-ped-s3-28",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet 3",
     type: "mcq_multi",
@@ -1917,7 +1917,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-ped-s3-29",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet 3",
     type: "tf",
@@ -1927,7 +1927,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-ped-s3-30",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet 3",
     type: "mcq",
@@ -2948,10 +2948,10 @@ window.QUIZ_QUESTIONS_QUIZ = [
     answerIndex: 0,
     explanation: "Les soins de santé primaires se déroulent dans les structures de premier niveau.",
   },
-  // Questions pour Santé Publique - Auxiliaire 2 année - Sujet 2
+  // Questions pour Santé Publique - A2-Niveau moyen - Sujet 2
   {
     id: "a2-sp-s2-1",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Santé Publique",
     topic: "Sujet 2",
     type: "tf",
@@ -2961,7 +2961,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-sp-s2-2",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Santé Publique",
     topic: "Sujet 2",
     type: "mcq",
@@ -2972,7 +2972,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-sp-s2-3",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Santé Publique",
     topic: "Sujet 2",
     type: "mcq_multi",
@@ -2983,7 +2983,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-sp-s2-4",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Santé Publique",
     topic: "Sujet 2",
     type: "tf",
@@ -2993,7 +2993,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-sp-s2-5",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Santé Publique",
     topic: "Sujet 2",
     type: "mcq",
@@ -3004,7 +3004,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-sp-s2-6",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Santé Publique",
     topic: "Sujet 2",
     type: "mcq_multi",
@@ -3015,7 +3015,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-sp-s2-7",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Santé Publique",
     topic: "Sujet 2",
     type: "tf",
@@ -3025,7 +3025,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-sp-s2-8",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Santé Publique",
     topic: "Sujet 2",
     type: "mcq",
@@ -3036,7 +3036,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-sp-s2-9",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Santé Publique",
     topic: "Sujet 2",
     type: "mcq_multi",
@@ -3047,7 +3047,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-sp-s2-10",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Santé Publique",
     topic: "Sujet 2",
     type: "tf",
@@ -3057,7 +3057,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-sp-s2-11",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Santé Publique",
     topic: "Sujet 2",
     type: "mcq",
@@ -3068,7 +3068,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-sp-s2-12",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Santé Publique",
     topic: "Sujet 2",
     type: "mcq_multi",
@@ -3079,7 +3079,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-sp-s2-13",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Santé Publique",
     topic: "Sujet 2",
     type: "tf",
@@ -3089,7 +3089,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-sp-s2-14",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Santé Publique",
     topic: "Sujet 2",
     type: "mcq",
@@ -3100,7 +3100,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-sp-s2-15",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Santé Publique",
     topic: "Sujet 2",
     type: "mcq_multi",
@@ -3111,7 +3111,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-sp-s2-16",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Santé Publique",
     topic: "Sujet 2",
     type: "tf",
@@ -3121,7 +3121,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-sp-s2-17",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Santé Publique",
     topic: "Sujet 2",
     type: "mcq",
@@ -3132,7 +3132,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-sp-s2-18",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Santé Publique",
     topic: "Sujet 2",
     type: "mcq_multi",
@@ -3143,7 +3143,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-sp-s2-19",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Santé Publique",
     topic: "Sujet 2",
     type: "tf",
@@ -3153,7 +3153,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-sp-s2-20",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Santé Publique",
     topic: "Sujet 2",
     type: "mcq",
@@ -3164,7 +3164,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-sp-s2-21",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Santé Publique",
     topic: "Sujet 2",
     type: "mcq_multi",
@@ -3175,7 +3175,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-sp-s2-22",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Santé Publique",
     topic: "Sujet 2",
     type: "tf",
@@ -3185,7 +3185,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-sp-s2-23",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Santé Publique",
     topic: "Sujet 2",
     type: "mcq",
@@ -3196,7 +3196,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-sp-s2-24",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Santé Publique",
     topic: "Sujet 2",
     type: "mcq_multi",
@@ -3207,7 +3207,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-sp-s2-25",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Santé Publique",
     topic: "Sujet 2",
     type: "tf",
@@ -3217,7 +3217,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-sp-s2-26",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Santé Publique",
     topic: "Sujet 2",
     type: "mcq",
@@ -3228,7 +3228,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-sp-s2-27",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Santé Publique",
     topic: "Sujet 2",
     type: "mcq_multi",
@@ -3239,7 +3239,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-sp-s2-28",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Santé Publique",
     topic: "Sujet 2",
     type: "tf",
@@ -3249,7 +3249,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-sp-s2-29",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Santé Publique",
     topic: "Sujet 2",
     type: "mcq",
@@ -3260,7 +3260,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-sp-s2-30",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Santé Publique",
     topic: "Sujet 2",
     type: "mcq_multi",
@@ -3270,10 +3270,10 @@ window.QUIZ_QUESTIONS_QUIZ = [
     explanation: "Les objectifs de développement durable incluent ces cibles."
   },
 
-  // Questions pour Santé Publique - Auxiliaire 2 année - Sujet 3
+  // Questions pour Santé Publique - A2-Niveau moyen - Sujet 3
   {
     id: "a2-sp-s3-1",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Santé Publique",
     topic: "Sujet 3",
     type: "tf",
@@ -3283,7 +3283,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-sp-s3-2",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Santé Publique",
     topic: "Sujet 3",
     type: "mcq",
@@ -3294,7 +3294,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-sp-s3-3",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Santé Publique",
     topic: "Sujet 3",
     type: "tf",
@@ -3304,7 +3304,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-sp-s3-4",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Santé Publique",
     topic: "Sujet 3",
     type: "mcq_multi",
@@ -3315,7 +3315,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-sp-s3-5",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Santé Publique",
     topic: "Sujet 3",
     type: "tf",
@@ -3325,7 +3325,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-sp-s3-6",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Santé Publique",
     topic: "Sujet 3",
     type: "mcq",
@@ -3336,7 +3336,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-sp-s3-7",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Santé Publique",
     topic: "Sujet 3",
     type: "tf",
@@ -3346,7 +3346,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-sp-s3-8",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Santé Publique",
     topic: "Sujet 3",
     type: "mcq_multi",
@@ -3357,7 +3357,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-sp-s3-9",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Santé Publique",
     topic: "Sujet 3",
     type: "tf",
@@ -3367,7 +3367,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-sp-s3-10",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Santé Publique",
     topic: "Sujet 3",
     type: "mcq",
@@ -3378,7 +3378,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-sp-s3-11",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Santé Publique",
     topic: "Sujet 3",
     type: "tf",
@@ -3388,7 +3388,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-sp-s3-12",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Santé Publique",
     topic: "Sujet 3",
     type: "mcq_multi",
@@ -3399,7 +3399,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-sp-s3-13",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Santé Publique",
     topic: "Sujet 3",
     type: "tf",
@@ -3409,7 +3409,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-sp-s3-14",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Santé Publique",
     topic: "Sujet 3",
     type: "mcq",
@@ -3420,7 +3420,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-sp-s3-15",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Santé Publique",
     topic: "Sujet 3",
     type: "tf",
@@ -3430,7 +3430,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-sp-s3-16",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Santé Publique",
     topic: "Sujet 3",
     type: "mcq_multi",
@@ -3441,7 +3441,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-sp-s3-17",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Santé Publique",
     topic: "Sujet 3",
     type: "tf",
@@ -3451,7 +3451,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-sp-s3-18",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Santé Publique",
     topic: "Sujet 3",
     type: "mcq",
@@ -3462,7 +3462,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-sp-s3-19",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Santé Publique",
     topic: "Sujet 3",
     type: "tf",
@@ -3472,7 +3472,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-sp-s3-20",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Santé Publique",
     topic: "Sujet 3",
     type: "mcq_multi",
@@ -3483,7 +3483,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-sp-s3-21",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Santé Publique",
     topic: "Sujet 3",
     type: "tf",
@@ -3493,7 +3493,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-sp-s3-22",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Santé Publique",
     topic: "Sujet 3",
     type: "mcq",
@@ -3504,7 +3504,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-sp-s3-23",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Santé Publique",
     topic: "Sujet 3",
     type: "tf",
@@ -3514,7 +3514,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-sp-s3-24",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Santé Publique",
     topic: "Sujet 3",
     type: "mcq_multi",
@@ -3525,7 +3525,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-sp-s3-25",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Santé Publique",
     topic: "Sujet 3",
     type: "tf",
@@ -3535,7 +3535,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-sp-s3-26",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Santé Publique",
     topic: "Sujet 3",
     type: "mcq",
@@ -3546,7 +3546,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-sp-s3-27",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Santé Publique",
     topic: "Sujet 3",
     type: "tf",
@@ -3556,7 +3556,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-sp-s3-28",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Santé Publique",
     topic: "Sujet 3",
     type: "mcq_multi",
@@ -3567,7 +3567,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-sp-s3-29",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Santé Publique",
     topic: "Sujet 3",
     type: "tf",
@@ -3577,7 +3577,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-sp-s3-30",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Santé Publique",
     topic: "Sujet 3",
     type: "mcq",
@@ -5557,10 +5557,10 @@ window.QUIZ_QUESTIONS_QUIZ = [
     explanation: "Une transmission claire et tracée est essentielle pour la continuité des soins.",
   },
 
-  // Questions pour Pédiatrie - Auxiliaire 2 année - Sujet 1
+  // Questions pour Pédiatrie - A2-Niveau moyen - Sujet 1
   {
     id: "a2-ped-s1-1",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet 1",
     type: "tf",
@@ -5570,7 +5570,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-ped-s1-2",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet 1",
     type: "mcq",
@@ -5581,7 +5581,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-ped-s1-3",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet 1",
     type: "tf",
@@ -5591,7 +5591,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-ped-s1-4",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet 1",
     type: "mcq",
@@ -5602,7 +5602,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-ped-s1-5",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet 1",
     type: "tf",
@@ -5612,7 +5612,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-ped-s1-6",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet 1",
     type: "mcq",
@@ -5623,7 +5623,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-ped-s1-7",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet 1",
     type: "tf",
@@ -5633,7 +5633,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-ped-s1-8",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet 1",
     type: "mcq",
@@ -5644,7 +5644,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-ped-s1-9",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet 1",
     type: "tf",
@@ -5654,7 +5654,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-ped-s1-10",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet 1",
     type: "mcq",
@@ -5665,7 +5665,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-ped-s1-11",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet 1",
     type: "tf",
@@ -5675,7 +5675,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-ped-s1-12",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet 1",
     type: "mcq",
@@ -5686,7 +5686,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-ped-s1-13",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet 1",
     type: "tf",
@@ -5696,7 +5696,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-ped-s1-14",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet 1",
     type: "mcq",
@@ -5707,7 +5707,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-ped-s1-15",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet 1",
     type: "tf",
@@ -5717,7 +5717,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-ped-s1-16",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet 1",
     type: "mcq",
@@ -5728,7 +5728,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-ped-s1-17",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet 1",
     type: "tf",
@@ -5738,7 +5738,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-ped-s1-18",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet 1",
     type: "mcq",
@@ -5749,7 +5749,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-ped-s1-19",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet 1",
     type: "tf",
@@ -5759,7 +5759,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-ped-s1-20",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet 1",
     type: "mcq",
@@ -5770,7 +5770,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-ped-s1-21",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet 1",
     type: "tf",
@@ -5780,7 +5780,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-ped-s1-22",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet 1",
     type: "mcq",
@@ -5791,7 +5791,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-ped-s1-23",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet 1",
     type: "tf",
@@ -5801,7 +5801,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-ped-s1-24",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet 1",
     type: "mcq",
@@ -5812,7 +5812,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-ped-s1-25",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet 1",
     type: "tf",
@@ -5822,7 +5822,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-ped-s1-26",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet 1",
     type: "mcq",
@@ -5833,7 +5833,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-ped-s1-27",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet 1",
     type: "tf",
@@ -5843,7 +5843,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-ped-s1-28",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet 1",
     type: "mcq",
@@ -5854,7 +5854,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-ped-s1-29",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet 1",
     type: "tf",
@@ -5864,7 +5864,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-ped-s1-30",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet 1",
     type: "mcq",
@@ -6189,10 +6189,10 @@ window.QUIZ_QUESTIONS_QUIZ = [
     answerIndex: 3,
     explanation: "L'environnement influence de nombreux aspects de la santé.",
   },
-  // Questions pour Santé Publique - Auxiliaire 2 année - Sujet 1
+  // Questions pour Santé Publique - A2-Niveau moyen - Sujet 1
   {
     id: "a2-sp-s1-1",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Santé Publique",
     topic: "Sujet 1",
     type: "tf",
@@ -6202,7 +6202,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-sp-s1-2",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Santé Publique",
     topic: "Sujet 1",
     type: "mcq",
@@ -6213,7 +6213,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-sp-s1-3",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Santé Publique",
     topic: "Sujet 1",
     type: "tf",
@@ -6223,7 +6223,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-sp-s1-4",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Santé Publique",
     topic: "Sujet 1",
     type: "mcq",
@@ -6234,7 +6234,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-sp-s1-5",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Santé Publique",
     topic: "Sujet 1",
     type: "tf",
@@ -6244,7 +6244,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-sp-s1-6",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Santé Publique",
     topic: "Sujet 1",
     type: "mcq",
@@ -6255,7 +6255,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-sp-s1-7",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Santé Publique",
     topic: "Sujet 1",
     type: "tf",
@@ -6265,7 +6265,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-sp-s1-8",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Santé Publique",
     topic: "Sujet 1",
     type: "mcq",
@@ -6276,7 +6276,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-sp-s1-9",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Santé Publique",
     topic: "Sujet 1",
     type: "tf",
@@ -6286,7 +6286,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-sp-s1-10",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Santé Publique",
     topic: "Sujet 1",
     type: "mcq",
@@ -6297,7 +6297,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-sp-s1-11",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Santé Publique",
     topic: "Sujet 1",
     type: "tf",
@@ -6307,7 +6307,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-sp-s1-12",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Santé Publique",
     topic: "Sujet 1",
     type: "mcq",
@@ -6318,7 +6318,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-sp-s1-13",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Santé Publique",
     topic: "Sujet 1",
     type: "tf",
@@ -6328,7 +6328,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-sp-s1-14",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Santé Publique",
     topic: "Sujet 1",
     type: "mcq",
@@ -6339,7 +6339,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-sp-s1-15",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Santé Publique",
     topic: "Sujet 1",
     type: "tf",
@@ -6349,7 +6349,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-sp-s1-16",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Santé Publique",
     topic: "Sujet 1",
     type: "mcq",
@@ -6360,7 +6360,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-sp-s1-17",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Santé Publique",
     topic: "Sujet 1",
     type: "tf",
@@ -6370,7 +6370,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-sp-s1-18",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Santé Publique",
     topic: "Sujet 1",
     type: "mcq",
@@ -6381,7 +6381,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-sp-s1-19",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Santé Publique",
     topic: "Sujet 1",
     type: "tf",
@@ -6391,7 +6391,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-sp-s1-20",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Santé Publique",
     topic: "Sujet 1",
     type: "mcq",
@@ -6402,7 +6402,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-sp-s1-21",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Santé Publique",
     topic: "Sujet 1",
     type: "tf",
@@ -6412,7 +6412,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-sp-s1-22",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Santé Publique",
     topic: "Sujet 1",
     type: "mcq",
@@ -6423,7 +6423,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-sp-s1-23",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Santé Publique",
     topic: "Sujet 1",
     type: "tf",
@@ -6433,7 +6433,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-sp-s1-24",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Santé Publique",
     topic: "Sujet 1",
     type: "mcq",
@@ -6444,7 +6444,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-sp-s1-25",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Santé Publique",
     topic: "Sujet 1",
     type: "tf",
@@ -6454,7 +6454,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-sp-s1-26",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Santé Publique",
     topic: "Sujet 1",
     type: "mcq",
@@ -6465,7 +6465,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-sp-s1-27",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Santé Publique",
     topic: "Sujet 1",
     type: "tf",
@@ -6475,7 +6475,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-sp-s1-28",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Santé Publique",
     topic: "Sujet 1",
     type: "mcq",
@@ -6486,7 +6486,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-sp-s1-29",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Santé Publique",
     topic: "Sujet 1",
     type: "tf",
@@ -6496,7 +6496,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-sp-s1-30",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Santé Publique",
     topic: "Sujet 1",
     type: "mcq",
@@ -6821,10 +6821,10 @@ window.QUIZ_QUESTIONS_QUIZ = [
     answerIndex: 3,
     explanation: "Plusieurs méthodes contrôlent les saignements.",
   },
-  // Questions pour Pathologies churigicale / Sémiologie - Auxiliaire 2 année - Sujet 1
+  // Questions pour Pathologies churigicale / Sémiologie - A2-Niveau moyen - Sujet 1
   {
     id: "a2-chir-s1-1",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies churigicale / Sémiologie",
     topic: "Sujet 1",
     type: "tf",
@@ -6834,7 +6834,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-chir-s1-2",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies churigicale / Sémiologie",
     topic: "Sujet 1",
     type: "mcq",
@@ -6845,7 +6845,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-chir-s1-3",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies churigicale / Sémiologie",
     topic: "Sujet 1",
     type: "tf",
@@ -6855,7 +6855,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-chir-s1-4",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies churigicale / Sémiologie",
     topic: "Sujet 1",
     type: "mcq",
@@ -6866,7 +6866,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-chir-s1-5",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies churigicale / Sémiologie",
     topic: "Sujet 1",
     type: "tf",
@@ -6876,7 +6876,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-chir-s1-6",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies churigicale / Sémiologie",
     topic: "Sujet 1",
     type: "mcq",
@@ -6887,7 +6887,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-chir-s1-7",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies churigicale / Sémiologie",
     topic: "Sujet 1",
     type: "tf",
@@ -6897,7 +6897,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-chir-s1-8",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies churigicale / Sémiologie",
     topic: "Sujet 1",
     type: "mcq",
@@ -6908,7 +6908,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-chir-s1-9",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies churigicale / Sémiologie",
     topic: "Sujet 1",
     type: "tf",
@@ -6918,7 +6918,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-chir-s1-10",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies churigicale / Sémiologie",
     topic: "Sujet 1",
     type: "mcq",
@@ -6929,7 +6929,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-chir-s1-11",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies churigicale / Sémiologie",
     topic: "Sujet 1",
     type: "tf",
@@ -6939,7 +6939,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-chir-s1-12",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies churigicale / Sémiologie",
     topic: "Sujet 1",
     type: "mcq",
@@ -6950,7 +6950,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-chir-s1-13",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies churigicale / Sémiologie",
     topic: "Sujet 1",
     type: "tf",
@@ -6960,7 +6960,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-chir-s1-14",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies churigicale / Sémiologie",
     topic: "Sujet 1",
     type: "mcq",
@@ -6971,7 +6971,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-chir-s1-15",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies churigicale / Sémiologie",
     topic: "Sujet 1",
     type: "tf",
@@ -6981,7 +6981,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-chir-s1-16",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies churigicale / Sémiologie",
     topic: "Sujet 1",
     type: "mcq",
@@ -6992,7 +6992,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-chir-s1-17",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies churigicale / Sémiologie",
     topic: "Sujet 1",
     type: "tf",
@@ -7002,7 +7002,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-chir-s1-18",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies churigicale / Sémiologie",
     topic: "Sujet 1",
     type: "mcq",
@@ -7013,7 +7013,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-chir-s1-19",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies churigicale / Sémiologie",
     topic: "Sujet 1",
     type: "tf",
@@ -7023,7 +7023,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-chir-s1-20",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies churigicale / Sémiologie",
     topic: "Sujet 1",
     type: "mcq",
@@ -7034,7 +7034,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-chir-s1-21",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies churigicale / Sémiologie",
     topic: "Sujet 1",
     type: "tf",
@@ -7044,7 +7044,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-chir-s1-22",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies churigicale / Sémiologie",
     topic: "Sujet 1",
     type: "mcq",
@@ -7055,7 +7055,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-chir-s1-23",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies churigicale / Sémiologie",
     topic: "Sujet 1",
     type: "tf",
@@ -7065,7 +7065,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-chir-s1-24",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies churigicale / Sémiologie",
     topic: "Sujet 1",
     type: "mcq",
@@ -7076,7 +7076,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-chir-s1-25",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies churigicale / Sémiologie",
     topic: "Sujet 1",
     type: "tf",
@@ -7086,7 +7086,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-chir-s1-26",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies churigicale / Sémiologie",
     topic: "Sujet 1",
     type: "mcq",
@@ -7097,7 +7097,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-chir-s1-27",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies churigicale / Sémiologie",
     topic: "Sujet 1",
     type: "tf",
@@ -7107,7 +7107,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-chir-s1-28",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies churigicale / Sémiologie",
     topic: "Sujet 1",
     type: "mcq",
@@ -7118,7 +7118,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-chir-s1-29",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies churigicale / Sémiologie",
     topic: "Sujet 1",
     type: "tf",
@@ -7128,7 +7128,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-chir-s1-30",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies churigicale / Sémiologie",
     topic: "Sujet 1",
     type: "mcq",
@@ -7463,10 +7463,10 @@ window.QUIZ_QUESTIONS_QUIZ = [
     answerIndex: 1,
     explanation: "La colite est une inflammation du côlon.",
   },
-  // Questions pour Pathologies médicales / Sémiologie - Auxiliaire 2 année - Sujet 1
+  // Questions pour Pathologies médicales / Sémiologie - A2-Niveau moyen - Sujet 1
   {
     id: "a2-med-s1-1",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet 1",
     type: "tf",
@@ -7476,7 +7476,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-med-s1-2",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet 1",
     type: "mcq",
@@ -7487,7 +7487,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-med-s1-3",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet 1",
     type: "tf",
@@ -7497,7 +7497,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-med-s1-4",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet 1",
     type: "mcq",
@@ -7508,7 +7508,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-med-s1-5",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet 1",
     type: "tf",
@@ -7518,7 +7518,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-med-s1-6",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet 1",
     type: "mcq",
@@ -7529,7 +7529,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-med-s1-7",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet 1",
     type: "tf",
@@ -7539,7 +7539,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-med-s1-8",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet 1",
     type: "mcq",
@@ -7550,7 +7550,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-med-s1-9",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet 1",
     type: "tf",
@@ -7560,7 +7560,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-med-s1-10",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet 1",
     type: "mcq",
@@ -7571,7 +7571,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-med-s1-11",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet 1",
     type: "tf",
@@ -7581,7 +7581,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-med-s1-12",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet 1",
     type: "mcq",
@@ -7592,7 +7592,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-med-s1-13",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet 1",
     type: "tf",
@@ -7602,7 +7602,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-med-s1-14",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet 1",
     type: "mcq",
@@ -7613,7 +7613,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-med-s1-15",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet 1",
     type: "tf",
@@ -7623,7 +7623,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-med-s1-16",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet 1",
     type: "mcq",
@@ -7634,7 +7634,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-med-s1-17",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet 1",
     type: "tf",
@@ -7644,7 +7644,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-med-s1-18",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet 1",
     type: "mcq",
@@ -7655,7 +7655,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-med-s1-19",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet 1",
     type: "tf",
@@ -7665,7 +7665,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-med-s1-20",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet 1",
     type: "mcq",
@@ -7676,7 +7676,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-med-s1-21",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet 1",
     type: "tf",
@@ -7686,7 +7686,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-med-s1-22",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet 1",
     type: "mcq",
@@ -7697,7 +7697,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-med-s1-23",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet 1",
     type: "tf",
@@ -7707,7 +7707,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-med-s1-24",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet 1",
     type: "mcq",
@@ -7718,7 +7718,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-med-s1-25",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet 1",
     type: "tf",
@@ -7728,7 +7728,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-med-s1-26",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet 1",
     type: "mcq",
@@ -7739,7 +7739,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-med-s1-27",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet 1",
     type: "tf",
@@ -7749,7 +7749,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-med-s1-28",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet 1",
     type: "mcq",
@@ -7760,7 +7760,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-med-s1-29",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet 1",
     type: "tf",
@@ -7770,7 +7770,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-med-s1-30",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet 1",
     type: "mcq",
@@ -7778,10 +7778,10 @@ window.QUIZ_QUESTIONS_QUIZ = [
     choices: ["Auto-immune", "Infectieuse", "Tumorale", "Médicamenteuse"],
     answerIndex: 0,
   },
-  // Questions pour Pathologies médicales / Sémiologie - Auxiliaire 2 année - Sujet 2
+  // Questions pour Pathologies médicales / Sémiologie - A2-Niveau moyen - Sujet 2
   {
     id: "a2-med-s2-1",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet 2",
     type: "tf",
@@ -7791,7 +7791,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-med-s2-2",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet 2",
     type: "mcq",
@@ -7802,7 +7802,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-med-s2-3",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet 2",
     type: "tf",
@@ -7812,7 +7812,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-med-s2-4",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet 2",
     type: "mcq",
@@ -7823,7 +7823,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-med-s2-5",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet 2",
     type: "tf",
@@ -7833,7 +7833,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-med-s2-6",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet 2",
     type: "mcq",
@@ -7844,7 +7844,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-med-s2-7",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet 2",
     type: "tf",
@@ -7854,7 +7854,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-med-s2-8",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet 2",
     type: "mcq",
@@ -7865,7 +7865,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-med-s2-9",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet 2",
     type: "tf",
@@ -7875,7 +7875,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-med-s2-10",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet 2",
     type: "mcq",
@@ -7886,7 +7886,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-med-s2-11",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet 2",
     type: "tf",
@@ -7896,7 +7896,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-med-s2-12",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet 2",
     type: "mcq",
@@ -7907,7 +7907,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-med-s2-13",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet 2",
     type: "tf",
@@ -7917,7 +7917,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-med-s2-14",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet 2",
     type: "mcq",
@@ -7928,7 +7928,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-med-s2-15",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet 2",
     type: "tf",
@@ -7938,7 +7938,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-med-s2-16",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet 2",
     type: "mcq",
@@ -7949,7 +7949,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-med-s2-17",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet 2",
     type: "tf",
@@ -7959,7 +7959,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-med-s2-18",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet 2",
     type: "mcq",
@@ -7970,7 +7970,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-med-s2-19",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet 2",
     type: "tf",
@@ -7980,7 +7980,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-med-s2-20",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet 2",
     type: "mcq",
@@ -7991,7 +7991,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-med-s2-21",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet 2",
     type: "mcq_multi",
@@ -8002,7 +8002,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-med-s2-22",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet 2",
     type: "tf",
@@ -8012,7 +8012,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-med-s2-23",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet 2",
     type: "mcq",
@@ -8023,7 +8023,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-med-s2-24",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet 2",
     type: "tf",
@@ -8033,7 +8033,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-med-s2-25",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet 2",
     type: "mcq",
@@ -8044,7 +8044,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-med-s2-26",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet 2",
     type: "mcq_multi",
@@ -8055,7 +8055,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-med-s2-27",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet 2",
     type: "tf",
@@ -8065,7 +8065,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-med-s2-28",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet 2",
     type: "mcq",
@@ -8076,7 +8076,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-med-s2-29",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet 2",
     type: "mcq_multi",
@@ -8087,7 +8087,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-med-s2-30",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet 2",
     type: "tf",
@@ -8096,10 +8096,10 @@ window.QUIZ_QUESTIONS_QUIZ = [
     explanation: "Riche en fruits, légumes et graisses saines, il réduit les risques cardiovasculaires.",
   },
 
-  // Questions pour Pathologies médicales / Sémiologie - Auxiliaire 2 année - Sujet 3
+  // Questions pour Pathologies médicales / Sémiologie - A2-Niveau moyen - Sujet 3
   {
     id: "a2-med-s3-1",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet 3",
     type: "tf",
@@ -8109,7 +8109,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-med-s3-2",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet 3",
     type: "tf",
@@ -8119,7 +8119,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-med-s3-3",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet 3",
     type: "tf",
@@ -8129,7 +8129,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-med-s3-4",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet 3",
     type: "tf",
@@ -8139,7 +8139,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-med-s3-5",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet 3",
     type: "tf",
@@ -8149,7 +8149,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-med-s3-6",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet 3",
     type: "tf",
@@ -8159,7 +8159,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-med-s3-7",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet 3",
     type: "tf",
@@ -8169,7 +8169,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-med-s3-8",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet 3",
     type: "tf",
@@ -8179,7 +8179,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-med-s3-9",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet 3",
     type: "tf",
@@ -8189,7 +8189,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-med-s3-10",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet 3",
     type: "tf",
@@ -8199,7 +8199,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-med-s3-11",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet 3",
     type: "mcq",
@@ -8210,7 +8210,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-med-s3-12",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet 3",
     type: "mcq",
@@ -8221,7 +8221,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-med-s3-13",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet 3",
     type: "mcq",
@@ -8232,7 +8232,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-med-s3-14",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet 3",
     type: "mcq",
@@ -8243,7 +8243,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-med-s3-15",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet 3",
     type: "mcq",
@@ -8254,7 +8254,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-med-s3-16",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet 3",
     type: "mcq",
@@ -8265,7 +8265,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-med-s3-17",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet 3",
     type: "mcq",
@@ -8276,7 +8276,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-med-s3-18",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet 3",
     type: "mcq",
@@ -8287,7 +8287,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-med-s3-19",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet 3",
     type: "mcq",
@@ -8298,7 +8298,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-med-s3-20",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet 3",
     type: "mcq",
@@ -8309,7 +8309,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-med-s3-21",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet 3",
     type: "mcq_multi",
@@ -8320,7 +8320,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-med-s3-22",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet 3",
     type: "mcq_multi",
@@ -8331,7 +8331,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-med-s3-23",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet 3",
     type: "mcq_multi",
@@ -8342,7 +8342,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-med-s3-24",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet 3",
     type: "mcq_multi",
@@ -8353,7 +8353,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-med-s3-25",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet 3",
     type: "mcq_multi",
@@ -8364,7 +8364,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-med-s3-26",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet 3",
     type: "mcq_multi",
@@ -8375,7 +8375,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-med-s3-27",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet 3",
     type: "mcq_multi",
@@ -8386,7 +8386,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-med-s3-28",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet 3",
     type: "mcq_multi",
@@ -8397,7 +8397,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-med-s3-29",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet 3",
     type: "mcq_multi",
@@ -8408,7 +8408,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-med-s3-30",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet 3",
     type: "mcq_multi",
@@ -8418,10 +8418,10 @@ window.QUIZ_QUESTIONS_QUIZ = [
     explanation: "L'anaphylaxie présente urticaire, œdème, dyspnée. La fièvre n'est pas typique."
   },
 
-  // Questions pour Pédiatrie - Auxiliaire 2 année - Sujet examen
+  // Questions pour Pédiatrie - A2-Niveau moyen - Sujet examen
   {
     id: "a2-ped-ex-1",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet examen",
     type: "tf",
@@ -8431,7 +8431,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-ped-ex-2",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet examen",
     type: "mcq",
@@ -8442,7 +8442,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-ped-ex-3",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet examen",
     type: "tf",
@@ -8452,7 +8452,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-ped-ex-4",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet examen",
     type: "mcq",
@@ -8463,7 +8463,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-ped-ex-5",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet examen",
     type: "tf",
@@ -8473,7 +8473,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-ped-ex-6",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet examen",
     type: "mcq",
@@ -8484,7 +8484,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-ped-ex-7",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet examen",
     type: "tf",
@@ -8494,7 +8494,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-ped-ex-8",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet examen",
     type: "mcq",
@@ -8505,7 +8505,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-ped-ex-9",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet examen",
     type: "tf",
@@ -8515,7 +8515,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-ped-ex-10",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet examen",
     type: "mcq",
@@ -8526,7 +8526,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-ped-ex-11",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet examen",
     type: "tf",
@@ -8536,7 +8536,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-ped-ex-12",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet examen",
     type: "mcq",
@@ -8547,7 +8547,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-ped-ex-13",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet examen",
     type: "tf",
@@ -8557,7 +8557,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-ped-ex-14",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet examen",
     type: "mcq",
@@ -8568,7 +8568,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-ped-ex-15",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet examen",
     type: "tf",
@@ -8578,7 +8578,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-ped-ex-16",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet examen",
     type: "mcq",
@@ -8589,7 +8589,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-ped-ex-17",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet examen",
     type: "tf",
@@ -8599,7 +8599,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-ped-ex-18",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet examen",
     type: "mcq",
@@ -8610,7 +8610,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-ped-ex-19",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet examen",
     type: "tf",
@@ -8620,7 +8620,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-ped-ex-20",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet examen",
     type: "mcq",
@@ -8631,7 +8631,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-ped-ex-21",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet examen",
     type: "tf",
@@ -8641,7 +8641,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-ped-ex-22",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet examen",
     type: "mcq",
@@ -8652,7 +8652,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-ped-ex-23",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet examen",
     type: "tf",
@@ -8662,7 +8662,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-ped-ex-24",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet examen",
     type: "mcq",
@@ -8673,7 +8673,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-ped-ex-25",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet examen",
     type: "tf",
@@ -8683,7 +8683,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-ped-ex-26",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet examen",
     type: "mcq",
@@ -8694,7 +8694,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-ped-ex-27",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet examen",
     type: "tf",
@@ -8704,7 +8704,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-ped-ex-28",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet examen",
     type: "mcq",
@@ -8715,7 +8715,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-ped-ex-29",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet examen",
     type: "tf",
@@ -8725,7 +8725,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-ped-ex-30",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet examen",
     type: "mcq",
@@ -8735,10 +8735,10 @@ window.QUIZ_QUESTIONS_QUIZ = [
     explanation: "L'hydratation et la surveillance sont essentielles ; les antibiotiques ne sont pas toujours nécessaires." 
   },
 
-  // Questions pour Santé Publique - Auxiliaire 2 année - Sujet examen
+  // Questions pour Santé Publique - A2-Niveau moyen - Sujet examen
   {
     id: "a2-sp-ex-1",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Santé Publique",
     topic: "Sujet examen",
     type: "tf",
@@ -8748,7 +8748,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-sp-ex-2",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Santé Publique",
     topic: "Sujet examen",
     type: "mcq",
@@ -8759,7 +8759,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-sp-ex-3",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Santé Publique",
     topic: "Sujet examen",
     type: "tf",
@@ -8769,7 +8769,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-sp-ex-4",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Santé Publique",
     topic: "Sujet examen",
     type: "mcq",
@@ -8780,7 +8780,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-sp-ex-5",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Santé Publique",
     topic: "Sujet examen",
     type: "tf",
@@ -8790,7 +8790,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-sp-ex-6",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Santé Publique",
     topic: "Sujet examen",
     type: "mcq_multi",
@@ -8801,7 +8801,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-sp-ex-7",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Santé Publique",
     topic: "Sujet examen",
     type: "tf",
@@ -8811,7 +8811,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-sp-ex-8",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Santé Publique",
     topic: "Sujet examen",
     type: "mcq",
@@ -8822,7 +8822,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-sp-ex-9",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Santé Publique",
     topic: "Sujet examen",
     type: "tf",
@@ -8832,7 +8832,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-sp-ex-10",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Santé Publique",
     topic: "Sujet examen",
     type: "mcq",
@@ -8843,7 +8843,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-sp-ex-11",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Santé Publique",
     topic: "Sujet examen",
     type: "tf",
@@ -8853,7 +8853,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-sp-ex-12",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Santé Publique",
     topic: "Sujet examen",
     type: "mcq",
@@ -8864,7 +8864,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-sp-ex-13",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Santé Publique",
     topic: "Sujet examen",
     type: "tf",
@@ -8874,7 +8874,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-sp-ex-14",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Santé Publique",
     topic: "Sujet examen",
     type: "mcq",
@@ -8885,7 +8885,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-sp-ex-15",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Santé Publique",
     topic: "Sujet examen",
     type: "tf",
@@ -8895,7 +8895,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-sp-ex-16",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Santé Publique",
     topic: "Sujet examen",
     type: "mcq",
@@ -8906,7 +8906,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-sp-ex-17",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Santé Publique",
     topic: "Sujet examen",
     type: "tf",
@@ -8916,7 +8916,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-sp-ex-18",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Santé Publique",
     topic: "Sujet examen",
     type: "mcq",
@@ -8927,7 +8927,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-sp-ex-19",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Santé Publique",
     topic: "Sujet examen",
     type: "tf",
@@ -8937,7 +8937,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-sp-ex-20",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Santé Publique",
     topic: "Sujet examen",
     type: "mcq",
@@ -8948,7 +8948,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-sp-ex-21",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Santé Publique",
     topic: "Sujet examen",
     type: "tf",
@@ -8958,7 +8958,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-sp-ex-22",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Santé Publique",
     topic: "Sujet examen",
     type: "mcq",
@@ -8969,7 +8969,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-sp-ex-23",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Santé Publique",
     topic: "Sujet examen",
     type: "tf",
@@ -8979,7 +8979,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-sp-ex-24",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Santé Publique",
     topic: "Sujet examen",
     type: "mcq",
@@ -8990,7 +8990,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-sp-ex-25",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Santé Publique",
     topic: "Sujet examen",
     type: "tf",
@@ -9000,7 +9000,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-sp-ex-26",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Santé Publique",
     topic: "Sujet examen",
     type: "mcq",
@@ -9011,7 +9011,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-sp-ex-27",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Santé Publique",
     topic: "Sujet examen",
     type: "tf",
@@ -9021,7 +9021,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-sp-ex-28",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Santé Publique",
     topic: "Sujet examen",
     type: "mcq",
@@ -9032,7 +9032,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-sp-ex-29",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Santé Publique",
     topic: "Sujet examen",
     type: "tf",
@@ -9042,7 +9042,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-sp-ex-30",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Santé Publique",
     topic: "Sujet examen",
     type: "mcq",
@@ -9052,10 +9052,10 @@ window.QUIZ_QUESTIONS_QUIZ = [
     explanation: "L'hygiène des mains est la mesure la plus efficace pour réduire les infections nosocomiales." 
   },
 
-  // Questions pour Pathologies churigicale / Sémiologie - Auxiliaire 2 année - Sujet examen
+  // Questions pour Pathologies churigicale / Sémiologie - A2-Niveau moyen - Sujet examen
   {
     id: "a2-chir-ex-1",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies churigicale / Sémiologie",
     topic: "Sujet examen",
     type: "tf",
@@ -9065,7 +9065,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-chir-ex-2",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies churigicale / Sémiologie",
     topic: "Sujet examen",
     type: "mcq",
@@ -9076,7 +9076,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-chir-ex-3",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies churigicale / Sémiologie",
     topic: "Sujet examen",
     type: "tf",
@@ -9086,7 +9086,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-chir-ex-4",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies churigicale / Sémiologie",
     topic: "Sujet examen",
     type: "mcq",
@@ -9097,7 +9097,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-chir-ex-5",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies churigicale / Sémiologie",
     topic: "Sujet examen",
     type: "tf",
@@ -9107,7 +9107,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-chir-ex-6",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies churigicale / Sémiologie",
     topic: "Sujet examen",
     type: "mcq",
@@ -9118,7 +9118,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-chir-ex-7",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies churigicale / Sémiologie",
     topic: "Sujet examen",
     type: "tf",
@@ -9128,7 +9128,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-chir-ex-8",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies churigicale / Sémiologie",
     topic: "Sujet examen",
     type: "mcq",
@@ -9139,7 +9139,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-chir-ex-9",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies churigicale / Sémiologie",
     topic: "Sujet examen",
     type: "tf",
@@ -9149,7 +9149,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-chir-ex-10",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies churigicale / Sémiologie",
     topic: "Sujet examen",
     type: "mcq",
@@ -9160,7 +9160,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-chir-ex-11",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies churigicale / Sémiologie",
     topic: "Sujet examen",
     type: "tf",
@@ -9170,7 +9170,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-chir-ex-12",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies churigicale / Sémiologie",
     topic: "Sujet examen",
     type: "mcq",
@@ -9181,7 +9181,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-chir-ex-13",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies churigicale / Sémiologie",
     topic: "Sujet examen",
     type: "tf",
@@ -9191,7 +9191,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-chir-ex-14",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies churigicale / Sémiologie",
     topic: "Sujet examen",
     type: "mcq",
@@ -9202,7 +9202,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-chir-ex-15",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies churigicale / Sémiologie",
     topic: "Sujet examen",
     type: "tf",
@@ -9212,7 +9212,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-chir-ex-16",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies churigicale / Sémiologie",
     topic: "Sujet examen",
     type: "mcq",
@@ -9223,7 +9223,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-chir-ex-17",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies churigicale / Sémiologie",
     topic: "Sujet examen",
     type: "tf",
@@ -9233,7 +9233,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-chir-ex-18",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies churigicale / Sémiologie",
     topic: "Sujet examen",
     type: "mcq",
@@ -9244,7 +9244,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-chir-ex-19",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies churigicale / Sémiologie",
     topic: "Sujet examen",
     type: "tf",
@@ -9254,7 +9254,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-chir-ex-20",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies churigicale / Sémiologie",
     topic: "Sujet examen",
     type: "mcq",
@@ -9265,7 +9265,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-chir-ex-21",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies churigicale / Sémiologie",
     topic: "Sujet examen",
     type: "tf",
@@ -9275,7 +9275,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-chir-ex-22",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies churigicale / Sémiologie",
     topic: "Sujet examen",
     type: "mcq",
@@ -9286,7 +9286,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-chir-ex-23",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies churigicale / Sémiologie",
     topic: "Sujet examen",
     type: "tf",
@@ -9296,7 +9296,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-chir-ex-24",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies churigicale / Sémiologie",
     topic: "Sujet examen",
     type: "mcq",
@@ -9307,7 +9307,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-chir-ex-25",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies churigicale / Sémiologie",
     topic: "Sujet examen",
     type: "tf",
@@ -9317,7 +9317,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-chir-ex-26",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies churigicale / Sémiologie",
     topic: "Sujet examen",
     type: "mcq",
@@ -9328,7 +9328,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-chir-ex-27",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies churigicale / Sémiologie",
     topic: "Sujet examen",
     type: "tf",
@@ -9338,7 +9338,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-chir-ex-28",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies churigicale / Sémiologie",
     topic: "Sujet examen",
     type: "mcq",
@@ -9349,7 +9349,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-chir-ex-29",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies churigicale / Sémiologie",
     topic: "Sujet examen",
     type: "tf",
@@ -9359,7 +9359,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-chir-ex-30",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies churigicale / Sémiologie",
     topic: "Sujet examen",
     type: "mcq",
@@ -9369,10 +9369,10 @@ window.QUIZ_QUESTIONS_QUIZ = [
     explanation: "Les fils résorbables se dégradent et évitent une ablation ultérieure." 
   },
 
-  // Questions pour Pathologies médicales / Sémiologie - Auxiliaire 2 année - Sujet examen
+  // Questions pour Pathologies médicales / Sémiologie - A2-Niveau moyen - Sujet examen
   {
     id: "a2-med-ex-1",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet examen",
     type: "tf",
@@ -9382,7 +9382,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-med-ex-2",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet examen",
     type: "mcq",
@@ -9393,7 +9393,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-med-ex-3",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet examen",
     type: "tf",
@@ -9403,7 +9403,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-med-ex-4",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet examen",
     type: "mcq",
@@ -9414,7 +9414,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-med-ex-5",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet examen",
     type: "tf",
@@ -9424,7 +9424,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-med-ex-6",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet examen",
     type: "mcq",
@@ -9435,7 +9435,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-med-ex-7",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet examen",
     type: "tf",
@@ -9445,7 +9445,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-med-ex-8",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet examen",
     type: "mcq",
@@ -9456,7 +9456,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-med-ex-9",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet examen",
     type: "tf",
@@ -9466,7 +9466,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-med-ex-10",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet examen",
     type: "mcq",
@@ -9477,7 +9477,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-med-ex-11",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet examen",
     type: "tf",
@@ -9487,7 +9487,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-med-ex-12",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet examen",
     type: "mcq",
@@ -9498,7 +9498,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-med-ex-13",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet examen",
     type: "tf",
@@ -9508,7 +9508,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-med-ex-14",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet examen",
     type: "mcq",
@@ -9519,7 +9519,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-med-ex-15",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet examen",
     type: "tf",
@@ -9529,7 +9529,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-med-ex-16",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet examen",
     type: "mcq",
@@ -9540,7 +9540,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-med-ex-17",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet examen",
     type: "tf",
@@ -9550,7 +9550,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-med-ex-18",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet examen",
     type: "mcq",
@@ -9561,7 +9561,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-med-ex-19",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet examen",
     type: "tf",
@@ -9571,7 +9571,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-med-ex-20",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet examen",
     type: "mcq",
@@ -9582,7 +9582,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-med-ex-21",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet examen",
     type: "tf",
@@ -9592,7 +9592,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-med-ex-22",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet examen",
     type: "mcq",
@@ -9603,7 +9603,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-med-ex-23",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet examen",
     type: "tf",
@@ -9613,7 +9613,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-med-ex-24",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet examen",
     type: "mcq",
@@ -9624,7 +9624,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-med-ex-25",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet examen",
     type: "tf",
@@ -9634,7 +9634,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-med-ex-26",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet examen",
     type: "mcq",
@@ -9645,7 +9645,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-med-ex-27",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet examen",
     type: "tf",
@@ -9655,7 +9655,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-med-ex-28",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet examen",
     type: "mcq",
@@ -9666,7 +9666,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-med-ex-29",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet examen",
     type: "tf",
@@ -9676,7 +9676,7 @@ window.QUIZ_QUESTIONS_QUIZ = [
   },
   {
     id: "a2-med-ex-30",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet examen",
     type: "mcq",
@@ -64744,7 +64744,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   //LICENCE 3 IDE/SFM //
   {
     id: "infas-l3-chir-2024-1",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pathologies churigicale / Sémiologie",
     topic: "Sujet 1",
     type: "tf",
@@ -64755,7 +64755,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "infas-l3-chir-2024-2",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pathologies churigicale / Sémiologie",
     topic: "Sujet 1",
     type: "tf",
@@ -64767,7 +64767,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "infas-l3-chir-2024-3",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pathologies churigicale / Sémiologie",
     type: "tf",
     question: "L'attitude de DESSAULT est celle de tout blessé présentant une impotence fonctionnelle absolue.",
@@ -64777,7 +64777,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "infas-l3-chir-2024-4",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pathologies churigicale / Sémiologie",
     topic: "Sujet 2",
     type: "tf",
@@ -64788,10 +64788,10 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
       "Le phlegmon est une infection diffusée des gaines synoviales des tendons fléchisseurs de la main. L'infection localisée des étuis digitaux correspond au panaris.",
   },
 
-  // Questions pour Pathologies churigicale / Sémiologie - L3-Niveau Accompli INF/SFM - Sujet 2 (suite)
+  // Questions pour Pathologies churigicale / Sémiologie - L3-Niveau Accompli INF - Sujet 2 (suite)
   {
     id: "infas-l3-chir-s2-1",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pathologies churigicale / Sémiologie",
     topic: "Sujet 2",
     type: "tf",
@@ -64802,7 +64802,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "infas-l3-chir-s2-2",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pathologies churigicale / Sémiologie",
     topic: "Sujet 2",
     type: "mcq",
@@ -64814,7 +64814,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "infas-l3-chir-s2-3",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pathologies churigicale / Sémiologie",
     topic: "Sujet 2",
     type: "tf",
@@ -64825,7 +64825,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "infas-l3-chir-s2-4",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pathologies churigicale / Sémiologie",
     topic: "Sujet 2",
     type: "mcq",
@@ -64837,7 +64837,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "infas-l3-chir-s2-5",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pathologies churigicale / Sémiologie",
     topic: "Sujet 2",
     type: "tf",
@@ -64848,7 +64848,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "infas-l3-chir-s2-6",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pathologies churigicale / Sémiologie",
     topic: "Sujet 2",
     type: "mcq",
@@ -64860,7 +64860,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "infas-l3-chir-s2-7",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pathologies churigicale / Sémiologie",
     topic: "Sujet 2",
     type: "tf",
@@ -64871,7 +64871,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "infas-l3-chir-s2-8",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pathologies churigicale / Sémiologie",
     topic: "Sujet 2",
     type: "mcq",
@@ -64883,7 +64883,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "infas-l3-chir-s2-9",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pathologies churigicale / Sémiologie",
     topic: "Sujet 2",
     type: "tf",
@@ -64894,7 +64894,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "infas-l3-chir-s2-10",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pathologies churigicale / Sémiologie",
     topic: "Sujet 2",
     type: "mcq",
@@ -64906,7 +64906,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "infas-l3-chir-s2-11",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pathologies churigicale / Sémiologie",
     topic: "Sujet 2",
     type: "tf",
@@ -64917,7 +64917,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "infas-l3-chir-s2-12",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pathologies churigicale / Sémiologie",
     topic: "Sujet 2",
     type: "mcq",
@@ -64929,7 +64929,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "infas-l3-chir-s2-13",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pathologies churigicale / Sémiologie",
     topic: "Sujet 2",
     type: "tf",
@@ -64940,7 +64940,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "infas-l3-chir-s2-14",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pathologies churigicale / Sémiologie",
     topic: "Sujet 2",
     type: "mcq",
@@ -64952,7 +64952,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "infas-l3-chir-s2-15",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pathologies churigicale / Sémiologie",
     topic: "Sujet 2",
     type: "tf",
@@ -64963,7 +64963,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "infas-l3-chir-s2-16",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pathologies churigicale / Sémiologie",
     topic: "Sujet 2",
     type: "mcq",
@@ -64975,7 +64975,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "infas-l3-chir-s2-17",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pathologies churigicale / Sémiologie",
     topic: "Sujet 2",
     type: "tf",
@@ -64986,7 +64986,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "infas-l3-chir-s2-18",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pathologies churigicale / Sémiologie",
     topic: "Sujet 2",
     type: "mcq",
@@ -64998,7 +64998,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "infas-l3-chir-s2-19",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pathologies churigicale / Sémiologie",
     topic: "Sujet 2",
     type: "tf",
@@ -65009,7 +65009,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "infas-l3-chir-s2-20",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pathologies churigicale / Sémiologie",
     topic: "Sujet 2",
     type: "mcq",
@@ -65021,7 +65021,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "infas-l3-chir-s2-21",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pathologies churigicale / Sémiologie",
     topic: "Sujet 2",
     type: "tf",
@@ -65032,7 +65032,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "infas-l3-chir-s2-22",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pathologies churigicale / Sémiologie",
     topic: "Sujet 2",
     type: "mcq",
@@ -65044,7 +65044,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "infas-l3-chir-s2-23",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pathologies churigicale / Sémiologie",
     topic: "Sujet 2",
     type: "tf",
@@ -65055,7 +65055,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "infas-l3-chir-s2-24",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pathologies churigicale / Sémiologie",
     topic: "Sujet 2",
     type: "mcq",
@@ -65067,7 +65067,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "infas-l3-chir-s2-25",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pathologies churigicale / Sémiologie",
     topic: "Sujet 2",
     type: "tf",
@@ -65078,7 +65078,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "infas-l3-chir-s2-26",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pathologies churigicale / Sémiologie",
     topic: "Sujet 2",
     type: "mcq",
@@ -65090,7 +65090,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "infas-l3-chir-s2-27",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pathologies churigicale / Sémiologie",
     topic: "Sujet 2",
     type: "tf",
@@ -65101,7 +65101,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "infas-l3-chir-s2-28",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pathologies churigicale / Sémiologie",
     topic: "Sujet 2",
     type: "mcq",
@@ -65113,7 +65113,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "infas-l3-chir-s2-29",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pathologies churigicale / Sémiologie",
     topic: "Sujet 2",
     type: "tf",
@@ -65124,7 +65124,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "infas-l3-chir-s2-30",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pathologies churigicale / Sémiologie",
     topic: "Sujet 2",
     type: "mcq",
@@ -65137,7 +65137,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
 
   {
     id: "infas-l3-chir-2024-5",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pathologies churigicale / Sémiologie",
     type: "tf",
     question:
@@ -65148,7 +65148,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "infas-l3-chir-2024-5",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pathologies churigicale / Sémiologie",
     type: "tf",
     question:
@@ -65159,7 +65159,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "infas-l3-chir-2024-6",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pathologies churigicale / Sémiologie",
     type: "tf",
     question:
@@ -65170,7 +65170,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "infas-l3-chir-2024-7",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pathologies churigicale / Sémiologie",
     type: "tf",
     question:
@@ -65181,7 +65181,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "infas-l3-chir-2024-8",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pathologies churigicale / Sémiologie",
     type: "tf",
     question:
@@ -65192,7 +65192,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "infas-l3-chir-2024-9",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pathologies churigicale / Sémiologie",
     type: "tf",
     question: "La tétraplégie est la paralysie des seuls membres inférieurs.",
@@ -65202,7 +65202,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "infas-l3-chir-2024-10",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pathologies churigicale / Sémiologie",
     type: "tf",
     question: "La paraplégie est la paralysie des deux membres inférieurs.",
@@ -65212,7 +65212,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "infas-l3-chir-2024-11",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pathologies churigicale / Sémiologie",
     type: "tf",
     question: "La moelle épinière se termine au niveau du bord supérieur de L2.",
@@ -65222,7 +65222,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "infas-l3-chir-2024-12",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pathologies churigicale / Sémiologie",
     type: "tf",
     question: "Le myosis correspond à la dilatation du diamètre de la pupille.",
@@ -65232,7 +65232,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "infas-l3-chir-2024-13",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pathologies churigicale / Sémiologie",
     type: "tf",
     question:
@@ -65243,7 +65243,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "infas-l3-chir-2024-14",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pathologies churigicale / Sémiologie",
     type: "tf",
     question:
@@ -65254,7 +65254,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "infas-l3-chir-2024-15",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pathologies churigicale / Sémiologie",
     type: "tf",
     question:
@@ -65265,7 +65265,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "infas-l3-chir-2024-16",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pathologies churigicale / Sémiologie",
     type: "tf",
     question:
@@ -65276,7 +65276,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "infas-l3-chir-2024-17",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pathologies churigicale / Sémiologie",
     type: "tf",
     question:
@@ -65287,7 +65287,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "infas-l3-chir-2024-18",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pathologies churigicale / Sémiologie",
     type: "tf",
     question:
@@ -65298,7 +65298,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "infas-l3-chir-2024-19",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pathologies churigicale / Sémiologie",
     type: "tf",
     question:
@@ -65309,7 +65309,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "infas-l3-chir-2024-20",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pathologies churigicale / Sémiologie",
     type: "tf",
     question:
@@ -65320,7 +65320,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "infas-l3-chir-2024-21",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pathologies churigicale / Sémiologie",
     topic: "Sujet 1",
     type: "mcq",
@@ -65338,7 +65338,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "infas-l3-chir-2024-22",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pathologies churigicale / Sémiologie",
     type: "mcq",
     question:
@@ -65354,7 +65354,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "infas-l3-chir-2024-23",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pathologies churigicale / Sémiologie",
     type: "mcq",
     question:
@@ -65370,7 +65370,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "infas-l3-chir-2024-24",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pathologies churigicale / Sémiologie",
     type: "mcq",
     question:
@@ -65388,7 +65388,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "infas-l3-chir-2024-25",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pathologies churigicale / Sémiologie",
     type: "mcq",
     question:
@@ -65400,7 +65400,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "infas-l3-chir-2024-26",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pathologies churigicale / Sémiologie",
     type: "mcq",
     question:
@@ -65412,7 +65412,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "infas-l3-chir-2024-27",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pathologies churigicale / Sémiologie",
     type: "mcq",
     question:
@@ -65424,7 +65424,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "infas-l3-chir-2024-28",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pathologies churigicale / Sémiologie",
     type: "mcq",
     question:
@@ -65440,7 +65440,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "infas-l3-chir-2024-29",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pathologies churigicale / Sémiologie",
     type: "mcq",
     question:
@@ -65452,7 +65452,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "infas-l3-chir-2024-30",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pathologies churigicale / Sémiologie",
     type: "mcq",
     question:
@@ -65464,7 +65464,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "infas-l3-chir-2024-31",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pathologies churigicale / Sémiologie",
     type: "mcq_multi",
     question:
@@ -65476,7 +65476,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "infas-l3-chir-2024-32",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pathologies churigicale / Sémiologie",
     type: "mcq",
     question:
@@ -65493,7 +65493,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "infas-l3-chir-2024-33",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pathologies churigicale / Sémiologie",
     type: "mcq",
     question:
@@ -65505,7 +65505,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "infas-l3-chir-2024-34",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pathologies churigicale / Sémiologie",
     type: "mcq_multi",
     question:
@@ -65517,7 +65517,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "infas-l3-chir-2024-35",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pathologies churigicale / Sémiologie",
     type: "mcq",
     question:
@@ -65533,7 +65533,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "infas-l3-chir-2024-36",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pathologies churigicale / Sémiologie",
     type: "mcq",
     question:
@@ -65549,7 +65549,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "infas-l3-chir-2024-23",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pathologies churigicale / Sémiologie",
     type: "mcq_multi",
     question:
@@ -65568,7 +65568,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "infas-l3-chir-2024-24",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pathologies churigicale / Sémiologie",
     type: "mcq_multi",
     question: "Les définitions ci-après sont celles de l'escarre, sauf deux (02). Lesquelles ?",
@@ -65584,7 +65584,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "infas-l3-chir-2024-26",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pathologies churigicale / Sémiologie",
     type: "mcq_multi",
     question:
@@ -65596,7 +65596,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "infas-l3-chir-2024-27",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pathologies churigicale / Sémiologie",
     type: "mcq_multi",
     question: "Indiquer deux (2) germes souvent mis en cause dans l'abcès chaud :",
@@ -65613,7 +65613,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "infas-l3-chir-2024-28",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pathologies churigicale / Sémiologie",
     type: "mcq_multi",
     question:
@@ -65631,7 +65631,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "infas-l3-chir-2024-38",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pathologies churigicale / Sémiologie",
     type: "mcq_multi",
     question: "Deux (2) causes plus courantes de la péritonite :",
@@ -65648,7 +65648,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "infas-l3-chir-2024-41",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pathologies churigicale / Sémiologie",
     type: "mcq_multi",
     question: "Deux (02) signes en faveur de la phase primaire du choc (pré-choc) :",
@@ -65665,7 +65665,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "infas-l3-chir-2024-46",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pathologies churigicale / Sémiologie",
     type: "mcq_multi",
     question:
@@ -65681,10 +65681,10 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
     explanation:
       "La rétention est une indication. Une douleur sus-pubienne isolée n'est pas une indication, et l'infection urinaire est une contre-indication relative (risque de dissémination).",
   },
-  // Questions pour Pédiatrie - L3-Niveau Accompli INF/SFM - Sujet 1
+  // Questions pour Pédiatrie - L3-Niveau Accompli INF - Sujet 1
   {
     id: "l3-ped-s1-1",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pédiatrie",
     topic: "Sujet 1",
     type: "tf",
@@ -65694,7 +65694,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "l3-ped-s1-2",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pédiatrie",
     topic: "Sujet 1",
     type: "mcq",
@@ -65705,7 +65705,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "l3-ped-s1-3",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pédiatrie",
     topic: "Sujet 1",
     type: "tf",
@@ -65715,7 +65715,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "l3-ped-s1-4",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pédiatrie",
     topic: "Sujet 1",
     type: "mcq",
@@ -65726,7 +65726,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "l3-ped-s1-5",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pédiatrie",
     topic: "Sujet 1",
     type: "tf",
@@ -65736,7 +65736,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "l3-ped-s1-6",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pédiatrie",
     topic: "Sujet 1",
     type: "mcq",
@@ -65747,7 +65747,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "l3-ped-s1-7",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pédiatrie",
     topic: "Sujet 1",
     type: "tf",
@@ -65757,7 +65757,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "l3-ped-s1-8",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pédiatrie",
     topic: "Sujet 1",
     type: "mcq",
@@ -65768,7 +65768,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "l3-ped-s1-9",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pédiatrie",
     topic: "Sujet 1",
     type: "tf",
@@ -65778,7 +65778,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "l3-ped-s1-10",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pédiatrie",
     topic: "Sujet 1",
     type: "mcq",
@@ -65789,7 +65789,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "l3-ped-s1-11",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pédiatrie",
     topic: "Sujet 1",
     type: "tf",
@@ -65799,7 +65799,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "l3-ped-s1-12",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pédiatrie",
     topic: "Sujet 1",
     type: "mcq",
@@ -65810,7 +65810,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "l3-ped-s1-13",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pédiatrie",
     topic: "Sujet 1",
     type: "tf",
@@ -65820,7 +65820,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "l3-ped-s1-14",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pédiatrie",
     topic: "Sujet 1",
     type: "mcq",
@@ -65831,7 +65831,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "l3-ped-s1-15",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pédiatrie",
     topic: "Sujet 1",
     type: "tf",
@@ -65841,7 +65841,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "l3-ped-s1-16",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pédiatrie",
     topic: "Sujet 1",
     type: "mcq",
@@ -65852,7 +65852,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "l3-ped-s1-17",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pédiatrie",
     topic: "Sujet 1",
     type: "tf",
@@ -65862,7 +65862,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "l3-ped-s1-18",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pédiatrie",
     topic: "Sujet 1",
     type: "mcq",
@@ -65873,7 +65873,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "l3-ped-s1-19",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pédiatrie",
     topic: "Sujet 1",
     type: "tf",
@@ -65883,7 +65883,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "l3-ped-s1-20",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pédiatrie",
     topic: "Sujet 1",
     type: "mcq",
@@ -65894,7 +65894,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "l3-ped-s1-21",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pédiatrie",
     topic: "Sujet 1",
     type: "tf",
@@ -65904,7 +65904,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "l3-ped-s1-22",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pédiatrie",
     topic: "Sujet 1",
     type: "mcq",
@@ -65915,7 +65915,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "l3-ped-s1-23",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pédiatrie",
     topic: "Sujet 1",
     type: "tf",
@@ -65925,7 +65925,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "l3-ped-s1-24",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pédiatrie",
     topic: "Sujet 1",
     type: "mcq",
@@ -65936,7 +65936,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "l3-ped-s1-25",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pédiatrie",
     topic: "Sujet 1",
     type: "tf",
@@ -65946,7 +65946,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "l3-ped-s1-26",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pédiatrie",
     topic: "Sujet 1",
     type: "mcq",
@@ -65957,7 +65957,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "l3-ped-s1-27",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pédiatrie",
     topic: "Sujet 1",
     type: "tf",
@@ -65967,7 +65967,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "l3-ped-s1-28",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pédiatrie",
     topic: "Sujet 1",
     type: "mcq",
@@ -65978,7 +65978,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "l3-ped-s1-29",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pédiatrie",
     topic: "Sujet 1",
     type: "tf",
@@ -65988,7 +65988,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "l3-ped-s1-30",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pédiatrie",
     topic: "Sujet 1",
     type: "mcq",
@@ -65998,10 +65998,10 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
     explanation: "L'échocardiographie est l'examen de choix pour visualiser les malformations cardiaques.",
   },
 
-  // Questions pour Santé Publique - L3-Niveau Accompli INF/SFM - Sujet 1
+  // Questions pour Santé Publique - L3-Niveau Accompli INF - Sujet 1
   {
     id: "l3-sp-s1-1",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Santé Publique",
     topic: "Sujet 1",
     type: "tf",
@@ -66011,7 +66011,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "l3-sp-s1-2",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Santé Publique",
     topic: "Sujet 1",
     type: "mcq",
@@ -66022,7 +66022,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "l3-sp-s1-3",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Santé Publique",
     topic: "Sujet 1",
     type: "tf",
@@ -66032,7 +66032,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "l3-sp-s1-4",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Santé Publique",
     topic: "Sujet 1",
     type: "mcq",
@@ -66043,7 +66043,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "l3-sp-s1-5",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Santé Publique",
     topic: "Sujet 1",
     type: "tf",
@@ -66053,7 +66053,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "l3-sp-s1-6",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Santé Publique",
     topic: "Sujet 1",
     type: "mcq",
@@ -66064,7 +66064,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "l3-sp-s1-7",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Santé Publique",
     topic: "Sujet 1",
     type: "tf",
@@ -66074,7 +66074,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "l3-sp-s1-8",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Santé Publique",
     topic: "Sujet 1",
     type: "mcq",
@@ -66085,7 +66085,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "l3-sp-s1-9",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Santé Publique",
     topic: "Sujet 1",
     type: "tf",
@@ -66095,7 +66095,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "l3-sp-s1-10",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Santé Publique",
     topic: "Sujet 1",
     type: "mcq",
@@ -66106,7 +66106,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "l3-sp-s1-11",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Santé Publique",
     topic: "Sujet 1",
     type: "tf",
@@ -66116,7 +66116,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "l3-sp-s1-12",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Santé Publique",
     topic: "Sujet 1",
     type: "mcq",
@@ -66127,7 +66127,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "l3-sp-s1-13",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Santé Publique",
     topic: "Sujet 1",
     type: "tf",
@@ -66137,7 +66137,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "l3-sp-s1-14",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Santé Publique",
     topic: "Sujet 1",
     type: "mcq",
@@ -66148,7 +66148,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "l3-sp-s1-15",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Santé Publique",
     topic: "Sujet 1",
     type: "tf",
@@ -66158,7 +66158,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "l3-sp-s1-16",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Santé Publique",
     topic: "Sujet 1",
     type: "mcq",
@@ -66169,7 +66169,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "l3-sp-s1-17",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Santé Publique",
     topic: "Sujet 1",
     type: "tf",
@@ -66179,7 +66179,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "l3-sp-s1-18",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Santé Publique",
     topic: "Sujet 1",
     type: "mcq",
@@ -66190,7 +66190,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "l3-sp-s1-19",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Santé Publique",
     topic: "Sujet 1",
     type: "tf",
@@ -66200,7 +66200,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "l3-sp-s1-20",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Santé Publique",
     topic: "Sujet 1",
     type: "mcq",
@@ -66211,7 +66211,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "l3-sp-s1-21",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Santé Publique",
     topic: "Sujet 1",
     type: "tf",
@@ -66221,7 +66221,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "l3-sp-s1-22",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Santé Publique",
     topic: "Sujet 1",
     type: "mcq",
@@ -66232,7 +66232,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "l3-sp-s1-23",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Santé Publique",
     topic: "Sujet 1",
     type: "tf",
@@ -66242,7 +66242,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "l3-sp-s1-24",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Santé Publique",
     topic: "Sujet 1",
     type: "mcq",
@@ -66253,7 +66253,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "l3-sp-s1-25",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Santé Publique",
     topic: "Sujet 1",
     type: "tf",
@@ -66263,7 +66263,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "l3-sp-s1-26",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Santé Publique",
     topic: "Sujet 1",
     type: "mcq",
@@ -66274,7 +66274,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "l3-sp-s1-27",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Santé Publique",
     topic: "Sujet 1",
     type: "tf",
@@ -66284,7 +66284,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "l3-sp-s1-28",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Santé Publique",
     topic: "Sujet 1",
     type: "mcq",
@@ -66295,7 +66295,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "l3-sp-s1-29",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Santé Publique",
     topic: "Sujet 1",
     type: "tf",
@@ -66305,7 +66305,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "l3-sp-s1-30",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Santé Publique",
     topic: "Sujet 1",
     type: "mcq",
@@ -66315,10 +66315,10 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
     explanation: "L'ODD 3 vise à assurer une vie saine et promouvoir le bien-être pour tous.",
   },
 
-  // Questions pour Pathologies médicales / Sémiologie - L3-Niveau Accompli INF/SFM - Sujet 1
+  // Questions pour Pathologies médicales / Sémiologie - L3-Niveau Accompli INF - Sujet 1
   {
     id: "l3-med-s1-1",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet 1",
     type: "tf",
@@ -66328,7 +66328,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "l3-med-s1-2",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet 1",
     type: "mcq",
@@ -66339,7 +66339,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "l3-med-s1-3",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet 1",
     type: "tf",
@@ -66349,7 +66349,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "l3-med-s1-4",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet 1",
     type: "mcq",
@@ -66360,7 +66360,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "l3-med-s1-5",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet 1",
     type: "tf",
@@ -66370,7 +66370,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "l3-med-s1-6",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet 1",
     type: "mcq",
@@ -66381,7 +66381,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "l3-med-s1-7",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet 1",
     type: "tf",
@@ -66391,7 +66391,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "l3-med-s1-8",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet 1",
     type: "mcq",
@@ -66402,7 +66402,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "l3-med-s1-9",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet 1",
     type: "tf",
@@ -66412,7 +66412,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "l3-med-s1-10",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet 1",
     type: "mcq",
@@ -66423,7 +66423,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "l3-med-s1-11",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet 1",
     type: "tf",
@@ -66433,7 +66433,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "l3-med-s1-12",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet 1",
     type: "mcq",
@@ -66444,7 +66444,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "l3-med-s1-13",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet 1",
     type: "tf",
@@ -66454,7 +66454,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "l3-med-s1-14",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet 1",
     type: "mcq",
@@ -66465,7 +66465,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "l3-med-s1-15",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet 1",
     type: "tf",
@@ -66475,7 +66475,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "l3-med-s1-16",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet 1",
     type: "mcq",
@@ -66486,7 +66486,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "l3-med-s1-17",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet 1",
     type: "tf",
@@ -66496,7 +66496,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "l3-med-s1-18",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet 1",
     type: "mcq",
@@ -66507,7 +66507,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "l3-med-s1-19",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet 1",
     type: "tf",
@@ -66517,7 +66517,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "l3-med-s1-20",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet 1",
     type: "mcq",
@@ -66528,7 +66528,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "l3-med-s1-21",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet 1",
     type: "tf",
@@ -66538,7 +66538,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "l3-med-s1-22",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet 1",
     type: "mcq",
@@ -66549,7 +66549,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "l3-med-s1-23",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet 1",
     type: "tf",
@@ -66559,7 +66559,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "l3-med-s1-24",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet 1",
     type: "mcq",
@@ -66570,7 +66570,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "l3-med-s1-25",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet 1",
     type: "tf",
@@ -66580,7 +66580,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "l3-med-s1-26",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet 1",
     type: "mcq",
@@ -66591,7 +66591,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "l3-med-s1-27",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet 1",
     type: "tf",
@@ -66601,7 +66601,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "l3-med-s1-28",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet 1",
     type: "mcq",
@@ -66612,7 +66612,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "l3-med-s1-29",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet 1",
     type: "tf",
@@ -66622,7 +66622,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "l3-med-s1-30",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet 1",
     type: "mcq",
@@ -66635,7 +66635,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   // début des questions DEB Abidjan
   {
     id: "l3-med-deb-1",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pathologies médicales / Sémiologie",
     topic: "DEB Abidjan",
     type: "mcq",
@@ -66650,7 +66650,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "l3-med-deb-2",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pathologies médicales / Sémiologie",
     topic: "DEB Abidjan",
     type: "tf",
@@ -66660,7 +66660,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "l3-med-deb-3",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pathologies médicales / Sémiologie",
     topic: "DEB Abidjan",
     type: "tf",
@@ -66670,7 +66670,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "l3-med-deb-4",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pathologies médicales / Sémiologie",
     topic: "DEB Abidjan",
     type: "tf",
@@ -66680,7 +66680,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "l3-med-deb-5",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pathologies médicales / Sémiologie",
     topic: "DEB Abidjan",
     type: "tf",
@@ -66690,7 +66690,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "l3-med-deb-6",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pathologies médicales / Sémiologie",
     topic: "DEB Abidjan",
     type: "mcq",
@@ -66708,7 +66708,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "l3-med-deb-7",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pathologies médicales / Sémiologie",
     topic: "DEB Abidjan",
     type: "mcq_multi",
@@ -66724,7 +66724,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "l3-med-deb-8",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pathologies médicales / Sémiologie",
     topic: "DEB Abidjan",
     type: "mcq_multi",
@@ -66741,7 +66741,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "l3-med-deb-9",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pathologies médicales / Sémiologie",
     topic: "DEB Abidjan",
     type: "tf",
@@ -66751,7 +66751,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "l3-med-deb-10",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pathologies médicales / Sémiologie",
     topic: "DEB Abidjan",
     type: "tf",
@@ -66761,7 +66761,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "l3-med-deb-11",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pathologies médicales / Sémiologie",
     topic: "DEB Abidjan",
     type: "tf",
@@ -66771,7 +66771,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "l3-med-deb-12",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pathologies médicales / Sémiologie",
     topic: "DEB Abidjan",
     type: "tf",
@@ -66781,7 +66781,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "l3-med-deb-13",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pathologies médicales / Sémiologie",
     topic: "DEB Abidjan",
     type: "tf",
@@ -66791,7 +66791,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "l3-med-deb-14",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pathologies médicales / Sémiologie",
     topic: "DEB Abidjan",
     type: "tf",
@@ -66801,7 +66801,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "l3-med-deb-15",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pathologies médicales / Sémiologie",
     topic: "DEB Abidjan",
     type: "tf",
@@ -66811,7 +66811,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "l3-med-deb-16",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pathologies médicales / Sémiologie",
     topic: "DEB Abidjan",
     type: "tf",
@@ -66821,7 +66821,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "l3-med-deb-17",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pathologies médicales / Sémiologie",
     topic: "DEB Abidjan",
     type: "tf",
@@ -66831,7 +66831,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "l3-med-deb-18",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pathologies médicales / Sémiologie",
     topic: "DEB Abidjan",
     type: "tf",
@@ -66841,7 +66841,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "l3-med-deb-19",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pathologies médicales / Sémiologie",
     topic: "DEB Abidjan",
     type: "mcq",
@@ -66857,7 +66857,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "l3-med-deb-20",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pathologies médicales / Sémiologie",
     topic: "DEB Abidjan",
     type: "mcq_multi",
@@ -66873,7 +66873,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "l3-med-deb-21",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pathologies médicales / Sémiologie",
     topic: "DEB Abidjan",
     type: "mcq",
@@ -66890,7 +66890,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "l3-med-deb-22",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pathologies médicales / Sémiologie",
     topic: "DEB Abidjan",
     type: "mcq",
@@ -66906,7 +66906,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "l3-med-deb-23",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pathologies médicales / Sémiologie",
     topic: "DEB Abidjan",
     type: "mcq",
@@ -66920,7 +66920,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "l3-med-deb-24",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pathologies médicales / Sémiologie",
     topic: "DEB Abidjan",
     type: "mcq",
@@ -66936,7 +66936,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "l3-med-deb-25",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pathologies médicales / Sémiologie",
     topic: "DEB Abidjan",
     type: "mcq",
@@ -66952,7 +66952,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "l3-med-deb-26",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pathologies médicales / Sémiologie",
     topic: "DEB Abidjan",
     type: "mcq_multi",
@@ -66970,7 +66970,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "l3-med-deb-27",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pathologies médicales / Sémiologie",
     topic: "DEB Abidjan",
     type: "mcq",
@@ -66985,7 +66985,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "l3-med-deb-28",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pathologies médicales / Sémiologie",
     topic: "DEB Abidjan",
     type: "mcq",
@@ -67002,7 +67002,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "l3-med-deb-29",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pathologies médicales / Sémiologie",
     topic: "DEB Abidjan",
     type: "mcq",
@@ -67018,7 +67018,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "l3-med-deb-30",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pathologies médicales / Sémiologie",
     topic: "DEB Abidjan",
     type: "mcq",
@@ -67033,7 +67033,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "l3-med-deb-31",
-    level: "L3-Niveau Accompli INF/SFM",
+    level: "L3-Niveau Accompli INF",
     subject: "Pathologies médicales / Sémiologie",
     topic: "DEB Abidjan",
     type: "mcq",
@@ -67046,10 +67046,10 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
     ],
     answerIndex: 2,
   },
-  // Questions pour Pédiatrie - Auxiliaire 2 année - Sujet 2
+  // Questions pour Pédiatrie - A2-Niveau moyen - Sujet 2
   {
     id: "a2-ped-s2-1",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet 2",
     type: "tf",
@@ -67059,7 +67059,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "a2-ped-s2-2",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet 2",
     type: "mcq",
@@ -67070,7 +67070,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "a2-ped-s2-3",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet 2",
     type: "tf",
@@ -67080,7 +67080,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "a2-ped-s2-4",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet 2",
     type: "mcq",
@@ -67091,7 +67091,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "a2-ped-s2-5",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet 2",
     type: "tf",
@@ -67101,7 +67101,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "a2-ped-s2-6",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet 2",
     type: "mcq_multi",
@@ -67112,7 +67112,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "a2-ped-s2-7",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet 2",
     type: "tf",
@@ -67122,7 +67122,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "a2-ped-s2-8",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet 2",
     type: "mcq",
@@ -67133,7 +67133,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "a2-ped-s2-9",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet 2",
     type: "tf",
@@ -67143,7 +67143,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "a2-ped-s2-10",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet 2",
     type: "mcq_multi",
@@ -67154,7 +67154,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "a2-ped-s2-11",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet 2",
     type: "tf",
@@ -67164,7 +67164,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "a2-ped-s2-12",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet 2",
     type: "mcq",
@@ -67175,7 +67175,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "a2-ped-s2-13",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet 2",
     type: "tf",
@@ -67185,7 +67185,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "a2-ped-s2-14",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet 2",
     type: "mcq_multi",
@@ -67196,7 +67196,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "a2-ped-s2-15",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet 2",
     type: "tf",
@@ -67206,7 +67206,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "a2-ped-s2-16",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet 2",
     type: "mcq",
@@ -67217,7 +67217,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "a2-ped-s2-17",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet 2",
     type: "tf",
@@ -67227,7 +67227,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "a2-ped-s2-18",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet 2",
     type: "mcq_multi",
@@ -67238,7 +67238,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "a2-ped-s2-19",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet 2",
     type: "tf",
@@ -67248,7 +67248,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "a2-ped-s2-20",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet 2",
     type: "mcq",
@@ -67259,7 +67259,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "a2-ped-s2-21",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet 2",
     type: "tf",
@@ -67269,7 +67269,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "a2-ped-s2-22",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet 2",
     type: "mcq_multi",
@@ -67280,7 +67280,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "a2-ped-s2-23",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet 2",
     type: "tf",
@@ -67290,7 +67290,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "a2-ped-s2-24",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet 2",
     type: "mcq",
@@ -67301,7 +67301,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "a2-ped-s2-25",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet 2",
     type: "tf",
@@ -67311,7 +67311,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "a2-ped-s2-26",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet 2",
     type: "mcq_multi",
@@ -67322,7 +67322,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "a2-ped-s2-27",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet 2",
     type: "tf",
@@ -67332,7 +67332,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "a2-ped-s2-28",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet 2",
     type: "mcq",
@@ -67343,7 +67343,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "a2-ped-s2-29",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet 2",
     type: "tf",
@@ -67353,7 +67353,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "a2-ped-s2-30",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet 2",
     type: "mcq_multi",
@@ -67364,7 +67364,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "a2-ped-s3-1",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet 3",
     type: "tf",
@@ -67374,7 +67374,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "a2-ped-s3-2",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet 3",
     type: "mcq",
@@ -67385,7 +67385,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "a2-ped-s3-3",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet 3",
     type: "mcq_multi",
@@ -67396,7 +67396,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "a2-ped-s3-4",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet 3",
     type: "tf",
@@ -67406,7 +67406,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "a2-ped-s3-5",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet 3",
     type: "mcq",
@@ -67417,7 +67417,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "a2-ped-s3-6",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet 3",
     type: "mcq_multi",
@@ -67428,7 +67428,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "a2-ped-s3-7",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet 3",
     type: "tf",
@@ -67438,7 +67438,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "a2-ped-s3-8",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet 3",
     type: "mcq",
@@ -67449,7 +67449,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "a2-ped-s3-9",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet 3",
     type: "mcq_multi",
@@ -67460,7 +67460,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "a2-ped-s3-10",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet 3",
     type: "tf",
@@ -67470,7 +67470,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "a2-ped-s3-11",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet 3",
     type: "mcq",
@@ -67481,7 +67481,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "a2-ped-s3-12",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet 3",
     type: "mcq_multi",
@@ -67492,7 +67492,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "a2-ped-s3-13",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet 3",
     type: "tf",
@@ -67502,7 +67502,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "a2-ped-s3-14",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet 3",
     type: "mcq",
@@ -67513,7 +67513,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "a2-ped-s3-15",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet 3",
     type: "mcq_multi",
@@ -67524,7 +67524,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "a2-ped-s3-16",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet 3",
     type: "tf",
@@ -67534,7 +67534,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "a2-ped-s3-17",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet 3",
     type: "mcq",
@@ -67545,7 +67545,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "a2-ped-s3-18",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet 3",
     type: "mcq_multi",
@@ -67556,7 +67556,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "a2-ped-s3-19",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet 3",
     type: "tf",
@@ -67566,7 +67566,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "a2-ped-s3-20",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet 3",
     type: "mcq",
@@ -67577,7 +67577,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "a2-ped-s3-21",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet 3",
     type: "mcq_multi",
@@ -67588,7 +67588,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "a2-ped-s3-22",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet 3",
     type: "tf",
@@ -67598,7 +67598,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "a2-ped-s3-23",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet 3",
     type: "mcq",
@@ -67609,7 +67609,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "a2-ped-s3-24",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet 3",
     type: "mcq_multi",
@@ -67620,7 +67620,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "a2-ped-s3-25",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet 3",
     type: "tf",
@@ -67630,7 +67630,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "a2-ped-s3-26",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet 3",
     type: "mcq",
@@ -67641,7 +67641,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "a2-ped-s3-27",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet 3",
     type: "mcq_multi",
@@ -67652,7 +67652,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "a2-ped-s3-28",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet 3",
     type: "tf",
@@ -67662,7 +67662,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "a2-ped-s3-29",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet 3",
     type: "mcq",
@@ -67673,7 +67673,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "a2-ped-s3-30",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pédiatrie",
     topic: "Sujet 3",
     type: "mcq_multi",
@@ -67683,10 +67683,10 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
     explanation: "L'obésité infantile augmente le risque de diabète, maladies cardiaques, problèmes articulaires et respiratoires.",
   },
 
-  // Questions pour Santé Publique - Auxiliaire 2 année - Sujet 2
+  // Questions pour Santé Publique - A2-Niveau moyen - Sujet 2
   {
     id: "a2-sp-s2-1",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Santé Publique",
     topic: "Sujet 2",
     type: "tf",
@@ -67696,7 +67696,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "a2-sp-s2-2",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Santé Publique",
     topic: "Sujet 2",
     type: "tf",
@@ -67706,7 +67706,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "a2-sp-s2-3",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Santé Publique",
     topic: "Sujet 2",
     type: "tf",
@@ -67716,7 +67716,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "a2-sp-s2-4",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Santé Publique",
     topic: "Sujet 2",
     type: "tf",
@@ -67726,7 +67726,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "a2-sp-s2-5",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Santé Publique",
     topic: "Sujet 2",
     type: "tf",
@@ -67736,7 +67736,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "a2-sp-s2-6",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Santé Publique",
     topic: "Sujet 2",
     type: "tf",
@@ -67746,7 +67746,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "a2-sp-s2-7",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Santé Publique",
     topic: "Sujet 2",
     type: "tf",
@@ -67756,7 +67756,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "a2-sp-s2-8",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Santé Publique",
     topic: "Sujet 2",
     type: "tf",
@@ -67766,7 +67766,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "a2-sp-s2-9",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Santé Publique",
     topic: "Sujet 2",
     type: "tf",
@@ -67776,7 +67776,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "a2-sp-s2-10",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Santé Publique",
     topic: "Sujet 2",
     type: "tf",
@@ -67786,7 +67786,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "a2-sp-s2-11",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Santé Publique",
     topic: "Sujet 2",
     type: "mcq",
@@ -67797,7 +67797,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "a2-sp-s2-12",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Santé Publique",
     topic: "Sujet 2",
     type: "mcq",
@@ -67808,7 +67808,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "a2-sp-s2-13",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Santé Publique",
     topic: "Sujet 2",
     type: "mcq",
@@ -67819,7 +67819,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "a2-sp-s2-14",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Santé Publique",
     topic: "Sujet 2",
     type: "mcq",
@@ -67830,7 +67830,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "a2-sp-s2-15",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Santé Publique",
     topic: "Sujet 2",
     type: "mcq",
@@ -67841,7 +67841,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "a2-sp-s2-16",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Santé Publique",
     topic: "Sujet 2",
     type: "mcq",
@@ -67852,7 +67852,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "a2-sp-s2-17",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Santé Publique",
     topic: "Sujet 2",
     type: "mcq",
@@ -67863,7 +67863,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "a2-sp-s2-18",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Santé Publique",
     topic: "Sujet 2",
     type: "mcq",
@@ -67874,7 +67874,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "a2-sp-s2-19",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Santé Publique",
     topic: "Sujet 2",
     type: "mcq",
@@ -67885,7 +67885,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "a2-sp-s2-20",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Santé Publique",
     topic: "Sujet 2",
     type: "mcq",
@@ -67896,7 +67896,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "a2-sp-s2-21",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Santé Publique",
     topic: "Sujet 2",
     type: "mcq_multi",
@@ -67907,7 +67907,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "a2-sp-s2-22",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Santé Publique",
     topic: "Sujet 2",
     type: "mcq_multi",
@@ -67918,7 +67918,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "a2-sp-s2-23",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Santé Publique",
     topic: "Sujet 2",
     type: "mcq_multi",
@@ -67929,7 +67929,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "a2-sp-s2-24",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Santé Publique",
     topic: "Sujet 2",
     type: "mcq_multi",
@@ -67940,7 +67940,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "a2-sp-s2-25",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Santé Publique",
     topic: "Sujet 2",
     type: "mcq_multi",
@@ -67951,7 +67951,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "a2-sp-s2-26",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Santé Publique",
     topic: "Sujet 2",
     type: "mcq_multi",
@@ -67962,7 +67962,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "a2-sp-s2-27",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Santé Publique",
     topic: "Sujet 2",
     type: "mcq_multi",
@@ -67973,7 +67973,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "a2-sp-s2-28",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Santé Publique",
     topic: "Sujet 2",
     type: "mcq_multi",
@@ -67984,7 +67984,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "a2-sp-s2-29",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Santé Publique",
     topic: "Sujet 2",
     type: "mcq_multi",
@@ -67995,7 +67995,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "a2-sp-s2-30",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Santé Publique",
     topic: "Sujet 2",
     type: "mcq_multi",
@@ -68005,10 +68005,10 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
     explanation: "Les auxiliaires participent à la vaccination, au dépistage et à l'éducation de la population.",
   },
 
-  // Questions pour Pathologies médicales / Sémiologie - Auxiliaire 2 année - Sujet 2
+  // Questions pour Pathologies médicales / Sémiologie - A2-Niveau moyen - Sujet 2
   {
     id: "a2-med-s2-1",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet 2",
     type: "tf",
@@ -68018,7 +68018,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "a2-med-s2-2",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet 2",
     type: "mcq",
@@ -68029,7 +68029,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "a2-med-s2-3",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet 2",
     type: "tf",
@@ -68039,7 +68039,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "a2-med-s2-4",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet 2",
     type: "mcq",
@@ -68050,7 +68050,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "a2-med-s2-5",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet 2",
     type: "tf",
@@ -68060,7 +68060,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "a2-med-s2-6",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet 2",
     type: "mcq",
@@ -68071,7 +68071,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "a2-med-s2-7",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet 2",
     type: "tf",
@@ -68081,7 +68081,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "a2-med-s2-8",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet 2",
     type: "mcq",
@@ -68092,7 +68092,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "a2-med-s2-9",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet 2",
     type: "tf",
@@ -68102,7 +68102,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "a2-med-s2-10",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet 2",
     type: "mcq",
@@ -68113,7 +68113,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "a2-med-s2-11",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet 2",
     type: "tf",
@@ -68123,7 +68123,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "a2-med-s2-12",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet 2",
     type: "mcq",
@@ -68134,7 +68134,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "a2-med-s2-13",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet 2",
     type: "tf",
@@ -68144,7 +68144,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "a2-med-s2-14",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet 2",
     type: "mcq",
@@ -68155,7 +68155,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "a2-med-s2-15",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet 2",
     type: "tf",
@@ -68165,7 +68165,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "a2-med-s2-16",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet 2",
     type: "mcq",
@@ -68176,7 +68176,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "a2-med-s2-17",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet 2",
     type: "tf",
@@ -68186,7 +68186,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "a2-med-s2-18",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet 2",
     type: "mcq",
@@ -68197,7 +68197,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "a2-med-s2-19",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet 2",
     type: "tf",
@@ -68207,7 +68207,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "a2-med-s2-20",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet 2",
     type: "mcq",
@@ -68218,7 +68218,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "a2-med-s2-21",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet 2",
     type: "mcq_multi",
@@ -68229,7 +68229,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "a2-med-s2-22",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet 2",
     type: "tf",
@@ -68239,7 +68239,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "a2-med-s2-23",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet 2",
     type: "mcq",
@@ -68250,7 +68250,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "a2-med-s2-24",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet 2",
     type: "tf",
@@ -68260,7 +68260,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "a2-med-s2-25",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet 2",
     type: "mcq",
@@ -68271,7 +68271,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "a2-med-s2-26",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet 2",
     type: "mcq_multi",
@@ -68282,7 +68282,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "a2-med-s2-27",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet 2",
     type: "tf",
@@ -68292,7 +68292,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "a2-med-s2-28",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet 2",
     type: "mcq",
@@ -68303,7 +68303,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "a2-med-s2-29",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet 2",
     type: "mcq_multi",
@@ -68314,7 +68314,7 @@ question: "L'évaluation gériatrique doit inclure l'examen des facteurs environ
   },
   {
     id: "a2-med-s2-30",
-    level: "Auxiliaire 2 année",
+    level: "A2-Niveau moyen",
     subject: "Pathologies médicales / Sémiologie",
     topic: "Sujet 2",
     type: "tf",

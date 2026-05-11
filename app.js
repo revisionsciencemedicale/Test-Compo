@@ -533,11 +533,21 @@
     els.adminLogs.innerHTML = "<p class='muted'>Chargement des paramètres administrateur...</p>";
 
     let payload;
+    let adminWarning = "";
     try {
-      payload = await apiPost("/api/admin/logs", currentAuthPayload());
+      payload = await Promise.race([
+        apiPost("/api/admin/logs", currentAuthPayload()),
+        new Promise((_, reject) => setTimeout(() => reject(new Error("Le serveur met trop de temps à répondre. Le menu est affiché en mode local.")), 4500))
+      ]);
     } catch (e) {
-      els.adminLogs.innerHTML = `<p class="muted" style="color:var(--bad)">${escapeHtml(e.data?.error || e.message || "Impossible de charger les paramètres.")}</p>`;
-      return;
+      adminWarning = e.data?.error || e.message || "Impossible de charger les données serveur. Le menu est affiché en mode local.";
+      payload = {
+        loginLogs: [],
+        activeSessions: {},
+        dynamicUsers: [],
+        appSettings: {},
+        dashboard: { connectedUsers: 0, quizDone: 0 }
+      };
     }
 
     const logs = payload.loginLogs || [];
@@ -546,9 +556,24 @@
     const dynamicUsers = payload.dynamicUsers || [];
     const appSettings = payload.appSettings || {};
     const dashboard = payload.dashboard || { connectedUsers: activeRows.length, quizDone: logs.filter(l => l.action === 'finish_quiz').length };
-    const allLevels = Array.from(new Set((QUIZ_QUESTIONS || []).map(q => q.level).filter(Boolean))).sort();
+    const allQuestionsForLevels = []
+      .concat(Array.isArray(window.QUIZ_QUESTIONS) ? window.QUIZ_QUESTIONS : [])
+      .concat(Array.isArray(window.QUIZ_QUESTIONS_QUIZ) ? window.QUIZ_QUESTIONS_QUIZ : [])
+      .concat(Array.isArray(window.QUIZ_QUESTIONS_DE) ? window.QUIZ_QUESTIONS_DE : []);
+    const defaultLevels = ["A1-Base Santé", "A2-Niveau moyen", "L1-Niveau Émergent", "L2-Niveau Ascendant", "L3-Niveau Accompli INF", "L3-Niveau Accompli SF"];
+    const removedAccountLevels = new Set([
+      normalizeKey("Auxiliaire 2 année"),
+      normalizeKey("L3-Niveau Accompli INF/SFM"),
+      normalizeKey("Licence 3 INF/SAG-M"),
+      normalizeKey("AUXI"),
+      normalizeKey("INF/SAG-M"),
+    ]);
+    const allLevels = Array.from(new Set(allQuestionsForLevels.map(q => q.level).filter(Boolean).concat(defaultLevels)))
+      .filter(level => !removedAccountLevels.has(normalizeKey(level)))
+      .sort();
 
     els.adminLogs.innerHTML = `
+      ${adminWarning ? `<div class="notice" style="margin-bottom:12px"><strong>Information :</strong> ${escapeHtml(adminWarning)}<br><small>Le menu reste visible. Les actions qui modifient les comptes nécessitent que le serveur et la base de données soient bien connectés.</small></div>` : ""}
       <div class="admin-tabs">
         <button class="btn btn--primary adminTabBtn" data-tab="general" type="button">⚙️ Paramètres généraux</button>
         <button class="btn adminTabBtn" data-tab="quiz" type="button">📚 Gestion des quiz</button>
@@ -575,8 +600,12 @@
               ${allLevels.map(l => `<label><input type="checkbox" value="${escapeHtml(l)}"> ${escapeHtml(l)}</label>`).join("")}
             </div>
           </div>
-          <button class="btn btn--primary" id="btnCreateUser" type="button">Créer compte automatiquement</button>
-          <div class="pill" id="createdUsername" style="margin-top:10px"></div>
+          <div class="create-user-row">
+            <button class="btn btn--primary" id="btnCreateUser" type="button">Créer compte automatiquement</button>
+            <div id="createdUsername" class="created-username-box">
+              ${window.__LAST_CREATED_USER ? `<table class="mini-table"><thead><tr><th>Nom d’utilisateur généré</th></tr></thead><tbody><tr><td><strong>${escapeHtml(window.__LAST_CREATED_USER.username || window.__LAST_CREATED_USER)}</strong></td></tr></tbody></table>` : ""}
+            </div>
+          </div>
         </div>
 
         <div class="admin-box">
@@ -657,7 +686,11 @@
     document.getElementById('btnCreateUser')?.addEventListener('click', async () => {
       const levels = [...document.querySelectorAll('#adminLevels input:checked')].map(i => i.value);
       const body = currentAuthPayload({ lastName: document.getElementById('adminLastName')?.value, firstName: document.getElementById('adminFirstName')?.value, phone: document.getElementById('adminPhone')?.value, levels });
-      try { const r = await apiPost('/api/admin/create-user', body); document.getElementById('createdUsername').textContent = `Compte créé : ${r.username}`; await renderAdminLogs(); } catch(e) { alert(e.data?.error || e.message); }
+      try {
+        const r = await apiPost('/api/admin/create-user', body);
+        window.__LAST_CREATED_USER = { username: r.username };
+        await renderAdminLogs();
+      } catch(e) { alert(e.data?.error || e.message); }
     });
 
     els.adminLogs.querySelectorAll('.btnForceLogout').forEach(button => button.addEventListener('click', async () => {
@@ -1403,13 +1436,13 @@
     if (nTrack.includes("inf/sag-m")) {
       out = out.filter((q) => {
         const lv = normalizeKey(q.level);
-        return lv.includes("inf/sag-m") || lv.includes("ide/sfm") || lv.includes("licence 3 ide") || lv.includes("licence 3 sfm");
+        return lv.includes("inf/sag-m") || lv.includes("ide/sfm") || lv.includes("licence 3 ide") || lv.includes("licence 3 sfm") || lv.includes(normalizeKey("L3-Niveau Accompli INF")) || lv.includes(normalizeKey("L3-Niveau Accompli SF"));
       });
     }
     if (nTrack.includes("auxi")) {
       out = out.filter((q) => {
         const lv = normalizeKey(q.level);
-        return lv.includes("auxi") || lv.includes("auxiliaire");
+        return lv.includes("auxi") || lv.includes("auxiliaire") || lv.includes(normalizeKey("A2-Niveau moyen"));
       });
     }
 
