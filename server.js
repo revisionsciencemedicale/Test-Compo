@@ -36,6 +36,35 @@ function loadUsersConfig() {
   };
 }
 
+function cleanPart(value, length) {
+  return String(value || '')
+    .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+    .replace(/[^a-zA-Z0-9]/g, '')
+    .toUpperCase()
+    .slice(0, length)
+    .padEnd(length, 'X');
+}
+
+function generateUsername({ lastName, firstName, levels, phone }) {
+  const levelText = Array.isArray(levels) ? levels[0] || 'NA' : String(levels || 'NA');
+  const digits = String(phone || '').replace(/\D/g, '');
+  return `${cleanPart(lastName, 3)}${cleanPart(firstName, 3)}${cleanPart(levelText, 2)}${digits.slice(-4).padStart(4, '0')}`;
+}
+
+async function getAllUsers(client, staticUsers) {
+  const result = await client.query('SELECT * FROM app_users ORDER BY username ASC');
+  const users = { ...staticUsers };
+  for (const row of result.rows) {
+    if (!row.deleted) users[row.username] = { levels: row.levels || [], suspended: row.suspended, dynamic: true, fullName: row.full_name || '' };
+  }
+  return users;
+}
+
+async function assertAdmin(client, username, sessionToken, admins) {
+  const sessionResult = await client.query('SELECT * FROM active_sessions WHERE username=$1 AND session_token=$2', [username, sessionToken]);
+  return admins.includes(username) && sessionResult.rowCount > 0;
+}
+
 function now() { return Date.now(); }
 
 const loginAttempts = new Map();
@@ -116,7 +145,30 @@ async function initDb() {
       reason TEXT DEFAULT 'admin_force_logout'
     );
   `);
+  await pool.query(`
+    CREATE TABLE IF NOT EXISTS app_users (
+      username TEXT PRIMARY KEY,
+      full_name TEXT DEFAULT '',
+      first_name TEXT DEFAULT '',
+      last_name TEXT DEFAULT '',
+      phone TEXT DEFAULT '',
+      levels JSONB DEFAULT '[]'::jsonb,
+      suspended BOOLEAN DEFAULT FALSE,
+      deleted BOOLEAN DEFAULT FALSE,
+      created_at BIGINT NOT NULL,
+      updated_at BIGINT NOT NULL
+    );
+  `);
+  await pool.query(`
+    CREATE TABLE IF NOT EXISTS app_settings (
+      key TEXT PRIMARY KEY,
+      value JSONB NOT NULL,
+      updated_at BIGINT NOT NULL,
+      updated_by TEXT
+    );
+  `);
 }
+
 
 async function cleanupExpired(client = pool) {
   // Désactivé volontairement : aucune session active n'est supprimée pour inactivité.
@@ -252,7 +304,8 @@ const server = http.createServer(async (req, res) => {
   const url = new URL(req.url, `http://${req.headers.host}`);
   if (!url.pathname.startsWith('/api/')) return serveStatic(req, res);
 
-  const { users, admins } = loadUsersConfig();
+  const { users: staticUsers, admins } = loadUsersConfig();
+  let users = staticUsers;
 
   if (req.method === 'GET' && url.pathname === '/api/health') {
     return withDb(res, async () => sendJson(res, 200, { ok: true, database: 'postgresql' }));
@@ -271,6 +324,11 @@ const server = http.createServer(async (req, res) => {
       if (!username) {
         await addLog(client, { user: '-', action: 'login_empty_username', device });
         return sendJson(res, 400, { ok: false, error: 'Veuillez entrer votre nom d’utilisateur avant de vous connecter.' });
+      }
+      users = await getAllUsers(client, staticUsers);
+      if (users[username]?.suspended) {
+        await addLog(client, { user: username, action: 'login_suspended', device });
+        return sendJson(res, 403, { ok: false, error: 'Compte suspendu. Merci de contacter un administrateur.' });
       }
       if (!users[username]) {
         await addLog(client, { user: username || '-', action: 'login_invalid', device });
@@ -437,10 +495,16 @@ const server = http.createServer(async (req, res) => {
       }
       const activeResult = await client.query('SELECT * FROM active_sessions ORDER BY last_seen DESC');
       const logsResult = await client.query('SELECT * FROM login_logs ORDER BY timestamp ASC LIMIT 5000');
+      const dynamicUsers = await client.query('SELECT * FROM app_users WHERE deleted=FALSE ORDER BY username ASC');
+      const settingsResult = await client.query("SELECT value FROM app_settings WHERE key='global'");
+      const quizCount = logsResult.rows.filter(r => r.action === 'finish_quiz').length;
       return sendJson(res, 200, {
         ok: true,
         activeSessions: Object.fromEntries(activeResult.rows.map((r) => [r.username, publicSession(rowToSession(r))])),
         loginLogs: logsResult.rows.map(rowToLog),
+        dashboard: { connectedUsers: activeResult.rowCount, quizDone: quizCount },
+        dynamicUsers: dynamicUsers.rows,
+        appSettings: settingsResult.rows[0]?.value || {},
       });
     });
   }
@@ -495,11 +559,86 @@ const server = http.createServer(async (req, res) => {
     });
   }
 
+
+  if (req.method === 'POST' && url.pathname === '/api/admin/create-user') {
+    const body = await readJsonBody(req);
+    const adminUsername = String(body.username || '').trim();
+    const sessionToken = String(body.sessionToken || '').trim();
+    return withDb(res, async (client) => {
+      if (!(await assertAdmin(client, adminUsername, sessionToken, admins))) return sendJson(res, 403, { ok: false, error: 'Accès administrateur refusé.' });
+      const levels = Array.isArray(body.levels) ? body.levels.filter(Boolean) : [];
+      if (!levels.length) return sendJson(res, 400, { ok: false, error: 'Veuillez cocher au moins un niveau.' });
+      const generated = generateUsername({ lastName: body.lastName, firstName: body.firstName, levels, phone: body.phone });
+      let username = generated;
+      let i = 1;
+      while ((await client.query('SELECT 1 FROM app_users WHERE username=$1 AND deleted=FALSE', [username])).rowCount || staticUsers[username]) username = `${generated}${i++}`;
+      await client.query(`INSERT INTO app_users(username, full_name, first_name, last_name, phone, levels, created_at, updated_at)
+        VALUES($1,$2,$3,$4,$5,$6::jsonb,$7,$7)`, [username, `${body.lastName || ''} ${body.firstName || ''}`.trim(), body.firstName || '', body.lastName || '', body.phone || '', JSON.stringify(levels), now()]);
+      await addLog(client, { user: username, action: 'admin_create_user', details: { by: adminUsername, levels } });
+      return sendJson(res, 200, { ok: true, username });
+    });
+  }
+
+  if (req.method === 'POST' && url.pathname === '/api/admin/update-user') {
+    const body = await readJsonBody(req);
+    const adminUsername = String(body.username || '').trim();
+    const sessionToken = String(body.sessionToken || '').trim();
+    const targetUser = String(body.targetUser || '').trim();
+    return withDb(res, async (client) => {
+      if (!(await assertAdmin(client, adminUsername, sessionToken, admins))) return sendJson(res, 403, { ok: false, error: 'Accès administrateur refusé.' });
+      if (!targetUser) return sendJson(res, 400, { ok: false, error: 'Utilisateur cible manquant.' });
+      if (body.action === 'suspend') await client.query('UPDATE app_users SET suspended=TRUE, updated_at=$2 WHERE username=$1', [targetUser, now()]);
+      else if (body.action === 'reactivate') await client.query('UPDATE app_users SET suspended=FALSE, updated_at=$2 WHERE username=$1', [targetUser, now()]);
+      else if (body.action === 'delete') { await client.query('UPDATE app_users SET deleted=TRUE, updated_at=$2 WHERE username=$1', [targetUser, now()]); await client.query('DELETE FROM active_sessions WHERE username=$1', [targetUser]); }
+      else if (body.action === 'rename') { const newUsername = String(body.newUsername || '').trim(); if (!newUsername) return sendJson(res,400,{ok:false,error:'Nouveau nom manquant.'}); await client.query('UPDATE app_users SET username=$2, updated_at=$3 WHERE username=$1', [targetUser, newUsername, now()]); await client.query('UPDATE active_sessions SET username=$2 WHERE username=$1', [targetUser, newUsername]); }
+      else return sendJson(res, 400, { ok: false, error: 'Action inconnue.' });
+      await addLog(client, { user: targetUser, action: `admin_${body.action}_user`, details: { by: adminUsername } });
+      return sendJson(res, 200, { ok: true });
+    });
+  }
+
+  if (req.method === 'POST' && url.pathname === '/api/admin/save-settings') {
+    const body = await readJsonBody(req);
+    const adminUsername = String(body.username || '').trim();
+    const sessionToken = String(body.sessionToken || '').trim();
+    return withDb(res, async (client) => {
+      if (!(await assertAdmin(client, adminUsername, sessionToken, admins))) return sendJson(res, 403, { ok: false, error: 'Accès administrateur refusé.' });
+      await client.query(`INSERT INTO app_settings(key, value, updated_at, updated_by) VALUES('global',$1::jsonb,$2,$3)
+        ON CONFLICT(key) DO UPDATE SET value=EXCLUDED.value, updated_at=EXCLUDED.updated_at, updated_by=EXCLUDED.updated_by`, [JSON.stringify(body.settings || {}), now(), adminUsername]);
+      await addLog(client, { user: adminUsername, action: 'admin_save_settings', details: body.settings || {} });
+      return sendJson(res, 200, { ok: true });
+    });
+  }
+
+  if (req.method === 'POST' && url.pathname === '/api/admin/disconnect-all') {
+    const body = await readJsonBody(req);
+    const adminUsername = String(body.username || '').trim();
+    const sessionToken = String(body.sessionToken || '').trim();
+    return withDb(res, async (client) => {
+      if (!(await assertAdmin(client, adminUsername, sessionToken, admins))) return sendJson(res, 403, { ok: false, error: 'Accès administrateur refusé.' });
+      const result = await client.query('DELETE FROM active_sessions WHERE username<>$1', [adminUsername]);
+      await addLog(client, { user: adminUsername, action: 'admin_disconnect_all', details: { disconnected: result.rowCount } });
+      return sendJson(res, 200, { ok: true, disconnected: result.rowCount });
+    });
+  }
+
   sendJson(res, 404, { ok: false, error: 'API inconnue.' });
 });
 
+
+function startKeepAlive() {
+  const rawUrl = process.env.PUBLIC_URL || process.env.RENDER_EXTERNAL_URL || '';
+  if (!rawUrl) return;
+  const pingUrl = rawUrl.replace(/\/$/, '') + '/api/health';
+  const intervalMs = Number(process.env.KEEP_ALIVE_INTERVAL_MS || 10 * 60 * 1000);
+  setInterval(() => {
+    fetch(pingUrl).catch(() => {});
+  }, intervalMs).unref?.();
+  console.log(`Keep-alive activé vers ${pingUrl}`);
+}
+
 initDb()
-  .then(() => server.listen(PORT, () => console.log(`Serveur démarré sur le port ${PORT} avec PostgreSQL`)))
+  .then(() => server.listen(PORT, () => { console.log(`Serveur démarré sur le port ${PORT} avec PostgreSQL`); startKeepAlive(); }))
   .catch((err) => {
     console.error('Impossible d\'initialiser PostgreSQL:', err);
     process.exit(1);

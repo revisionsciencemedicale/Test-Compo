@@ -294,3 +294,13 @@ code{color: rgba(16,185,129,.95)}
 .contact-separator { margin: 0 4px; }
 
 .whatsapp-svg { width: 16px; height: 16px; display: block; }
+
+.admin-tabs{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0}
+.admin-box{padding:12px;border-radius:14px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.10);margin:10px 0}
+.admin-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;margin:10px 0}
+.admin-card{padding:14px;border-radius:14px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.10)}
+.admin-card strong{display:block;font-size:28px}
+.checkbox-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px;margin-top:8px}
+.checkbox-grid label{padding:8px 10px;border-radius:12px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08)}
+.admin-log-list{max-height:520px;overflow:auto;padding-right:4px}
+textarea.input{min-height:130px;resize:vertical}

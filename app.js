@@ -530,92 +530,149 @@
 
   async function renderAdminLogs() {
     if (!els.adminLogs) return;
-    els.adminLogs.innerHTML = "<p class='muted'>Chargement des journaux serveur...</p>";
+    els.adminLogs.innerHTML = "<p class='muted'>Chargement des paramètres administrateur...</p>";
 
     let payload;
     try {
       payload = await apiPost("/api/admin/logs", currentAuthPayload());
     } catch (e) {
-      els.adminLogs.innerHTML = `<p class="muted" style="color:var(--bad)">${escapeHtml(e.data?.error || e.message || "Impossible de charger les journaux.")}</p>`;
+      els.adminLogs.innerHTML = `<p class="muted" style="color:var(--bad)">${escapeHtml(e.data?.error || e.message || "Impossible de charger les paramètres.")}</p>`;
       return;
     }
 
     const logs = payload.loginLogs || [];
     const active = payload.activeSessions || {};
-    els.adminLogs.innerHTML = "";
-
-    const loginCounts = logs.reduce((acc, log) => {
-      if (log.action === 'login') acc[log.user] = (acc[log.user] || 0) + 1;
-      return acc;
-    }, {});
-
-    const summary = document.createElement("div");
-    summary.className = "admin-summary";
     const activeRows = Object.values(active).sort((a, b) => (b.lastSeen || 0) - (a.lastSeen || 0));
-    summary.innerHTML = `
-      <h3 class="h3">Comptes actuellement en ligne</h3>
-      ${activeRows.length ? activeRows.map(s => `
-        <div class="admin-log-item admin-session-row">
-          <div>
-            <strong>${escapeHtml(s.username)}</strong><br>
-            <small>Appareil : ${escapeHtml(s.platform)} | Navigateur : ${escapeHtml(s.browser)} | Connexion : ${formatDate(s.startedAt)} | Dernière activité : ${formatDate(s.lastSeen)}</small>
-          </div>
-          <button class="btn btn--danger btnForceLogout" type="button" data-user="${escapeHtml(s.username)}" ${s.username === (localStorage.getItem(STORAGE_KEYS.user) || "") ? "disabled title='Impossible de déconnecter votre propre compte ici'" : ""}>Déconnecter</button>
+    const dynamicUsers = payload.dynamicUsers || [];
+    const appSettings = payload.appSettings || {};
+    const dashboard = payload.dashboard || { connectedUsers: activeRows.length, quizDone: logs.filter(l => l.action === 'finish_quiz').length };
+    const allLevels = Array.from(new Set((QUIZ_QUESTIONS || []).map(q => q.level).filter(Boolean))).sort();
+
+    els.adminLogs.innerHTML = `
+      <div class="admin-tabs">
+        <button class="btn btn--primary adminTabBtn" data-tab="general" type="button">⚙️ Paramètres généraux</button>
+        <button class="btn adminTabBtn" data-tab="quiz" type="button">📚 Gestion des quiz</button>
+        <button class="btn adminTabBtn" data-tab="trial" type="button">🎯 Essais gratuits</button>
+        <button class="btn adminTabBtn" data-tab="tech" type="button">🌐 Technique</button>
+      </div>
+
+      <div class="adminTab" data-panel="general">
+        <h3 class="h3">📊 Tableau de bord</h3>
+        <div class="admin-cards">
+          <div class="admin-card"><strong>${escapeHtml(dashboard.connectedUsers)}</strong><span>Utilisateur(s) connecté(s)</span></div>
+          <div class="admin-card"><strong>${escapeHtml(dashboard.quizDone)}</strong><span>Quiz effectué(s)</span></div>
         </div>
-      `).join("") : "<p class='muted'>Aucun compte en ligne actuellement.</p>"}
-      <h3 class="h3" style="margin-top:14px">Nombre de connexions par compte</h3>
-      ${Object.keys(loginCounts).length ? Object.entries(loginCounts).sort((a,b)=>b[1]-a[1]).map(([user,count]) => `
-        <div class="admin-count-row"><strong>${escapeHtml(user)}</strong><span>${count} connexion(s)</span></div>
-      `).join("") : "<p class='muted'>Aucune connexion enregistrée.</p>"}
-      <h3 class="h3" style="margin-top:14px">Historique détaillé</h3>
+
+        <h3 class="h3">👥 Gestion des comptes et des utilisateurs</h3>
+        <div class="admin-box">
+          <div class="grid">
+            <div class="field"><label class="label">Nom</label><input class="input" id="adminLastName" placeholder="Ex: Kouassi"></div>
+            <div class="field"><label class="label">1er prénom</label><input class="input" id="adminFirstName" placeholder="Ex: Jean"></div>
+            <div class="field"><label class="label">Téléphone</label><input class="input" id="adminPhone" placeholder="Ex: 0708190886"></div>
+          </div>
+          <div class="field"><label class="label">Niveaux autorisés</label>
+            <div class="checkbox-grid" id="adminLevels">
+              ${allLevels.map(l => `<label><input type="checkbox" value="${escapeHtml(l)}"> ${escapeHtml(l)}</label>`).join("")}
+            </div>
+          </div>
+          <button class="btn btn--primary" id="btnCreateUser" type="button">Créer compte automatiquement</button>
+          <div class="pill" id="createdUsername" style="margin-top:10px"></div>
+        </div>
+
+        <div class="admin-box">
+          <div class="field"><label class="label">Rechercher utilisateur</label><input class="input" id="adminUserSearch" placeholder="Nom d’utilisateur..."></div>
+          <div id="adminUsersList"></div>
+        </div>
+
+        <h3 class="h3">Utilisateurs connectés en temps réel</h3>
+        ${activeRows.length ? activeRows.map(s => `
+          <div class="admin-log-item admin-session-row">
+            <div>
+              <strong>${escapeHtml(s.username)}</strong><br>
+              <small>Appareil : ${escapeHtml(s.platform)} | Navigateur : ${escapeHtml(s.browser)} | IP : ${escapeHtml(s.ip)}<br>Connexion : ${formatDate(s.startedAt)} | Dernière activité : ${formatDate(s.lastSeen)}</small>
+            </div>
+            <button class="btn btn--danger btnForceLogout" type="button" data-user="${escapeHtml(s.username)}" ${s.username === (localStorage.getItem(STORAGE_KEYS.user) || "") ? "disabled" : ""}>Déconnecter</button>
+          </div>`).join("") : "<p class='muted'>Aucun compte en ligne actuellement.</p>"}
+        <button class="btn btn--danger" id="btnDisconnectAll" type="button" style="margin-top:10px">Déconnexion de tous les appareils</button>
+
+        <h3 class="h3">📋 Journal d’activité</h3>
+        <div class="admin-log-list">
+          ${[...logs].reverse().slice(0, 150).map(log => {
+            const d = log.device || {}; const detailsObj = log.details || {};
+            let extra = `Appareil: ${escapeHtml(d.platform || "-")} | Navigateur: ${escapeHtml(d.browser || "-")} | IP: ${escapeHtml(d.ip || "-")} | Dernière activité: ${formatDate(log.timestamp)}`;
+            if (log.action === 'finish_quiz') extra += `<br>Quiz: ${escapeHtml(detailsObj.correct)}/${escapeHtml(detailsObj.total)} • Note: ${escapeHtml(detailsObj.note20 || '-')}/20`;
+            return `<div class="admin-log-item"><strong>${escapeHtml(log.user)}</strong> - ${escapeHtml(log.action)} - ${formatDate(log.timestamp)}<br><small>${extra}</small></div>`;
+          }).join("") || "<p class='muted'>Aucune activité enregistrée.</p>"}
+        </div>
+      </div>
+
+      <div class="adminTab hidden" data-panel="quiz">
+        <h3 class="h3">📚 Ajouter de nouvelles matières et de nouveaux sujets</h3>
+        <div class="admin-box">
+          <p class="muted small">Prévu dans l’interface : import Word/Excel ou collage d’un script JavaScript. Le serveur prépare l’espace, mais l’import automatique nécessite encore un convertisseur de fichier sécurisé.</p>
+          <input class="input" type="file" accept=".doc,.docx,.xls,.xlsx,.js">
+          <textarea class="input" rows="6" placeholder="Coller un script JavaScript ici..."></textarea>
+        </div>
+        <h3 class="h3">🧠 Paramètres des questions</h3>
+        <div class="checkbox-grid adminSettings">
+          ${[
+            ['shuffleQuestions','Mélanger les questions'],['shuffleAnswers','Mélanger les réponses'],['instantCorrection','Afficher correction immédiatement'],['finalScore','Afficher note finale'],['negativePoints','Points négatifs'],['qpqMode','Mode QPQ activé/désactivé'],['photoRequired','Photo obligatoire avant quiz'],['cheatDetection','Gestion tentatives de tricherie'],['notifyCheat','Recevoir notification/appel'],['antiScreenshot','Anti capture d’écran'],['antiTabChange','Anti changement d’onglet ou réduction'],['antiCopyPaste','Anti copier/coller'],['maxWarnings','Nombre maximal d’avertissements'],['autoPenalty','Pénalité automatique'],['autoSubmitCheat','Soumission automatique en cas de tricherie']
+          ].map(([k,label]) => `<label><input type="checkbox" data-setting="${k}" ${appSettings[k] ? 'checked' : ''}> ${label}</label>`).join('')}
+        </div>
+        <div class="grid"><div class="field"><label class="label">Temps par question (secondes)</label><input class="input" data-setting="questionTime" type="number" value="${escapeHtml(appSettings.questionTime || 40)}"></div><div class="field"><label class="label">Temps total du quiz (minutes)</label><input class="input" data-setting="quizTotalTime" type="number" value="${escapeHtml(appSettings.quizTotalTime || '')}"></div></div>
+        <button class="btn btn--primary btnSaveAdminSettings" type="button">Enregistrer les paramètres quiz</button>
+      </div>
+
+      <div class="adminTab hidden" data-panel="trial">
+        <h3 class="h3">🎯 Gestion des essais gratuits</h3>
+        <div class="grid"><div class="field"><label class="label">Nombre de questions gratuites</label><input class="input" data-setting="freeTrialQuestions" type="number" value="${escapeHtml(appSettings.freeTrialQuestions || 15)}"></div><div class="field"><label class="label">Durée du test gratuit (minutes)</label><input class="input" data-setting="freeTrialDuration" type="number" value="${escapeHtml(appSettings.freeTrialDuration || '')}"></div><div class="field"><label class="label">Nombre maximal d’essais</label><input class="input" data-setting="freeTrialMaxAttempts" type="number" value="${escapeHtml(appSettings.freeTrialMaxAttempts || 1)}"></div></div>
+        <button class="btn btn--primary btnSaveAdminSettings" type="button">Enregistrer les essais gratuits</button>
+      </div>
+
+      <div class="adminTab hidden" data-panel="tech">
+        <h3 class="h3">🌐 Paramètres techniques</h3>
+        <div class="checkbox-grid adminSettings"><label><input type="checkbox" data-setting="autoBackup" ${appSettings.autoBackup ? 'checked' : ''}> Sauvegarde automatique</label><label><input type="checkbox" data-setting="serverSync" ${appSettings.serverSync ? 'checked' : ''}> Synchronisation serveur</label><label><input type="checkbox" data-setting="keepAlive" ${appSettings.keepAlive ? 'checked' : ''}> Garder le serveur actif automatiquement</label></div>
+        <button class="btn" id="btnClearCache" type="button">Vider cache local</button>
+        <button class="btn btn--primary btnSaveAdminSettings" type="button">Enregistrer paramètres techniques</button>
+        <p class="muted small">Pour Render : ajoute aussi la variable d’environnement <code>PUBLIC_URL=https://ton-site.onrender.com</code> pour activer le ping automatique côté serveur.</p>
+      </div>
     `;
-    els.adminLogs.appendChild(summary);
 
-    els.adminLogs.querySelectorAll('.btnForceLogout').forEach((button) => {
-      button.addEventListener('click', async () => {
-        const targetUser = button.getAttribute('data-user') || '';
-        if (!targetUser) return;
-        const ok = confirm(`Déconnecter le compte ${targetUser} ?`);
-        if (!ok) return;
-        button.disabled = true;
-        button.textContent = 'Déconnexion...';
-        try {
-          const result = await apiPost('/api/admin/force-logout', currentAuthPayload({ targetUser }));
-          alert(result.disconnected ? `Le compte ${targetUser} a été déconnecté.` : `Aucune session active trouvée pour ${targetUser}.`);
-          await renderAdminLogs();
-        } catch (e) {
-          alert(e.data?.error || e.message || 'Impossible de déconnecter ce compte.');
-          button.disabled = false;
-          button.textContent = 'Déconnecter';
-        }
-      });
-    });
-
-    if (logs.length === 0) {
-      const empty = document.createElement("p");
-      empty.className = "muted";
-      empty.textContent = "Aucune activité enregistrée.";
-      els.adminLogs.appendChild(empty);
-      return;
+    function renderUsers(filter = '') {
+      const box = document.getElementById('adminUsersList');
+      if (!box) return;
+      const q = filter.toLowerCase();
+      const rows = dynamicUsers.filter(u => !q || String(u.username).toLowerCase().includes(q) || String(u.full_name || '').toLowerCase().includes(q));
+      box.innerHTML = rows.length ? rows.map(u => `<div class="admin-log-item admin-session-row"><div><strong>${escapeHtml(u.username)}</strong><br><small>${escapeHtml(u.full_name || '')} • ${(u.levels || []).map(escapeHtml).join(', ')} • ${u.suspended ? 'Suspendu' : 'Actif'}</small></div><div class="row"><button class="btn btnUserAction" data-action="${u.suspended ? 'reactivate' : 'suspend'}" data-user="${escapeHtml(u.username)}" type="button">${u.suspended ? 'Réactiver' : 'Suspendre'}</button><button class="btn btnUserRename" data-user="${escapeHtml(u.username)}" type="button">Modifier nom</button><button class="btn btn--danger btnUserAction" data-action="delete" data-user="${escapeHtml(u.username)}" type="button">Supprimer</button></div></div>`).join('') : "<p class='muted'>Aucun utilisateur créé depuis le site.</p>";
     }
+    renderUsers();
 
-    [...logs].reverse().forEach(log => {
-      const item = document.createElement("div");
-      item.className = "admin-log-item";
-      const date = formatDate(log.timestamp);
-      const device = log.device || {};
-      const detailsObj = log.details || {};
-      let details = `Appareil: ${escapeHtml(device.platform || "-")} | Navigateur: ${escapeHtml(device.browser || "-")} | En ligne: ${device.online ? "oui" : "non"}`;
-      if (log.action === 'start_quiz') {
-        details += `<br>Niveau: ${escapeHtml(detailsObj.level)}, Matière: ${escapeHtml(detailsObj.subject)}, Sujet: ${escapeHtml(detailsObj.topic)}, Questions: ${escapeHtml(detailsObj.questionCount)}`;
-      } else if (log.action === 'finish_quiz') {
-        details += `<br>Score: ${escapeHtml(detailsObj.correct)}/${escapeHtml(detailsObj.total)} (${escapeHtml(detailsObj.percentage)}%), Répondu: ${escapeHtml(detailsObj.answered)}/${escapeHtml(detailsObj.total)}`;
-      } else if (log.action === 'login_refused_already_online' && log.blockedBy) {
-        details += `<br>Refusé car déjà connecté sur ${escapeHtml(log.blockedBy.platform)} / ${escapeHtml(log.blockedBy.browser)}. Dernière activité: ${formatDate(log.blockedBy.lastSeen)}`;
-      }
-      item.innerHTML = `<strong>${escapeHtml(log.user)}</strong> - ${escapeHtml(log.action)} - ${date}<br><small>${details}</small>`;
-      els.adminLogs.appendChild(item);
+    els.adminLogs.querySelectorAll('.adminTabBtn').forEach(btn => btn.addEventListener('click', () => {
+      els.adminLogs.querySelectorAll('.adminTabBtn').forEach(b => b.classList.remove('btn--primary'));
+      btn.classList.add('btn--primary');
+      els.adminLogs.querySelectorAll('.adminTab').forEach(p => p.classList.toggle('hidden', p.dataset.panel !== btn.dataset.tab));
+    }));
+
+    document.getElementById('adminUserSearch')?.addEventListener('input', (e) => renderUsers(e.target.value));
+    document.getElementById('btnCreateUser')?.addEventListener('click', async () => {
+      const levels = [...document.querySelectorAll('#adminLevels input:checked')].map(i => i.value);
+      const body = currentAuthPayload({ lastName: document.getElementById('adminLastName')?.value, firstName: document.getElementById('adminFirstName')?.value, phone: document.getElementById('adminPhone')?.value, levels });
+      try { const r = await apiPost('/api/admin/create-user', body); document.getElementById('createdUsername').textContent = `Compte créé : ${r.username}`; await renderAdminLogs(); } catch(e) { alert(e.data?.error || e.message); }
     });
+
+    els.adminLogs.querySelectorAll('.btnForceLogout').forEach(button => button.addEventListener('click', async () => {
+      const targetUser = button.dataset.user || ''; if (!targetUser || !confirm(`Déconnecter ${targetUser} ?`)) return;
+      try { await apiPost('/api/admin/force-logout', currentAuthPayload({ targetUser })); await renderAdminLogs(); } catch(e) { alert(e.data?.error || e.message); }
+    }));
+    document.getElementById('btnDisconnectAll')?.addEventListener('click', async () => { if (!confirm('Déconnecter tous les autres appareils ?')) return; try { const r = await apiPost('/api/admin/disconnect-all', currentAuthPayload()); alert(`${r.disconnected} session(s) déconnectée(s).`); await renderAdminLogs(); } catch(e) { alert(e.data?.error || e.message); } });
+    els.adminLogs.querySelectorAll('.btnUserAction').forEach(btn => btn.addEventListener('click', async () => { if (btn.dataset.action === 'delete' && !confirm(`Supprimer ${btn.dataset.user} ?`)) return; try { await apiPost('/api/admin/update-user', currentAuthPayload({ targetUser: btn.dataset.user, action: btn.dataset.action })); await renderAdminLogs(); } catch(e) { alert(e.data?.error || e.message); } }));
+    els.adminLogs.querySelectorAll('.btnUserRename').forEach(btn => btn.addEventListener('click', async () => { const newUsername = prompt('Nouveau nom d’utilisateur :', btn.dataset.user); if (!newUsername) return; try { await apiPost('/api/admin/update-user', currentAuthPayload({ targetUser: btn.dataset.user, action: 'rename', newUsername })); await renderAdminLogs(); } catch(e) { alert(e.data?.error || e.message); } }));
+    document.getElementById('btnClearCache')?.addEventListener('click', () => { localStorage.removeItem(STORAGE_KEYS.last); localStorage.removeItem(STORAGE_KEYS.lastResult); alert('Cache local vidé.'); });
+    els.adminLogs.querySelectorAll('.btnSaveAdminSettings').forEach(btn => btn.addEventListener('click', async () => {
+      const settings = {};
+      els.adminLogs.querySelectorAll('[data-setting]').forEach(input => { settings[input.dataset.setting] = input.type === 'checkbox' ? input.checked : input.value; });
+      try { await apiPost('/api/admin/save-settings', currentAuthPayload({ settings })); alert('Paramètres enregistrés.'); } catch(e) { alert(e.data?.error || e.message); }
+    }));
   }
 
   const QUESTION_TIME_SEC = 40;
