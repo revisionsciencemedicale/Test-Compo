@@ -826,12 +826,14 @@
     const userConfig = getCurrentUserConfig();
 
     if (!userConfig) return false;
+    // Administrateurs / comptes avec accès total : voient le bouton EFF et tous les niveaux EFF.
     if (userConfig.levels === "all") return true;
     if (!Array.isArray(userConfig.levels)) return false;
 
-    return userConfig.levels.includes("A2-Niveau moyen") ||
-           userConfig.levels.includes("L3-Niveau Accompli INF") ||
-           userConfig.levels.includes("L3-Niveau Accompli SF");
+    const levels = normalizeAccountLevels(userConfig.levels).map((lv) => normalizeKey(lv));
+    return levels.includes(normalizeKey("A2-Niveau moyen")) ||
+           levels.includes(normalizeKey("L3-Niveau Accompli INF")) ||
+           levels.includes(normalizeKey("L3-Niveau Accompli SF"));
   }
 
   function escapeHtml(value) {
@@ -2381,24 +2383,80 @@
 
  function computeLevels() {
   const user = localStorage.getItem(STORAGE_KEYS.user);
-  // En mode essai, l'utilisateur doit voir tout le contenu disponible.
-  // Le niveau "Essai gratuit" reste disponible uniquement pour lancer le sujet d'essai autorisé.
-  if (isFreeTrialUser(user)) return ["Tous les niveaux", ...ALL_LEVELS, FREE_TRIAL_LEVEL];
-  const userConfig = getCurrentUserConfig();
 
+  // Dans « Commencer un quiz », les niveaux EFF ne doivent jamais apparaître.
+  // INF/SAG-M et AUXI sont réservés au bouton « Examen de fin de Formation ».
+  const QUIZ_LEVELS = [
+    "A1-Base Santé",
+    "A2-Niveau moyen",
+    "L1-Niveau Émergent",
+    "L2-Niveau Ascendant",
+    "L3-Niveau Accompli SF",
+    "L3-Niveau Accompli INF",
+  ];
+
+  const isCurrentAdmin = () => {
+    const current = safeText(user).trim();
+    return !!(
+      current &&
+      Array.isArray(window.ADMINS) &&
+      window.ADMINS.some((admin) => normalizeKey(admin) === normalizeKey(current))
+    );
+  };
+
+  const canonicalQuizLevel = (level) => {
+    const n = normalizeKey(level);
+    if (!n) return "";
+    if (n === normalizeKey("A1-Base Santé")) return "A1-Base Santé";
+    if (n === normalizeKey("A2-Niveau moyen") || n.includes("auxiliaire") || n === normalizeKey("AUXI")) return "A2-Niveau moyen";
+    if (n === normalizeKey("L1-Niveau Émergent") || n === normalizeKey("L1-Niveau Emergent") || n.includes("licence 1")) return "L1-Niveau Émergent";
+    if (n === normalizeKey("L2-Niveau Ascendant") || n.includes("licence 2")) return "L2-Niveau Ascendant";
+    if (n === normalizeKey("L3-Niveau Accompli INF") || n.includes("licence 3 ide")) return "L3-Niveau Accompli INF";
+    if (n === normalizeKey("L3-Niveau Accompli SF") || n.includes("licence 3 sfm")) return "L3-Niveau Accompli SF";
+    // INF/SAG-M appartient à l'EFF, mais l'utilisateur L3 garde son niveau classique dans Quiz.
+    if (n === normalizeKey("INF/SAG-M") || n.includes("licence 3 inf/sag-m")) return "L3-Niveau Accompli SF";
+    return QUIZ_LEVELS.find((lv) => normalizeKey(lv) === n) || "";
+  };
+
+  const uniqueQuizLevels = (levels) => {
+    const out = [];
+    const seen = new Set();
+    for (const raw of levels || []) {
+      const lv = canonicalQuizLevel(raw);
+      if (!lv) continue;
+      const key = normalizeKey(lv);
+      if (seen.has(key)) continue;
+      seen.add(key);
+      out.push(lv);
+    }
+    return out;
+  };
+
+  // En mode essai gratuit, on garde le comportement de découverte, sans afficher INF/SAG-M/AUXI.
+  if (isFreeTrialUser(user)) return ["Tous les niveaux", ...QUIZ_LEVELS, FREE_TRIAL_LEVEL];
+
+  const userConfig = getCurrentUserConfig();
   if (!userConfig) return [];
 
+  // Exception demandée : seuls les administrateurs peuvent voir tous les niveaux classiques.
+  if (isCurrentAdmin()) {
+    return QUIZ_LEVELS;
+  }
+
+  // Sécurité : un compte non administrateur ne doit pas obtenir tous les niveaux
+  // même si sa configuration contient par erreur levels: "all".
   if (userConfig.levels === "all") {
-    return ALL_LEVELS;
+    return [];
   }
 
   if (Array.isArray(userConfig.levels)) {
-    if (userConfig.levels.some((lv) => normalizeKey(lv) === "all" || normalizeKey(lv) === "tous les niveaux")) {
-      return ALL_LEVELS;
-    }
-    const normalized = normalizeAccountLevels(userConfig.levels);
-    const extras = userConfig.levels.map((lv) => safeText(lv).trim()).filter((lv) => catalogLevels.includes(lv));
-    return Array.from(new Set([...normalized.filter((lv) => availableLevels.includes(lv)), ...extras]));
+    const hasAll = userConfig.levels.some((lv) => {
+      const n = normalizeKey(lv);
+      return n === "all" || n === normalizeKey("Tous les niveaux");
+    });
+    // Sécurité : "Tous les niveaux" ne donne tous les niveaux qu'aux administrateurs.
+    if (hasAll && isCurrentAdmin()) return QUIZ_LEVELS;
+    return uniqueQuizLevels(userConfig.levels);
   }
 
   return [];
@@ -2510,7 +2568,6 @@
     "Soins infirmiers spécialisés en médecine",
     "Soins palliatifs",
     "Soins infirmiers spécialisés en chirurgie",
-    "Rédaction administrative",
     "Supervision / Suivi – Evaluation",
     "Gestion Hospitalière",
     "Analyse des données quantitatives et qualitatives"
@@ -2607,61 +2664,90 @@
     return Array.from(new Set(topics.map((t) => safeText(t).trim()).filter(Boolean)));
   }
 
+  function isRestrictedQuizLevel(level) {
+    const n = normalizeKey(level);
+    return n === normalizeKey("A1-Base Santé") ||
+      n === normalizeKey("L1-Niveau Émergent") ||
+      n === normalizeKey("L1-Niveau Emergent") ||
+      n === normalizeKey("L2-Niveau Ascendant");
+  }
+
   function computeSubjectsForLevel(level) {
     if (isFreeTrialUser() && normalizeKey(level) === normalizeKey(FREE_TRIAL_LEVEL)) return [FREE_TRIAL_SUBJECT];
     const unique = (arr) => Array.from(new Set((arr || []).map((s) => safeText(s).trim()).filter(Boolean)));
 
-    // Affiche uniquement les matières autorisées pour le niveau sélectionné.
+    // Comptes locaux et comptes serveur : pour A1, L1 et L2, on affiche uniquement
+    // les matières liées au niveau choisi. Aucune matière d'un autre niveau ne doit remonter
+    // depuis la banque globale de questions.
     const restrictedSubjects = getAllowedSubjectsForLevel(level);
     const customSubjects = getCustomSubjectsForLevel(level);
-    const subjectsFromQuestions = getQuestionBank()
+    const subjectsFromQuestionsSameLevel = getQuestionBank()
       .filter((q) => !level || level === "Tous les niveaux" || levelMatches(q.level, level))
       .map((q) => q.subject);
 
+    // Liste imposée par niveau : pour les comptes locaux et les comptes serveur,
+    // un niveau ne doit afficher QUE les matières prévues pour ce niveau.
+    // On n'ajoute donc pas les matières trouvées dans la banque globale de questions,
+    // car elles peuvent appartenir à un autre niveau.
     if (restrictedSubjects.length > 0) {
-      return ["Toutes les matières", ...unique(restrictedSubjects.concat(customSubjects).concat(subjectsFromQuestions))];
+      return ["Toutes les matières", ...unique(restrictedSubjects)];
     }
 
-    return ["Toutes les matières", ...unique(ALL_SUBJECTS.concat(customSubjects).concat(subjectsFromQuestions))];
+    return ["Toutes les matières", ...unique(ALL_SUBJECTS.concat(customSubjects).concat(subjectsFromQuestionsSameLevel))];
+  }
+
+  function sortTopicsList(topics) {
+    return Array.from(new Set((topics || []).map((t) => safeText(t).trim()).filter(Boolean))).sort((a, b) => {
+      const na = normalizeKey(a);
+      const nb = normalizeKey(b);
+      const ma = na.match(/^sujet\s*([0-9]+)$/);
+      const mb = nb.match(/^sujet\s*([0-9]+)$/);
+      if (ma && mb) return Number(ma[1]) - Number(mb[1]);
+      return a.localeCompare(b, "fr", { sensitivity: "base" });
+    });
+  }
+
+  function computeTopicsForLevelSubject(level, subject) {
+    const currentLevelForTopics = level || (els.selectLevel && els.selectLevel.value) || session.level || "";
+
+    if (isFreeTrialUser() && normalizeKey(subject) === normalizeKey(FREE_TRIAL_SUBJECT)) return [FREE_TRIAL_TOPIC];
+    if (!subject || subject === "Toutes les matières") return ["Tous les sujets"];
+
+    const subjectKey = normalizeKey(subject);
+    const entry = SUBJECT_TOPICS_BY_NORM[subjectKey];
+    const customTopics = getCustomTopicsForLevelSubject(currentLevelForTopics, subject);
+
+    // Correction : la liste « Sujet (thème) » doit toujours apparaître après le choix
+    // du niveau et de la matière. On cherche d'abord les sujets dans les questions du
+    // niveau choisi, puis dans le catalogue personnalisé, puis dans sujets.js.
+    // Les comparaisons sont normalisées pour accepter les espaces, accents et variantes.
+    const topicsFromCurrentLevel = getQuestionBank()
+      .filter((q) => !currentLevelForTopics || levelMatches(q.level, currentLevelForTopics))
+      .filter((q) => normalizeKey(q.subject) === subjectKey)
+      .map((q) => safeText(q.topic).trim())
+      .filter(Boolean);
+
+    let topics = [];
+    topics = topics.concat(topicsFromCurrentLevel);
+    topics = topics.concat(customTopics);
+    if (entry && Array.isArray(entry.topics)) topics = topics.concat(entry.topics);
+
+    // Sécurité pour les matières autorisées par niveau qui n'ont pas encore de questions
+    // ou dont les sujets n'ont pas encore été enregistrés : le menu reste visible avec
+    // les sujets standards afin que l'utilisateur puisse sélectionner un thème.
+    const allowedSubjects = getAllowedSubjectsForLevel(currentLevelForTopics).map((s) => normalizeKey(s));
+    const isAllowedSubject = allowedSubjects.includes(subjectKey);
+    if (isAllowedSubject && topics.length === 0) {
+      topics = ["Sujet 1", "Sujet 2", "Sujet 3", "Sujet 4", "Sujet 5"];
+    }
+
+    const sorted = sortTopicsList(topics);
+    return ["Tous les sujets"].concat(sorted.length ? sorted : ["Sujet 1", "Sujet 2", "Sujet 3", "Sujet 4", "Sujet 5"]);
   }
 
   function computeTopicsForSubject(subject) {
-    if (isFreeTrialUser() && normalizeKey(subject) === normalizeKey(FREE_TRIAL_SUBJECT)) return [FREE_TRIAL_TOPIC];
-    if (!subject || subject === "Toutes les matières") return ["Tous les sujets"];
-    const entry = SUBJECT_TOPICS_BY_NORM[normalizeKey(subject)];
     const currentLevelForTopics = (els.selectLevel && els.selectLevel.value) || session.level || "";
-    const customTopics = getCustomTopicsForLevelSubject(currentLevelForTopics, subject);
-    if (entry && Array.isArray(entry.topics) && entry.topics.length > 0) {
-      return ["Tous les sujets"].concat(Array.from(new Set(entry.topics.concat(customTopics))));
-    }
-    if (customTopics.length > 0) {
-      return ["Tous les sujets"].concat(customTopics);
-    }
-
-    // Fallback: si la matière n'est pas trouvée dans `sujets.js`,
-    // on dérive les sujets depuis les questions existantes.
-    const byQuestions = Array.from(
-      new Set(
-        getQuestionBank()
-          .filter((q) => normalizeKey(q.subject) === normalizeKey(subject))
-          .map((q) => safeText(q.topic).trim())
-          .filter(Boolean)
-      )
-    );
-
-    if (byQuestions.length > 0) {
-      byQuestions.sort((a, b) => {
-        const na = normalizeKey(a);
-        const nb = normalizeKey(b);
-        const ma = na.match(/^sujet\s*([0-9]+)$/);
-        const mb = nb.match(/^sujet\s*([0-9]+)$/);
-        if (ma && mb) return Number(ma[1]) - Number(mb[1]);
-        return a.localeCompare(b, "fr", { sensitivity: "base" });
-      });
-      return ["Tous les sujets"].concat(byQuestions);
-    }
-
-    return ["Tous les sujets"];
+    return computeTopicsForLevelSubject(currentLevelForTopics, subject);
   }
 
   function setOptions(select, options, valueToSelect) {
@@ -2973,12 +3059,17 @@ if (!levels.includes(session.level)) {
     setOptions(els.selectSubject, subjects, desiredSubject);
     session.subject = els.selectSubject.value;
 
-    const topics = computeTopicsForSubject(els.selectSubject.value);
+    const topics = computeTopicsForLevelSubject(els.selectLevel.value, els.selectSubject.value);
     const desiredTopic = topics.includes(session.topic)
       ? session.topic
       : "Tous les sujets";
-    setOptions(els.selectTopic, topics, desiredTopic);
-    session.topic = els.selectTopic.value;
+    setOptions(els.selectTopic, topics.length ? topics : ["Tous les sujets"], desiredTopic);
+    session.topic = els.selectTopic.value || "Tous les sujets";
+    if (els.selectTopic) {
+      els.selectTopic.classList.remove("hidden");
+      els.selectTopic.disabled = false;
+      els.selectTopic.style.display = "";
+    }
 
     const filtered = filterBank(bank, {
       level: els.selectLevel.value,
