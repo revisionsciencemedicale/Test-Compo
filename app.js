@@ -937,7 +937,7 @@
           <div class="create-user-row">
             <button class="btn btn--primary" id="btnCreateUser" type="button">Créer compte automatiquement</button>
             <div id="createdUsername" class="created-username-box">
-              ${window.__LAST_CREATED_USER ? `<table class="mini-table"><thead><tr><th>Nom d’utilisateur généré</th></tr></thead><tbody><tr><td><strong>${escapeHtml(window.__LAST_CREATED_USER.username || window.__LAST_CREATED_USER)}</strong></td></tr></tbody></table>` : ""}
+              ${window.__LAST_CREATED_USER ? `<table class="mini-table generated-user-table"><thead><tr><th>Nom d’utilisateur généré</th><th>Niveau(x)</th></tr></thead><tbody><tr><td><strong>${escapeHtml(window.__LAST_CREATED_USER.username || window.__LAST_CREATED_USER)}</strong></td><td>${escapeHtml(((window.__LAST_CREATED_USER.levels || [])).join(', '))}</td></tr></tbody></table>` : ""}
             </div>
           </div>
         </div>
@@ -1098,35 +1098,8 @@
       const box = document.getElementById('adminUsersList');
       if (!box) return;
       const q = filter.toLowerCase();
-      const rows = dynamicUsers.filter(u => !q || String(u.username).toLowerCase().includes(q) || String(u.full_name || '').toLowerCase().includes(q) || String(u.phone || '').toLowerCase().includes(q));
-      box.innerHTML = rows.length ? rows.map(u => {
-        const statusClass = u.suspended ? 'user-status--suspended' : 'user-status--active';
-        return `<div class="admin-log-item admin-session-row">
-          <div class="user-search-info">
-            <strong>${escapeHtml(u.username)}</strong><br>
-            <small>Nom : ${escapeHtml(u.last_name || '')} • Prénom : ${escapeHtml(u.first_name || '')} • Tél : ${escapeHtml(u.phone || '')}</small><br>
-            <small>Niveau(x) : ${(u.levels || []).map(escapeHtml).join(', ') || 'Aucun'} • <span class="${statusClass}">${u.suspended ? 'Suspendu' : 'Actif'}</span></small>
-          </div>
-          <div class="row">
-            <button class="btn btnUserAction" data-action="${u.suspended ? 'reactivate' : 'suspend'}" data-user="${escapeHtml(u.username)}" type="button">${u.suspended ? 'Réactiver' : 'Suspendre'}</button>
-            <button class="btn btnUserEdit" data-user="${escapeHtml(u.username)}" type="button">Modifier nom</button>
-            <button class="btn btn--danger btnUserAction" data-action="delete" data-user="${escapeHtml(u.username)}" type="button">Supprimer</button>
-          </div>
-        </div>`;
-      }).join('') : "<p class='muted'>Aucun utilisateur créé depuis le site.</p>";
-    }
-
-    function chooseEditedLevels(currentLevels = []) {
-      const message = allLevels.map((level, index) => `${index + 1}. ${level}`).join('\n');
-      const current = (currentLevels || []).join(', ');
-      const answer = prompt(`Choisir le(s) niveau(x) par numéro, séparés par des virgules :\n${message}`, current);
-      if (answer === null) return null;
-      const selected = answer.split(',').map(v => v.trim()).filter(Boolean).map(v => {
-        const n = Number(v);
-        if (Number.isInteger(n) && n >= 1 && n <= allLevels.length) return allLevels[n - 1];
-        return allLevels.find(level => normalizeKey(level) === normalizeKey(v)) || v;
-      }).filter(Boolean);
-      return Array.from(new Set(selected));
+      const rows = dynamicUsers.filter(u => !q || String(u.username).toLowerCase().includes(q) || String(u.full_name || '').toLowerCase().includes(q));
+      box.innerHTML = rows.length ? rows.map(u => `<div class="admin-log-item admin-session-row user-admin-card"><div><strong>${escapeHtml(u.username)}</strong><br><small>${escapeHtml(u.full_name || '')} • Tél: ${escapeHtml(u.phone || '-')} • ${(u.levels || []).map(escapeHtml).join(', ')} • <b>${u.suspended ? 'Suspendu' : 'Actif'}</b></small></div><div class="row"><button class="btn btnUserAction" data-action="${u.suspended ? 'reactivate' : 'suspend'}" data-user="${escapeHtml(u.username)}" type="button">${u.suspended ? 'Réactiver' : 'Suspendre'}</button><button class="btn btnUserEdit" data-user="${escapeHtml(u.username)}" data-first="${escapeHtml(u.first_name || '')}" data-last="${escapeHtml(u.last_name || '')}" data-phone="${escapeHtml(u.phone || '')}" data-levels="${escapeHtml(JSON.stringify(u.levels || []))}" type="button">Modifier nom</button><button class="btn btn--danger btnUserAction" data-action="delete" data-user="${escapeHtml(u.username)}" type="button">Supprimer</button></div></div>`).join('') : "<p class='muted'>Aucun utilisateur créé depuis le site.</p>";
     }
     renderUsers();
 
@@ -1226,26 +1199,28 @@
       const targetUser = btn.dataset.user;
       if (action === 'delete' && !confirm(`Supprimer définitivement le compte ${targetUser} ?`)) return;
       if (action === 'suspend' && !confirm(`Suspendre le compte ${targetUser} jusqu'à sa réactivation ?`)) return;
-      try {
-        await apiPost('/api/admin/update-user', currentAuthPayload({ targetUser, action }));
-        await renderAdminLogs({ silent: true });
-      } catch(e) { alert(e.data?.error || e.message); }
+      try { await apiPost('/api/admin/update-user', currentAuthPayload({ targetUser, action })); await renderAdminLogs({ silent: true }); } catch(e) { alert(e.data?.error || e.message); }
     }));
     els.adminLogs.querySelectorAll('.btnUserEdit').forEach(btn => btn.addEventListener('click', async () => {
-      const user = dynamicUsers.find(u => u.username === btn.dataset.user);
-      if (!user) return alert('Utilisateur introuvable.');
-      const lastName = prompt('Premier nom / Nom :', user.last_name || '');
+      const targetUser = btn.dataset.user;
+      const lastName = prompt('Nom :', btn.dataset.last || '');
       if (lastName === null) return;
-      const firstName = prompt('Deuxième nom / Prénom :', user.first_name || '');
+      const firstName = prompt('Prénom :', btn.dataset.first || '');
       if (firstName === null) return;
-      const phone = prompt('Numéro de téléphone :', user.phone || '');
+      const phone = prompt('Numéro de téléphone :', btn.dataset.phone || '');
       if (phone === null) return;
-      const levels = chooseEditedLevels(user.levels || []);
-      if (levels === null) return;
-      if (!levels.length) return alert('Veuillez choisir au moins un niveau.');
+      let currentLevels = [];
+      try { currentLevels = JSON.parse(btn.dataset.levels || '[]'); } catch (_) { currentLevels = []; }
+      const levelsText = prompt(`Niveau(x) autorisé(s), séparés par une virgule :
+${allLevels.join(', ')}`, currentLevels.join(', '));
+      if (levelsText === null) return;
+      const wanted = levelsText.split(',').map(v => v.trim()).filter(Boolean);
+      const wantedKeys = new Set(wanted.map(normalizeKey));
+      const levels = allLevels.filter(l => wantedKeys.has(normalizeKey(l)));
+      if (!levels.length) { alert('Aucun niveau valide choisi. Copie exactement un niveau de la liste.'); return; }
       try {
-        const r = await apiPost('/api/admin/update-user', currentAuthPayload({ targetUser: user.username, action: 'editProfile', lastName, firstName, phone, levels }));
-        if (r.username) alert(`Compte modifié. Nouvel identifiant : ${r.username}`);
+        const r = await apiPost('/api/admin/update-user', currentAuthPayload({ targetUser, action: 'editProfile', lastName, firstName, phone, levels }));
+        if (r.username && r.username !== targetUser) alert(`Compte modifié. Nouvel identifiant : ${r.username}`);
         await renderAdminLogs({ silent: true });
       } catch(e) { alert(e.data?.error || e.message); }
     }));

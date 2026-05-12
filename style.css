@@ -314,24 +314,36 @@ textarea.input{min-height:130px;resize:vertical}
   margin-top: 10px;
 }
 .created-username-box {
-  min-width: 240px;
+  min-width: 320px;
+  max-width: 100%;
+  overflow-x: auto;
 }
 .mini-table {
   border-collapse: collapse;
   width: 100%;
-  background: #fff;
+  background: #ffffff;
+  color: #111827;
   border-radius: 10px;
   overflow: hidden;
-  box-shadow: 0 1px 6px rgba(0,0,0,.08);
+  box-shadow: 0 1px 8px rgba(0,0,0,.16);
 }
 .mini-table th,
 .mini-table td {
-  border: 1px solid rgba(0,0,0,.08);
-  padding: 8px 10px;
+  border: 1px solid rgba(0,0,0,.16);
+  padding: 10px 12px;
   text-align: left;
+  color: #111827;
+  background: #ffffff;
+  white-space: nowrap;
 }
 .mini-table th {
-  font-size: .85rem;
+  font-size: .9rem;
+  font-weight: 800;
+  background: #f3f4f6;
+}
+.mini-table strong {
+  color: #000000;
+  font-size: 1.05rem;
 }
 
 
@@ -725,37 +737,4 @@ select.select:focus {
   color: #1e1b4b !important;
   border-color: rgba(99,102,241,.35) !important;
   font-weight: 800;
-}
-
-/* Lisibilité du tableau du nom d’utilisateur généré */
-.created-username-box .mini-table {
-  background: #ffffff;
-  color: #111827;
-  border: 2px solid rgba(37,99,235,.35);
-  box-shadow: 0 10px 24px rgba(0,0,0,.18);
-}
-.created-username-box .mini-table th {
-  background: #eaf2ff;
-  color: #0f172a;
-  font-weight: 900;
-  font-size: .95rem;
-}
-.created-username-box .mini-table td {
-  color: #0f172a;
-  font-size: 1.15rem;
-  font-weight: 900;
-  letter-spacing: .5px;
-  word-break: break-word;
-}
-.user-search-info small {
-  color: rgba(255,255,255,.86);
-  line-height: 1.45;
-}
-.user-status--active {
-  color: #b7f7c8;
-  font-weight: 800;
-}
-.user-status--suspended {
-  color: #ffd1d1;
-  font-weight: 900;
 }
