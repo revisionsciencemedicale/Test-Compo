@@ -15,15 +15,15 @@ const LOGIN_RATE_LIMIT_WINDOW_MS = Number(process.env.LOGIN_RATE_LIMIT_WINDOW_MS
 const LOGIN_RATE_LIMIT_MAX = Number(process.env.LOGIN_RATE_LIMIT_MAX || 30);
 const DATABASE_URL = process.env.DATABASE_URL;
 
-if (!DATABASE_URL) {
-  console.error('ERREUR: DATABASE_URL est manquant. Crée une base PostgreSQL sur Neon et colle sa chaîne de connexion dans Render > Environment.');
-  process.exit(1);
+const LOCAL_MODE = !DATABASE_URL;
+if (LOCAL_MODE) {
+  console.warn('MODE LOCAL: DATABASE_URL absent. Le site démarre sans PostgreSQL; les paramètres administrateur seront conservés dans le navigateur.');
 }
 
-const pool = new Pool({
+const pool = DATABASE_URL ? new Pool({
   connectionString: DATABASE_URL,
   ssl: process.env.PGSSLMODE === 'disable' ? false : { rejectUnauthorized: false },
-});
+}) : null;
 
 function loadUsersConfig() {
   const code = fs.readFileSync(path.join(ROOT, 'codes.js'), 'utf8');
@@ -139,6 +139,7 @@ function securityHeaders(extra = {}) {
 }
 
 async function initDb() {
+  if (!pool) return;
   await pool.query(`
     CREATE TABLE IF NOT EXISTS active_sessions (
       username TEXT PRIMARY KEY,
@@ -328,6 +329,7 @@ function serveStatic(req, res) {
 }
 
 async function withDb(res, handler) {
+  if (!pool) return sendJson(res, 503, { ok: false, error: 'Mode local : base PostgreSQL non connectée. Les paramètres sont appliqués localement dans ce navigateur.' });
   const client = await pool.connect();
   try {
     // Les sessions restent actives jusqu’à une déconnexion explicite ou admin.
@@ -731,9 +733,9 @@ function startKeepAlive() {
 }
 
 initDb()
-  .then(() => server.listen(PORT, () => { console.log(`Serveur démarré sur le port ${PORT} avec PostgreSQL`); startKeepAlive(); }))
+  .then(() => server.listen(PORT, () => { console.log(`Serveur démarré sur le port ${PORT}${LOCAL_MODE ? ' en mode local sans PostgreSQL' : ' avec PostgreSQL'}`); if (!LOCAL_MODE) startKeepAlive(); }))
   .catch((err) => {
     console.error('Impossible d\'initialiser PostgreSQL:', err);
-    process.exit(1);
+    server.listen(PORT, () => console.log(`Serveur démarré sur le port ${PORT} en mode local de secours`));
   });
 

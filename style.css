@@ -39,7 +39,7 @@ body{
 .code-screen{max-width:400px; margin:80px auto}
 
 .header{
-  position:sticky; top:0; z-index:5;
+  position:relative; z-index:5;
   backdrop-filter: blur(12px);
   background: linear-gradient(180deg, rgba(11,16,32,.85), rgba(11,16,32,.35));
   border-bottom:1px solid rgba(255,255,255,.08);
@@ -375,4 +375,354 @@ textarea.input{min-height:130px;resize:vertical}
   flex-wrap: wrap;
   gap: 8px;
   margin-top: 12px;
+}
+
+.camera-check-title {
+  color: #0f172a;
+  font-weight: 800;
+  margin: 0 0 8px;
+}
+.camera-check-instruction {
+  color: #111827;
+  font-weight: 700;
+  line-height: 1.45;
+  margin: 0 0 10px;
+}
+.camera-check-status {
+  color: #0f172a;
+  font-weight: 700;
+  margin-top: 10px;
+}
+.camera-action-btn {
+  color: #ffffff !important;
+  font-weight: 800;
+  background: linear-gradient(135deg, #047857, #10b981) !important;
+  border-color: #047857 !important;
+}
+.camera-cancel-btn {
+  color: #111827 !important;
+  font-weight: 800;
+  background: #f3f4f6 !important;
+  border-color: #9ca3af !important;
+}
+
+.admin-subtabs{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 14px}
+.adminSubPanel.hidden{display:none}
+
+/* Ajout admin : gestion niveaux / matières / sujets */
+.select-plus-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.select-plus-row .input {
+  flex: 1 1 220px;
+}
+.admin-subtabs.compact {
+  gap: 8px;
+  margin-top: 6px;
+}
+.quiz-catalog-admin .catalogModePanel {
+  margin-top: 8px;
+}
+
+
+/* Lisibilité renforcée des listes déroulantes dans l'administration */
+.input option,
+select.input option,
+.select option {
+  background: #ffffff !important;
+  color: #0f172a !important;
+  font-weight: 700;
+  padding: 10px 12px;
+}
+select.input,
+select.select {
+  min-height: 44px;
+  line-height: 1.35;
+}
+select.input:focus,
+select.select:focus {
+  background: #ffffff;
+  color: #0f172a;
+}
+.quiz-catalog-admin select.input {
+  background: #ffffff;
+  color: #0f172a;
+  border: 2px solid rgba(16,185,129,.75);
+  font-weight: 700;
+}
+.topic-editor {
+  margin-top: 12px;
+  padding: 12px;
+  border-radius: 14px;
+  background: rgba(255,255,255,.06);
+  border: 1px solid rgba(255,255,255,.12);
+}
+.topic-editor-list {
+  display: grid;
+  gap: 12px;
+  margin: 12px 0;
+}
+.topic-question-editor {
+  padding: 12px;
+  border-radius: 14px;
+  background: rgba(15,23,49,.72);
+  border: 1px solid rgba(255,255,255,.14);
+}
+
+.topic-question-remove-row {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 10px;
+}
+.topic-question-remove-row .btn {
+  min-width: 44px;
+  font-size: 18px;
+  line-height: 1;
+}
+
+.topic-question-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+.editChoices {
+  display: grid;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+/* Liaison choix niveau/matière/sujet avec l'import des questions */
+.import-questions-box.locked {
+  opacity: 0.78;
+  border: 1px dashed rgba(255,255,255,0.35);
+}
+.import-questions-box.locked input,
+.import-questions-box.locked textarea,
+.import-questions-box.locked button {
+  cursor: not-allowed;
+}
+#adminSelectedImportContext {
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: rgba(255,255,255,0.12);
+  color: #ffffff;
+  font-weight: 700;
+}
+
+/* Amélioration finale : listes déroulantes admin plus belles, visibles et attractives */
+.quiz-catalog-admin select.input,
+.admin-box select.input,
+.admin-box select.select {
+  appearance: auto;
+  background-color: #ffffff !important;
+  color: #0f172a !important;
+  border: 2px solid #10b981 !important;
+  border-radius: 14px !important;
+  min-height: 50px !important;
+  padding: 12px 14px !important;
+  font-size: 15px !important;
+  font-weight: 800 !important;
+  box-shadow: 0 8px 20px rgba(16,185,129,0.16) !important;
+}
+.quiz-catalog-admin select.input:hover,
+.admin-box select.input:hover,
+.admin-box select.select:hover {
+  border-color: #34d399 !important;
+  box-shadow: 0 10px 24px rgba(52,211,153,0.25) !important;
+}
+.quiz-catalog-admin select.input:focus,
+.admin-box select.input:focus,
+.admin-box select.select:focus {
+  outline: none !important;
+  border-color: #facc15 !important;
+  box-shadow: 0 0 0 4px rgba(250,204,21,0.28), 0 10px 24px rgba(16,185,129,0.22) !important;
+}
+.quiz-catalog-admin select.input option,
+.admin-box select.input option,
+.admin-box select.select option {
+  background: #ffffff !important;
+  color: #0f172a !important;
+  font-size: 15px !important;
+  font-weight: 800 !important;
+  padding: 14px 16px !important;
+}
+.select-plus-row .btn {
+  min-height: 48px;
+  border-radius: 14px;
+}
+.adminQuizSubPanel.hidden,
+.adminTab.hidden,
+.catalogModePanel.hidden {
+  display: none !important;
+}
+
+/* Correction : contenus des sous-boutons uniquement après clic + listes harmonieuses */
+.adminSubPanel.hidden,
+.adminQuizSubPanel.hidden,
+.catalogModePanel.hidden {
+  display: none !important;
+}
+.admin-subtabs .btn,
+.question-type-buttons .btn,
+.topic-editor-actions .btn {
+  border-radius: 999px;
+  font-weight: 800;
+  box-shadow: 0 8px 18px rgba(15,23,42,.18);
+}
+.quiz-catalog-admin select.input,
+.admin-box select.input,
+.admin-box select.select {
+  background: linear-gradient(135deg, #ecfeff, #f0fdf4 45%, #fff7ed) !important;
+  color: #0f172a !important;
+  border: 2px solid #14b8a6 !important;
+  border-radius: 18px !important;
+  min-height: 54px !important;
+  padding: 12px 18px !important;
+  font-size: 16px !important;
+  font-weight: 900 !important;
+  letter-spacing: .01em;
+  box-shadow: 0 10px 26px rgba(20,184,166,.22), inset 0 1px 0 rgba(255,255,255,.8) !important;
+}
+.quiz-catalog-admin select.input option,
+.admin-box select.input option,
+.admin-box select.select option {
+  background: #f8fafc !important;
+  color: #0f172a !important;
+  font-weight: 900 !important;
+  padding: 16px !important;
+}
+.quiz-catalog-admin select.input:hover,
+.admin-box select.input:hover,
+.admin-box select.select:hover {
+  border-color: #f59e0b !important;
+  box-shadow: 0 12px 28px rgba(245,158,11,.22) !important;
+}
+.quiz-catalog-admin select.input:focus,
+.admin-box select.input:focus,
+.admin-box select.select:focus {
+  border-color: #8b5cf6 !important;
+  box-shadow: 0 0 0 5px rgba(139,92,246,.22), 0 12px 28px rgba(20,184,166,.24) !important;
+}
+.topic-editor-actions,
+.question-type-buttons {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin: 8px 0 12px;
+}
+.duplicate-box {
+  margin: 12px 0;
+  padding: 12px;
+  border-radius: 16px;
+  background: rgba(250,204,21,.12);
+  border: 1px solid rgba(250,204,21,.45);
+}
+.duplicate-group {
+  margin: 10px 0;
+  padding: 10px;
+  border-radius: 14px;
+  background: rgba(15,23,42,.35);
+}
+.duplicate-check {
+  display: block;
+  margin: 6px 0;
+  font-weight: 800;
+}
+
+/* Modifier un sujet : structure dynamique + boutons propositions */
+.question-structure-fields {
+  margin: 10px 0 12px;
+  padding: 12px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, rgba(14,165,233,.18), rgba(16,185,129,.14));
+  border: 1px solid rgba(125,211,252,.35);
+}
+.choice-edit-row {
+  display: grid;
+  grid-template-columns: 28px 1fr;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 8px;
+}
+.choice-edit-row .choiceSelectForRemove {
+  width: 20px;
+  height: 20px;
+  accent-color: #ef4444;
+}
+.choice-edit-actions {
+  display: flex;
+  gap: 10px;
+  margin: 8px 0 12px;
+}
+.choice-edit-actions .btn {
+  min-width: 52px;
+  font-size: 18px;
+  font-weight: 900;
+  border-radius: 14px;
+}
+.topic-editor.hidden {
+  display: none !important;
+}
+
+
+/* Connexion : champ nom d'utilisateur masqué avec œil animé */
+.username-mask-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+.username-mask-wrap .input {
+  padding-right: 54px !important;
+}
+.eye-toggle {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%) scale(1);
+  width: 40px;
+  height: 40px;
+  border-radius: 999px;
+  border: 2px solid rgba(20,184,166,.65);
+  background: linear-gradient(135deg, #ecfeff, #d1fae5);
+  color: #0f172a;
+  cursor: pointer;
+  font-size: 20px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 18px rgba(20,184,166,.22);
+  transition: transform .18s ease, box-shadow .18s ease, background .18s ease;
+}
+.eye-toggle:hover,
+.eye-toggle.is-open {
+  transform: translateY(-50%) scale(1.08);
+  background: linear-gradient(135deg, #fef3c7, #dbeafe);
+  box-shadow: 0 12px 26px rgba(250,204,21,.28);
+}
+.eye-toggle.is-open {
+  animation: eyeBlinkOpen .32s ease;
+}
+@keyframes eyeBlinkOpen {
+  0% { transform: translateY(-50%) scaleY(.25) scaleX(1.02); }
+  55% { transform: translateY(-50%) scaleY(1.18) scaleX(1.08); }
+  100% { transform: translateY(-50%) scale(1.08); }
+}
+
+/* Boutons + / - / Modifier pour niveaux et matières */
+.quiz-catalog-admin .select-plus-row .btn--danger {
+  background: linear-gradient(135deg, #ef4444, #f97316) !important;
+  color: #fff !important;
+  border-color: rgba(254,202,202,.8) !important;
+}
+.quiz-catalog-admin .select-plus-row .btn:not(.btn--primary):not(.btn--danger) {
+  background: linear-gradient(135deg, #e0f2fe, #ede9fe) !important;
+  color: #1e1b4b !important;
+  border-color: rgba(99,102,241,.35) !important;
+  font-weight: 800;
 }

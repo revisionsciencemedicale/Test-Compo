@@ -271,7 +271,9 @@
     autoBackup: false,
     serverSync: true,
     keepAlive: false,
-    customQuestions: []
+    customQuestions: [],
+    deletedQuestionIds: [],
+    customCatalog: { levels: [], subjectsByLevel: {}, topicsByLevelSubject: {} }
   };
 
   let appSettings = { ...DEFAULT_APP_SETTINGS };
@@ -288,6 +290,36 @@
     return Number.isFinite(n) && n > 0 ? n : fallback;
   }
 
+
+  function normalizeCustomCatalog(raw = {}) {
+    const catalog = raw && typeof raw === "object" ? raw : {};
+    const clean = (v) => safeText(v).trim();
+    const unique = (arr) => Array.from(new Set((arr || []).map(clean).filter(Boolean)));
+    const out = { levels: unique(catalog.levels || []), subjectsByLevel: {}, topicsByLevelSubject: {} };
+    const subjectsByLevel = catalog.subjectsByLevel && typeof catalog.subjectsByLevel === "object" ? catalog.subjectsByLevel : {};
+    for (const [level, subjects] of Object.entries(subjectsByLevel)) {
+      const lv = clean(level);
+      if (!lv) continue;
+      out.subjectsByLevel[lv] = unique(subjects);
+      if (!out.levels.includes(lv)) out.levels.push(lv);
+    }
+    const topicsMap = catalog.topicsByLevelSubject && typeof catalog.topicsByLevelSubject === "object" ? catalog.topicsByLevelSubject : {};
+    for (const [level, bySubject] of Object.entries(topicsMap)) {
+      const lv = clean(level);
+      if (!lv || !bySubject || typeof bySubject !== "object") continue;
+      out.topicsByLevelSubject[lv] = {};
+      if (!out.levels.includes(lv)) out.levels.push(lv);
+      for (const [subject, topics] of Object.entries(bySubject)) {
+        const sub = clean(subject);
+        if (!sub) continue;
+        out.topicsByLevelSubject[lv][sub] = unique(topics);
+        out.subjectsByLevel[lv] = unique([...(out.subjectsByLevel[lv] || []), sub]);
+      }
+    }
+    out.levels.sort((a, b) => a.localeCompare(b, "fr", { sensitivity: "base" }));
+    return out;
+  }
+
   function normalizeAppSettings(raw = {}) {
     const merged = { ...DEFAULT_APP_SETTINGS, ...(raw || {}) };
     return {
@@ -297,8 +329,9 @@
       instantCorrection: toBool(merged.instantCorrection, false),
       finalScore: toBool(merged.finalScore, true),
       negativePoints: toBool(merged.negativePoints, true),
-      // Si la prise de vue est obligatoire, le Mode QPQ doit toujours être actif.
-      qpqMode: toBool(merged.photoRequired, false) ? true : toBool(merged.qpqMode, true),
+      // Le bouton Mode QPQ n'est plus affiché dans l'administration.
+      // On garde la valeur interne pour compatibilité avec les anciens paramètres.
+      qpqMode: toBool(merged.qpqMode, true),
       photoRequired: toBool(merged.photoRequired, false),
       cheatDetection: toBool(merged.cheatDetection, false),
       notifyCheat: toBool(merged.notifyCheat, false),
@@ -311,7 +344,9 @@
       questionTime: toPositiveNumber(merged.questionTime, 40),
       freeTrialQuestions: Math.max(1, Math.floor(toPositiveNumber(merged.freeTrialQuestions, 15))),
       freeTrialMaxAttempts: Math.max(1, Math.floor(toPositiveNumber(merged.freeTrialMaxAttempts, 1))),
-      customQuestions: Array.isArray(merged.customQuestions) ? merged.customQuestions : []
+      customQuestions: Array.isArray(merged.customQuestions) ? merged.customQuestions : [],
+      deletedQuestionIds: Array.isArray(merged.deletedQuestionIds) ? merged.deletedQuestionIds.map(String) : [],
+      customCatalog: normalizeCustomCatalog(merged.customCatalog)
     };
   }
 
@@ -340,26 +375,42 @@
     document.body?.classList.toggle('copy-blocked', !!appSettings.antiCopyPaste);
   }
 
-  function recordCheatAttempt(reason) {
+  function recordCheatAttempt(reason, options = {}) {
     if (!appSettings.cheatDetection) return;
     if (!session || !Array.isArray(session.questions) || !session.questions.length) return;
+    if (!els.screenQuiz || els.screenQuiz.classList.contains('hidden')) return;
+    if (!session.startedAt) return;
+
+    const now = Date.now();
+    // Évite les faux positifs au moment exact où l'écran du quiz s'ouvre.
+    if (now - session.startedAt < 1500) return;
+
     session.cheatAttempts = Array.isArray(session.cheatAttempts) ? session.cheatAttempts : [];
-    const attempt = { at: Date.now(), reason: reason || 'Tentative de tricherie' };
+    const attempt = { at: now, reason: reason || 'Tentative de tricherie' };
     session.cheatAttempts.push(attempt);
     session.cheatWarning = attempt;
-    const maxWarnings = Math.max(1, Number(appSettings.maxWarnings || 3));
+
+    // Principe demandé : on laisse l'élève continuer le quiz, mais les réponses
+    // données après la première tentative détectée ne comptent plus dans la note.
+    if (!session.cheatLockedAt) {
+      session.cheatLockedAt = now;
+      session.cheatSubmissionReason = attempt.reason;
+    }
+
     const user = localStorage.getItem(STORAGE_KEYS.user);
-    if (appSettings.notifyCheat) {
-      logActivity(user, 'cheat_attempt', { reason: attempt.reason, count: session.cheatAttempts.length, at: attempt.at });
-    }
-    if (appSettings.autoSubmitCheat && session.cheatAttempts.length >= maxWarnings) {
-      session.autoSubmittedForCheat = true;
-      finishQuiz();
-    }
+    logActivity(user, 'cheat_attempt', { reason: attempt.reason, count: session.cheatAttempts.length, at: attempt.at });
+  }
+
+  function saveAnswerForCurrentQuestion(q, answer) {
+    if (!q || !q.id) return;
+    session.answersById = session.answersById || {};
+    session.answersById[q.id] = { ...answer, answeredAt: Date.now() };
   }
 
   async function ensureQuizPhotoAllowed() {
     if (!appSettings.photoRequired) return true;
+    if (window.__PHOTO_CHECK_OPEN) return false;
+    window.__PHOTO_CHECK_OPEN = true;
 
     return await new Promise((resolve) => {
       let stream = null;
@@ -372,6 +423,7 @@
           if (stream) stream.getTracks().forEach(track => track.stop());
         } catch (_) {}
         overlay.remove();
+        window.__PHOTO_CHECK_OPEN = false;
         resolve(!!ok);
       };
 
@@ -379,19 +431,17 @@
       overlay.className = 'camera-check-overlay';
       overlay.innerHTML = `
         <div class="camera-check-box">
-          <h3>Prise de vue obligatoire avant quiz</h3>
-          <p class="muted small">Veuillez activer votre caméra puis prendre une photo de vous pour commencer le quiz.</p>
+          <h3 class="camera-check-title">Prise de vue obligatoire avant quiz</h3>
+          <p class="camera-check-instruction">Veuillez activer votre caméra puis prendre une photo de vous pour commencer le quiz.</p>
           <video class="camera-check-video" autoplay playsinline muted></video>
           <canvas class="camera-check-canvas hidden"></canvas>
           <div class="camera-check-actions">
-            <button class="btn btn--primary" type="button" data-action="start-camera">Activer la caméra</button>
-            <button class="btn btn--primary hidden" type="button" data-action="capture">Prendre la photo</button>
-            <button class="btn hidden" type="button" data-action="retake">Reprendre</button>
-            <button class="btn btn--primary hidden" type="button" data-action="validate">Valider et commencer</button>
-            <button class="btn" type="button" data-action="fallback">Choisir une photo</button>
-            <button class="btn btn--danger" type="button" data-action="cancel">Annuler</button>
+            <button class="btn btn--primary camera-action-btn" type="button" data-action="start-camera">Activer la caméra</button>
+            <button class="btn btn--primary camera-action-btn hidden" type="button" data-action="capture">Prendre la photo</button>
+            <button class="btn camera-action-btn hidden" type="button" data-action="retake">Reprendre</button>
+            <button class="btn camera-cancel-btn" type="button" data-action="cancel">Annuler</button>
           </div>
-          <div class="camera-check-status muted small"></div>
+          <div class="camera-check-status"></div>
         </div>`;
       document.body.appendChild(overlay);
 
@@ -401,15 +451,12 @@
       const btnStart = overlay.querySelector('[data-action="start-camera"]');
       const btnCapture = overlay.querySelector('[data-action="capture"]');
       const btnRetake = overlay.querySelector('[data-action="retake"]');
-      const btnValidate = overlay.querySelector('[data-action="validate"]');
-      const btnFallback = overlay.querySelector('[data-action="fallback"]');
-
       const setStatus = (msg) => { if (status) status.textContent = msg || ''; };
 
       const startCamera = async () => {
         try {
           if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-            setStatus('Caméra non disponible sur ce navigateur. Choisissez une photo pour continuer.');
+            setStatus('Caméra non disponible sur ce navigateur. La prise de vue obligatoire nécessite un navigateur compatible.');
             return;
           }
           stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user' }, audio: false });
@@ -419,10 +466,9 @@
           btnStart.classList.add('hidden');
           btnCapture.classList.remove('hidden');
           btnRetake.classList.add('hidden');
-          btnValidate.classList.add('hidden');
           setStatus('Caméra activée. Cliquez sur « Prendre la photo ».');
         } catch (e) {
-          setStatus('Accès caméra refusé ou indisponible. Autorisez la caméra ou choisissez une photo.');
+          setStatus('Accès caméra refusé ou indisponible. Autorisez la caméra pour commencer le quiz.');
         }
       };
 
@@ -439,34 +485,8 @@
         canvas.classList.remove('hidden');
         btnCapture.classList.add('hidden');
         btnRetake.classList.remove('hidden');
-        btnValidate.classList.remove('hidden');
-        setStatus('Photo prise. Validez pour commencer le quiz.');
-      };
-
-      const choosePhotoFallback = () => {
-        const input = document.createElement('input');
-        input.type = 'file';
-        input.accept = 'image/*';
-        input.capture = 'user';
-        input.style.display = 'none';
-        document.body.appendChild(input);
-        input.addEventListener('change', () => {
-          const file = input.files && input.files[0];
-          input.remove();
-          if (!file) {
-            setStatus('Aucune photo sélectionnée. La photo est obligatoire pour commencer.');
-            return;
-          }
-          const reader = new FileReader();
-          reader.onload = () => {
-            session.quizPhotoTakenAt = Date.now();
-            session.quizPhotoDataUrl = String(reader.result || '');
-            setStatus('Photo enregistrée avec succès.');
-            close(true);
-          };
-          reader.readAsDataURL(file);
-        }, { once: true });
-        input.click();
+        setStatus('Photo prise. Le quiz démarre automatiquement.');
+        close(true);
       };
 
       overlay.addEventListener('click', (event) => {
@@ -475,12 +495,7 @@
         if (action === 'start-camera') startCamera();
         if (action === 'capture') capturePhoto();
         if (action === 'retake') startCamera();
-        if (action === 'validate') close(!!session.quizPhotoTakenAt);
-        if (action === 'fallback') choosePhotoFallback();
-        if (action === 'cancel') {
-          alert('Prise de vue obligatoire : vous devez prendre une photo avant de commencer le quiz.');
-          close(false);
-        }
+        if (action === 'cancel') close(false);
       });
     });
   }
@@ -866,15 +881,14 @@
       .concat(Array.isArray(window.QUIZ_QUESTIONS) ? window.QUIZ_QUESTIONS : [])
       .concat(Array.isArray(window.QUIZ_QUESTIONS_QUIZ) ? window.QUIZ_QUESTIONS_QUIZ : [])
       .concat(Array.isArray(window.QUIZ_QUESTIONS_DE) ? window.QUIZ_QUESTIONS_DE : []);
-    const defaultLevels = ["A1-Base Santé", "A2-Niveau moyen", "L1-Niveau Émergent", "L2-Niveau Ascendant", "L3-Niveau Accompli INF", "L3-Niveau Accompli SF"];
+    const defaultLevels = ["A1-Base Santé", "A2-Niveau moyen", "INF/SAG-M", "AUXI", "L1-Niveau Émergent", "L2-Niveau Ascendant", "L3-Niveau Accompli INF", "L3-Niveau Accompli SF"];
     const removedAccountLevels = new Set([
       normalizeKey("Auxiliaire 2 année"),
       normalizeKey("L3-Niveau Accompli INF/SFM"),
       normalizeKey("Licence 3 INF/SAG-M"),
-      normalizeKey("AUXI"),
-      normalizeKey("INF/SAG-M"),
     ]);
-    const allLevels = Array.from(new Set(allQuestionsForLevels.map(q => q.level).filter(Boolean).concat(defaultLevels)))
+    const customAdminLevels = ((appSettings.customCatalog || {}).levels || []);
+    const allLevels = Array.from(new Set(allQuestionsForLevels.map(q => q.level).filter(Boolean).concat(defaultLevels).concat(customAdminLevels)))
       .filter(level => !removedAccountLevels.has(normalizeKey(level)))
       .sort();
 
@@ -889,12 +903,23 @@
       </div>
 
       <div class="adminTab" data-panel="general">
+        <div class="admin-subtabs">
+          <button class="btn adminSubTabBtn" data-subtab="dashboard" type="button">📊 Tableau de bord</button>
+          <button class="btn adminSubTabBtn" data-subtab="accounts" type="button">👥 Gestion des comptes et des utilisateurs</button>
+          <button class="btn adminSubTabBtn" data-subtab="search" type="button">Rechercher utilisateur</button>
+          <button class="btn adminSubTabBtn" data-subtab="online" type="button">Utilisateurs connectés en temps réel</button>
+          <button class="btn adminSubTabBtn" data-subtab="logs" type="button">📋 Journal d’activité</button>
+        </div>
+
+        <div class="adminSubPanel hidden" data-subpanel="dashboard">
         <h3 class="h3">📊 Tableau de bord</h3>
         <div class="admin-cards">
           <div class="admin-card"><strong>${escapeHtml(dashboard.connectedUsers)}</strong><span>Utilisateur(s) connecté(s)</span></div>
           <div class="admin-card"><strong>${escapeHtml(dashboard.quizDone)}</strong><span>Quiz effectué(s)</span></div>
         </div>
+        </div>
 
+        <div class="adminSubPanel hidden" data-subpanel="accounts">
         <h3 class="h3">👥 Gestion des comptes et des utilisateurs</h3>
         <div class="admin-box">
           <div class="grid">
@@ -914,12 +939,16 @@
             </div>
           </div>
         </div>
+        </div>
 
+        <div class="adminSubPanel hidden" data-subpanel="search">
         <div class="admin-box">
           <div class="field"><label class="label">Rechercher utilisateur</label><input class="input" id="adminUserSearch" placeholder="Nom d’utilisateur..."></div>
           <div id="adminUsersList"></div>
         </div>
+        </div>
 
+        <div class="adminSubPanel hidden" data-subpanel="online">
         <h3 class="h3">Utilisateurs connectés en temps réel</h3>
         ${activeRows.length ? activeRows.map(s => `
           <div class="admin-log-item admin-session-row">
@@ -930,7 +959,9 @@
             <button class="btn btn--danger btnForceLogout" type="button" data-user="${escapeHtml(s.username)}" ${s.username === (localStorage.getItem(STORAGE_KEYS.user) || "") ? "disabled" : ""}>Déconnecter</button>
           </div>`).join("") : "<p class='muted'>Aucun compte en ligne actuellement.</p>"}
         <button class="btn btn--danger" id="btnDisconnectAll" type="button" style="margin-top:10px">Déconnexion de tous les appareils</button>
+        </div>
 
+        <div class="adminSubPanel hidden" data-subpanel="logs">
         <h3 class="h3">📋 Journal d’activité</h3>
         <div class="admin-log-list">
           ${[...logs].reverse().slice(0, 150).map(log => {
@@ -940,43 +971,113 @@
             return `<div class="admin-log-item"><strong>${escapeHtml(log.user)}</strong> - ${escapeHtml(log.action)} - ${formatDate(log.timestamp)}<br><small>${extra}</small></div>`;
           }).join("") || "<p class='muted'>Aucune activité enregistrée.</p>"}
         </div>
+        </div>
       </div>
 
       <div class="adminTab hidden" data-panel="quiz">
+        <div class="admin-subtabs">
+          <button class="btn adminQuizSubTabBtn" data-quiz-subtab="quiz-content" type="button">📚 Ajouter de nouvelles matières et de nouveaux sujets</button>
+          <button class="btn adminQuizSubTabBtn" data-quiz-subtab="quiz-settings" type="button">🧠 Paramètres des questions</button>
+        </div>
+
+        <div class="adminQuizSubPanel hidden" data-quiz-subpanel="quiz-content">
         <h3 class="h3">📚 Ajouter de nouvelles matières et de nouveaux sujets</h3>
-        <div class="admin-box">
-          <p class="muted small">Import actif : collez un tableau JavaScript de questions ou sélectionnez un fichier <code>.js</code>. Les questions ajoutées seront enregistrées dans les paramètres du serveur et visibles sur le site après enregistrement.</p>
-          <input class="input" id="adminImportFile" type="file" accept=".js,.txt,.json">
-          <textarea class="input" id="adminImportScript" rows="8" placeholder="Exemple : [{ level: 'A1-Base Santé', subject: 'Anatomie', topic: 'Sujet 1', type: 'mcq', question: '...', choices: ['A','B'], answerIndex: 0, explanation: '...' }]"></textarea>
+        <div class="admin-box quiz-catalog-admin">
+          <p class="muted small">Gestion liée aux paramètres du site : en ligne, les ajouts sont enregistrés sur le serveur/la base ; en local, ils restent enregistrés dans ce navigateur pour faciliter les tests.</p>
+          <div class="grid">
+            <div class="field">
+              <label class="label">Niveau</label>
+              <div class="select-plus-row"><select class="input" id="adminCatalogLevel"></select><button class="btn btn--primary" id="btnAddCatalogLevel" type="button">+</button><button class="btn btn--danger" id="btnRemoveCatalogLevel" type="button">-</button><button class="btn" id="btnRenameCatalogLevel" type="button">Modifier</button></div>
+            </div>
+            <div class="field">
+              <label class="label">Matières</label>
+              <div class="admin-subtabs compact">
+                <button class="btn catalogMatterModeBtn" data-catalog-mode="list" type="button">Liste des matières</button>
+                <button class="btn catalogMatterModeBtn" data-catalog-mode="topic" type="button">Sujet</button>
+              </div>
+            </div>
+          </div>
+          <div class="grid">
+            <div class="field catalogModePanel hidden" data-catalog-panel="list">
+              <label class="label">Liste des matières selon le niveau choisi</label>
+              <div class="select-plus-row"><select class="input" id="adminCatalogSubjectList"></select><button class="btn btn--primary" id="btnAddCatalogSubject" type="button">+</button><button class="btn btn--danger" id="btnRemoveCatalogSubjectFromList" type="button">-</button><button class="btn" id="btnRenameCatalogSubject" type="button">Modifier</button></div>
+            </div>
+            <div class="field catalogModePanel hidden" data-catalog-panel="remove">
+              <label class="label">Retirer une matière selon le niveau choisi</label>
+              <div class="select-plus-row"><select class="input" id="adminCatalogSubjectRemove"></select><button class="btn btn--danger" id="btnRemoveCatalogSubject" type="button">Retirer</button></div>
+            </div>
+            <div class="field catalogModePanel hidden" data-catalog-panel="topic">
+              <label class="label">Sujet selon le niveau et la matière choisis</label>
+              <div class="select-plus-row"><select class="input" id="adminCatalogTopicSubject"></select><select class="input" id="adminCatalogTopic"></select><button class="btn btn--primary" id="btnAddCatalogTopic" type="button">+</button><button class="btn btn--danger" id="btnRemoveCatalogTopic" type="button">Retirer</button><button class="btn" id="btnEditCatalogTopic" type="button">Modifier un sujet</button></div><div id="adminTopicEditor" class="topic-editor hidden"></div>
+            </div>
+          </div>
+          <div class="row" style="margin-top:10px"><button class="btn btn--primary" id="btnValidateImportChoice" type="button">Valider ce choix pour l’import</button></div>
+          <div id="adminCatalogStatus" class="muted small" style="margin-top:8px"></div>
+        </div>
+        <div class="admin-box import-questions-box locked" id="adminImportBox">
+          <h4 class="h3">2. Importer ou saisir les questions</h4>
+          <p class="muted small" id="adminSelectedImportContext">Choisis d’abord un niveau, une matière et un sujet dans la première partie, puis valide ces choix.</p>
+          <p class="muted small">Après validation, le fichier importé ou le tableau JavaScript saisi sera automatiquement appliqué au <strong>niveau</strong>, à la <strong>matière</strong> et au <strong>sujet</strong> choisis au-dessus. Les champs <code>level</code>, <code>subject</code> et <code>topic</code> du fichier seront donc remplacés par ce choix pour éviter les erreurs.</p>
+          <input class="input" id="adminImportFile" type="file" accept=".js,.txt,.json" disabled>
+          <textarea class="input" id="adminImportScript" rows="8" disabled placeholder="Exemple : [{ type: 'mcq', question: '...', choices: ['A','B'], answerIndex: 0, explanation: '...' }]"></textarea>
           <div class="row" style="margin-top:10px">
-            <button class="btn" id="btnPreviewImport" type="button">Vérifier l’import</button>
-            <button class="btn btn--primary" id="btnApplyImport" type="button">Ajouter ces questions au site</button>
+            <button class="btn" id="btnPreviewImport" type="button" disabled>Vérifier l’import</button>
+            <button class="btn btn--primary" id="btnApplyImport" type="button" disabled>Ajouter ces questions au choix validé</button>
           </div>
           <div id="adminImportStatus" class="muted small" style="margin-top:8px"></div>
         </div>
+        </div>
+
+        <div class="adminQuizSubPanel hidden" data-quiz-subpanel="quiz-settings">
         <h3 class="h3">🧠 Paramètres des questions</h3>
         <div class="checkbox-grid adminSettings">
           ${[
-            ['shuffleQuestions','Mélanger les questions'],['shuffleAnswers','Mélanger les réponses'],['instantCorrection','Afficher correction immédiatement'],['finalScore','Afficher note finale'],['negativePoints','Points négatifs'],['qpqMode','Mode QPQ activé/désactivé'],['photoRequired','Prise de vue obligatoire avant quiz'],['cheatDetection','Gestion tentatives de tricherie'],['notifyCheat','Recevoir notification/appel'],['antiScreenshot','Anti capture d’écran'],['antiTabChange','Anti changement d’onglet ou réduction'],['antiCopyPaste','Anti copier/coller'],['autoPenalty','Pénalité automatique'],['autoSubmitCheat','Soumission automatique en cas de tricherie']
+            ['shuffleQuestions','Mélanger les questions'],
+            ['shuffleAnswers','Mélanger les réponses'],
+            ['instantCorrection','Afficher correction immédiatement'],
+            ['finalScore','Afficher note finale'],
+            ['negativePoints','Points négatifs'],
+            ['photoRequired','Prise de vue obligatoire avant quiz'],
+            ['cheatDetection','Gestion tentatives de tricherie']
           ].map(([k,label]) => `<label><input type="checkbox" data-setting="${k}" ${appSettings[k] ? 'checked' : ''}> ${label}</label>`).join('')}
         </div>
-        <p class="muted small">Lorsque <strong>Prise de vue obligatoire avant quiz</strong> est cochée, le <strong>Mode QPQ</strong> est automatiquement activé. L’utilisateur devra autoriser sa caméra et prendre une photo avant de débuter le quiz.</p>
+        <div class="checkbox-grid adminSettings cheat-options ${appSettings.cheatDetection ? '' : 'hidden'}" id="cheatOptionsPanel">
+          ${[
+            ['notifyCheat','Recevoir notification/appel'],
+            ['antiScreenshot','Anti capture d’écran'],
+            ['antiTabChange','Anti changement d’onglet ou réduction'],
+            ['antiCopyPaste','Anti copier/coller'],
+            ['autoPenalty','Pénalité automatique']
+          ].map(([k,label]) => `<label><input type="checkbox" data-setting="${k}" ${appSettings[k] ? 'checked' : ''}> ${label}</label>`).join('')}
+        </div>
+        <p class="muted small">Lorsque <strong>Gestion tentatives de tricherie</strong> est cochée, les options anti-tricherie s’affichent. En cas de tentative détectée, le quiz continue, mais les réponses données après la tentative ne sont plus prises en compte dans la note. Le motif apparaît avec le résultat.</p>
         <div class="grid"><div class="field"><label class="label">Temps par question (secondes)</label><input class="input" data-setting="questionTime" type="number" value="${escapeHtml(appSettings.questionTime || 40)}"></div><div class="field"><label class="label">Temps total du quiz (minutes)</label><input class="input" data-setting="quizTotalTime" type="number" value="${escapeHtml(appSettings.quizTotalTime || '')}"></div><div class="field"><label class="label">Nombre maximal d’avertissements</label><input class="input" data-setting="maxWarnings" type="number" min="1" value="${escapeHtml(appSettings.maxWarnings || 3)}"></div></div>
         <button class="btn btn--primary btnSaveAdminSettings" type="button">Enregistrer les paramètres quiz</button>
+        </div>
       </div>
 
       <div class="adminTab hidden" data-panel="trial">
-        <h3 class="h3">🎯 Gestion des essais gratuits</h3>
-        <div class="grid"><div class="field"><label class="label">Nombre de questions gratuites</label><input class="input" data-setting="freeTrialQuestions" type="number" value="${escapeHtml(appSettings.freeTrialQuestions || 15)}"></div><div class="field"><label class="label">Durée du test gratuit (minutes)</label><input class="input" data-setting="freeTrialDuration" type="number" value="${escapeHtml(appSettings.freeTrialDuration || '')}"></div><div class="field"><label class="label">Nombre maximal d’essais</label><input class="input" data-setting="freeTrialMaxAttempts" type="number" value="${escapeHtml(appSettings.freeTrialMaxAttempts || 1)}"></div></div>
-        <button class="btn btn--primary btnSaveAdminSettings" type="button">Enregistrer les essais gratuits</button>
+        <div class="admin-subtabs">
+          <button class="btn adminTrialSubTabBtn" data-trial-subtab="trial-settings" type="button">🎯 Gestion des essais gratuits</button>
+        </div>
+        <div class="adminTrialSubPanel hidden" data-trial-subpanel="trial-settings">
+          <h3 class="h3">🎯 Gestion des essais gratuits</h3>
+          <div class="grid"><div class="field"><label class="label">Nombre de questions gratuites</label><input class="input" data-setting="freeTrialQuestions" type="number" value="${escapeHtml(appSettings.freeTrialQuestions || 15)}"></div><div class="field"><label class="label">Durée du test gratuit (minutes)</label><input class="input" data-setting="freeTrialDuration" type="number" value="${escapeHtml(appSettings.freeTrialDuration || '')}"></div><div class="field"><label class="label">Nombre maximal d’essais</label><input class="input" data-setting="freeTrialMaxAttempts" type="number" value="${escapeHtml(appSettings.freeTrialMaxAttempts || 1)}"></div></div>
+          <button class="btn btn--primary btnSaveAdminSettings" type="button">Enregistrer les essais gratuits</button>
+        </div>
       </div>
 
       <div class="adminTab hidden" data-panel="tech">
-        <h3 class="h3">🌐 Paramètres techniques</h3>
-        <div class="checkbox-grid adminSettings"><label><input type="checkbox" data-setting="autoBackup" ${appSettings.autoBackup ? 'checked' : ''}> Sauvegarde automatique</label><label><input type="checkbox" data-setting="serverSync" ${appSettings.serverSync ? 'checked' : ''}> Synchronisation serveur</label><label><input type="checkbox" data-setting="keepAlive" ${appSettings.keepAlive ? 'checked' : ''}> Garder le serveur actif automatiquement</label></div>
-        <button class="btn" id="btnClearCache" type="button">Vider cache local</button>
-        <button class="btn btn--primary btnSaveAdminSettings" type="button">Enregistrer paramètres techniques</button>
-        <p class="muted small">Pour Render : ajoute aussi la variable d’environnement <code>PUBLIC_URL=https://ton-site.onrender.com</code> pour activer le ping automatique côté serveur.</p>
+        <div class="admin-subtabs">
+          <button class="btn adminTechSubTabBtn" data-tech-subtab="tech-settings" type="button">🌐 Paramètres techniques</button>
+        </div>
+        <div class="adminTechSubPanel hidden" data-tech-subpanel="tech-settings">
+          <h3 class="h3">🌐 Paramètres techniques</h3>
+          <div class="checkbox-grid adminSettings"><label><input type="checkbox" data-setting="autoBackup" ${appSettings.autoBackup ? 'checked' : ''}> Sauvegarde automatique</label><label><input type="checkbox" data-setting="serverSync" ${appSettings.serverSync ? 'checked' : ''}> Synchronisation serveur</label><label><input type="checkbox" data-setting="keepAlive" ${appSettings.keepAlive ? 'checked' : ''}> Garder le serveur actif automatiquement</label></div>
+          <button class="btn" id="btnClearCache" type="button">Vider cache local</button>
+          <button class="btn btn--primary btnSaveAdminSettings" type="button">Enregistrer paramètres techniques</button>
+          <p class="muted small">Pour Render : ajoute aussi la variable d’environnement <code>PUBLIC_URL=https://ton-site.onrender.com</code> pour activer le ping automatique côté serveur.</p>
+        </div>
       </div>
     `;
 
@@ -1000,10 +1101,75 @@
     }
     renderUsers();
 
-    els.adminLogs.querySelectorAll('.adminTabBtn').forEach(btn => btn.addEventListener('click', () => {
+    function collapseAdminPanels() {
+      // On garde la page du bouton principal ouverte, mais on masque les contenus des sous-boutons.
+      els.adminLogs.querySelectorAll('.adminSubPanel, .adminQuizSubPanel, .adminTrialSubPanel, .adminTechSubPanel, .catalogModePanel').forEach(p => p.classList.add('hidden'));
+      els.adminLogs.querySelectorAll('.adminSubTabBtn, .adminQuizSubTabBtn, .adminTrialSubTabBtn, .adminTechSubTabBtn, .catalogMatterModeBtn').forEach(b => b.classList.remove('btn--primary'));
+    }
+
+    function hideAdminTemporaryPanels() {
+      // Les panneaux "Essais gratuits" et "Technique" doivent se comporter comme des menus temporaires :
+      // ils s'ouvrent au clic sur leur bouton et disparaissent dès qu'on clique ailleurs.
+      els.adminLogs.querySelectorAll('.adminTab[data-panel="trial"], .adminTab[data-panel="tech"]').forEach(p => p.classList.add('hidden'));
+      els.adminLogs.querySelectorAll('.adminTabBtn[data-tab="trial"], .adminTabBtn[data-tab="tech"]').forEach(b => b.classList.remove('btn--primary'));
+    }
+
+    if (window.__adminOutsideClickHandler) document.removeEventListener('click', window.__adminOutsideClickHandler, true);
+    window.__adminOutsideClickHandler = (event) => {
+      if (!els.adminLogs || els.adminLogs.classList.contains('hidden')) return;
+      const target = event.target;
+      const topicEditor = document.getElementById('adminTopicEditor');
+      if (topicEditor && !topicEditor.classList.contains('hidden') && !target.closest('#adminTopicEditor, #btnEditCatalogTopic')) topicEditor.classList.add('hidden');
+
+      const isTemporaryAdminPanelClick = !!target.closest('.adminTab[data-panel="trial"], .adminTab[data-panel="tech"]');
+      const isTemporaryAdminButtonClick = !!target.closest('.adminTabBtn[data-tab="trial"], .adminTabBtn[data-tab="tech"]');
+      if (!isTemporaryAdminPanelClick && !isTemporaryAdminButtonClick) {
+        hideAdminTemporaryPanels();
+      }
+
+      if (!target.closest('#adminLogs')) return;
+      if (target.closest('button, .btn, input, select, textarea, label, .adminTab, .adminSubPanel, .adminQuizSubPanel, .adminTrialSubPanel, .adminTechSubPanel')) return;
+      collapseAdminPanels();
+    };
+    setTimeout(() => document.addEventListener('click', window.__adminOutsideClickHandler, true), 0);
+
+    els.adminLogs.querySelectorAll('.adminTabBtn').forEach(btn => btn.addEventListener('click', (event) => { event.stopPropagation();
+      const panel = els.adminLogs.querySelector(`.adminTab[data-panel="${btn.dataset.tab}"]`);
+      const canToggleClosed = btn.dataset.tab === 'trial' || btn.dataset.tab === 'tech';
+      const willClose = canToggleClosed && panel && !panel.classList.contains('hidden');
       els.adminLogs.querySelectorAll('.adminTabBtn').forEach(b => b.classList.remove('btn--primary'));
+      els.adminLogs.querySelectorAll('.adminTab').forEach(p => p.classList.add('hidden'));
+      if (!willClose) {
+        btn.classList.add('btn--primary');
+        if (panel) panel.classList.remove('hidden');
+      }
+      collapseAdminPanels();
+    }));
+
+    els.adminLogs.querySelectorAll('.adminSubTabBtn').forEach(btn => btn.addEventListener('click', (event) => { event.stopPropagation();
+      els.adminLogs.querySelectorAll('.adminSubTabBtn').forEach(b => b.classList.remove('btn--primary'));
       btn.classList.add('btn--primary');
-      els.adminLogs.querySelectorAll('.adminTab').forEach(p => p.classList.toggle('hidden', p.dataset.panel !== btn.dataset.tab));
+      els.adminLogs.querySelectorAll('.adminSubPanel').forEach(p => p.classList.toggle('hidden', p.dataset.subpanel !== btn.dataset.subtab));
+    }));
+
+    els.adminLogs.querySelectorAll('.adminQuizSubTabBtn').forEach(btn => btn.addEventListener('click', (event) => { event.stopPropagation();
+      els.adminLogs.querySelectorAll('.adminQuizSubTabBtn').forEach(b => b.classList.remove('btn--primary'));
+      btn.classList.add('btn--primary');
+      els.adminLogs.querySelectorAll('.adminQuizSubPanel').forEach(p => p.classList.toggle('hidden', p.dataset.quizSubpanel !== btn.dataset.quizSubtab));
+    }));
+
+
+
+    els.adminLogs.querySelectorAll('.adminTrialSubTabBtn').forEach(btn => btn.addEventListener('click', (event) => { event.stopPropagation();
+      els.adminLogs.querySelectorAll('.adminTrialSubTabBtn').forEach(b => b.classList.remove('btn--primary'));
+      btn.classList.add('btn--primary');
+      els.adminLogs.querySelectorAll('.adminTrialSubPanel').forEach(p => p.classList.toggle('hidden', p.dataset.trialSubpanel !== btn.dataset.trialSubtab));
+    }));
+
+    els.adminLogs.querySelectorAll('.adminTechSubTabBtn').forEach(btn => btn.addEventListener('click', (event) => { event.stopPropagation();
+      els.adminLogs.querySelectorAll('.adminTechSubTabBtn').forEach(b => b.classList.remove('btn--primary'));
+      btn.classList.add('btn--primary');
+      els.adminLogs.querySelectorAll('.adminTechSubPanel').forEach(p => p.classList.toggle('hidden', p.dataset.techSubpanel !== btn.dataset.techSubtab));
     }));
 
     document.getElementById('adminUserSearch')?.addEventListener('input', (e) => renderUsers(e.target.value));
@@ -1029,18 +1195,722 @@
     els.adminLogs.querySelectorAll('.btnUserAction').forEach(btn => btn.addEventListener('click', async () => { if (btn.dataset.action === 'delete' && !confirm(`Supprimer ${btn.dataset.user} ?`)) return; try { await apiPost('/api/admin/update-user', currentAuthPayload({ targetUser: btn.dataset.user, action: btn.dataset.action })); await renderAdminLogs({ silent: true }); } catch(e) { alert(e.data?.error || e.message); } }));
     els.adminLogs.querySelectorAll('.btnUserRename').forEach(btn => btn.addEventListener('click', async () => { const newUsername = prompt('Nouveau nom d’utilisateur :', btn.dataset.user); if (!newUsername) return; try { await apiPost('/api/admin/update-user', currentAuthPayload({ targetUser: btn.dataset.user, action: 'rename', newUsername })); await renderAdminLogs({ silent: true }); } catch(e) { alert(e.data?.error || e.message); } }));
     document.getElementById('btnClearCache')?.addEventListener('click', () => { localStorage.removeItem(STORAGE_KEYS.last); localStorage.removeItem(STORAGE_KEYS.lastResult); alert('Cache local vidé.'); });
+    const cheatDetectionBox = els.adminLogs.querySelector('[data-setting="cheatDetection"]');
+    const cheatOptionsPanel = document.getElementById('cheatOptionsPanel');
+    cheatDetectionBox?.addEventListener('change', () => {
+      cheatOptionsPanel?.classList.toggle('hidden', !cheatDetectionBox.checked);
+    });
     function collectAdminSettings() {
       const settings = { ...appSettings };
       els.adminLogs.querySelectorAll('[data-setting]').forEach(input => {
         settings[input.dataset.setting] = input.type === 'checkbox' ? input.checked : input.value;
       });
-      if (settings.photoRequired) settings.qpqMode = true;
+      settings.autoSubmitCheat = true;
+      settings.qpqMode = appSettings.qpqMode !== false;
+      if (!settings.cheatDetection) {
+        settings.notifyCheat = false;
+        settings.antiScreenshot = false;
+        settings.antiTabChange = false;
+        settings.antiCopyPaste = false;
+      }
       return normalizeAppSettings(settings);
     }
 
-    function parseImportedQuestions(text) {
+
+    function isAdminDECatalogLevel(level) {
+      const n = normalizeKey(level);
+      return n === normalizeKey('INF/SAG-M') || n === normalizeKey('AUXI');
+    }
+
+    function adminDELevelMatches(questionLevel, selectedLevel) {
+      const nSelected = normalizeKey(selectedLevel);
+      const nQuestion = normalizeKey(questionLevel);
+      if (nSelected === normalizeKey('INF/SAG-M')) {
+        return nQuestion.includes('inf/sag-m') ||
+          nQuestion.includes('ide/sfm') ||
+          nQuestion.includes('licence 3 ide') ||
+          nQuestion.includes('licence 3 sfm') ||
+          nQuestion === normalizeKey('L3-Niveau Accompli INF') ||
+          nQuestion === normalizeKey('L3-Niveau Accompli SF');
+      }
+      if (nSelected === normalizeKey('AUXI')) {
+        return nQuestion.includes('auxi') ||
+          nQuestion.includes('auxiliaire') ||
+          nQuestion === normalizeKey('A2-Niveau moyen');
+      }
+      return levelMatches(questionLevel, selectedLevel);
+    }
+
+    function getAdminDEQuestionSource() {
+      const deletedIds = new Set(Array.isArray(appSettings.deletedQuestionIds) ? appSettings.deletedQuestionIds.map(String) : []);
+      const baseEFF = Array.isArray(DE_QUESTIONS_SOURCE) ? DE_QUESTIONS_SOURCE : [];
+      const customEFF = (Array.isArray(appSettings.customQuestions) ? appSettings.customQuestions : [])
+        .filter(q => isAdminDECatalogLevel(q?.level) || adminDELevelMatches(q?.level, 'INF/SAG-M') || adminDELevelMatches(q?.level, 'AUXI'));
+      const byId = new Map();
+      baseEFF.concat(customEFF).map(normalizeQuestion).filter(Boolean).forEach(q => {
+        if (q.id && !deletedIds.has(String(q.id))) byId.set(q.id, q);
+      });
+      return Array.from(byId.values());
+    }
+
+    // Index léger et strictement limité à l'Examen de fin de formation.
+    // Ici on ne lit pas toute la banque Quiz : seulement questions.eff.js + modifications admin EFF.
+    let adminDECatalogIndexCache = null;
+    function getAdminDECatalogIndex() {
+      if (adminDECatalogIndexCache) return adminDECatalogIndexCache;
+      const index = {
+        'INF/SAG-M': { subjects: new Set(), topicsBySubject: {} },
+        'AUXI': { subjects: new Set(), topicsBySubject: {} },
+      };
+      const add = (level, question) => {
+        const subject = safeText(question.subject).trim();
+        const topic = safeText(question.topic).trim();
+        if (!subject) return;
+        index[level].subjects.add(subject);
+        index[level].topicsBySubject[subject] = index[level].topicsBySubject[subject] || new Set();
+        if (topic) index[level].topicsBySubject[subject].add(topic);
+      };
+      getAdminDEQuestionSource().forEach((q) => {
+        if (adminDELevelMatches(q.level, 'INF/SAG-M')) add('INF/SAG-M', q);
+        if (adminDELevelMatches(q.level, 'AUXI')) add('AUXI', q);
+      });
+      adminDECatalogIndexCache = index;
+      return index;
+    }
+
+    function getDECatalogSubjectsForLevel(level) {
+      if (!isAdminDECatalogLevel(level)) return [];
+      const index = getAdminDECatalogIndex()[normalizeKey(level) === normalizeKey('AUXI') ? 'AUXI' : 'INF/SAG-M'];
+      return Array.from(index.subjects).filter(Boolean).sort((a, b) => a.localeCompare(b, 'fr', { sensitivity: 'base' }));
+    }
+
+    function getDECatalogTopicsForLevelSubject(level, subject) {
+      if (!isAdminDECatalogLevel(level)) return [];
+      const index = getAdminDECatalogIndex()[normalizeKey(level) === normalizeKey('AUXI') ? 'AUXI' : 'INF/SAG-M'];
+      const subjectKey = Object.keys(index.topicsBySubject).find(s => normalizeKey(s) === normalizeKey(subject)) || subject;
+      const fromQuestions = index.topicsBySubject[subjectKey] ? Array.from(index.topicsBySubject[subjectKey]) : [];
+      const topics = Array.from(new Set(fromQuestions)).filter(Boolean);
+      topics.sort((a, b) => {
+        const ma = normalizeKey(a).match(/^sujet\s*([0-9]+)$/);
+        const mb = normalizeKey(b).match(/^sujet\s*([0-9]+)$/);
+        if (ma && mb) return Number(ma[1]) - Number(mb[1]);
+        return a.localeCompare(b, 'fr', { sensitivity: 'base' });
+      });
+      return topics;
+    }
+
+    function getBaseCatalogForAdmin() {
+      const catalog = normalizeCustomCatalog(appSettings.customCatalog || {});
+      const levels = Array.from(new Set([...(ALL_LEVELS || []), 'INF/SAG-M', 'AUXI', ...(catalog.levels || [])])).filter(Boolean);
+      const subjectsByLevel = {};
+      const topicsByLevelSubject = {};
+      for (const level of levels) {
+        const customSubjects = ((catalog.subjectsByLevel || {})[level] || []);
+        const baseSubjects = isAdminDECatalogLevel(level) ? getDECatalogSubjectsForLevel(level) : (getAllowedSubjectsForLevel(level) || []);
+        subjectsByLevel[level] = isAdminDECatalogLevel(level)
+          ? baseSubjects
+          : Array.from(new Set([...baseSubjects, ...customSubjects])).filter(Boolean);
+        topicsByLevelSubject[level] = isAdminDECatalogLevel(level) ? {} : { ...(((catalog.topicsByLevelSubject || {})[level]) || {}) };
+        for (const subject of subjectsByLevel[level]) {
+          const customTopics = (((catalog.topicsByLevelSubject || {})[level] || {})[subject]) || [];
+          const baseTopics = isAdminDECatalogLevel(level)
+            ? getDECatalogTopicsForLevelSubject(level, subject)
+            : [];
+          topicsByLevelSubject[level][subject] = isAdminDECatalogLevel(level)
+            ? baseTopics
+            : Array.from(new Set([...baseTopics, ...customTopics])).filter(Boolean);
+        }
+      }
+      return normalizeCustomCatalog({ levels, subjectsByLevel, topicsByLevelSubject });
+    }
+
+    let adminCatalogDraft = getBaseCatalogForAdmin();
+
+    function setSelectOptionsSimple(select, options, value) {
+      if (!select) return;
+      select.innerHTML = '';
+      (options || []).forEach(opt => {
+        const o = document.createElement('option');
+        o.value = opt;
+        o.textContent = opt;
+        select.appendChild(o);
+      });
+      if (value && options.includes(value)) select.value = value;
+    }
+
+    function renderCatalogAdmin(selectedLevel, selectedSubject) {
+      adminCatalogDraft = normalizeCustomCatalog(adminCatalogDraft);
+      const levels = adminCatalogDraft.levels.length ? adminCatalogDraft.levels : ALL_LEVELS.slice();
+      const level = selectedLevel && levels.includes(selectedLevel) ? selectedLevel : levels[0];
+      setSelectOptionsSimple(document.getElementById('adminCatalogLevel'), levels, level);
+      const subjects = ((adminCatalogDraft.subjectsByLevel || {})[level] || []).slice().sort((a,b)=>a.localeCompare(b,'fr',{sensitivity:'base'}));
+      const subject = selectedSubject && subjects.includes(selectedSubject) ? selectedSubject : subjects[0];
+      setSelectOptionsSimple(document.getElementById('adminCatalogSubjectList'), subjects.length ? subjects : ['Aucune matière'], subject);
+      setSelectOptionsSimple(document.getElementById('adminCatalogSubjectRemove'), subjects.length ? subjects : ['Aucune matière'], subject);
+      setSelectOptionsSimple(document.getElementById('adminCatalogTopicSubject'), subjects.length ? subjects : ['Aucune matière'], subject);
+      const topics = isAdminDECatalogLevel(level)
+        ? ((((adminCatalogDraft.topicsByLevelSubject || {})[level] || {})[subject]) || [])
+        : ((((adminCatalogDraft.topicsByLevelSubject || {})[level] || {})[subject]) || computeTopicsForSubject(subject).filter(t => t !== 'Tous les sujets'));
+      setSelectOptionsSimple(document.getElementById('adminCatalogTopic'), topics.length ? topics : ['Aucun sujet'], topics[0]);
+    }
+
+    async function saveCatalogDraft() {
+      const settings = normalizeAppSettings({ ...collectAdminSettings(), customCatalog: adminCatalogDraft });
+      const status = document.getElementById('adminCatalogStatus');
+      try {
+        await apiPost('/api/admin/save-settings', currentAuthPayload({ settings }));
+        if (status) status.textContent = 'Niveaux, matières et sujets enregistrés sur le serveur et appliqués.';
+      } catch (e) {
+        if (status) status.textContent = 'Mode local : modifications enregistrées dans ce navigateur et appliquées.';
+      }
+      appSettings = settings;
+      localStorage.setItem(STORAGE_KEYS.appSettings, JSON.stringify(appSettings));
+      adminDECatalogIndexCache = null; bank = getQuestionBank();
+      updateStartInfo();
+    }
+
+    let validatedImportContext = null;
+
+    function getCatalogSelectionForImport() {
+      const level = document.getElementById('adminCatalogLevel')?.value || '';
+      const subject = document.getElementById('adminCatalogTopicSubject')?.value || document.getElementById('adminCatalogSubjectList')?.value || '';
+      const topic = document.getElementById('adminCatalogTopic')?.value || '';
+      if (!level || !subject || !topic || subject === 'Aucune matière' || topic === 'Aucun sujet') return null;
+      return { level, subject, topic };
+    }
+
+    function setImportControlsEnabled(enabled, message) {
+      const box = document.getElementById('adminImportBox');
+      const status = document.getElementById('adminImportStatus');
+      const contextLabel = document.getElementById('adminSelectedImportContext');
+      box?.classList.toggle('locked', !enabled);
+      ['adminImportFile','adminImportScript','btnPreviewImport','btnApplyImport'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.disabled = !enabled;
+      });
+      if (contextLabel) contextLabel.innerHTML = enabled && validatedImportContext
+        ? `Choix validé : <strong>${escapeHtml(validatedImportContext.level)}</strong> / <strong>${escapeHtml(validatedImportContext.subject)}</strong> / <strong>${escapeHtml(validatedImportContext.topic)}</strong>.`
+        : 'Choisis d’abord un niveau, une matière et un sujet dans la première partie, puis clique sur « Valider ce choix pour l’import ». ';
+      if (message && status) status.textContent = message;
+    }
+
+    function invalidateImportContext() {
+      validatedImportContext = null;
+      setImportControlsEnabled(false);
+    }
+
+    function bindCatalogAdmin() {
+      adminCatalogDraft = getBaseCatalogForAdmin();
+      renderCatalogAdmin();
+      setImportControlsEnabled(false);
+      const levelSelect = document.getElementById('adminCatalogLevel');
+      const subjectList = document.getElementById('adminCatalogSubjectList');
+      const topicSubject = document.getElementById('adminCatalogTopicSubject');
+      levelSelect?.addEventListener('change', () => { renderCatalogAdmin(levelSelect.value); invalidateImportContext(); });
+      subjectList?.addEventListener('change', () => { renderCatalogAdmin(levelSelect?.value, subjectList.value); invalidateImportContext(); });
+      topicSubject?.addEventListener('change', () => { renderCatalogAdmin(levelSelect?.value, topicSubject.value); invalidateImportContext(); });
+      els.adminLogs.querySelectorAll('.catalogMatterModeBtn').forEach(btn => btn.addEventListener('click', (event) => { event.stopPropagation();
+        els.adminLogs.querySelectorAll('.catalogMatterModeBtn').forEach(b => b.classList.remove('btn--primary'));
+        btn.classList.add('btn--primary');
+        const mode = btn.dataset.catalogMode;
+        els.adminLogs.querySelectorAll('.catalogModePanel').forEach(panel => panel.classList.toggle('hidden', panel.dataset.catalogPanel !== mode));
+      }));
+      document.getElementById('btnAddCatalogLevel')?.addEventListener('click', () => {
+        const name = prompt('Nom du nouveau niveau :');
+        if (!name || !name.trim()) return;
+        adminCatalogDraft.levels = Array.from(new Set([...(adminCatalogDraft.levels || []), name.trim()]));
+        adminCatalogDraft.subjectsByLevel[name.trim()] = adminCatalogDraft.subjectsByLevel[name.trim()] || [];
+        renderCatalogAdmin(name.trim());
+        invalidateImportContext();
+      });
+      document.getElementById('btnRemoveCatalogLevel')?.addEventListener('click', async () => {
+        const level = levelSelect?.value;
+        if (!level) return;
+        if (!confirm(`Retirer le niveau « ${level} » ? Les matières, sujets et questions personnalisées liés à ce niveau seront retirés.`)) return;
+        adminCatalogDraft.levels = (adminCatalogDraft.levels || []).filter(l => l !== level);
+        delete adminCatalogDraft.subjectsByLevel[level];
+        delete adminCatalogDraft.topicsByLevelSubject[level];
+        const remainingCustomQuestions = (Array.isArray(appSettings.customQuestions) ? appSettings.customQuestions : []).filter(q => q.level !== level);
+        appSettings = normalizeAppSettings({ ...collectAdminSettings(), customCatalog: adminCatalogDraft, customQuestions: remainingCustomQuestions });
+        localStorage.setItem(STORAGE_KEYS.appSettings, JSON.stringify(appSettings));
+        try { await apiPost('/api/admin/save-settings', currentAuthPayload({ settings: appSettings })); } catch (_) {}
+        adminDECatalogIndexCache = null; bank = getQuestionBank(); updateStartInfo(); renderCatalogAdmin(); invalidateImportContext();
+        const status = document.getElementById('adminCatalogStatus'); if (status) status.textContent = 'Niveau retiré et modifications appliquées.';
+      });
+      document.getElementById('btnRenameCatalogLevel')?.addEventListener('click', async () => {
+        const oldLevel = levelSelect?.value;
+        if (!oldLevel) return;
+        const newLevel = prompt('Nouveau nom du niveau :', oldLevel);
+        if (!newLevel || !newLevel.trim() || newLevel.trim() === oldLevel) return;
+        const clean = newLevel.trim();
+        adminCatalogDraft.levels = (adminCatalogDraft.levels || []).map(l => l === oldLevel ? clean : l);
+        adminCatalogDraft.subjectsByLevel[clean] = adminCatalogDraft.subjectsByLevel[oldLevel] || [];
+        if (clean !== oldLevel) delete adminCatalogDraft.subjectsByLevel[oldLevel];
+        adminCatalogDraft.topicsByLevelSubject[clean] = adminCatalogDraft.topicsByLevelSubject[oldLevel] || {};
+        if (clean !== oldLevel) delete adminCatalogDraft.topicsByLevelSubject[oldLevel];
+        const customQuestions = (Array.isArray(appSettings.customQuestions) ? appSettings.customQuestions : []).map(q => q.level === oldLevel ? { ...q, level: clean } : q);
+        appSettings = normalizeAppSettings({ ...collectAdminSettings(), customCatalog: adminCatalogDraft, customQuestions });
+        localStorage.setItem(STORAGE_KEYS.appSettings, JSON.stringify(appSettings));
+        try { await apiPost('/api/admin/save-settings', currentAuthPayload({ settings: appSettings })); } catch (_) {}
+        adminDECatalogIndexCache = null; bank = getQuestionBank(); updateStartInfo(); renderCatalogAdmin(clean); invalidateImportContext();
+        const status = document.getElementById('adminCatalogStatus'); if (status) status.textContent = 'Nom du niveau modifié et appliqué.';
+      });
+      document.getElementById('btnAddCatalogSubject')?.addEventListener('click', () => {
+        const level = levelSelect?.value;
+        const name = prompt('Nom de la nouvelle matière :');
+        if (!level || !name || !name.trim()) return;
+        adminCatalogDraft.subjectsByLevel[level] = Array.from(new Set([...(adminCatalogDraft.subjectsByLevel[level] || []), name.trim()]));
+        adminCatalogDraft.topicsByLevelSubject[level] = adminCatalogDraft.topicsByLevelSubject[level] || {};
+        adminCatalogDraft.topicsByLevelSubject[level][name.trim()] = adminCatalogDraft.topicsByLevelSubject[level][name.trim()] || [];
+        renderCatalogAdmin(level, name.trim());
+        invalidateImportContext();
+      });
+      document.getElementById('btnRemoveCatalogSubjectFromList')?.addEventListener('click', () => {
+        document.getElementById('btnRemoveCatalogSubject')?.click();
+      });
+      document.getElementById('btnRenameCatalogSubject')?.addEventListener('click', async () => {
+        const level = levelSelect?.value;
+        const oldSubject = document.getElementById('adminCatalogSubjectList')?.value;
+        if (!level || !oldSubject || oldSubject === 'Aucune matière') return;
+        const newSubject = prompt('Nouveau nom de la matière :', oldSubject);
+        if (!newSubject || !newSubject.trim() || newSubject.trim() === oldSubject) return;
+        const clean = newSubject.trim();
+        adminCatalogDraft.subjectsByLevel[level] = (adminCatalogDraft.subjectsByLevel[level] || []).map(s => s === oldSubject ? clean : s);
+        adminCatalogDraft.topicsByLevelSubject[level] = adminCatalogDraft.topicsByLevelSubject[level] || {};
+        adminCatalogDraft.topicsByLevelSubject[level][clean] = adminCatalogDraft.topicsByLevelSubject[level][oldSubject] || [];
+        if (clean !== oldSubject) delete adminCatalogDraft.topicsByLevelSubject[level][oldSubject];
+        const customQuestions = (Array.isArray(appSettings.customQuestions) ? appSettings.customQuestions : []).map(q => (q.level === level && q.subject === oldSubject) ? { ...q, subject: clean } : q);
+        appSettings = normalizeAppSettings({ ...collectAdminSettings(), customCatalog: adminCatalogDraft, customQuestions });
+        localStorage.setItem(STORAGE_KEYS.appSettings, JSON.stringify(appSettings));
+        try { await apiPost('/api/admin/save-settings', currentAuthPayload({ settings: appSettings })); } catch (_) {}
+        adminDECatalogIndexCache = null; bank = getQuestionBank(); updateStartInfo(); renderCatalogAdmin(level, clean); invalidateImportContext();
+        const status = document.getElementById('adminCatalogStatus'); if (status) status.textContent = 'Nom de la matière modifié et appliqué.';
+      });
+      document.getElementById('btnRemoveCatalogSubject')?.addEventListener('click', () => {
+        const level = levelSelect?.value;
+        const subject = document.getElementById('adminCatalogSubjectRemove')?.value;
+        if (!level || !subject || subject === 'Aucune matière') return;
+        if (!confirm(`Retirer la matière « ${subject} » de ${level} ?`)) return;
+        adminCatalogDraft.subjectsByLevel[level] = (adminCatalogDraft.subjectsByLevel[level] || []).filter(s => s !== subject);
+        if (adminCatalogDraft.topicsByLevelSubject[level]) delete adminCatalogDraft.topicsByLevelSubject[level][subject];
+        renderCatalogAdmin(level);
+        invalidateImportContext();
+      });
+      document.getElementById('btnAddCatalogTopic')?.addEventListener('click', () => {
+        const level = levelSelect?.value;
+        const subject = document.getElementById('adminCatalogTopicSubject')?.value;
+        const topic = prompt('Nom du nouveau sujet :');
+        if (!level || !subject || subject === 'Aucune matière' || !topic || !topic.trim()) return;
+        adminCatalogDraft.topicsByLevelSubject[level] = adminCatalogDraft.topicsByLevelSubject[level] || {};
+        adminCatalogDraft.topicsByLevelSubject[level][subject] = Array.from(new Set([...(adminCatalogDraft.topicsByLevelSubject[level][subject] || []), topic.trim()]));
+        adminCatalogDraft.subjectsByLevel[level] = Array.from(new Set([...(adminCatalogDraft.subjectsByLevel[level] || []), subject]));
+        renderCatalogAdmin(level, subject);
+        invalidateImportContext();
+      });
+      document.getElementById('btnRemoveCatalogTopic')?.addEventListener('click', async () => {
+        const level = levelSelect?.value;
+        const subject = document.getElementById('adminCatalogTopicSubject')?.value;
+        const topic = document.getElementById('adminCatalogTopic')?.value;
+        if (!level || !subject || subject === 'Aucune matière' || !topic || topic === 'Aucun sujet') return;
+        if (!confirm(`Retirer le sujet « ${topic} » de ${subject} / ${level} ? Les questions personnalisées liées à ce sujet seront aussi retirées.`)) return;
+        adminCatalogDraft.topicsByLevelSubject[level] = adminCatalogDraft.topicsByLevelSubject[level] || {};
+        adminCatalogDraft.topicsByLevelSubject[level][subject] = (adminCatalogDraft.topicsByLevelSubject[level][subject] || []).filter(t => t !== topic);
+        const remainingCustomQuestions = (Array.isArray(appSettings.customQuestions) ? appSettings.customQuestions : []).filter(q => !(q.level === level && q.subject === subject && q.topic === topic));
+        const settings = normalizeAppSettings({ ...collectAdminSettings(), customCatalog: adminCatalogDraft, customQuestions: remainingCustomQuestions });
+        const status = document.getElementById('adminCatalogStatus');
+        let savedOnServer = true;
+        try { await apiPost('/api/admin/save-settings', currentAuthPayload({ settings })); } catch (_) { savedOnServer = false; }
+        appSettings = settings;
+        localStorage.setItem(STORAGE_KEYS.appSettings, JSON.stringify(appSettings));
+        adminDECatalogIndexCache = null; bank = getQuestionBank();
+        updateStartInfo();
+        renderCatalogAdmin(level, subject);
+        invalidateImportContext();
+        const editor = document.getElementById('adminTopicEditor');
+        if (editor) editor.classList.add('hidden');
+        if (status) status.textContent = savedOnServer ? 'Sujet retiré et enregistré sur le serveur.' : 'Sujet retiré en mode local dans ce navigateur.';
+      });
+      function getQuestionsForSelectedTopic() {
+        const level = levelSelect?.value || '';
+        const subject = document.getElementById('adminCatalogTopicSubject')?.value || '';
+        const topic = document.getElementById('adminCatalogTopic')?.value || '';
+        const source = isAdminDECatalogLevel(level) ? getAdminDEQuestionSource() : getQuestionBank();
+        return source.filter(q =>
+          (isAdminDECatalogLevel(level) ? adminDELevelMatches(q.level, level) : levelMatches(q.level, level)) &&
+          normalizeKey(q.subject) === normalizeKey(subject) &&
+          normalizeKey(q.topic) === normalizeKey(topic)
+        );
+      }
+
+      let topicEditorRemovedQuestionIds = new Set();
+
+      function questionDuplicateKey(q) {
+        return normalizeKey(String(q.question || '').replace(/\s+/g, ' ').trim());
+      }
+
+      function findDuplicateTopicQuestions() {
+        const groups = new Map();
+        getQuestionsForSelectedTopic().forEach(q => {
+          const key = questionDuplicateKey(q);
+          if (!key) return;
+          if (!groups.has(key)) groups.set(key, []);
+          groups.get(key).push(q);
+        });
+        return Array.from(groups.values()).filter(group => group.length > 1);
+      }
+
+      function renderDuplicateTopicQuestions() {
+        const target = document.getElementById('topicDuplicateList');
+        if (!target) return;
+        const groups = findDuplicateTopicQuestions();
+        if (!groups.length) {
+          target.innerHTML = '';
+          return;
+        }
+        target.innerHTML = `<div class="duplicate-box"><h5>Questions identiques détectées</h5>${groups.map((group, groupIndex) => `
+          <div class="duplicate-group"><strong>Doublon ${groupIndex + 1}</strong><p>${escapeHtml(group[0].question || '')}</p>
+            ${group.map((q, index) => `<label class="duplicate-check"><input type="checkbox" class="duplicateQuestionCheck" value="${escapeHtml(q.id)}" ${index === 0 ? '' : 'checked'}> Question ${index + 1} — ${escapeHtml(q.type || '')}</label>`).join('')}
+          </div>`).join('')}</div>`;
+      }
+
+      async function deleteSelectedDuplicateQuestions() {
+        const checkedIds = [...document.querySelectorAll('#topicDuplicateList .duplicateQuestionCheck:checked')].map(i => i.value);
+        const status = document.getElementById('adminTopicEditorStatus');
+        if (!checkedIds.length) {
+          if (status) status.textContent = 'Aucun doublon sélectionné.';
+          return;
+        }
+        if (!confirm(`Supprimer ${checkedIds.length} question(s) sélectionnée(s) ?`)) return;
+        const currentCustom = Array.isArray(appSettings.customQuestions) ? appSettings.customQuestions : [];
+        const toRemove = new Set(checkedIds);
+        const remainingCustom = currentCustom.filter(q => !toRemove.has(q.id));
+        const deletedQuestionIds = Array.from(new Set([...(appSettings.deletedQuestionIds || []), ...checkedIds]));
+        const settings = normalizeAppSettings({ ...collectAdminSettings(), customCatalog: adminCatalogDraft, customQuestions: remainingCustom, deletedQuestionIds });
+        let savedOnServer = true;
+        try { await apiPost('/api/admin/save-settings', currentAuthPayload({ settings })); } catch (_) { savedOnServer = false; }
+        appSettings = settings;
+        localStorage.setItem(STORAGE_KEYS.appSettings, JSON.stringify(appSettings));
+        adminDECatalogIndexCache = null; bank = getQuestionBank();
+        updateStartInfo();
+        renderTopicEditor();
+        if (status) status.textContent = `${checkedIds.length} doublon(s) supprimé(s). ${savedOnServer ? 'Enregistré sur le serveur.' : 'Mode local : enregistré dans ce navigateur.'}`;
+      }
+
+      function buildQuestionStructureHtml(q, typeOverride = null) {
+        const type = typeOverride || q.type || 'mcq';
+        const choices = Array.isArray(q.choices) && q.choices.length ? q.choices : (type === 'tf' ? ['Vrai', 'Faux'] : ['Réponse A', 'Réponse B']);
+        const answerValue = type === 'tf'
+          ? String(q.answer === true)
+          : (type === 'mcq_multi' ? (q.answerIndices || [q.answerIndex ?? 0]).join(',') : String(Number.isInteger(q.answerIndex) ? q.answerIndex : 0));
+        if (type === 'tf') {
+          return `<div class="question-structure-fields" data-structure="tf">
+            <label class="label">Structure Vrai/Faux</label>
+            <p class="muted small">Cette question utilise la structure <strong>tf</strong> : une réponse vraie ou fausse.</p>
+            <label class="label">Bonne réponse</label>
+            <select class="input editQuestionAnswer"><option value="true" ${answerValue === 'true' ? 'selected' : ''}>Vrai</option><option value="false" ${answerValue !== 'true' ? 'selected' : ''}>Faux</option></select>
+          </div>`;
+        }
+        return `<div class="question-structure-fields" data-structure="${escapeHtml(type)}">
+          <label class="label">Choix de réponse</label>
+          <div class="editChoices">${choices.map((choice, cidx) => `<label class="choice-edit-row"><input type="checkbox" class="choiceSelectForRemove" title="Sélectionner pour retirer"><input class="input editChoice" data-choice-index="${cidx}" value="${escapeHtml(choice)}"></label>`).join('')}</div>
+          <div class="choice-edit-actions">
+            <button class="btn btn--danger btnRemoveChoice" type="button">-</button>
+            <button class="btn btn--primary btnAddChoice" type="button">+</button>
+          </div>
+          <label class="label">Bonne réponse ${type === 'mcq_multi' ? '(indices séparés par virgule : 0,2)' : '(indice unique : 0, 1, 2...)'}</label>
+          <input class="input editQuestionAnswer" value="${escapeHtml(answerValue)}">
+        </div>`;
+      }
+
+      function collectCardDraft(card) {
+        const type = card.querySelector('.editQuestionType')?.value || 'mcq';
+        const draft = {
+          type,
+          question: card.querySelector('.editQuestionText')?.value || '',
+          explanation: card.querySelector('.editQuestionExplanation')?.value || ''
+        };
+        if (type === 'tf') {
+          draft.answer = card.querySelector('.editQuestionAnswer')?.value === 'true';
+        } else {
+          const choices = [...card.querySelectorAll('.editChoice')].map(i => i.value).filter(Boolean);
+          draft.choices = choices.length ? choices : ['Réponse A', 'Réponse B'];
+          const answerText = card.querySelector('.editQuestionAnswer')?.value || '0';
+          if (type === 'mcq_multi') {
+            draft.answerIndices = answerText.split(',').map(x => Number(x.trim())).filter(n => Number.isInteger(n) && n >= 0 && n < draft.choices.length);
+            if (!draft.answerIndices.length) draft.answerIndices = [0];
+          } else {
+            const n = Number(answerText);
+            draft.answerIndex = Number.isInteger(n) && n >= 0 && n < draft.choices.length ? n : 0;
+          }
+        }
+        return draft;
+      }
+
+      function applyQuestionTypeToCard(card, nextType) {
+        if (!card) return;
+        const draft = collectCardDraft(card);
+        draft.type = nextType;
+        if (nextType === 'tf') {
+          draft.answer = draft.type === 'tf' ? draft.answer : true;
+          delete draft.choices; delete draft.answerIndex; delete draft.answerIndices;
+        } else {
+          draft.choices = Array.isArray(draft.choices) && draft.choices.length >= 2 ? draft.choices : ['Réponse A', 'Réponse B'];
+          if (nextType === 'mcq_multi') {
+            draft.answerIndices = Array.isArray(draft.answerIndices) ? draft.answerIndices : [Number.isInteger(draft.answerIndex) ? draft.answerIndex : 0];
+            delete draft.answerIndex; delete draft.answer;
+          } else {
+            draft.answerIndex = Number.isInteger(draft.answerIndex) ? draft.answerIndex : (Array.isArray(draft.answerIndices) ? draft.answerIndices[0] : 0) || 0;
+            delete draft.answerIndices; delete draft.answer;
+          }
+        }
+        const hidden = card.querySelector('.editQuestionType');
+        if (hidden) hidden.value = nextType;
+        const tag = card.querySelector('.topic-question-head .tag');
+        if (tag) tag.textContent = nextType;
+        const area = card.querySelector('.question-structure-host');
+        if (area) area.innerHTML = buildQuestionStructureHtml(draft, nextType);
+        bindChoiceButtons(card);
+      }
+
+      function bindChoiceButtons(scope) {
+        scope.querySelectorAll('.btnAddChoice').forEach(btn => btn.addEventListener('click', () => {
+          const card = btn.closest('.topic-question-editor');
+          const list = card?.querySelector('.editChoices');
+          if (!list) return;
+          const idx = list.querySelectorAll('.editChoice').length;
+          list.insertAdjacentHTML('beforeend', `<label class="choice-edit-row"><input type="checkbox" class="choiceSelectForRemove" title="Sélectionner pour retirer"><input class="input editChoice" data-choice-index="${idx}" value="Nouvelle proposition"></label>`);
+        }));
+        scope.querySelectorAll('.btnRemoveChoice').forEach(btn => btn.addEventListener('click', () => {
+          const card = btn.closest('.topic-question-editor');
+          const rows = [...(card?.querySelectorAll('.choice-edit-row') || [])];
+          const selected = rows.filter(row => row.querySelector('.choiceSelectForRemove')?.checked);
+          if (!selected.length) { alert('Coche d’abord la ou les propositions à retirer.'); return; }
+          if (rows.length - selected.length < 2) { alert('Une question QCM doit garder au moins 2 propositions.'); return; }
+          selected.forEach(row => row.remove());
+          [...(card?.querySelectorAll('.editChoice') || [])].forEach((input, idx) => input.dataset.choiceIndex = String(idx));
+          const answer = card?.querySelector('.editQuestionAnswer');
+          if (answer) answer.value = '0';
+        }));
+      }
+
+      function buildTopicQuestionEditorCard(q, idx) {
+        return `<div class="topic-question-editor" data-qid="${escapeHtml(q.id)}">
+              <div class="topic-question-head"><strong>Question ${idx + 1}</strong><span class="tag">${escapeHtml(q.type || 'mcq')}</span></div>
+              <label class="label">Modifier le type de question</label>
+              <div class="question-type-buttons">
+                <button class="btn questionTypeBtn ${q.type === 'mcq' ? 'btn--primary' : ''}" type="button" data-type="mcq">QCM simple</button>
+                <button class="btn questionTypeBtn ${q.type === 'mcq_multi' ? 'btn--primary' : ''}" type="button" data-type="mcq_multi">QCM multiple</button>
+                <button class="btn questionTypeBtn ${q.type === 'tf' ? 'btn--primary' : ''}" type="button" data-type="tf">Vrai/Faux</button>
+              </div>
+              <input type="hidden" class="editQuestionType" value="${escapeHtml(q.type || 'mcq')}">
+              <label class="label">Énoncé</label><textarea class="input editQuestionText" rows="3">${escapeHtml(q.question || '')}</textarea>
+              <div class="question-structure-host">${buildQuestionStructureHtml(q)}</div>
+              <label class="label">Explication</label><textarea class="input editQuestionExplanation" rows="2">${escapeHtml(q.explanation || '')}</textarea>
+              <div class="topic-question-remove-row"><button class="btn btn--danger btnRemoveTopicQuestion" type="button" title="Retirer cette question">-</button></div>
+            </div>`;
+      }
+
+      function bindQuestionTypeButtons(scope) {
+        scope.querySelectorAll('.questionTypeBtn').forEach(button => button.addEventListener('click', () => {
+          const card = button.closest('.topic-question-editor');
+          if (!card) return;
+          card.querySelectorAll('.questionTypeBtn').forEach(b => b.classList.remove('btn--primary'));
+          button.classList.add('btn--primary');
+          applyQuestionTypeToCard(card, button.dataset.type || 'mcq');
+        }));
+      }
+
+      function refreshTopicQuestionNumbers(scope) {
+        [...(scope || document).querySelectorAll('#adminTopicEditor .topic-question-editor')].forEach((card, idx) => {
+          const title = card.querySelector('.topic-question-head strong');
+          if (title) title.textContent = `Question ${idx + 1}`;
+        });
+      }
+
+      function bindRemoveTopicQuestionButtons(scope) {
+        scope.querySelectorAll('.btnRemoveTopicQuestion').forEach(button => button.addEventListener('click', () => {
+          const card = button.closest('.topic-question-editor');
+          const list = card?.closest('.topic-editor-list');
+          const status = document.getElementById('adminTopicEditorStatus');
+          if (!card || !list) return;
+          const label = card.querySelector('.topic-question-head strong')?.textContent || 'cette question';
+          if (!confirm(`Retirer ${label} de la liste des questions ?`)) return;
+          const id = card.dataset.qid;
+          if (id) topicEditorRemovedQuestionIds.add(String(id));
+          card.remove();
+          refreshTopicQuestionNumbers(list);
+          if (status) status.textContent = 'Question retirée de la liste. Clique sur « Enregistrer les modifications du sujet » pour sauvegarder.';
+        }));
+      }
+
+      function addQuestionToTopicEditor() {
+        const level = levelSelect?.value || '';
+        const subject = document.getElementById('adminCatalogTopicSubject')?.value || '';
+        const topic = document.getElementById('adminCatalogTopic')?.value || '';
+        const list = document.querySelector('#adminTopicEditor .topic-editor-list');
+        const status = document.getElementById('adminTopicEditorStatus');
+        if (!level || !subject || !topic || !list) {
+          if (status) status.textContent = 'Choisis d’abord un niveau, une matière et un sujet.';
+          return;
+        }
+        const lastType = [...document.querySelectorAll('#adminTopicEditor .topic-question-editor .editQuestionType')].pop()?.value || 'mcq';
+        const type = ['mcq', 'mcq_multi', 'tf'].includes(lastType) ? lastType : 'mcq';
+        const newQuestion = {
+          id: `custom-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
+          level,
+          subject,
+          topic,
+          type,
+          question: 'Nouvelle question',
+          explanation: ''
+        };
+        if (type === 'tf') {
+          newQuestion.answer = true;
+        } else if (type === 'mcq_multi') {
+          newQuestion.choices = ['Réponse A', 'Réponse B'];
+          newQuestion.answerIndices = [0];
+        } else {
+          newQuestion.choices = ['Réponse A', 'Réponse B'];
+          newQuestion.answerIndex = 0;
+        }
+        const idx = list.querySelectorAll('.topic-question-editor').length;
+        list.insertAdjacentHTML('beforeend', buildTopicQuestionEditorCard(newQuestion, idx));
+        const card = list.lastElementChild;
+        bindQuestionTypeButtons(card);
+        bindChoiceButtons(card);
+        bindRemoveTopicQuestionButtons(card);
+        card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        card.querySelector('.editQuestionText')?.focus();
+        if (status) status.textContent = 'Nouvelle question ajoutée. Clique sur « Enregistrer les modifications du sujet » pour la sauvegarder.';
+      }
+
+      function renderTopicEditor() {
+        topicEditorRemovedQuestionIds = new Set();
+        const box = document.getElementById('adminTopicEditor');
+        if (!box) return;
+        const level = levelSelect?.value || '';
+        const subject = document.getElementById('adminCatalogTopicSubject')?.value || '';
+        const topic = document.getElementById('adminCatalogTopic')?.value || '';
+        const questions = getQuestionsForSelectedTopic();
+        box.classList.remove('hidden');
+        if (!level || !subject || !topic || subject === 'Aucune matière' || topic === 'Aucun sujet') {
+          box.innerHTML = '<p class="muted small">Choisis d’abord un niveau, une matière et un sujet.</p>';
+          return;
+        }
+        if (!questions.length) {
+          box.innerHTML = `<p class="muted small">Aucune question trouvée pour <strong>${escapeHtml(level)}</strong> / <strong>${escapeHtml(subject)}</strong> / <strong>${escapeHtml(topic)}</strong>.</p>`;
+          return;
+        }
+        box.innerHTML = `
+          <h4 class="h3">Modifier les questions du sujet</h4>
+          <p class="muted small">${questions.length} question(s) trouvée(s). Les modifications sont sauvegardées dans les paramètres du site : serveur si disponible, local sinon.</p>
+          <div class="topic-editor-actions">
+            <button class="btn" id="btnShowTopicDuplicates" type="button">Afficher les doublons</button>
+            <button class="btn btn--danger" id="btnDeleteTopicDuplicates" type="button">Supprimer</button>
+          </div>
+          <div id="topicDuplicateList"></div>
+          <div class="topic-editor-list">
+            ${questions.map((q, idx) => buildTopicQuestionEditorCard(q, idx)).join('')}
+          </div>
+          <div class="topic-editor-actions">
+            <button class="btn btn--primary" id="btnSaveTopicQuestions" type="button">Enregistrer les modifications du sujet</button>
+            <button class="btn" id="btnAddTopicQuestion" type="button">Ajouter une question</button>
+          </div>
+          <div id="adminTopicEditorStatus" class="muted small" style="margin-top:8px"></div>`;
+        document.getElementById('btnSaveTopicQuestions')?.addEventListener('click', saveTopicQuestionEdits);
+        document.getElementById('btnAddTopicQuestion')?.addEventListener('click', addQuestionToTopicEditor);
+        document.getElementById('btnShowTopicDuplicates')?.addEventListener('click', renderDuplicateTopicQuestions);
+        document.getElementById('btnDeleteTopicDuplicates')?.addEventListener('click', deleteSelectedDuplicateQuestions);
+        bindQuestionTypeButtons(box);
+        bindChoiceButtons(box);
+        bindRemoveTopicQuestionButtons(box);
+      }
+
+      async function saveTopicQuestionEdits() {
+        const status = document.getElementById('adminTopicEditorStatus');
+        const existingQuestions = Array.isArray(appSettings.customQuestions) ? appSettings.customQuestions : [];
+        const byId = new Map(existingQuestions.map(q => [q.id, q]));
+        const allById = new Map(getQuestionBank().map(q => [q.id, q]));
+        const removedIds = Array.from(topicEditorRemovedQuestionIds || []).map(String);
+        const edited = [];
+        document.querySelectorAll('#adminTopicEditor .topic-question-editor').forEach(card => {
+          const id = card.dataset.qid;
+          const original = allById.get(id) || {
+            id,
+            level: levelSelect?.value || '',
+            subject: document.getElementById('adminCatalogTopicSubject')?.value || '',
+            topic: document.getElementById('adminCatalogTopic')?.value || ''
+          };
+          const next = { ...original };
+          next.question = card.querySelector('.editQuestionText')?.value || '';
+          next.explanation = card.querySelector('.editQuestionExplanation')?.value || '';
+          const selectedType = card.querySelector('.editQuestionType')?.value || next.type || 'mcq';
+          next.type = selectedType;
+          if (selectedType === 'tf') {
+            next.answer = card.querySelector('.editQuestionAnswer')?.value === 'true';
+            delete next.choices; delete next.answerIndex; delete next.answerIndices;
+          } else {
+            let choices = [...card.querySelectorAll('.editChoice')].map(i => i.value).filter(Boolean);
+            if (choices.length < 2) choices = ['Vrai', 'Faux'];
+            next.choices = choices;
+            const ans = card.querySelector('.editQuestionAnswer')?.value || '';
+            if (selectedType === 'mcq_multi') {
+              next.answerIndices = ans.split(',').map(x => Number(x.trim())).filter(n => Number.isInteger(n) && n >= 0 && n < choices.length);
+              if (!next.answerIndices.length) next.answerIndices = [0];
+              delete next.answerIndex; delete next.answer;
+            } else {
+              const n = Number(ans);
+              next.answerIndex = Number.isInteger(n) && n >= 0 && n < choices.length ? n : 0;
+              delete next.answerIndices; delete next.answer;
+            }
+          }
+          const normalized = normalizeQuestion(next);
+          if (normalized) {
+            byId.set(normalized.id, normalized);
+            edited.push(normalized);
+          }
+        });
+        if (!edited.length && !removedIds.length) {
+          if (status) status.textContent = 'Aucune modification valide à enregistrer.';
+          return;
+        }
+        removedIds.forEach(id => byId.delete(id));
+        const deletedQuestionIds = Array.from(new Set([...(appSettings.deletedQuestionIds || []), ...removedIds]));
+        const settings = normalizeAppSettings({ ...collectAdminSettings(), customCatalog: adminCatalogDraft, customQuestions: Array.from(byId.values()), deletedQuestionIds });
+        try {
+          await apiPost('/api/admin/save-settings', currentAuthPayload({ settings }));
+          if (status) status.textContent = `${edited.length} question(s) modifiée(s), ${removedIds.length} question(s) retirée(s) et enregistrée(s) sur le serveur.`;
+        } catch (e) {
+          if (status) status.textContent = `${edited.length} question(s) modifiée(s), ${removedIds.length} question(s) retirée(s) en mode local dans ce navigateur.`;
+        }
+        appSettings = settings;
+        localStorage.setItem(STORAGE_KEYS.appSettings, JSON.stringify(appSettings));
+        adminDECatalogIndexCache = null; bank = getQuestionBank();
+        updateStartInfo();
+        const editor = document.getElementById('adminTopicEditor');
+        if (editor) editor.classList.add('hidden');
+      }
+
+      document.getElementById('btnEditCatalogTopic')?.addEventListener('click', (event) => { event.stopPropagation(); const box = document.getElementById('adminTopicEditor'); if (box && !box.classList.contains('hidden')) { box.classList.add('hidden'); return; } renderTopicEditor(); });
+      document.getElementById('adminCatalogTopic')?.addEventListener('change', () => {
+        const box = document.getElementById('adminTopicEditor');
+        if (box && !box.classList.contains('hidden')) renderTopicEditor();
+      });
+      document.getElementById('btnValidateImportChoice')?.addEventListener('click', () => {
+        const selection = getCatalogSelectionForImport();
+        if (!selection) {
+          setImportControlsEnabled(false, 'Choisis un niveau, une matière et un sujet valide avant de passer à l’import.');
+          return;
+        }
+        validatedImportContext = selection;
+        setImportControlsEnabled(true, `Choix validé. L’import sera appliqué à : ${selection.level} / ${selection.subject} / ${selection.topic}.`);
+      });
+    }
+
+    function parseImportedQuestions(text, forcedContext = null) {
       const src = String(text || '').trim();
       if (!src) throw new Error('Collez d’abord un tableau de questions ou choisissez un fichier .js.');
+      if (!forcedContext) throw new Error('Valide d’abord le niveau, la matière et le sujet dans la première partie.');
       let value;
       try {
         value = JSON.parse(src);
@@ -1051,10 +1921,24 @@
         value = Function(`"use strict"; return (${cleaned});`)();
       }
       if (!Array.isArray(value)) throw new Error('Le contenu doit être un tableau de questions : [{...}, {...}].');
-      const normalized = value.map(normalizeQuestion).filter(Boolean);
-      if (!normalized.length) throw new Error('Aucune question valide trouvée. Vérifiez level, subject, topic, type, question et réponses.');
+      const normalized = value.map((q, index) => {
+        const merged = {
+          ...(q || {}),
+          level: forcedContext.level,
+          subject: forcedContext.subject,
+          topic: forcedContext.topic,
+        };
+        if (!merged.id) {
+          const stamp = Date.now().toString(36);
+          merged.id = `custom-${normalizeKey(forcedContext.level)}-${normalizeKey(forcedContext.subject)}-${normalizeKey(forcedContext.topic)}-${stamp}-${index}`;
+        }
+        return normalizeQuestion(merged);
+      }).filter(Boolean);
+      if (!normalized.length) throw new Error('Aucune question valide trouvée. Vérifiez type, question, choices/réponses et explication.');
       return normalized;
     }
+
+    bindCatalogAdmin();
 
     document.getElementById('adminImportFile')?.addEventListener('change', async (event) => {
       const file = event.target.files && event.target.files[0];
@@ -1067,8 +1951,8 @@
     document.getElementById('btnPreviewImport')?.addEventListener('click', () => {
       const status = document.getElementById('adminImportStatus');
       try {
-        const imported = parseImportedQuestions(document.getElementById('adminImportScript')?.value || '');
-        if (status) status.textContent = `${imported.length} question(s) valide(s) détectée(s).`;
+        const imported = parseImportedQuestions(document.getElementById('adminImportScript')?.value || '', validatedImportContext);
+        if (status) status.textContent = `${imported.length} question(s) valide(s) détectée(s) pour : ${validatedImportContext.level} / ${validatedImportContext.subject} / ${validatedImportContext.topic}.`;
       } catch (e) {
         if (status) status.textContent = e.message;
       }
@@ -1077,17 +1961,41 @@
     document.getElementById('btnApplyImport')?.addEventListener('click', async () => {
       const status = document.getElementById('adminImportStatus');
       try {
-        const imported = parseImportedQuestions(document.getElementById('adminImportScript')?.value || '');
+        const imported = parseImportedQuestions(document.getElementById('adminImportScript')?.value || '', validatedImportContext);
         const existing = Array.isArray(appSettings.customQuestions) ? appSettings.customQuestions : [];
         const byId = new Map(existing.map(q => [q.id, q]));
         for (const q of imported) byId.set(q.id, q);
-        const settings = normalizeAppSettings({ ...collectAdminSettings(), customQuestions: Array.from(byId.values()) });
-        await apiPost('/api/admin/save-settings', currentAuthPayload({ settings }));
+        const catalog = normalizeCustomCatalog({
+          ...adminCatalogDraft,
+          levels: Array.from(new Set([...(adminCatalogDraft.levels || []), validatedImportContext.level])),
+          subjectsByLevel: {
+            ...(adminCatalogDraft.subjectsByLevel || {}),
+            [validatedImportContext.level]: Array.from(new Set([...(adminCatalogDraft.subjectsByLevel?.[validatedImportContext.level] || []), validatedImportContext.subject]))
+          },
+          topicsByLevelSubject: {
+            ...(adminCatalogDraft.topicsByLevelSubject || {}),
+            [validatedImportContext.level]: {
+              ...((adminCatalogDraft.topicsByLevelSubject || {})[validatedImportContext.level] || {}),
+              [validatedImportContext.subject]: Array.from(new Set([...(((adminCatalogDraft.topicsByLevelSubject || {})[validatedImportContext.level] || {})[validatedImportContext.subject] || []), validatedImportContext.topic]))
+            }
+          }
+        });
+        adminCatalogDraft = catalog;
+        const settings = normalizeAppSettings({ ...collectAdminSettings(), customCatalog: catalog, customQuestions: Array.from(byId.values()) });
+        let savedOnServer = true;
+        try {
+          await apiPost('/api/admin/save-settings', currentAuthPayload({ settings }));
+        } catch (_) {
+          savedOnServer = false;
+        }
         appSettings = settings;
         localStorage.setItem(STORAGE_KEYS.appSettings, JSON.stringify(appSettings));
-        bank = getQuestionBank();
+        adminDECatalogIndexCache = null; bank = getQuestionBank();
         updateStartInfo();
-        if (status) status.textContent = `${imported.length} question(s) ajoutée(s). Total importé : ${appSettings.customQuestions.length}.`;
+        renderCatalogAdmin(validatedImportContext.level, validatedImportContext.subject);
+        setImportControlsEnabled(true);
+        if (status) status.textContent = `${imported.length} question(s) ajoutée(s) à ${validatedImportContext.level} / ${validatedImportContext.subject} / ${validatedImportContext.topic}. ${savedOnServer ? 'Enregistré sur le serveur.' : 'Mode local : enregistré dans ce navigateur.'} Total importé : ${appSettings.customQuestions.length}.`;
+        setTimeout(collapseAdminPanels, 250);
       } catch(e) {
         if (status) status.textContent = e.data?.error || e.message;
         else alert(e.data?.error || e.message);
@@ -1101,7 +2009,7 @@
         appSettings = settings;
         localStorage.setItem(STORAGE_KEYS.appSettings, JSON.stringify(appSettings));
         applyRuntimeSettings();
-        bank = getQuestionBank();
+        adminDECatalogIndexCache = null; bank = getQuestionBank();
         updateStartInfo();
         if (currentMode === "de") updateDEStartInfo();
         if (els.screenQuiz && !els.screenQuiz.classList.contains('hidden')) {
@@ -1109,7 +2017,22 @@
           renderQuiz();
         }
         alert('Paramètres enregistrés et appliqués immédiatement sur les quiz.');
-      } catch(e) { alert(e.data?.error || e.message); }
+        collapseAdminPanels();
+      } catch(e) {
+        // Mode local sans PostgreSQL : les paramètres restent appliqués dans ce navigateur.
+        appSettings = settings;
+        localStorage.setItem(STORAGE_KEYS.appSettings, JSON.stringify(appSettings));
+        applyRuntimeSettings();
+        adminDECatalogIndexCache = null; bank = getQuestionBank();
+        updateStartInfo();
+        if (currentMode === "de") updateDEStartInfo();
+        if (els.screenQuiz && !els.screenQuiz.classList.contains('hidden')) {
+          lastTimedQuestionIndex = -1;
+          renderQuiz();
+        }
+        alert('Mode local : paramètres enregistrés et appliqués dans ce navigateur. Pour les partager en ligne, connecte PostgreSQL/Render.');
+        collapseAdminPanels();
+      }
     }));
   }
 
@@ -1398,22 +2321,24 @@
   })();
 
   function getQuestionBank() {
+    const deletedIds = new Set(Array.isArray(appSettings.deletedQuestionIds) ? appSettings.deletedQuestionIds.map(String) : []);
     const raw = ALL_RAW_QUESTIONS.concat(Array.isArray(appSettings.customQuestions) ? appSettings.customQuestions : []);
     const normalized = raw.map(normalizeQuestion).filter(Boolean);
-    // remove duplicates by id (keep first)
-    const seen = new Set();
-    const unique = [];
+    // Suppression des doublons par id : les questions modifiées dans l'administration
+    // passent après la base et remplacent donc la version d'origine.
+    const byId = new Map();
     for (const q of normalized) {
-      if (!q.id || seen.has(q.id)) continue;
-      seen.add(q.id);
-      unique.push(q);
+      if (!q.id) continue;
+      byId.set(q.id, q);
     }
-    return unique;
+    return Array.from(byId.values()).filter(q => !deletedIds.has(String(q.id)));
   }
 
   const ALL_LEVELS = [
     "A1-Base Santé",
     "A2-Niveau moyen",
+    "INF/SAG-M",
+    "AUXI",
     "L1-Niveau Émergent",
     "L2-Niveau Ascendant",
     "L3-Niveau Accompli SF",
@@ -1471,7 +2396,9 @@
     if (userConfig.levels.some((lv) => normalizeKey(lv) === "all" || normalizeKey(lv) === "tous les niveaux")) {
       return ALL_LEVELS;
     }
-    return normalizeAccountLevels(userConfig.levels).filter((lv) => ALL_LEVELS.includes(lv));
+    const normalized = normalizeAccountLevels(userConfig.levels);
+    const extras = userConfig.levels.map((lv) => safeText(lv).trim()).filter((lv) => catalogLevels.includes(lv));
+    return Array.from(new Set([...normalized.filter((lv) => availableLevels.includes(lv)), ...extras]));
   }
 
   return [];
@@ -1659,29 +2586,56 @@
     return [];
   }
 
+  function getCustomSubjectsForLevel(level) {
+    const catalog = normalizeCustomCatalog(appSettings.customCatalog || {});
+    const subjects = [];
+    for (const [levelName, list] of Object.entries(catalog.subjectsByLevel || {})) {
+      if (normalizeKey(levelName) === normalizeKey(level)) subjects.push(...(Array.isArray(list) ? list : []));
+    }
+    return Array.from(new Set(subjects.map((s) => safeText(s).trim()).filter(Boolean)));
+  }
+
+  function getCustomTopicsForLevelSubject(level, subject) {
+    const catalog = normalizeCustomCatalog(appSettings.customCatalog || {});
+    const topics = [];
+    for (const [levelName, bySubject] of Object.entries(catalog.topicsByLevelSubject || {})) {
+      if (normalizeKey(levelName) !== normalizeKey(level)) continue;
+      for (const [subjectName, list] of Object.entries(bySubject || {})) {
+        if (normalizeKey(subjectName) === normalizeKey(subject)) topics.push(...(Array.isArray(list) ? list : []));
+      }
+    }
+    return Array.from(new Set(topics.map((t) => safeText(t).trim()).filter(Boolean)));
+  }
+
   function computeSubjectsForLevel(level) {
     if (isFreeTrialUser() && normalizeKey(level) === normalizeKey(FREE_TRIAL_LEVEL)) return [FREE_TRIAL_SUBJECT];
     const unique = (arr) => Array.from(new Set((arr || []).map((s) => safeText(s).trim()).filter(Boolean)));
 
     // Affiche uniquement les matières autorisées pour le niveau sélectionné.
     const restrictedSubjects = getAllowedSubjectsForLevel(level);
+    const customSubjects = getCustomSubjectsForLevel(level);
     const subjectsFromQuestions = getQuestionBank()
       .filter((q) => !level || level === "Tous les niveaux" || levelMatches(q.level, level))
       .map((q) => q.subject);
 
     if (restrictedSubjects.length > 0) {
-      return ["Toutes les matières", ...unique(restrictedSubjects.concat(subjectsFromQuestions))];
+      return ["Toutes les matières", ...unique(restrictedSubjects.concat(customSubjects).concat(subjectsFromQuestions))];
     }
 
-    return ["Toutes les matières", ...unique(ALL_SUBJECTS.concat(subjectsFromQuestions))];
+    return ["Toutes les matières", ...unique(ALL_SUBJECTS.concat(customSubjects).concat(subjectsFromQuestions))];
   }
 
   function computeTopicsForSubject(subject) {
     if (isFreeTrialUser() && normalizeKey(subject) === normalizeKey(FREE_TRIAL_SUBJECT)) return [FREE_TRIAL_TOPIC];
     if (!subject || subject === "Toutes les matières") return ["Tous les sujets"];
     const entry = SUBJECT_TOPICS_BY_NORM[normalizeKey(subject)];
+    const currentLevelForTopics = (els.selectLevel && els.selectLevel.value) || session.level || "";
+    const customTopics = getCustomTopicsForLevelSubject(currentLevelForTopics, subject);
     if (entry && Array.isArray(entry.topics) && entry.topics.length > 0) {
-      return ["Tous les sujets"].concat(entry.topics);
+      return ["Tous les sujets"].concat(Array.from(new Set(entry.topics.concat(customTopics))));
+    }
+    if (customTopics.length > 0) {
+      return ["Tous les sujets"].concat(customTopics);
     }
 
     // Fallback: si la matière n'est pas trouvée dans `sujets.js`,
@@ -1802,11 +2756,13 @@
 
   const LEVEL_ALIASES = {
     "a1-base sante": ["a1-base sante", "auxiliaire 1 annee"],
-    "a2-niveau moyen": ["a2-niveau moyen", "auxiliaire 2 annee", "auxi 2 annee"],
+    "a2-niveau moyen": ["a2-niveau moyen", "auxiliaire 2 annee", "auxi 2 annee", "auxi"],
+    "auxi": ["auxi", "a2-niveau moyen", "auxiliaire", "auxiliaire 2 annee", "auxi 2 annee"],
+    "inf/sag-m": ["inf/sag-m", "ide/sfm", "licence 3 ide", "licence 3 sfm", "licence 3 ide/sfm", "licence 3 inf/sag-m", "l3-niveau accompli inf", "l3-niveau accompli sf"],
     "l1-niveau emergent": ["l1-niveau emergent", "licence 1 ide/sfm", "licence 1 inf/sag-m"],
     "l2-niveau ascendant": ["l2-niveau ascendant", "licence 2 ide/sfm", "licence 2 inf/sag-m"],
-    "l3-niveau accompli inf": ["l3-niveau accompli inf", "licence 3 ide", "licence 3 ide/sfm", "licence 3 inf/sag-m"],
-    "l3-niveau accompli sf": ["l3-niveau accompli sf", "licence 3 sfm", "licence 3 ide/sfm", "licence 3 inf/sag-m"],
+    "l3-niveau accompli inf": ["l3-niveau accompli inf", "licence 3 ide", "licence 3 ide/sfm", "licence 3 inf/sag-m", "inf/sag-m"],
+    "l3-niveau accompli sf": ["l3-niveau accompli sf", "licence 3 sfm", "licence 3 ide/sfm", "licence 3 inf/sag-m", "inf/sag-m"],
   };
 
   function levelMatches(questionLevel, selectedLevel) {
@@ -1863,7 +2819,7 @@
 
   function updateDEStartInfo() {
     if (!els.selectDETrack || !els.selectDESubject || !els.selectDETopic) return;
-    bank = getQuestionBank();
+    adminDECatalogIndexCache = null; bank = getQuestionBank();
     const track = els.selectDETrack.value;
     const subject = els.selectDESubject.value;
     const topic = els.selectDETopic.value;
@@ -1980,7 +2936,7 @@
     return false;
   }
 
-  let bank = getQuestionBank();
+  let adminDECatalogIndexCache = null; bank = getQuestionBank();
   let settings = loadSettings();
 
   let session = {
@@ -1996,7 +2952,7 @@
   };
 
   function updateStartInfo() {
-    bank = getQuestionBank();
+    adminDECatalogIndexCache = null; bank = getQuestionBank();
     const levels = computeLevels();
     if (isFreeTrialUser() && !levels.includes(session.level)) {
       // Ne plus forcer l'utilisateur d'essai sur le sujet d'essai.
@@ -2086,10 +3042,9 @@ if (!levels.includes(session.level)) {
     );
     els.progressText.textContent = `Question ${pos}/${total} • Répondu: ${answeredCount}/${total}`;
 
-    // Mode QPQ : une question à la fois avec passage automatique.
-    // Mode QPQ désactivé : l'utilisateur avance manuellement avec le bouton Suivant.
+    // Bouton Suivant toujours visible à côté de Terminer pour passer les questions.
     if (els.btnNext) {
-      els.btnNext.classList.toggle("hidden", shouldAutoAdvance());
+      els.btnNext.classList.remove("hidden");
       els.btnNext.disabled = session.index >= total - 1;
       els.btnNext.title = session.index >= total - 1 ? "Dernière question" : "Passer à la question suivante";
     }
@@ -2126,7 +3081,7 @@ if (!levels.includes(session.level)) {
           else if (input.checked) item.classList.add("answer--wrong");
         }
         item.addEventListener("click", () => {
-          session.answersById[q.id] = { selectedBool: c.value };
+          saveAnswerForCurrentQuestion(q, { selectedBool: c.value });
           renderQuiz();
           if (shouldAutoAdvance()) advanceAfterAnswerSoon();
         });
@@ -2169,7 +3124,7 @@ if (!levels.includes(session.level)) {
           if (next.has(idx)) next.delete(idx);
           else next.add(idx);
           const nextSelected = Array.from(next).sort((a, b) => a - b);
-          session.answersById[q.id] = { selectedIndices: nextSelected };
+          saveAnswerForCurrentQuestion(q, { selectedIndices: nextSelected });
           renderQuiz();
           if (nextSelected.length >= requiredCount && shouldAutoAdvance()) {
             advanceAfterAnswerSoon();
@@ -2201,7 +3156,7 @@ if (!levels.includes(session.level)) {
         else if (input.checked) item.classList.add("answer--wrong");
       }
       item.addEventListener("click", () => {
-        session.answersById[q.id] = { selectedIndex: idx };
+        saveAnswerForCurrentQuestion(q, { selectedIndex: idx });
         renderQuiz();
         if (shouldAutoAdvance()) advanceAfterAnswerSoon();
       });
@@ -2273,8 +3228,9 @@ if (!levels.includes(session.level)) {
       const a = session.answersById[q.id];
       const questionMark = marksById.get(q.id) || 0;
       let markObtained = 0;
+      const answeredAfterCheat = session.cheatLockedAt && a?.answeredAt && a.answeredAt > session.cheatLockedAt;
 
-      if (isAnswered(q, a)) {
+      if (isAnswered(q, a) && !answeredAfterCheat) {
         answered++;
 
         if (isCorrect(q, a)) {
@@ -2290,13 +3246,22 @@ if (!levels.includes(session.level)) {
             markObtained = 0;
           }
         }
+      } else if (isAnswered(q, a) && answeredAfterCheat) {
+        // Réponse saisie après tentative : visible en correction, mais non comptée.
+        marksResultById[q.id] = {
+          questionMark,
+          obtained: 0,
+          ignoredForCheat: true
+        };
       }
 
       note20 += markObtained;
-      marksResultById[q.id] = {
-        questionMark,
-        obtained: markObtained
-      };
+      if (!marksResultById[q.id]) {
+        marksResultById[q.id] = {
+          questionMark,
+          obtained: markObtained
+        };
+      }
     }
 
     if (appSettings.autoPenalty && Array.isArray(session.cheatAttempts) && session.cheatAttempts.length) {
@@ -2316,7 +3281,8 @@ function renderResult() {
     const pct = total === 0 ? 0 : Math.round((correct / total) * 100);
     const note20 = formatNoteSur20(getNoteSur20(result));
     const cheatText = Array.isArray(session.cheatAttempts) && session.cheatAttempts.length
-      ? `\nTentative de tricherie détectée : ${session.cheatAttempts.length} avertissement(s). Dernier motif : ${session.cheatAttempts[session.cheatAttempts.length - 1].reason}. Heure : ${new Date(session.cheatAttempts[session.cheatAttempts.length - 1].at).toLocaleString()}. ${session.autoSubmittedForCheat ? 'Quiz soumis automatiquement.' : 'Quiz soumis.'}`
+      ? `
+Tentative de tricherie détectée : ${session.cheatAttempts.length} avertissement(s). Motif : ${session.cheatAttempts[0].reason}. Heure : ${new Date(session.cheatAttempts[0].at).toLocaleString()}. Les réponses données après cette tentative n’ont pas été prises en compte dans la note.`
       : '';
     els.scoreText.textContent = (appSettings.finalScore === false ? "Quiz soumis avec succès. La note finale est masquée par l’administrateur." : formatResultSummary(result)) + cheatText;
     const user = localStorage.getItem(STORAGE_KEYS.user);
@@ -2366,7 +3332,9 @@ els.reviewList.appendChild(head);
       const markInfo = result.marksById && result.marksById[q.id] ? result.marksById[q.id] : null;
       const tag3 = document.createElement("span");
       tag3.className = `tag ${markInfo && markInfo.obtained > 0 ? "tag--ok" : markInfo && markInfo.obtained < 0 ? "tag--bad" : ""}`;
-      tag3.textContent = `Note question: ${markInfo && markInfo.obtained > 0 ? "+" : ""}${formatNoteSur20(markInfo ? markInfo.obtained : 0)}/20`;
+      tag3.textContent = markInfo && markInfo.ignoredForCheat
+        ? 'Note question: 0/20 (non comptée après tentative)'
+        : `Note question: ${markInfo && markInfo.obtained > 0 ? "+" : ""}${formatNoteSur20(markInfo ? markInfo.obtained : 0)}/20`;
       meta.appendChild(tag3);
 
       const body = document.createElement("div");
@@ -2415,8 +3383,6 @@ els.reviewList.appendChild(head);
       }
     }
 
-    if (!(await ensureQuizPhotoAllowed())) return;
-
     alert(
       "Règles de score :\n\n" +
         "Bonne réponse : +1\n" +
@@ -2446,6 +3412,8 @@ els.reviewList.appendChild(head);
         cheatAttempts: [],
       };
 
+      if (!(await ensureQuizPhotoAllowed())) return;
+
       const user = localStorage.getItem(STORAGE_KEYS.user);
       logActivity(user, "start_quiz", { level: track, subject, topic, questionCount: picked.length });
 
@@ -2473,6 +3441,8 @@ els.reviewList.appendChild(head);
       abandoned: false,
       cheatAttempts: [],
     };
+
+    if (!(await ensureQuizPhotoAllowed())) return;
 
     const user = localStorage.getItem(STORAGE_KEYS.user);
     logActivity(user, "start_quiz", { level, subject, topic, questionCount: picked.length });
@@ -2734,6 +3704,18 @@ els.reviewList.appendChild(head);
     });
   }
 
+  const btnToggleUsername = document.getElementById('btnToggleUsername');
+  if (btnToggleUsername && els.inputUsername) {
+    btnToggleUsername.addEventListener('click', () => {
+      const visible = els.inputUsername.type === 'text';
+      els.inputUsername.type = visible ? 'password' : 'text';
+      btnToggleUsername.classList.toggle('is-open', !visible);
+      btnToggleUsername.textContent = visible ? '👁️‍🗨️' : '👁️';
+      btnToggleUsername.setAttribute('aria-label', visible ? 'Afficher le nom d’utilisateur' : 'Masquer le nom d’utilisateur');
+      els.inputUsername.focus();
+    });
+  }
+
   if (els.formCode) {
     els.formCode.addEventListener("submit", async (e) => {
       e.preventDefault();
@@ -2768,29 +3750,60 @@ els.reviewList.appendChild(head);
   // Le compte reste connecté sur le même appareil jusqu'au clic explicite sur "Se déconnecter".
 
 
-  document.addEventListener('copy', (event) => {
-    if (appSettings.antiCopyPaste && els.screenQuiz && !els.screenQuiz.classList.contains('hidden')) {
+  function isQuizVisible() {
+    return els.screenQuiz && !els.screenQuiz.classList.contains('hidden');
+  }
+
+  ['copy', 'cut', 'paste'].forEach((eventName) => {
+    document.addEventListener(eventName, (event) => {
+      if (appSettings.antiCopyPaste && isQuizVisible()) {
+        event.preventDefault();
+        recordCheatAttempt(eventName === 'paste' ? 'Collage interdit pendant le quiz' : 'Copie interdite pendant le quiz');
+      }
+    });
+  });
+
+  document.addEventListener('contextmenu', (event) => {
+    if (appSettings.antiCopyPaste && isQuizVisible()) event.preventDefault();
+  });
+
+  document.addEventListener('keydown', (event) => {
+    const key = String(event.key || '').toLowerCase();
+    const isCopyCombo = (event.ctrlKey || event.metaKey) && ['c', 'x', 'v', 'a', 's', 'p'].includes(key);
+    const isPrintScreen = key === 'printscreen' || key === 'printscrn';
+    if (appSettings.antiCopyPaste && isQuizVisible() && isCopyCombo) {
       event.preventDefault();
-      recordCheatAttempt('Copie interdite pendant le quiz');
+      recordCheatAttempt('Copie/collage interdit pendant le quiz');
+    }
+    if (appSettings.antiScreenshot && isQuizVisible() && isPrintScreen) {
+      event.preventDefault();
+      recordCheatAttempt('Capture d’écran interdite pendant le quiz');
     }
   });
-  document.addEventListener('paste', (event) => {
-    if (appSettings.antiCopyPaste && els.screenQuiz && !els.screenQuiz.classList.contains('hidden')) {
-      event.preventDefault();
-      recordCheatAttempt('Collage interdit pendant le quiz');
-    }
-  });
+
   document.addEventListener('visibilitychange', () => {
-    if (appSettings.antiTabChange && document.hidden && els.screenQuiz && !els.screenQuiz.classList.contains('hidden')) {
-      recordCheatAttempt('Changement d’onglet ou réduction de la page');
-    }
+    if (!document.hidden || !isQuizVisible()) return;
+    if (appSettings.antiTabChange) recordCheatAttempt('Changement d’onglet ou réduction de la page');
+    else if (appSettings.notifyCheat) recordCheatAttempt('Appel ou notification reçu pendant le quiz');
+  });
+
+  window.addEventListener('pagehide', () => {
+    if (!isQuizVisible()) return;
+    if (appSettings.antiTabChange) recordCheatAttempt('Changement d’onglet, réduction ou sortie de la page');
+  });
+
+  window.addEventListener('blur', () => {
+    if (!isQuizVisible() || !appSettings.notifyCheat) return;
+    // Le navigateur ne donne pas accès directement aux appels/notifications.
+    // On assimile seulement une vraie perte de focus après le début du quiz à ce motif.
+    recordCheatAttempt('Appel, notification ou perte de focus pendant le quiz');
   });
 
   // init
   (async () => {
     await loadAppSettingsFromServer();
     settings = loadSettings();
-    bank = getQuestionBank();
+    adminDECatalogIndexCache = null; bank = getQuestionBank();
     if (await isAccessGranted()) {
       const user = localStorage.getItem(STORAGE_KEYS.user);
       await grantAccess(user);

@@ -1024,9 +1024,36 @@
     return "";
   }
 
+  function mapLevelToDE(level) {
+    const raw = safeText(level).trim();
+    const n = normalizeKey(raw);
+
+    // Les comptes L3 / anciens libellés IDE-SFM sont affichés et modifiés
+    // dans l'administration sous le niveau unique INF/SAG-M.
+    if (
+      n.includes("inf/sag-m") ||
+      n.includes("ide/sfm") ||
+      n.includes("licence 3") ||
+      n.includes("l3-niveau accompli")
+    ) {
+      return "INF/SAG-M";
+    }
+
+    // Les comptes A2 / anciens libellés Auxiliaire sont affichés et modifiés
+    // dans l'administration sous le niveau unique AUXI.
+    if (
+      n.includes("auxi") ||
+      n.includes("auxiliaire") ||
+      n.includes("a2-niveau moyen")
+    ) {
+      return "AUXI";
+    }
+
+    return "";
+  }
+
   function isAllowedLevel(level) {
-    const n = normalizeKey(level);
-    return n.includes("inf/sag-m") || n.includes("ide/sfm") || n.includes("auxi") || n.includes("auxiliaire");
+    return Boolean(mapLevelToDE(level));
   }
 
   function isAllowedTopic(topic) {
@@ -1046,8 +1073,9 @@
     })
     .map((q) => {
       const mappedSubject = mapSubjectToDE(q.subject);
-      if (!mappedSubject) return null;
-      return { ...q, subject: mappedSubject };
+      const mappedLevel = mapLevelToDE(q.level);
+      if (!mappedSubject || !mappedLevel) return null;
+      return { ...q, level: mappedLevel, subject: mappedSubject };
     })
     .filter(Boolean);
 })();
