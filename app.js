@@ -1098,8 +1098,35 @@
       const box = document.getElementById('adminUsersList');
       if (!box) return;
       const q = filter.toLowerCase();
-      const rows = dynamicUsers.filter(u => !q || String(u.username).toLowerCase().includes(q) || String(u.full_name || '').toLowerCase().includes(q));
-      box.innerHTML = rows.length ? rows.map(u => `<div class="admin-log-item admin-session-row"><div><strong>${escapeHtml(u.username)}</strong><br><small>${escapeHtml(u.full_name || '')} • ${(u.levels || []).map(escapeHtml).join(', ')} • ${u.suspended ? 'Suspendu' : 'Actif'}</small></div><div class="row"><button class="btn btnUserAction" data-action="${u.suspended ? 'reactivate' : 'suspend'}" data-user="${escapeHtml(u.username)}" type="button">${u.suspended ? 'Réactiver' : 'Suspendre'}</button><button class="btn btnUserRename" data-user="${escapeHtml(u.username)}" type="button">Modifier nom</button><button class="btn btn--danger btnUserAction" data-action="delete" data-user="${escapeHtml(u.username)}" type="button">Supprimer</button></div></div>`).join('') : "<p class='muted'>Aucun utilisateur créé depuis le site.</p>";
+      const rows = dynamicUsers.filter(u => !q || String(u.username).toLowerCase().includes(q) || String(u.full_name || '').toLowerCase().includes(q) || String(u.phone || '').toLowerCase().includes(q));
+      box.innerHTML = rows.length ? rows.map(u => {
+        const statusClass = u.suspended ? 'user-status--suspended' : 'user-status--active';
+        return `<div class="admin-log-item admin-session-row">
+          <div class="user-search-info">
+            <strong>${escapeHtml(u.username)}</strong><br>
+            <small>Nom : ${escapeHtml(u.last_name || '')} • Prénom : ${escapeHtml(u.first_name || '')} • Tél : ${escapeHtml(u.phone || '')}</small><br>
+            <small>Niveau(x) : ${(u.levels || []).map(escapeHtml).join(', ') || 'Aucun'} • <span class="${statusClass}">${u.suspended ? 'Suspendu' : 'Actif'}</span></small>
+          </div>
+          <div class="row">
+            <button class="btn btnUserAction" data-action="${u.suspended ? 'reactivate' : 'suspend'}" data-user="${escapeHtml(u.username)}" type="button">${u.suspended ? 'Réactiver' : 'Suspendre'}</button>
+            <button class="btn btnUserEdit" data-user="${escapeHtml(u.username)}" type="button">Modifier nom</button>
+            <button class="btn btn--danger btnUserAction" data-action="delete" data-user="${escapeHtml(u.username)}" type="button">Supprimer</button>
+          </div>
+        </div>`;
+      }).join('') : "<p class='muted'>Aucun utilisateur créé depuis le site.</p>";
+    }
+
+    function chooseEditedLevels(currentLevels = []) {
+      const message = allLevels.map((level, index) => `${index + 1}. ${level}`).join('\n');
+      const current = (currentLevels || []).join(', ');
+      const answer = prompt(`Choisir le(s) niveau(x) par numéro, séparés par des virgules :\n${message}`, current);
+      if (answer === null) return null;
+      const selected = answer.split(',').map(v => v.trim()).filter(Boolean).map(v => {
+        const n = Number(v);
+        if (Number.isInteger(n) && n >= 1 && n <= allLevels.length) return allLevels[n - 1];
+        return allLevels.find(level => normalizeKey(level) === normalizeKey(v)) || v;
+      }).filter(Boolean);
+      return Array.from(new Set(selected));
     }
     renderUsers();
 
@@ -1194,8 +1221,34 @@
       try { await apiPost('/api/admin/force-logout', currentAuthPayload({ targetUser })); await renderAdminLogs({ silent: true }); } catch(e) { alert(e.data?.error || e.message); }
     }));
     document.getElementById('btnDisconnectAll')?.addEventListener('click', async () => { if (!confirm('Déconnecter tous les autres appareils ?')) return; try { const r = await apiPost('/api/admin/disconnect-all', currentAuthPayload()); alert(`${r.disconnected} session(s) déconnectée(s).`); await renderAdminLogs({ silent: true }); } catch(e) { alert(e.data?.error || e.message); } });
-    els.adminLogs.querySelectorAll('.btnUserAction').forEach(btn => btn.addEventListener('click', async () => { if (btn.dataset.action === 'delete' && !confirm(`Supprimer ${btn.dataset.user} ?`)) return; try { await apiPost('/api/admin/update-user', currentAuthPayload({ targetUser: btn.dataset.user, action: btn.dataset.action })); await renderAdminLogs({ silent: true }); } catch(e) { alert(e.data?.error || e.message); } }));
-    els.adminLogs.querySelectorAll('.btnUserRename').forEach(btn => btn.addEventListener('click', async () => { const newUsername = prompt('Nouveau nom d’utilisateur :', btn.dataset.user); if (!newUsername) return; try { await apiPost('/api/admin/update-user', currentAuthPayload({ targetUser: btn.dataset.user, action: 'rename', newUsername })); await renderAdminLogs({ silent: true }); } catch(e) { alert(e.data?.error || e.message); } }));
+    els.adminLogs.querySelectorAll('.btnUserAction').forEach(btn => btn.addEventListener('click', async () => {
+      const action = btn.dataset.action;
+      const targetUser = btn.dataset.user;
+      if (action === 'delete' && !confirm(`Supprimer définitivement le compte ${targetUser} ?`)) return;
+      if (action === 'suspend' && !confirm(`Suspendre le compte ${targetUser} jusqu'à sa réactivation ?`)) return;
+      try {
+        await apiPost('/api/admin/update-user', currentAuthPayload({ targetUser, action }));
+        await renderAdminLogs({ silent: true });
+      } catch(e) { alert(e.data?.error || e.message); }
+    }));
+    els.adminLogs.querySelectorAll('.btnUserEdit').forEach(btn => btn.addEventListener('click', async () => {
+      const user = dynamicUsers.find(u => u.username === btn.dataset.user);
+      if (!user) return alert('Utilisateur introuvable.');
+      const lastName = prompt('Premier nom / Nom :', user.last_name || '');
+      if (lastName === null) return;
+      const firstName = prompt('Deuxième nom / Prénom :', user.first_name || '');
+      if (firstName === null) return;
+      const phone = prompt('Numéro de téléphone :', user.phone || '');
+      if (phone === null) return;
+      const levels = chooseEditedLevels(user.levels || []);
+      if (levels === null) return;
+      if (!levels.length) return alert('Veuillez choisir au moins un niveau.');
+      try {
+        const r = await apiPost('/api/admin/update-user', currentAuthPayload({ targetUser: user.username, action: 'editProfile', lastName, firstName, phone, levels }));
+        if (r.username) alert(`Compte modifié. Nouvel identifiant : ${r.username}`);
+        await renderAdminLogs({ silent: true });
+      } catch(e) { alert(e.data?.error || e.message); }
+    }));
     document.getElementById('btnClearCache')?.addEventListener('click', () => { localStorage.removeItem(STORAGE_KEYS.last); localStorage.removeItem(STORAGE_KEYS.lastResult); alert('Cache local vidé.'); });
     const cheatDetectionBox = els.adminLogs.querySelector('[data-setting="cheatDetection"]');
     const cheatOptionsPanel = document.getElementById('cheatOptionsPanel');

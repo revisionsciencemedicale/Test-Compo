@@ -682,13 +682,60 @@ const server = http.createServer(async (req, res) => {
     return withDb(res, async (client) => {
       if (!(await assertAdmin(client, adminUsername, sessionToken, admins))) return sendJson(res, 403, { ok: false, error: 'Accès administrateur refusé.' });
       if (!targetUser) return sendJson(res, 400, { ok: false, error: 'Utilisateur cible manquant.' });
-      if (body.action === 'suspend') await client.query('UPDATE app_users SET suspended=TRUE, updated_at=$2 WHERE username=$1', [targetUser, now()]);
-      else if (body.action === 'reactivate') await client.query('UPDATE app_users SET suspended=FALSE, updated_at=$2 WHERE username=$1', [targetUser, now()]);
-      else if (body.action === 'delete') { await client.query('UPDATE app_users SET deleted=TRUE, updated_at=$2 WHERE username=$1', [targetUser, now()]); await client.query('DELETE FROM active_sessions WHERE username=$1', [targetUser]); }
-      else if (body.action === 'rename') { const newUsername = String(body.newUsername || '').trim(); if (!newUsername) return sendJson(res,400,{ok:false,error:'Nouveau nom manquant.'}); await client.query('UPDATE app_users SET username=$2, updated_at=$3 WHERE username=$1', [targetUser, newUsername, now()]); await client.query('UPDATE active_sessions SET username=$2 WHERE username=$1', [targetUser, newUsername]); }
+      let responseUsername = targetUser;
+      if (body.action === 'suspend') {
+        const ts = now();
+        await client.query('UPDATE app_users SET suspended=TRUE, updated_at=$2 WHERE username=$1 AND deleted=FALSE', [targetUser, ts]);
+        await client.query('DELETE FROM active_sessions WHERE username=$1', [targetUser]);
+        await client.query(
+          `INSERT INTO force_logout_requests(username, requested_at, requested_by, reason)
+           VALUES($1,$2,$3,'admin_suspend_user')
+           ON CONFLICT(username) DO UPDATE SET requested_at=EXCLUDED.requested_at, requested_by=EXCLUDED.requested_by, reason=EXCLUDED.reason`,
+          [targetUser, ts, adminUsername]
+        );
+      }
+      else if (body.action === 'reactivate') {
+        await client.query('UPDATE app_users SET suspended=FALSE, updated_at=$2 WHERE username=$1 AND deleted=FALSE', [targetUser, now()]);
+        await client.query('DELETE FROM force_logout_requests WHERE username=$1 AND reason=$2', [targetUser, 'admin_suspend_user']);
+      }
+      else if (body.action === 'delete') {
+        await client.query('UPDATE app_users SET deleted=TRUE, suspended=TRUE, updated_at=$2 WHERE username=$1', [targetUser, now()]);
+        await client.query('DELETE FROM active_sessions WHERE username=$1', [targetUser]);
+      }
+      else if (body.action === 'rename') {
+        const newUsername = String(body.newUsername || '').trim();
+        if (!newUsername) return sendJson(res,400,{ok:false,error:'Nouveau nom manquant.'});
+        if ((await client.query('SELECT 1 FROM app_users WHERE username=$1 AND username<>$2 AND deleted=FALSE', [newUsername, targetUser])).rowCount || staticUsers[newUsername]) {
+          return sendJson(res, 409, { ok: false, error: 'Cet identifiant existe déjà.' });
+        }
+        await client.query('UPDATE app_users SET username=$2, updated_at=$3 WHERE username=$1', [targetUser, newUsername, now()]);
+        await client.query('UPDATE active_sessions SET username=$2 WHERE username=$1', [targetUser, newUsername]);
+        responseUsername = newUsername;
+      }
+      else if (body.action === 'editProfile') {
+        const levels = normalizeAccountLevels(Array.isArray(body.levels) ? body.levels.filter(Boolean) : []);
+        if (!levels.length) return sendJson(res, 400, { ok: false, error: 'Veuillez choisir au moins un niveau valide.' });
+        const lastName = String(body.lastName || '').trim();
+        const firstName = String(body.firstName || '').trim();
+        const phone = String(body.phone || '').trim();
+        const generated = generateUsername({ lastName, firstName, levels, phone });
+        let newUsername = generated;
+        let i = 1;
+        while ((await client.query('SELECT 1 FROM app_users WHERE username=$1 AND username<>$2 AND deleted=FALSE', [newUsername, targetUser])).rowCount || (staticUsers[newUsername] && newUsername !== targetUser)) {
+          newUsername = `${generated}${i++}`;
+        }
+        await client.query(
+          `UPDATE app_users
+           SET username=$2, full_name=$3, first_name=$4, last_name=$5, phone=$6, levels=$7::jsonb, updated_at=$8
+           WHERE username=$1 AND deleted=FALSE`,
+          [targetUser, newUsername, `${lastName} ${firstName}`.trim(), firstName, lastName, phone, JSON.stringify(levels), now()]
+        );
+        await client.query('UPDATE active_sessions SET username=$2 WHERE username=$1', [targetUser, newUsername]);
+        responseUsername = newUsername;
+      }
       else return sendJson(res, 400, { ok: false, error: 'Action inconnue.' });
-      await addLog(client, { user: targetUser, action: `admin_${body.action}_user`, details: { by: adminUsername } });
-      return sendJson(res, 200, { ok: true });
+      await addLog(client, { user: responseUsername, action: `admin_${body.action}_user`, details: { by: adminUsername, previousUsername: targetUser } });
+      return sendJson(res, 200, { ok: true, username: responseUsername });
     });
   }
 
