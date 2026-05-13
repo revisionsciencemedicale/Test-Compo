@@ -1470,7 +1470,21 @@
       if (value && options.includes(value)) select.value = value;
     }
 
-    function renderCatalogAdmin(selectedLevel, selectedSubject) {
+    function getAdminCatalogTopicsForLevelSubject(level, subject) {
+      if (!level || !subject || subject === 'Aucune matière') return [];
+
+      const customTopics = ((((adminCatalogDraft.topicsByLevelSubject || {})[level] || {})[subject]) || []);
+      const baseTopics = isAdminDECatalogLevel(level)
+        ? getDECatalogTopicsForLevelSubject(level, subject)
+        // Important : dans l'administration, on doit utiliser le niveau choisi dans
+        // « Ajouter de nouvelles matières et de nouveaux sujets », pas le niveau
+        // actuellement sélectionné dans la partie « Commencer un quiz ».
+        : computeTopicsForLevelSubject(level, subject).filter(t => t !== 'Tous les sujets');
+
+      return sortTopicsList(Array.from(new Set([...customTopics, ...baseTopics])));
+    }
+
+    function renderCatalogAdmin(selectedLevel, selectedSubject, selectedTopic) {
       adminCatalogDraft = normalizeCustomCatalog(adminCatalogDraft);
       const levels = adminCatalogDraft.levels.length ? adminCatalogDraft.levels : ALL_LEVELS.slice();
       const level = selectedLevel && levels.includes(selectedLevel) ? selectedLevel : levels[0];
@@ -1480,10 +1494,9 @@
       setSelectOptionsSimple(document.getElementById('adminCatalogSubjectList'), subjects.length ? subjects : ['Aucune matière'], subject);
       setSelectOptionsSimple(document.getElementById('adminCatalogSubjectRemove'), subjects.length ? subjects : ['Aucune matière'], subject);
       setSelectOptionsSimple(document.getElementById('adminCatalogTopicSubject'), subjects.length ? subjects : ['Aucune matière'], subject);
-      const topics = isAdminDECatalogLevel(level)
-        ? ((((adminCatalogDraft.topicsByLevelSubject || {})[level] || {})[subject]) || [])
-        : ((((adminCatalogDraft.topicsByLevelSubject || {})[level] || {})[subject]) || computeTopicsForSubject(subject).filter(t => t !== 'Tous les sujets'));
-      setSelectOptionsSimple(document.getElementById('adminCatalogTopic'), topics.length ? topics : ['Aucun sujet'], topics[0]);
+      const topics = getAdminCatalogTopicsForLevelSubject(level, subject);
+      const topicValue = selectedTopic && topics.includes(selectedTopic) ? selectedTopic : topics[0];
+      setSelectOptionsSimple(document.getElementById('adminCatalogTopic'), topics.length ? topics : ['Aucun sujet'], topicValue);
     }
 
     async function saveCatalogDraft() {
@@ -1541,10 +1554,15 @@
       levelSelect?.addEventListener('change', () => { renderCatalogAdmin(levelSelect.value); invalidateImportContext(); });
       subjectList?.addEventListener('change', () => { renderCatalogAdmin(levelSelect?.value, subjectList.value); invalidateImportContext(); });
       topicSubject?.addEventListener('change', () => { renderCatalogAdmin(levelSelect?.value, topicSubject.value); invalidateImportContext(); });
+      document.getElementById('adminCatalogTopic')?.addEventListener('change', () => { invalidateImportContext(); });
       els.adminLogs.querySelectorAll('.catalogMatterModeBtn').forEach(btn => btn.addEventListener('click', (event) => { event.stopPropagation();
         els.adminLogs.querySelectorAll('.catalogMatterModeBtn').forEach(b => b.classList.remove('btn--primary'));
         btn.classList.add('btn--primary');
         const mode = btn.dataset.catalogMode;
+        if (mode === 'topic') {
+          const currentSubject = document.getElementById('adminCatalogTopicSubject')?.value || document.getElementById('adminCatalogSubjectList')?.value;
+          renderCatalogAdmin(levelSelect?.value, currentSubject);
+        }
         els.adminLogs.querySelectorAll('.catalogModePanel').forEach(panel => panel.classList.toggle('hidden', panel.dataset.catalogPanel !== mode));
       }));
       document.getElementById('btnAddCatalogLevel')?.addEventListener('click', () => {
