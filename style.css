@@ -314,36 +314,28 @@ textarea.input{min-height:130px;resize:vertical}
   margin-top: 10px;
 }
 .created-username-box {
-  min-width: 320px;
-  max-width: 100%;
-  overflow-x: auto;
+  min-width: 240px;
 }
 .mini-table {
   border-collapse: collapse;
   width: 100%;
-  background: #ffffff;
-  color: #111827;
+  background: #fff;
   border-radius: 10px;
   overflow: hidden;
-  box-shadow: 0 1px 8px rgba(0,0,0,.16);
+  box-shadow: 0 1px 6px rgba(0,0,0,.08);
 }
 .mini-table th,
 .mini-table td {
-  border: 1px solid rgba(0,0,0,.16);
-  padding: 10px 12px;
+  border: 1px solid rgba(0,0,0,.08);
+  padding: 8px 10px;
   text-align: left;
-  color: #111827;
-  background: #ffffff;
-  white-space: nowrap;
 }
 .mini-table th {
-  font-size: .9rem;
-  font-weight: 800;
-  background: #f3f4f6;
+  font-size: .85rem;
 }
-.mini-table strong {
-  color: #000000;
-  font-size: 1.05rem;
+.mini-table, .mini-table th, .mini-table td, .mini-table strong {
+  color: #000 !important;
+  background: #fff !important;
 }
 
 

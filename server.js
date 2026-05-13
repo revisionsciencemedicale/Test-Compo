@@ -96,7 +96,7 @@ async function getAllUsers(client, staticUsers) {
   const result = await client.query('SELECT * FROM app_users ORDER BY username ASC');
   const users = { ...staticUsers };
   for (const row of result.rows) {
-    if (!row.deleted) users[row.username] = { levels: normalizeAccountLevels(row.levels || []), suspended: row.suspended, dynamic: true, fullName: row.full_name || '' };
+    if (!row.deleted) users[row.username] = { levels: normalizeAccountLevels(row.levels || []), suspended: row.suspended, dynamic: true, fullName: row.full_name || '', firstName: row.first_name || '', lastName: row.last_name || '', phone: row.phone || '' };
   }
   return users;
 }
@@ -319,10 +319,13 @@ function serveStatic(req, res) {
   }
   fs.stat(filePath, (err, stat) => {
     if (err || !stat.isFile()) { res.writeHead(404); res.end('Not found'); return; }
-    const isStaticAsset = /\.(png|jpg|jpeg|webp|svg|css)$/i.test(filePath);
+    // Après chaque déploiement Render, on force le navigateur à reprendre les fichiers mis à jour.
+    // Cela évite que l'ancien app.js/style.css reste en cache et donne l'impression que les corrections ne sont pas appliquées.
     res.writeHead(200, securityHeaders({
       'Content-Type': getMime(filePath),
-      'Cache-Control': isStaticAsset ? 'public, max-age=86400' : 'no-cache',
+      'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
+      'Pragma': 'no-cache',
+      'Expires': '0',
     }));
     fs.createReadStream(filePath).pipe(res);
   });
@@ -608,7 +611,7 @@ const server = http.createServer(async (req, res) => {
     const body = await readJsonBody(req);
     const adminUsername = String(body.username || '').trim();
     const sessionToken = String(body.sessionToken || '').trim();
-    let targetUser = String(body.targetUser || '').trim();
+    const targetUser = String(body.targetUser || '').trim();
     return withDb(res, async (client) => {
       const sessionResult = await client.query('SELECT * FROM active_sessions WHERE username=$1 AND session_token=$2', [adminUsername, sessionToken]);
       if (!admins.includes(adminUsername) || !sessionResult.rowCount) {
@@ -682,51 +685,78 @@ const server = http.createServer(async (req, res) => {
     return withDb(res, async (client) => {
       if (!(await assertAdmin(client, adminUsername, sessionToken, admins))) return sendJson(res, 403, { ok: false, error: 'Accès administrateur refusé.' });
       if (!targetUser) return sendJson(res, 400, { ok: false, error: 'Utilisateur cible manquant.' });
-      const existing = await client.query('SELECT * FROM app_users WHERE username=$1 AND deleted=FALSE', [targetUser]);
-      if (!existing.rowCount) return sendJson(res, 404, { ok: false, error: 'Utilisateur introuvable ou déjà supprimé.' });
 
       if (body.action === 'suspend') {
-        await client.query('UPDATE app_users SET suspended=TRUE, updated_at=$2 WHERE username=$1', [targetUser, now()]);
-        await client.query('DELETE FROM active_sessions WHERE username=$1', [targetUser]);
-        await client.query(`INSERT INTO force_logout_requests(username, requested_at, requested_by, reason)
-          VALUES($1,$2,$3,'account_suspended')
-          ON CONFLICT(username) DO UPDATE SET requested_at=EXCLUDED.requested_at, requested_by=EXCLUDED.requested_by, reason=EXCLUDED.reason`, [targetUser, now(), adminUsername]);
-      }
-      else if (body.action === 'reactivate') {
-        await client.query('UPDATE app_users SET suspended=FALSE, updated_at=$2 WHERE username=$1', [targetUser, now()]);
-        await client.query('DELETE FROM force_logout_requests WHERE username=$1 AND reason=$2', [targetUser, 'account_suspended']);
-      }
-      else if (body.action === 'delete') {
-        await client.query('UPDATE app_users SET deleted=TRUE, suspended=TRUE, updated_at=$2 WHERE username=$1', [targetUser, now()]);
-        await client.query('DELETE FROM active_sessions WHERE username=$1', [targetUser]);
-        await client.query(`INSERT INTO force_logout_requests(username, requested_at, requested_by, reason)
-          VALUES($1,$2,$3,'account_deleted')
-          ON CONFLICT(username) DO UPDATE SET requested_at=EXCLUDED.requested_at, requested_by=EXCLUDED.requested_by, reason=EXCLUDED.reason`, [targetUser, now(), adminUsername]);
-      }
-      else if (body.action === 'editProfile') {
-        const lastName = String(body.lastName || '').trim();
-        const firstName = String(body.firstName || '').trim();
-        const phone = String(body.phone || '').trim();
-        const levels = normalizeAccountLevels(Array.isArray(body.levels) ? body.levels.filter(Boolean) : []);
-        if (!lastName || !firstName) return sendJson(res, 400, { ok: false, error: 'Nom et prénom obligatoires.' });
-        if (!levels.length) return sendJson(res, 400, { ok: false, error: 'Veuillez choisir au moins un niveau valide.' });
-        const generated = generateUsername({ lastName, firstName, levels, phone });
-        let newUsername = generated;
-        let i = 1;
-        while ((await client.query('SELECT 1 FROM app_users WHERE username=$1 AND username<>$2 AND deleted=FALSE', [newUsername, targetUser])).rowCount || (staticUsers[newUsername] && newUsername !== targetUser)) {
-          newUsername = `${generated}${i++}`;
+        const ts = now();
+        const updateResult = await client.query('UPDATE app_users SET suspended=TRUE, updated_at=$2 WHERE username=$1 AND deleted=FALSE RETURNING *', [targetUser, ts]);
+        if (!updateResult.rowCount) return sendJson(res, 404, { ok: false, error: 'Compte introuvable ou déjà supprimé.' });
+        const sessionsToRevoke = await client.query('SELECT session_token FROM active_sessions WHERE username=$1', [targetUser]);
+        for (const row of sessionsToRevoke.rows) {
+          await client.query(
+            `INSERT INTO revoked_sessions(username, session_token, revoked_at, revoked_by, reason)
+             VALUES($1,$2,$3,$4,'admin_suspend_user')
+             ON CONFLICT(username, session_token) DO UPDATE SET revoked_at=EXCLUDED.revoked_at, revoked_by=EXCLUDED.revoked_by, reason=EXCLUDED.reason`,
+            [targetUser, row.session_token, ts, adminUsername]
+          );
         }
-        await client.query(`UPDATE app_users
-          SET username=$2, full_name=$3, first_name=$4, last_name=$5, phone=$6, levels=$7::jsonb, updated_at=$8
-          WHERE username=$1`, [targetUser, newUsername, `${lastName} ${firstName}`.trim(), firstName, lastName, phone, JSON.stringify(levels), now()]);
-        await client.query('UPDATE active_sessions SET username=$2 WHERE username=$1', [targetUser, newUsername]);
-        await client.query('UPDATE login_logs SET username=$2 WHERE username=$1', [targetUser, newUsername]);
-        await client.query('UPDATE force_logout_requests SET username=$2 WHERE username=$1', [targetUser, newUsername]);
-        targetUser = newUsername;
+        await client.query(
+          `INSERT INTO force_logout_requests(username, requested_at, requested_by, reason)
+           VALUES($1,$2,$3,'admin_suspend_user')
+           ON CONFLICT(username) DO UPDATE SET requested_at=EXCLUDED.requested_at, requested_by=EXCLUDED.requested_by, reason=EXCLUDED.reason`,
+          [targetUser, ts, adminUsername]
+        );
+        await client.query('DELETE FROM active_sessions WHERE username=$1', [targetUser]);
+        await addLog(client, { user: targetUser, action: 'admin_suspend_user', details: { by: adminUsername } });
+        return sendJson(res, 200, { ok: true, action: 'suspend', targetUser, suspended: true });
       }
-      else return sendJson(res, 400, { ok: false, error: 'Action inconnue.' });
-      await addLog(client, { user: targetUser, action: `admin_${body.action}_user`, details: { by: adminUsername } });
-      return sendJson(res, 200, { ok: true, username: targetUser });
+
+      if (body.action === 'reactivate') {
+        const updateResult = await client.query('UPDATE app_users SET suspended=FALSE, updated_at=$2 WHERE username=$1 AND deleted=FALSE RETURNING *', [targetUser, now()]);
+        if (!updateResult.rowCount) return sendJson(res, 404, { ok: false, error: 'Compte introuvable ou déjà supprimé.' });
+        await client.query('DELETE FROM force_logout_requests WHERE username=$1', [targetUser]);
+        await client.query('DELETE FROM revoked_sessions WHERE username=$1', [targetUser]);
+        await addLog(client, { user: targetUser, action: 'admin_reactivate_user', details: { by: adminUsername } });
+        return sendJson(res, 200, { ok: true, action: 'reactivate', targetUser, suspended: false });
+      }
+
+      if (body.action === 'delete') {
+        const updateResult = await client.query('UPDATE app_users SET deleted=TRUE, updated_at=$2 WHERE username=$1 RETURNING *', [targetUser, now()]);
+        if (!updateResult.rowCount) return sendJson(res, 404, { ok: false, error: 'Compte introuvable.' });
+        await client.query('DELETE FROM active_sessions WHERE username=$1', [targetUser]);
+        await client.query('DELETE FROM force_logout_requests WHERE username=$1', [targetUser]);
+        await client.query('DELETE FROM revoked_sessions WHERE username=$1', [targetUser]);
+        await addLog(client, { user: targetUser, action: 'admin_delete_user', details: { by: adminUsername } });
+        return sendJson(res, 200, { ok: true, action: 'delete', targetUser, deleted: true });
+      }
+
+      if (body.action === 'editProfile') {
+        const levels = normalizeAccountLevels(Array.isArray(body.levels) ? body.levels.filter(Boolean) : []);
+        if (!levels.length) return sendJson(res, 400, { ok: false, error: 'Veuillez sélectionner au moins un niveau valide.' });
+        const firstName = String(body.firstName || '').trim();
+        const lastName = String(body.lastName || '').trim();
+        const phone = String(body.phone || '').trim();
+        if (!firstName || !lastName || !phone) return sendJson(res, 400, { ok: false, error: 'Premier nom, deuxième nom et numéro sont obligatoires.' });
+        const baseUsername = generateUsername({ lastName, firstName, levels, phone });
+        let newUsername = baseUsername;
+        let i = 1;
+        while ((await client.query('SELECT 1 FROM app_users WHERE username=$1 AND username<>$2 AND deleted=FALSE', [newUsername, targetUser])).rowCount || (staticUsers[newUsername] && newUsername !== targetUser)) newUsername = `${baseUsername}${i++}`;
+        const fullName = `${lastName} ${firstName}`.trim();
+        const updateResult = await client.query(
+          `UPDATE app_users
+           SET username=$2, full_name=$3, first_name=$4, last_name=$5, phone=$6, levels=$7::jsonb, updated_at=$8
+           WHERE username=$1 AND deleted=FALSE
+           RETURNING username, full_name, first_name, last_name, phone, levels, suspended`,
+          [targetUser, newUsername, fullName, firstName, lastName, phone, JSON.stringify(levels), now()]
+        );
+        if (!updateResult.rowCount) return sendJson(res, 404, { ok: false, error: 'Compte introuvable ou déjà supprimé.' });
+        await client.query('UPDATE active_sessions SET username=$2 WHERE username=$1', [targetUser, newUsername]);
+        await client.query('UPDATE force_logout_requests SET username=$2 WHERE username=$1', [targetUser, newUsername]);
+        await client.query('UPDATE revoked_sessions SET username=$2 WHERE username=$1', [targetUser, newUsername]);
+        await addLog(client, { user: newUsername, action: 'admin_edit_user', details: { by: adminUsername, oldUsername: targetUser, levels } });
+        return sendJson(res, 200, { ok: true, action: 'editProfile', oldUsername: targetUser, username: newUsername, levels, user: updateResult.rows[0] });
+      }
+
+      return sendJson(res, 400, { ok: false, error: 'Action inconnue.' });
     });
   }
 
