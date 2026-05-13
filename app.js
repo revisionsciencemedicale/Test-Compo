@@ -1149,6 +1149,43 @@
       renderUsers(currentUserSearchFilter());
     }
 
+    function chooseUserLevelsWithCheckboxes(currentLevels = []) {
+      return new Promise((resolve) => {
+        const previous = document.getElementById('editUserLevelsOverlay');
+        if (previous) previous.remove();
+        const selected = new Set((Array.isArray(currentLevels) ? currentLevels : []).map(String));
+        const overlay = document.createElement('div');
+        overlay.id = 'editUserLevelsOverlay';
+        overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:99999;display:flex;align-items:center;justify-content:center;padding:16px;';
+        overlay.innerHTML = `
+          <div style="background:#fff;color:#111;width:min(520px,96vw);max-height:86vh;overflow:auto;border-radius:16px;box-shadow:0 18px 50px rgba(0,0,0,.25);padding:18px;">
+            <h3 style="margin:0 0 8px;color:#111;">Choisir le niveau de l'utilisateur</h3>
+            <p style="margin:0 0 12px;color:#555;font-size:13px;">Coche un ou plusieurs niveaux, puis clique sur Valider.</p>
+            <div class="checkbox-grid" id="editUserLevelsList" style="display:grid;gap:8px;margin:12px 0;">
+              ${allLevels.map(level => `
+                <label style="display:flex;align-items:center;gap:8px;color:#111;background:#f8fafc;border:1px solid #e5e7eb;border-radius:10px;padding:8px;cursor:pointer;">
+                  <input type="checkbox" value="${escapeHtml(level)}" ${selected.has(level) ? 'checked' : ''}>
+                  <span>${escapeHtml(level)}</span>
+                </label>
+              `).join('')}
+            </div>
+            <div class="row" style="display:flex;gap:10px;justify-content:flex-end;margin-top:14px;">
+              <button class="btn" id="btnCancelEditUserLevels" type="button">Annuler</button>
+              <button class="btn btn--primary" id="btnValidateEditUserLevels" type="button">Valider</button>
+            </div>
+          </div>`;
+        document.body.appendChild(overlay);
+        const close = (value) => { overlay.remove(); resolve(value); };
+        overlay.querySelector('#btnCancelEditUserLevels')?.addEventListener('click', () => close(null));
+        overlay.addEventListener('click', (event) => { if (event.target === overlay) close(null); });
+        overlay.querySelector('#btnValidateEditUserLevels')?.addEventListener('click', () => {
+          const levels = [...overlay.querySelectorAll('#editUserLevelsList input:checked')].map(i => i.value);
+          if (!levels.length) { alert('Choisis au moins un niveau.'); return; }
+          close(levels);
+        });
+      });
+    }
+
     function collapseAdminPanels() {
       // On garde la page du bouton principal ouverte, mais on masque les contenus des sous-boutons.
       els.adminLogs.querySelectorAll('.adminSubPanel, .adminQuizSubPanel, .adminTrialSubPanel, .adminTechSubPanel, .catalogModePanel').forEach(p => p.classList.add('hidden'));
@@ -1279,9 +1316,8 @@
         if (firstName === null) return;
         const phone = prompt('Numéro de téléphone :', editBtn.dataset.phone || '');
         if (phone === null) return;
-        const selected = prompt('Niveau(x) autorisé(s) — sépare plusieurs niveaux par une virgule :', currentLevels.join(', '));
-        if (selected === null) return;
-        const levels = selected.split(',').map(x => x.trim()).filter(Boolean);
+        const levels = await chooseUserLevelsWithCheckboxes(currentLevels);
+        if (levels === null) return;
         try {
           const r = await apiPost('/api/admin/update-user', currentAuthPayload({ targetUser, action: 'editProfile', lastName, firstName, phone, levels }));
           upsertDynamicUser({ ...(r.user || {}), oldUsername: targetUser, username: r.username || targetUser, levels: r.levels || levels });
