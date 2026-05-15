@@ -3,6 +3,7 @@ const fs = require('fs');
 const path = require('path');
 const vm = require('vm');
 const crypto = require('crypto');
+const https = require('https');
 const { Pool } = require('pg');
 
 const PORT = Number(process.env.PORT || 3000);
@@ -24,6 +25,182 @@ const pool = DATABASE_URL ? new Pool({
   connectionString: DATABASE_URL,
   ssl: process.env.PGSSLMODE === 'disable' ? false : { rejectUnauthorized: false },
 }) : null;
+
+
+// Synchronisation GitHub (sauvegarde serveur dans un fichier JSON du dépôt)
+// À renseigner sur l'hébergeur du serveur Node.js, jamais dans le navigateur :
+// GITHUB_TOKEN=ghp_xxx (token GitHub fine-grained avec droit Contents: Read and Write)
+// GITHUB_REPO=utilisateur/nom-du-depot
+// GITHUB_BRANCH=main
+// GITHUB_USERS_PATH=server-data/app_users_store.json
+const GITHUB_TOKEN = process.env.GITHUB_TOKEN || '';
+const GITHUB_REPO = process.env.GITHUB_REPO || '';
+const GITHUB_BRANCH = process.env.GITHUB_BRANCH || 'main';
+const GITHUB_USERS_PATH = process.env.GITHUB_USERS_PATH || 'server-data/app_users_store.json';
+const GITHUB_SYNC_ENABLED = !!(GITHUB_TOKEN && GITHUB_REPO);
+let githubSyncInProgress = false;
+let githubLastPullAt = 0;
+let githubLastPushAt = 0;
+const GITHUB_PULL_INTERVAL_MS = Number(process.env.GITHUB_PULL_INTERVAL_MS || 60_000);
+
+function githubRequest(method, apiPath, body = null) {
+  if (!GITHUB_SYNC_ENABLED) return Promise.resolve(null);
+  const payload = body ? JSON.stringify(body) : null;
+  return new Promise((resolve, reject) => {
+    const req = https.request({
+      hostname: 'api.github.com',
+      path: apiPath,
+      method,
+      headers: {
+        'User-Agent': 'Revision-Science-Medicale-Sync',
+        'Accept': 'application/vnd.github+json',
+        'X-GitHub-Api-Version': '2022-11-28',
+        'Authorization': `Bearer ${GITHUB_TOKEN}`,
+        ...(payload ? { 'Content-Type': 'application/json', 'Content-Length': Buffer.byteLength(payload) } : {}),
+      },
+    }, (res) => {
+      let data = '';
+      res.setEncoding('utf8');
+      res.on('data', (chunk) => data += chunk);
+      res.on('end', () => {
+        let parsed = null;
+        try { parsed = data ? JSON.parse(data) : null; } catch (_) { parsed = data; }
+        if (res.statusCode >= 200 && res.statusCode < 300) return resolve(parsed);
+        const err = new Error(`GitHub API ${method} ${apiPath} : HTTP ${res.statusCode}`);
+        err.statusCode = res.statusCode;
+        err.data = parsed;
+        reject(err);
+      });
+    });
+    req.on('error', reject);
+    if (payload) req.write(payload);
+    req.end();
+  });
+}
+
+function encodeGitHubPath(filePath) {
+  return String(filePath || '').split('/').map(encodeURIComponent).join('/');
+}
+
+async function pullUsersStoreFromGitHub(force = false) {
+  if (!GITHUB_SYNC_ENABLED || githubSyncInProgress) return false;
+  if (!force && Date.now() - githubLastPullAt < GITHUB_PULL_INTERVAL_MS) return false;
+  githubSyncInProgress = true;
+  try {
+    const apiPath = `/repos/${GITHUB_REPO}/contents/${encodeGitHubPath(GITHUB_USERS_PATH)}?ref=${encodeURIComponent(GITHUB_BRANCH)}`;
+    const file = await githubRequest('GET', apiPath);
+    if (!file || !file.content) return false;
+    const content = Buffer.from(String(file.content).replace(/\n/g, ''), 'base64').toString('utf8');
+    const parsed = JSON.parse(content || '{}');
+    if (!parsed || !Array.isArray(parsed.users)) return false;
+    writeUsersStore(parsed, { skipGitHub: true });
+    githubLastPullAt = Date.now();
+    return true;
+  } catch (err) {
+    if (err.statusCode !== 404) console.error('Synchronisation GitHub lecture impossible', err.message);
+    githubLastPullAt = Date.now();
+    return false;
+  } finally {
+    githubSyncInProgress = false;
+  }
+}
+
+async function pushUsersStoreToGitHub(store) {
+  if (!GITHUB_SYNC_ENABLED) return false;
+  try {
+    const apiPath = `/repos/${GITHUB_REPO}/contents/${encodeGitHubPath(GITHUB_USERS_PATH)}`;
+    let sha = undefined;
+    try {
+      const current = await githubRequest('GET', `${apiPath}?ref=${encodeURIComponent(GITHUB_BRANCH)}`);
+      sha = current && current.sha;
+    } catch (err) {
+      if (err.statusCode !== 404) throw err;
+    }
+    const safeStore = { users: Array.isArray(store?.users) ? store.users : [] };
+    const content = Buffer.from(JSON.stringify(safeStore, null, 2), 'utf8').toString('base64');
+    await githubRequest('PUT', apiPath, {
+      message: `Sauvegarde automatique des comptes - ${new Date().toISOString()}`,
+      content,
+      branch: GITHUB_BRANCH,
+      ...(sha ? { sha } : {}),
+    });
+    githubLastPushAt = Date.now();
+    return true;
+  } catch (err) {
+    console.error('Synchronisation GitHub écriture impossible', err.message);
+    return false;
+  }
+}
+
+const SERVER_DATA_DIR = process.env.SERVER_DATA_DIR || path.join(ROOT, 'server-data');
+const USERS_STORE_FILE = path.join(SERVER_DATA_DIR, 'app_users_store.json');
+
+function ensureServerDataDir() {
+  fs.mkdirSync(SERVER_DATA_DIR, { recursive: true });
+}
+
+function readUsersStore() {
+  try {
+    ensureServerDataDir();
+    if (!fs.existsSync(USERS_STORE_FILE)) return { users: [] };
+    const parsed = JSON.parse(fs.readFileSync(USERS_STORE_FILE, 'utf8'));
+    return { users: Array.isArray(parsed.users) ? parsed.users : [] };
+  } catch (err) {
+    console.error('Impossible de lire app_users_store.json', err);
+    return { users: [] };
+  }
+}
+
+function writeUsersStore(store, options = {}) {
+  ensureServerDataDir();
+  const safeStore = { users: Array.isArray(store.users) ? store.users : [] };
+  fs.writeFileSync(USERS_STORE_FILE, JSON.stringify(safeStore, null, 2));
+  if (!options.skipGitHub) {
+    pushUsersStoreToGitHub(safeStore).catch((err) => console.error('Push GitHub différé impossible', err.message));
+  }
+}
+
+function loadFileUserRows() {
+  return readUsersStore().users.map((row) => ({
+    ...row,
+    levels: normalizeAccountLevels(row.levels || []),
+    dynamic: true,
+    source: row.source || 'fichier serveur',
+  }));
+}
+
+function saveFileUserRow(user) {
+  if (!user || !user.username) return;
+  const store = readUsersStore();
+  const username = String(user.username).trim();
+  const idx = store.users.findIndex((u) => u.username === username);
+  const row = {
+    username,
+    full_name: user.full_name || user.fullName || '',
+    first_name: user.first_name || user.firstName || '',
+    last_name: user.last_name || user.lastName || '',
+    phone: user.phone || '',
+    levels: normalizeAccountLevels(user.levels || []),
+    suspended: !!user.suspended,
+    deleted: !!user.deleted,
+    dynamic: true,
+    source: 'fichier serveur',
+    created_at: user.created_at || user.createdAt || now(),
+    updated_at: now(),
+  };
+  if (idx >= 0) store.users[idx] = { ...store.users[idx], ...row, created_at: store.users[idx].created_at || row.created_at };
+  else store.users.push(row);
+  writeUsersStore(store);
+}
+
+function patchFileUser(username, patch) {
+  const store = readUsersStore();
+  const idx = store.users.findIndex((u) => u.username === username);
+  if (idx < 0) return false;
+  store.users[idx] = { ...store.users[idx], ...patch, updated_at: now() };
+  writeUsersStore(store);
+  return true;
+}
 
 function loadUsersConfig() {
   const code = fs.readFileSync(path.join(ROOT, 'codes.js'), 'utf8');
@@ -92,10 +269,48 @@ function generateUsername({ lastName, firstName, levels, phone }) {
   return `${cleanPart(lastName, 3)}${cleanPart(firstName, 3)}${cleanPart(levelText, 2)}${digits.slice(-4).padStart(4, '0')}`;
 }
 
+
+function staticUsersToRows(staticUsers) {
+  return Object.entries(staticUsers || {}).map(([username, config]) => {
+    const levels = normalizeAccountLevels(config.levels || []);
+    const firstName = config.firstName || config.first_name || '';
+    const lastName = config.lastName || config.last_name || '';
+    const fullName = config.fullName || config.full_name || `${lastName} ${firstName}`.trim();
+    return {
+      username,
+      full_name: fullName,
+      first_name: firstName,
+      last_name: lastName,
+      phone: config.phone || '',
+      levels,
+      suspended: !!config.suspended,
+      deleted: false,
+      dynamic: false,
+      source: 'codes.js',
+    };
+  });
+}
+
+function mergeUserRows(staticUsers, dbRows) {
+  const merged = new Map();
+  for (const user of staticUsersToRows(staticUsers)) merged.set(user.username, user);
+  const allRows = [...loadFileUserRows(), ...(dbRows || [])];
+  for (const row of allRows) {
+    if (row.deleted) continue;
+    merged.set(row.username, {
+      ...row,
+      levels: normalizeAccountLevels(row.levels || []),
+      dynamic: true,
+      source: row.source || 'base de données',
+    });
+  }
+  return Array.from(merged.values()).sort((a, b) => String(a.username).localeCompare(String(b.username)));
+}
+
 async function getAllUsers(client, staticUsers) {
   const result = await client.query('SELECT * FROM app_users ORDER BY username ASC');
   const users = { ...staticUsers };
-  for (const row of result.rows) {
+  for (const row of [...loadFileUserRows(), ...result.rows]) {
     if (!row.deleted) users[row.username] = { levels: normalizeAccountLevels(row.levels || []), suspended: row.suspended, dynamic: true, fullName: row.full_name || '', firstName: row.first_name || '', lastName: row.last_name || '', phone: row.phone || '' };
   }
   return users;
@@ -313,8 +528,8 @@ function serveStatic(req, res) {
   let requested = decodeURIComponent(url.pathname);
   if (requested === '/') requested = '/index.html';
   const filePath = path.normalize(path.join(ROOT, requested));
-  const forbiddenFiles = new Set(['server.js', 'database.json', '.env', 'render.yaml', '.env.example']);
-  if (!filePath.startsWith(ROOT) || forbiddenFiles.has(path.basename(filePath))) {
+  const forbiddenFiles = new Set(['server.js', 'database.json', 'app_users_store.json', '.env', 'render.yaml', '.env.example']);
+  if (!filePath.startsWith(ROOT) || filePath.startsWith(SERVER_DATA_DIR) || forbiddenFiles.has(path.basename(filePath))) {
     res.writeHead(403); res.end('Forbidden'); return;
   }
   fs.stat(filePath, (err, stat) => {
@@ -352,9 +567,12 @@ const server = http.createServer(async (req, res) => {
 
   const { users: staticUsers, admins } = loadUsersConfig();
   let users = staticUsers;
+  // À chaque visite/API, le serveur vérifie GitHub périodiquement pour ramener les comptes créés ailleurs.
+  await pullUsersStoreFromGitHub(false);
 
   if (req.method === 'GET' && url.pathname === '/api/health') {
-    return withDb(res, async () => sendJson(res, 200, { ok: true, database: 'postgresql' }));
+    if (!pool) return sendJson(res, 200, { ok: true, database: 'fichier serveur local', fileStore: true, githubSync: GITHUB_SYNC_ENABLED, github: GITHUB_SYNC_ENABLED ? { repo: GITHUB_REPO, branch: GITHUB_BRANCH, path: GITHUB_USERS_PATH, lastPullAt: githubLastPullAt, lastPushAt: githubLastPushAt } : null });
+    return withDb(res, async () => sendJson(res, 200, { ok: true, database: 'postgresql', fileStore: true, githubSync: GITHUB_SYNC_ENABLED, github: GITHUB_SYNC_ENABLED ? { repo: GITHUB_REPO, branch: GITHUB_BRANCH, path: GITHUB_USERS_PATH, lastPullAt: githubLastPullAt, lastPushAt: githubLastPushAt } : null }));
   }
 
   if (req.method === 'POST' && url.pathname === '/api/login') {
@@ -582,9 +800,22 @@ const server = http.createServer(async (req, res) => {
   }
 
   if (req.method === 'POST' && url.pathname === '/api/admin/logs') {
+    await pullUsersStoreFromGitHub(false);
     const body = await readJsonBody(req);
     const username = String(body.username || '').trim();
     const sessionToken = String(body.sessionToken || '').trim();
+    if (!pool) {
+      if (!admins.includes(username)) return sendJson(res, 403, { ok: false, error: 'Accès administrateur refusé.' });
+      return sendJson(res, 200, {
+        ok: true,
+        activeSessions: {},
+        loginLogs: [],
+        dashboard: { connectedUsers: 0, quizDone: 0 },
+        dynamicUsers: mergeUserRows(staticUsers, []),
+        appSettings: {},
+        storage: 'fichier serveur local',
+      });
+    }
     return withDb(res, async (client) => {
       const sessionResult = await client.query('SELECT * FROM active_sessions WHERE username=$1 AND session_token=$2', [username, sessionToken]);
       if (!admins.includes(username) || !sessionResult.rowCount) {
@@ -600,7 +831,9 @@ const server = http.createServer(async (req, res) => {
         activeSessions: Object.fromEntries(activeResult.rows.map((r) => [r.username, publicSession(rowToSession(r))])),
         loginLogs: logsResult.rows.map(rowToLog),
         dashboard: { connectedUsers: activeResult.rowCount, quizDone: quizCount },
-        dynamicUsers: dynamicUsers.rows.map((u) => ({ ...u, levels: normalizeAccountLevels(u.levels || []) })),
+        // Important : la recherche utilisateur doit afficher TOUS les comptes existants :
+        // ceux du fichier codes.js + ceux créés depuis l'interface admin et enregistrés en base.
+        dynamicUsers: mergeUserRows(staticUsers, dynamicUsers.rows),
         appSettings: settingsResult.rows[0]?.value || {},
       });
     });
@@ -661,6 +894,20 @@ const server = http.createServer(async (req, res) => {
     const body = await readJsonBody(req);
     const adminUsername = String(body.username || '').trim();
     const sessionToken = String(body.sessionToken || '').trim();
+    if (!pool) {
+      if (!admins.includes(adminUsername)) return sendJson(res, 403, { ok: false, error: 'Accès administrateur refusé.' });
+      const levels = normalizeAccountLevels(Array.isArray(body.levels) ? body.levels.filter(Boolean) : []);
+      if (!levels.length) return sendJson(res, 400, { ok: false, error: 'Veuillez cocher au moins un niveau valide.' });
+      const generated = generateUsername({ lastName: body.lastName, firstName: body.firstName, levels, phone: body.phone });
+      const existingRows = mergeUserRows(staticUsers, []);
+      let username = generated;
+      let i = 1;
+      while (existingRows.some((u) => u.username === username)) username = `${generated}${i++}`;
+      const fullName = `${body.lastName || ''} ${body.firstName || ''}`.trim();
+      const userConfig = { username, levels, suspended: false, dynamic: true, full_name: fullName, first_name: body.firstName || '', last_name: body.lastName || '', phone: body.phone || '' };
+      saveFileUserRow(userConfig);
+      return sendJson(res, 200, { ok: true, username, levels, userConfig, storage: 'fichier serveur local' });
+    }
     return withDb(res, async (client) => {
       if (!(await assertAdmin(client, adminUsername, sessionToken, admins))) return sendJson(res, 403, { ok: false, error: 'Accès administrateur refusé.' });
       const levels = normalizeAccountLevels(Array.isArray(body.levels) ? body.levels.filter(Boolean) : []);
@@ -671,7 +918,8 @@ const server = http.createServer(async (req, res) => {
       while ((await client.query('SELECT 1 FROM app_users WHERE username=$1 AND deleted=FALSE', [username])).rowCount || staticUsers[username]) username = `${generated}${i++}`;
       await client.query(`INSERT INTO app_users(username, full_name, first_name, last_name, phone, levels, created_at, updated_at)
         VALUES($1,$2,$3,$4,$5,$6::jsonb,$7,$7)`, [username, `${body.lastName || ''} ${body.firstName || ''}`.trim(), body.firstName || '', body.lastName || '', body.phone || '', JSON.stringify(levels), now()]);
-      const userConfig = { levels, suspended: false, dynamic: true, fullName: `${body.lastName || ''} ${body.firstName || ''}`.trim() };
+      const userConfig = { levels, suspended: false, dynamic: true, fullName: `${body.lastName || ''} ${body.firstName || ''}`.trim(), firstName: body.firstName || '', lastName: body.lastName || '', phone: body.phone || '' };
+      saveFileUserRow({ username, ...userConfig, full_name: userConfig.fullName, first_name: userConfig.firstName, last_name: userConfig.lastName });
       await addLog(client, { user: username, action: 'admin_create_user', details: { by: adminUsername, levels } });
       return sendJson(res, 200, { ok: true, username, levels, userConfig });
     });
@@ -682,6 +930,38 @@ const server = http.createServer(async (req, res) => {
     const adminUsername = String(body.username || '').trim();
     const sessionToken = String(body.sessionToken || '').trim();
     const targetUser = String(body.targetUser || '').trim();
+    if (!pool) {
+      if (!admins.includes(adminUsername)) return sendJson(res, 403, { ok: false, error: 'Accès administrateur refusé.' });
+      if (!targetUser) return sendJson(res, 400, { ok: false, error: 'Utilisateur cible manquant.' });
+      if (body.action === 'suspend' || body.action === 'reactivate') {
+        const suspended = body.action === 'suspend';
+        const ok = patchFileUser(targetUser, { suspended });
+        if (!ok) return sendJson(res, 404, { ok: false, error: 'Compte introuvable dans le fichier serveur.' });
+        return sendJson(res, 200, { ok: true, action: body.action, targetUser, suspended });
+      }
+      if (body.action === 'delete') {
+        const ok = patchFileUser(targetUser, { deleted: true });
+        if (!ok) return sendJson(res, 404, { ok: false, error: 'Compte introuvable dans le fichier serveur.' });
+        return sendJson(res, 200, { ok: true, action: 'delete', targetUser, deleted: true });
+      }
+      if (body.action === 'editProfile') {
+        const levels = normalizeAccountLevels(Array.isArray(body.levels) ? body.levels.filter(Boolean) : []);
+        const firstName = String(body.firstName || '').trim();
+        const lastName = String(body.lastName || '').trim();
+        const phone = String(body.phone || '').trim();
+        if (!levels.length || !firstName || !lastName || !phone) return sendJson(res, 400, { ok: false, error: 'Nom, prénom, numéro et niveau sont obligatoires.' });
+        const baseUsername = generateUsername({ lastName, firstName, levels, phone });
+        const existingRows = mergeUserRows(staticUsers, []).filter((u) => u.username !== targetUser);
+        let newUsername = baseUsername;
+        let i = 1;
+        while (existingRows.some((u) => u.username === newUsername)) newUsername = `${baseUsername}${i++}`;
+        patchFileUser(targetUser, { deleted: true });
+        const fullName = `${lastName} ${firstName}`.trim();
+        saveFileUserRow({ username: newUsername, full_name: fullName, first_name: firstName, last_name: lastName, phone, levels, suspended: false });
+        return sendJson(res, 200, { ok: true, action: 'editProfile', oldUsername: targetUser, username: newUsername, levels });
+      }
+      return sendJson(res, 400, { ok: false, error: 'Action inconnue.' });
+    }
     return withDb(res, async (client) => {
       if (!(await assertAdmin(client, adminUsername, sessionToken, admins))) return sendJson(res, 403, { ok: false, error: 'Accès administrateur refusé.' });
       if (!targetUser) return sendJson(res, 400, { ok: false, error: 'Utilisateur cible manquant.' });
@@ -706,6 +986,7 @@ const server = http.createServer(async (req, res) => {
           [targetUser, ts, adminUsername]
         );
         await client.query('DELETE FROM active_sessions WHERE username=$1', [targetUser]);
+        patchFileUser(targetUser, { suspended: true });
         await addLog(client, { user: targetUser, action: 'admin_suspend_user', details: { by: adminUsername } });
         return sendJson(res, 200, { ok: true, action: 'suspend', targetUser, suspended: true });
       }
@@ -715,6 +996,7 @@ const server = http.createServer(async (req, res) => {
         if (!updateResult.rowCount) return sendJson(res, 404, { ok: false, error: 'Compte introuvable ou déjà supprimé.' });
         await client.query('DELETE FROM force_logout_requests WHERE username=$1', [targetUser]);
         await client.query('DELETE FROM revoked_sessions WHERE username=$1', [targetUser]);
+        patchFileUser(targetUser, { suspended: false });
         await addLog(client, { user: targetUser, action: 'admin_reactivate_user', details: { by: adminUsername } });
         return sendJson(res, 200, { ok: true, action: 'reactivate', targetUser, suspended: false });
       }
@@ -725,6 +1007,7 @@ const server = http.createServer(async (req, res) => {
         await client.query('DELETE FROM active_sessions WHERE username=$1', [targetUser]);
         await client.query('DELETE FROM force_logout_requests WHERE username=$1', [targetUser]);
         await client.query('DELETE FROM revoked_sessions WHERE username=$1', [targetUser]);
+        patchFileUser(targetUser, { deleted: true });
         await addLog(client, { user: targetUser, action: 'admin_delete_user', details: { by: adminUsername } });
         return sendJson(res, 200, { ok: true, action: 'delete', targetUser, deleted: true });
       }
@@ -752,12 +1035,35 @@ const server = http.createServer(async (req, res) => {
         await client.query('UPDATE active_sessions SET username=$2 WHERE username=$1', [targetUser, newUsername]);
         await client.query('UPDATE force_logout_requests SET username=$2 WHERE username=$1', [targetUser, newUsername]);
         await client.query('UPDATE revoked_sessions SET username=$2 WHERE username=$1', [targetUser, newUsername]);
+        patchFileUser(targetUser, { deleted: true });
+        saveFileUserRow({ username: newUsername, full_name: fullName, first_name: firstName, last_name: lastName, phone, levels, suspended: updateResult.rows[0].suspended });
         await addLog(client, { user: newUsername, action: 'admin_edit_user', details: { by: adminUsername, oldUsername: targetUser, levels } });
         return sendJson(res, 200, { ok: true, action: 'editProfile', oldUsername: targetUser, username: newUsername, levels, user: updateResult.rows[0] });
       }
 
       return sendJson(res, 400, { ok: false, error: 'Action inconnue.' });
     });
+  }
+
+
+  if (req.method === 'POST' && url.pathname === '/api/admin/sync-github') {
+    const body = await readJsonBody(req);
+    const adminUsername = String(body.username || '').trim();
+    const sessionToken = String(body.sessionToken || '').trim();
+    const direction = String(body.direction || 'pull').trim();
+    if (!GITHUB_SYNC_ENABLED) return sendJson(res, 400, { ok: false, error: 'Synchronisation GitHub non configurée. Ajoute GITHUB_TOKEN, GITHUB_REPO, GITHUB_BRANCH et GITHUB_USERS_PATH sur ton serveur.' });
+    if (!pool) {
+      if (!admins.includes(adminUsername)) return sendJson(res, 403, { ok: false, error: 'Accès administrateur refusé.' });
+    } else {
+      const allowed = await new Promise((resolve) => withDb(res, async (client) => resolve(await assertAdmin(client, adminUsername, sessionToken, admins))));
+      if (!allowed) return sendJson(res, 403, { ok: false, error: 'Accès administrateur refusé.' });
+    }
+    if (direction === 'push') {
+      const ok = await pushUsersStoreToGitHub(readUsersStore());
+      return sendJson(res, ok ? 200 : 500, { ok, direction: 'push', github: { repo: GITHUB_REPO, branch: GITHUB_BRANCH, path: GITHUB_USERS_PATH } });
+    }
+    const ok = await pullUsersStoreFromGitHub(true);
+    return sendJson(res, ok ? 200 : 500, { ok, direction: 'pull', github: { repo: GITHUB_REPO, branch: GITHUB_BRANCH, path: GITHUB_USERS_PATH } });
   }
 
   if (req.method === 'POST' && url.pathname === '/api/admin/save-settings') {
@@ -801,7 +1107,13 @@ function startKeepAlive() {
 }
 
 initDb()
-  .then(() => server.listen(PORT, () => { console.log(`Serveur démarré sur le port ${PORT}${LOCAL_MODE ? ' en mode local sans PostgreSQL' : ' avec PostgreSQL'}`); if (!LOCAL_MODE) startKeepAlive(); }))
+  .then(async () => {
+    await pullUsersStoreFromGitHub(true);
+    server.listen(PORT, () => {
+      console.log(`Serveur démarré sur le port ${PORT}${LOCAL_MODE ? ' en mode local sans PostgreSQL' : ' avec PostgreSQL'}`);
+      if (!LOCAL_MODE) startKeepAlive();
+    });
+  })
   .catch((err) => {
     console.error('Impossible d\'initialiser PostgreSQL:', err);
     server.listen(PORT, () => console.log(`Serveur démarré sur le port ${PORT} en mode local de secours`));

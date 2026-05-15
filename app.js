@@ -73,6 +73,7 @@
     sessionToken: "quizRevision.sessionToken.v1",
     deviceId: "quizRevision.deviceId.v1",
     appSettings: "quizRevision.appSettings.v1",
+    adminCache: "quizRevision.adminCache.v1",
   };
 
   const FREE_TRIAL_USER = "__ESSAI_GRATUIT__";
@@ -856,14 +857,25 @@
 
     let payload;
     let adminWarning = "";
+    const cachedAdminPayload = readJsonStorage(STORAGE_KEYS.adminCache, null);
     try {
       payload = await Promise.race([
         apiPost("/api/admin/logs", currentAuthPayload()),
-        new Promise((_, reject) => setTimeout(() => reject(new Error("Le serveur met trop de temps à répondre. Le menu est affiché en mode local.")), 4500))
+        new Promise((_, reject) => setTimeout(() => reject(new Error("Le serveur met trop de temps à répondre. Le dernier affichage sauvegardé est utilisé.")), 4500))
       ]);
+      if (payload && payload.ok !== false) {
+        writeJsonStorage(STORAGE_KEYS.adminCache, {
+          savedAt: Date.now(),
+          loginLogs: payload.loginLogs || [],
+          activeSessions: payload.activeSessions || {},
+          dynamicUsers: payload.dynamicUsers || [],
+          appSettings: payload.appSettings || {},
+          dashboard: payload.dashboard || {}
+        });
+      }
     } catch (e) {
-      adminWarning = e.data?.error || e.message || "Impossible de charger les données serveur. Le menu est affiché en mode local.";
-      payload = {
+      adminWarning = e.data?.error || e.message || "Impossible de charger les données serveur. Le dernier affichage sauvegardé est utilisé.";
+      payload = cachedAdminPayload || {
         loginLogs: [],
         activeSessions: {},
         dynamicUsers: [],
@@ -872,10 +884,41 @@
       };
     }
 
+    function normalizeUserRecord(username, user = {}) {
+      const levels = user.levels === 'all' ? ['Tous les niveaux'] : (Array.isArray(user.levels) ? user.levels : []);
+      const firstName = user.first_name || user.firstName || '';
+      const lastName = user.last_name || user.lastName || '';
+      const fullName = user.full_name || user.fullName || `${lastName} ${firstName}`.trim();
+      return {
+        ...user,
+        username,
+        full_name: fullName,
+        first_name: firstName,
+        last_name: lastName,
+        phone: user.phone || '',
+        levels,
+        suspended: !!user.suspended,
+        source: user.dynamic ? 'server' : (user.source || 'codes')
+      };
+    }
+
+    function mergeAdminUsers(serverUsers = []) {
+      const byUsername = new Map();
+      Object.entries(window.USERS || {}).forEach(([username, user]) => {
+        byUsername.set(username, normalizeUserRecord(username, user || {}));
+      });
+      (Array.isArray(serverUsers) ? serverUsers : []).forEach((user) => {
+        const username = user.username || user.targetUser;
+        if (!username) return;
+        byUsername.set(username, { ...normalizeUserRecord(username, user), ...user, username });
+      });
+      return Array.from(byUsername.values()).sort((a, b) => String(a.username).localeCompare(String(b.username)));
+    }
+
     const logs = payload.loginLogs || [];
     const active = payload.activeSessions || {};
     const activeRows = Object.values(active).sort((a, b) => (b.lastSeen || 0) - (a.lastSeen || 0));
-    let dynamicUsers = payload.dynamicUsers || [];
+    let dynamicUsers = mergeAdminUsers(payload.dynamicUsers || []);
     appSettings = normalizeAppSettings(payload.appSettings || appSettings || {});
     localStorage.setItem(STORAGE_KEYS.appSettings, JSON.stringify(appSettings));
     const dashboard = payload.dashboard || { connectedUsers: activeRows.length, quizDone: logs.filter(l => l.action === 'finish_quiz').length };
@@ -896,7 +939,7 @@
 
     els.adminLogs.dataset.rendered = "1";
     els.adminLogs.innerHTML = `
-      ${adminWarning ? `<div class="notice" style="margin-bottom:12px"><strong>Information :</strong> ${escapeHtml(adminWarning)}<br><small>Le menu reste visible. Les actions qui modifient les comptes nécessitent que le serveur et la base de données soient bien connectés.</small></div>` : ""}
+      ${adminWarning ? `<div class="notice" style="margin-bottom:12px"><strong>Information :</strong> ${escapeHtml(adminWarning)}<br><small>Le menu reste visible avec les dernières données sauvegardées dans ce navigateur. Les actions qui modifient les comptes nécessitent que le serveur et la base de données soient bien connectés.</small></div>` : ""}
       <div class="admin-tabs">
         <button class="btn btn--primary adminTabBtn" data-tab="general" type="button">⚙️ Paramètres généraux</button>
         <button class="btn adminTabBtn" data-tab="quiz" type="button">📚 Gestion des quiz</button>
@@ -1076,6 +1119,16 @@
         <div class="adminTechSubPanel hidden" data-tech-subpanel="tech-settings">
           <h3 class="h3">🌐 Paramètres techniques</h3>
           <div class="checkbox-grid adminSettings"><label><input type="checkbox" data-setting="autoBackup" ${appSettings.autoBackup ? 'checked' : ''}> Sauvegarde automatique</label><label><input type="checkbox" data-setting="serverSync" ${appSettings.serverSync ? 'checked' : ''}> Synchronisation serveur</label><label><input type="checkbox" data-setting="keepAlive" ${appSettings.keepAlive ? 'checked' : ''}> Garder le serveur actif automatiquement</label></div>
+          <div class="admin-box" style="margin-top:12px">
+            <h4 class="h3" style="margin-top:0">🔄 Synchronisation GitHub des comptes</h4>
+            <p class="muted small">Les comptes créés sont sauvegardés dans le fichier GitHub <code>server-data/app_users_store.json</code> via le serveur. Le token GitHub reste uniquement dans les variables d’environnement du serveur.</p>
+            <div class="create-user-row">
+              <button class="btn btn--primary" id="btnGithubPullUsers" type="button">Récupérer les comptes depuis GitHub</button>
+              <button class="btn" id="btnGithubPushUsers" type="button">Envoyer les comptes vers GitHub</button>
+              <button class="btn" id="btnGithubStatusUsers" type="button">Vérifier la configuration GitHub</button>
+            </div>
+            <div id="githubSyncStatus" class="notice hidden" style="margin-top:10px"></div>
+          </div>
           <button class="btn" id="btnClearCache" type="button">Vider cache local</button>
           <button class="btn btn--primary btnSaveAdminSettings" type="button">Enregistrer paramètres techniques</button>
           <p class="muted small">Pour Render : ajoute aussi la variable d’environnement <code>PUBLIC_URL=https://ton-site.onrender.com</code> pour activer le ping automatique côté serveur.</p>
@@ -1117,7 +1170,7 @@
             <button class="btn btn--danger btnUserAction" data-action="delete" data-user="${escapeHtml(u.username)}" type="button">Supprimer</button>
           </div>
         </div>`;
-      }).join('') : "<p class='muted'>Aucun utilisateur créé depuis le site.</p>";
+      }).join('') : "<p class='muted'>Aucun utilisateur trouvé. Vérifie que la base de données est connectée et que le fichier codes.js est bien chargé.</p>";
     }
     renderUsers();
 
@@ -1256,6 +1309,38 @@
       btn.classList.add('btn--primary');
       els.adminLogs.querySelectorAll('.adminTechSubPanel').forEach(p => p.classList.toggle('hidden', p.dataset.techSubpanel !== btn.dataset.techSubtab));
     }));
+
+    function showGithubSyncStatus(message, isError = false) {
+      const box = document.getElementById('githubSyncStatus');
+      if (!box) return;
+      box.classList.remove('hidden');
+      box.innerHTML = `<strong>${isError ? 'Erreur' : 'Information'} :</strong> ${escapeHtml(message)}`;
+    }
+
+    async function runGithubUserSync(direction) {
+      try {
+        const r = await apiPost('/api/admin/sync-github', currentAuthPayload({ direction }));
+        showGithubSyncStatus(direction === 'push'
+          ? `Comptes envoyés vers GitHub : ${r.github?.repo || ''}/${r.github?.path || ''}`
+          : `Comptes récupérés depuis GitHub : ${r.github?.repo || ''}/${r.github?.path || ''}`);
+        await renderAdminLogs({ silent: true });
+      } catch (e) {
+        showGithubSyncStatus(e.data?.error || e.message || 'Synchronisation GitHub impossible.', true);
+      }
+    }
+
+    document.getElementById('btnGithubPullUsers')?.addEventListener('click', () => runGithubUserSync('pull'));
+    document.getElementById('btnGithubPushUsers')?.addEventListener('click', () => runGithubUserSync('push'));
+    document.getElementById('btnGithubStatusUsers')?.addEventListener('click', async () => {
+      try {
+        const r = await apiGet('/api/health');
+        showGithubSyncStatus(r.githubSync
+          ? `GitHub configuré : ${r.github?.repo || ''} / branche ${r.github?.branch || ''} / fichier ${r.github?.path || ''}`
+          : 'GitHub n’est pas encore configuré sur le serveur. Ajoute GITHUB_TOKEN, GITHUB_REPO, GITHUB_BRANCH et GITHUB_USERS_PATH dans les variables d’environnement.');
+      } catch (e) {
+        showGithubSyncStatus(e.message || 'Impossible de vérifier la configuration GitHub.', true);
+      }
+    });
 
     document.getElementById('adminUserSearch')?.addEventListener('input', (e) => renderUsers(e.target.value));
     document.getElementById('btnCreateUser')?.addEventListener('click', async () => {
