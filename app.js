@@ -1121,7 +1121,7 @@
           <div class="checkbox-grid adminSettings"><label><input type="checkbox" data-setting="autoBackup" ${appSettings.autoBackup ? 'checked' : ''}> Sauvegarde automatique</label><label><input type="checkbox" data-setting="serverSync" ${appSettings.serverSync ? 'checked' : ''}> Synchronisation serveur</label><label><input type="checkbox" data-setting="keepAlive" ${appSettings.keepAlive ? 'checked' : ''}> Garder le serveur actif automatiquement</label></div>
           <div class="admin-box" style="margin-top:12px">
             <h4 class="h3" style="margin-top:0">🔄 Synchronisation GitHub des comptes</h4>
-            <p class="muted small">Les comptes créés sont sauvegardés dans le fichier GitHub <code>server-data/app_users_store.json</code> via le serveur. Le token GitHub reste uniquement dans les variables d’environnement du serveur.</p>
+            <p class="muted small">Les comptes créés sont sauvegardés dans le fichier GitHub <code>server-data/app_users_store.json</code> via le serveur. Dans Render, mets <code>GITHUB_USERS_PATH=server-data/app_users_store.json</code>. Le token GitHub reste uniquement dans les variables d’environnement du serveur.</p>
             <div class="create-user-row">
               <button class="btn btn--primary" id="btnGithubPullUsers" type="button">Récupérer les comptes depuis GitHub</button>
               <button class="btn" id="btnGithubPushUsers" type="button">Envoyer les comptes vers GitHub</button>

@@ -1,0 +1,16 @@
+VALEUR EXACTE A METTRE DANS RENDER
+
+GITHUB_USERS_PATH=server-data/app_users_store.json
+
+Le fichier a été créé directement dans ce projet ici :
+server-data/app_users_store.json
+
+Dans Render > Environment, ajoute/complète aussi :
+GITHUB_TOKEN=ton_token_github
+GITHUB_REPO=ton_nom_github/nom_du_depot
+GITHUB_BRANCH=main
+GITHUB_USERS_PATH=server-data/app_users_store.json
+
+Après déploiement, quand un compte est créé depuis le site, le serveur écrit dans :
+server-data/app_users_store.json
+puis synchronise ce fichier vers GitHub.

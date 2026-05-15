@@ -33,6 +33,7 @@ const pool = DATABASE_URL ? new Pool({
 // GITHUB_REPO=utilisateur/nom-du-depot
 // GITHUB_BRANCH=main
 // GITHUB_USERS_PATH=server-data/app_users_store.json
+// IMPORTANT : ce chemin est déjà créé dans ce projet. Mets exactement cette valeur dans Render.
 const GITHUB_TOKEN = process.env.GITHUB_TOKEN || '';
 const GITHUB_REPO = process.env.GITHUB_REPO || '';
 const GITHUB_BRANCH = process.env.GITHUB_BRANCH || 'main';
@@ -92,8 +93,9 @@ async function pullUsersStoreFromGitHub(force = false) {
     if (!file || !file.content) return false;
     const content = Buffer.from(String(file.content).replace(/\n/g, ''), 'base64').toString('utf8');
     const parsed = JSON.parse(content || '{}');
-    if (!parsed || !Array.isArray(parsed.users)) return false;
-    writeUsersStore(parsed, { skipGitHub: true });
+    const users = Array.isArray(parsed) ? parsed : parsed?.users;
+    if (!Array.isArray(users)) return false;
+    writeUsersStore({ users }, { skipGitHub: true });
     githubLastPullAt = Date.now();
     return true;
   } catch (err) {
@@ -144,6 +146,7 @@ function readUsersStore() {
     ensureServerDataDir();
     if (!fs.existsSync(USERS_STORE_FILE)) return { users: [] };
     const parsed = JSON.parse(fs.readFileSync(USERS_STORE_FILE, 'utf8'));
+    if (Array.isArray(parsed)) return { users: parsed };
     return { users: Array.isArray(parsed.users) ? parsed.users : [] };
   } catch (err) {
     console.error('Impossible de lire app_users_store.json', err);
