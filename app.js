@@ -861,7 +861,7 @@
     try {
       payload = await Promise.race([
         apiPost("/api/admin/logs", currentAuthPayload()),
-        new Promise((_, reject) => setTimeout(() => reject(new Error("Le serveur met trop de temps à répondre. Le dernier affichage sauvegardé est utilisé.")), 4500))
+        new Promise((_, reject) => setTimeout(() => reject(new Error("Le serveur met trop de temps à répondre. Le dernier affichage sauvegardé est utilisé.")), 15000))
       ]);
       if (payload && payload.ok !== false) {
         writeJsonStorage(STORAGE_KEYS.adminCache, {
@@ -1159,12 +1159,14 @@
       box.innerHTML = rows.length ? rows.map(u => {
         const levels = Array.isArray(u.levels) ? u.levels : [];
         const fullName = u.full_name || u.fullName || `${u.last_name || ''} ${u.first_name || ''}`.trim();
+        const isOnline = !!active[u.username];
         return `<div class="admin-log-item admin-session-row" data-user-row="${escapeHtml(u.username)}">
           <div>
-            <strong>${escapeHtml(u.username)}</strong><br>
+            <strong>${escapeHtml(u.username)}</strong> ${isOnline ? '<span class="badge">En ligne</span>' : '<span class="muted small">Hors ligne</span>'}<br>
             <small>${escapeHtml(fullName)} • ${levels.map(escapeHtml).join(', ')} • <b>${u.suspended ? 'Suspendu' : 'Actif'}</b></small>
           </div>
           <div class="row">
+            <button class="btn btn--danger btnUserAction" data-action="disconnect" data-user="${escapeHtml(u.username)}" type="button" ${u.username === (localStorage.getItem(STORAGE_KEYS.user) || "") ? "disabled" : ""}>Déconnexion</button>
             <button class="btn btnUserAction" data-action="${u.suspended ? 'reactivate' : 'suspend'}" data-user="${escapeHtml(u.username)}" type="button">${u.suspended ? 'Réactiver' : 'Suspendre'}</button>
             <button class="btn btnUserEdit" data-user="${escapeHtml(u.username)}" data-first-name="${escapeHtml(u.first_name || u.firstName || '')}" data-last-name="${escapeHtml(u.last_name || u.lastName || '')}" data-phone="${escapeHtml(u.phone || '')}" data-levels="${escapeHtml(JSON.stringify(levels))}" type="button">Modifier nom</button>
             <button class="btn btn--danger btnUserAction" data-action="delete" data-user="${escapeHtml(u.username)}" type="button">Supprimer</button>
@@ -1284,11 +1286,23 @@
       collapseAdminPanels();
     }));
 
-    els.adminLogs.querySelectorAll('.adminSubTabBtn').forEach(btn => btn.addEventListener('click', (event) => { event.stopPropagation();
+    els.adminLogs.querySelectorAll('.adminSubTabBtn').forEach(btn => btn.addEventListener('click', async (event) => { event.stopPropagation();
       els.adminLogs.querySelectorAll('.adminSubTabBtn').forEach(b => b.classList.remove('btn--primary'));
       btn.classList.add('btn--primary');
       els.adminLogs.querySelectorAll('.adminSubPanel').forEach(p => p.classList.toggle('hidden', p.dataset.subpanel !== btn.dataset.subtab));
+      if ((btn.dataset.subtab === 'online' || btn.dataset.subtab === 'search') && !btn.dataset.refreshing) {
+        btn.dataset.refreshing = '1';
+        try { await renderAdminLogs({ silent: true, openSubtab: btn.dataset.subtab }); } finally { delete btn.dataset.refreshing; }
+      }
     }));
+    if (options.openSubtab) {
+      const subBtn = els.adminLogs.querySelector(`.adminSubTabBtn[data-subtab="${options.openSubtab}"]`);
+      if (subBtn) {
+        els.adminLogs.querySelectorAll('.adminSubTabBtn').forEach(b => b.classList.remove('btn--primary'));
+        subBtn.classList.add('btn--primary');
+        els.adminLogs.querySelectorAll('.adminSubPanel').forEach(p => p.classList.toggle('hidden', p.dataset.subpanel !== options.openSubtab));
+      }
+    }
 
     els.adminLogs.querySelectorAll('.adminQuizSubTabBtn').forEach(btn => btn.addEventListener('click', (event) => { event.stopPropagation();
       els.adminLogs.querySelectorAll('.adminQuizSubTabBtn').forEach(b => b.classList.remove('btn--primary'));
@@ -1377,6 +1391,15 @@
       if (actionBtn) {
         const targetUser = actionBtn.dataset.user || '';
         const action = actionBtn.dataset.action || '';
+        if (action === 'disconnect') {
+          if (!confirm(`Déconnecter le compte ${targetUser} ?`)) return;
+          try {
+            const r = await apiPost('/api/admin/force-logout', currentAuthPayload({ targetUser }));
+            alert(`${r.disconnected || 0} session(s) déconnectée(s).`);
+            await renderAdminLogs({ silent: true, openSubtab: 'search' });
+          } catch(e) { alert(e.data?.error || e.message); }
+          return;
+        }
         if (action === 'delete' && !confirm(`Supprimer définitivement le compte ${targetUser} ?`)) return;
         if (action === 'suspend' && !confirm(`Suspendre le compte ${targetUser} jusqu’à réactivation ?`)) return;
         try {
