@@ -1389,12 +1389,15 @@
         alert(e.data?.error || e.message || 'Impossible d’actualiser les comptes.');
       }
     });
-    document.getElementById('adminUserSearch')?.addEventListener('focus', async () => {
-      if (document.getElementById('adminUsersList')?.dataset.refreshedOnce) return;
-      document.getElementById('adminUsersList').dataset.refreshedOnce = '1';
-      await renderAdminLogs({ silent: true, openSubtab: 'search' });
-    });
-    document.getElementById('adminUserSearch')?.addEventListener('input', (e) => renderUsers(e.target.value));
+    const adminUserSearchInput = document.getElementById('adminUserSearch');
+    if (adminUserSearchInput) {
+      adminUserSearchInput.value = window.__ADMIN_USER_SEARCH_FILTER || '';
+      renderUsers(adminUserSearchInput.value);
+      adminUserSearchInput.addEventListener('input', (e) => {
+        window.__ADMIN_USER_SEARCH_FILTER = e.target.value;
+        renderUsers(e.target.value);
+      });
+    }
     document.getElementById('btnCreateUser')?.addEventListener('click', async () => {
       const levels = [...document.querySelectorAll('#adminLevels input:checked')].map(i => i.value);
       const body = currentAuthPayload({ lastName: document.getElementById('adminLastName')?.value, firstName: document.getElementById('adminFirstName')?.value, phone: document.getElementById('adminPhone')?.value, levels });
@@ -2440,10 +2443,22 @@
     goNext();
   }
 
-  function advanceAfterAnswerSoon() {
+  function advanceAfterAnswerSoon(questionId) {
     clearQuestionTimer();
+    if (session.pendingAutoAdvanceTimer) {
+      clearTimeout(session.pendingAutoAdvanceTimer);
+      session.pendingAutoAdvanceTimer = null;
+    }
+    const fromQuestionId = questionId || session.questions?.[session.index]?.id;
     const delay = appSettings.instantCorrection ? 1600 : 250;
-    setTimeout(advanceAfterAnswer, delay);
+    session.pendingAutoAdvanceTimer = setTimeout(() => {
+      session.pendingAutoAdvanceTimer = null;
+      // Sécurité anti-saut : on avance seulement si l'utilisateur est encore sur
+      // la même question. Ainsi un double clic ou un clic sur le bouton Suivant
+      // ne peut plus faire passer de la question 1 à la question 3.
+      if (fromQuestionId && session.questions?.[session.index]?.id !== fromQuestionId) return;
+      advanceAfterAnswer();
+    }, delay);
   }
 
   function showScreen(which) {
@@ -3441,6 +3456,24 @@ if (!levels.includes(session.level)) {
     els.answers.appendChild(box);
   }
 
+  function acceptAnswerClick(event, q, choiceKey) {
+    if (event) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+    const now = Date.now();
+    const key = `${q?.id || 'question'}:${choiceKey}`;
+    if (session.lastAnswerClick && session.lastAnswerClick.key === key && now - session.lastAnswerClick.at < 450) {
+      return false;
+    }
+    session.lastAnswerClick = { key, at: now };
+    if (session.pendingAutoAdvanceTimer) {
+      clearTimeout(session.pendingAutoAdvanceTimer);
+      session.pendingAutoAdvanceTimer = null;
+    }
+    return true;
+  }
+
   function renderQuiz() {
     const q = session.questions[session.index];
     if (!q) return;
@@ -3505,10 +3538,11 @@ if (!levels.includes(session.level)) {
           if (c.value === q.answer) item.classList.add("answer--correct");
           else if (input.checked) item.classList.add("answer--wrong");
         }
-        item.addEventListener("click", () => {
+        item.addEventListener("click", (event) => {
+          if (!acceptAnswerClick(event, q, `tf:${c.value}`)) return;
           saveAnswerForCurrentQuestion(q, { selectedBool: c.value });
           renderQuiz();
-          if (shouldAutoAdvance()) advanceAfterAnswerSoon();
+          if (shouldAutoAdvance()) advanceAfterAnswerSoon(q.id);
         });
         els.answers.appendChild(item);
       }
@@ -3544,7 +3578,8 @@ if (!levels.includes(session.level)) {
           if ((q.answerIndices || []).includes(idx)) item.classList.add("answer--correct");
           else if (input.checked) item.classList.add("answer--wrong");
         }
-        item.addEventListener("click", () => {
+        item.addEventListener("click", (event) => {
+          if (!acceptAnswerClick(event, q, `multi:${idx}`)) return;
           const next = new Set(normalizeSelectedIndices(session.answersById[q.id]?.selectedIndices, q.choices.length));
           if (next.has(idx)) next.delete(idx);
           else next.add(idx);
@@ -3552,7 +3587,7 @@ if (!levels.includes(session.level)) {
           saveAnswerForCurrentQuestion(q, { selectedIndices: nextSelected });
           renderQuiz();
           if (nextSelected.length >= requiredCount && shouldAutoAdvance()) {
-            advanceAfterAnswerSoon();
+            advanceAfterAnswerSoon(q.id);
           }
         });
         els.answers.appendChild(item);
@@ -3580,10 +3615,11 @@ if (!levels.includes(session.level)) {
         if (idx === q.answerIndex) item.classList.add("answer--correct");
         else if (input.checked) item.classList.add("answer--wrong");
       }
-      item.addEventListener("click", () => {
+      item.addEventListener("click", (event) => {
+        if (!acceptAnswerClick(event, q, `mcq:${idx}`)) return;
         saveAnswerForCurrentQuestion(q, { selectedIndex: idx });
         renderQuiz();
-        if (shouldAutoAdvance()) advanceAfterAnswerSoon();
+        if (shouldAutoAdvance()) advanceAfterAnswerSoon(q.id);
       });
       els.answers.appendChild(item);
     }
