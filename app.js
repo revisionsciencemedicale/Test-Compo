@@ -884,6 +884,32 @@
       };
     }
 
+    async function refreshAdminUsersPayloadFromServer() {
+      try {
+        const usersPayload = await Promise.race([
+          apiPost('/api/admin/all-users', currentAuthPayload()),
+          new Promise((_, reject) => setTimeout(() => reject(new Error('chargement utilisateurs trop long')), 8000))
+        ]);
+        if (usersPayload && usersPayload.ok !== false) {
+          payload.dynamicUsers = usersPayload.dynamicUsers || payload.dynamicUsers || [];
+          payload.activeSessions = usersPayload.activeSessions || payload.activeSessions || {};
+          payload.dashboard = { ...(payload.dashboard || {}), ...(usersPayload.dashboard || {}) };
+          writeJsonStorage(STORAGE_KEYS.adminCache, {
+            savedAt: Date.now(),
+            loginLogs: payload.loginLogs || [],
+            activeSessions: payload.activeSessions || {},
+            dynamicUsers: payload.dynamicUsers || [],
+            appSettings: payload.appSettings || {},
+            dashboard: payload.dashboard || {}
+          });
+        }
+      } catch (e) {
+        console.warn('Liste complète des utilisateurs non rechargée:', e.message || e);
+      }
+    }
+
+    await refreshAdminUsersPayloadFromServer();
+
     function normalizeUserRecord(username, user = {}) {
       const levels = user.levels === 'all' ? ['Tous les niveaux'] : (Array.isArray(user.levels) ? user.levels : []);
       const firstName = user.first_name || user.firstName || '';
@@ -1356,6 +1382,18 @@
       }
     });
 
+    document.getElementById('btnRefreshAdminUsers')?.addEventListener('click', async () => {
+      try {
+        await renderAdminLogs({ silent: true, openSubtab: 'search' });
+      } catch (e) {
+        alert(e.data?.error || e.message || 'Impossible d’actualiser les comptes.');
+      }
+    });
+    document.getElementById('adminUserSearch')?.addEventListener('focus', async () => {
+      if (document.getElementById('adminUsersList')?.dataset.refreshedOnce) return;
+      document.getElementById('adminUsersList').dataset.refreshedOnce = '1';
+      await renderAdminLogs({ silent: true, openSubtab: 'search' });
+    });
     document.getElementById('adminUserSearch')?.addEventListener('input', (e) => renderUsers(e.target.value));
     document.getElementById('btnCreateUser')?.addEventListener('click', async () => {
       const levels = [...document.querySelectorAll('#adminLevels input:checked')].map(i => i.value);

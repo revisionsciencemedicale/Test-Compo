@@ -802,6 +802,39 @@ const server = http.createServer(async (req, res) => {
     });
   }
 
+
+  if (req.method === 'POST' && url.pathname === '/api/admin/all-users') {
+    await pullUsersStoreFromGitHub(false);
+    const body = await readJsonBody(req);
+    const username = String(body.username || '').trim();
+    const sessionToken = String(body.sessionToken || '').trim();
+    if (!pool) {
+      if (!admins.includes(username)) return sendJson(res, 403, { ok: false, error: 'Accès administrateur refusé.' });
+      const activeSessions = {};
+      return sendJson(res, 200, {
+        ok: true,
+        activeSessions,
+        dynamicUsers: mergeUserRows(staticUsers, []),
+        dashboard: { connectedUsers: 0 },
+        storage: 'fichier serveur local'
+      });
+    }
+    return withDb(res, async (client) => {
+      const sessionResult = await client.query('SELECT * FROM active_sessions WHERE username=$1 AND session_token=$2', [username, sessionToken]);
+      if (!admins.includes(username) || !sessionResult.rowCount) {
+        return sendJson(res, 403, { ok: false, error: 'Accès administrateur refusé.' });
+      }
+      const activeResult = await client.query('SELECT * FROM active_sessions ORDER BY last_seen DESC');
+      const dynamicUsers = await client.query('SELECT * FROM app_users WHERE deleted=FALSE ORDER BY username ASC');
+      return sendJson(res, 200, {
+        ok: true,
+        activeSessions: Object.fromEntries(activeResult.rows.map((r) => [r.username, publicSession(rowToSession(r))])),
+        dynamicUsers: mergeUserRows(staticUsers, dynamicUsers.rows),
+        dashboard: { connectedUsers: activeResult.rowCount }
+      });
+    });
+  }
+
   if (req.method === 'POST' && url.pathname === '/api/admin/logs') {
     await pullUsersStoreFromGitHub(false);
     const body = await readJsonBody(req);
@@ -918,7 +951,7 @@ const server = http.createServer(async (req, res) => {
       const generated = generateUsername({ lastName: body.lastName, firstName: body.firstName, levels, phone: body.phone });
       let username = generated;
       let i = 1;
-      while ((await client.query('SELECT 1 FROM app_users WHERE username=$1 AND deleted=FALSE', [username])).rowCount || staticUsers[username]) username = `${generated}${i++}`;
+      while ((await client.query('SELECT 1 FROM app_users WHERE username=$1 AND deleted=FALSE', [username])).rowCount || mergeUserRows(staticUsers, []).some((u) => u.username === username)) username = `${generated}${i++}`;
       await client.query(`INSERT INTO app_users(username, full_name, first_name, last_name, phone, levels, created_at, updated_at)
         VALUES($1,$2,$3,$4,$5,$6::jsonb,$7,$7)`, [username, `${body.lastName || ''} ${body.firstName || ''}`.trim(), body.firstName || '', body.lastName || '', body.phone || '', JSON.stringify(levels), now()]);
       const userConfig = { levels, suspended: false, dynamic: true, fullName: `${body.lastName || ''} ${body.firstName || ''}`.trim(), firstName: body.firstName || '', lastName: body.lastName || '', phone: body.phone || '' };
