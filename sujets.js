@@ -52,8 +52,7 @@ window.SUJETS_PAR_MATIERE_QUIZ = {
   " Gynécologie-obstétrique (IDE)": ["Sujet 1", "Sujet 2", "Sujet 3", "Sujet 4", "Sujet 5"],
   " Consultation enfant sain": ["Sujet 1", "Sujet 2", "Sujet 3", "Sujet 4", "Sujet 5"],
   " Techniques de soins infirmiers": ["Sujet 1", "Sujet 2", "Sujet 3", "Sujet 4", "Sujet 5"],
-
-
+  " Pharmacologie": ["Sujet 1", "Sujet 2", "Sujet 3", "Sujet 4", "Sujet 5"],
 
 };
 
@@ -286,6 +285,7 @@ window.SUBJECTS_BY_LEVEL = {
     "Diététique",
     "Bactériologie",
     "Parasitologie",
+   "Pharmacologie",
     "IST/VIH",
     "Maladies parasitaires et infectieuses",
     "Pathologies respiratoires",

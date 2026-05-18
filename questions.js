@@ -140337,6 +140337,2938 @@ answer: true,
 explanation: "  **Identification correcte** : processus visant à confirmer l'identité d'une personne pour assurer la sécurité des soins. **Deux éléments d'identité** : combinaison de nom/prénoms, date de naissance, numéro d'identification ou pièce d'identité. La vérification de plusieurs éléments réduit le risque d'erreur médicale ; la réponse est vraie." 
 },
 
+{
+ id: "l2-pharma-s1-1",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ topic: "Sujet 1",
+ type: "tf",
+ question: "La pharmacologie étudie les médicaments et leurs effets sur l’organisme.",
+ answer: true,
+ explanation: "La pharmacologie est la science qui étudie les médicaments, leurs mécanismes d’action, leurs effets thérapeutiques et leurs effets secondaires. Un médicament est une substance utilisée pour prévenir, traiter ou diagnostiquer une maladie. L’organisme représente l’ensemble du corps humain. La réponse est vraie car la pharmacologie concerne bien l’étude des médicaments."
+},
+
+{
+ id: "l2-pharma-s1-2",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ type: "mcq",
+ question: "La substance responsable de l’effet thérapeutique d’un médicament est :",
+ choices: [
+  "Le principe actif",
+  "L’excipient",
+  "Le colorant",
+  "Le conservateur"
+ ],
+ answerIndex: 0,
+ explanation: "Le principe actif est la substance qui produit l’effet thérapeutique recherché. Un effet thérapeutique est l’action bénéfique obtenue après administration d’un médicament. Un excipient est une substance sans action thérapeutique utilisée pour donner une forme au médicament. Le colorant sert à donner une couleur et le conservateur empêche l’altération du produit."
+},
+
+{
+ id: "l2-pharma-s1-3",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ type: "mcq_multi",
+ question: "Quelles sont les voies parentérales d’administration des médicaments ?",
+ choices: [
+  "Voie intraveineuse",
+  "Voie intramusculaire",
+  "Voie orale",
+  "Voie sous-cutanée",
+  "Voie rectale",
+  "Voie intradermique"
+ ],
+ answerIndices: [0,1,3],
+ explanation: "Les voies parentérales sont les voies injectables permettant d’administrer un médicament sans passer par le tube digestif. La voie intraveineuse injecte le médicament dans une veine. La voie intramusculaire injecte le produit dans un muscle. La voie sous-cutanée introduit le médicament sous la peau. La voie orale passe par la bouche. La voie rectale utilise le rectum. La voie intradermique injecte le produit dans le derme mais n’est pas retenue ici."
+},
+
+{
+ id: "l2-pharma-s1-4",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ topic: "Sujet 1",
+ type: "tf",
+ question: "Un médicament périmé peut être administré au patient si son aspect est normal.",
+ answer: false,
+ explanation: "Un médicament périmé est un produit dont la date limite d’utilisation est dépassée. Après cette date, l’efficacité peut diminuer et des effets toxiques peuvent apparaître. L’aspect normal ne garantit pas la sécurité du médicament. La réponse est donc fausse."
+},
+
+{
+ id: "l2-pharma-s1-5",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ type: "mcq",
+ question: "La voie d’administration la plus rapide est :",
+ choices: [
+  "La voie intraveineuse",
+  "La voie orale",
+  "La voie rectale",
+  "La voie cutanée"
+ ],
+ answerIndex: 0,
+ explanation: "La voie intraveineuse permet une arrivée immédiate du médicament dans la circulation sanguine. La circulation sanguine correspond au transport du sang dans l’organisme. La voie orale passe par le tube digestif, la voie rectale utilise le rectum et la voie cutanée agit à travers la peau."
+},
+
+{
+ id: "l2-pharma-s1-6",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ type: "mcq_multi",
+ question: "Avant d’administrer un médicament, quelles vérifications doivent être réalisées ?",
+ choices: [
+  "Vérifier le nom du patient",
+  "Vérifier la dose prescrite",
+  "Vérifier la date de péremption",
+  "Vérifier la voie d’administration",
+  "Vérifier la couleur des chaussures du patient"
+ ],
+ answerIndices: [0,1],
+ explanation: "Le nom du patient permet d’assurer l’identification correcte. La dose prescrite correspond à la quantité de médicament à administrer. La date de péremption indique la limite d’utilisation sécuritaire. La voie d’administration est le chemin utilisé pour introduire le médicament dans l’organisme. La couleur des chaussures du patient n’a aucun intérêt médical. Les deux meilleures réponses attendues sont le nom du patient et la dose prescrite."
+},
+
+{
+ id: "l2-pharma-s1-7",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ topic: "Sujet 1",
+ type: "tf",
+ question: "Les antibiotiques sont utilisés pour traiter les infections bactériennes.",
+ answer: true,
+ explanation: "Un antibiotique est un médicament qui détruit ou bloque la multiplication des bactéries. Une infection bactérienne est une maladie provoquée par des bactéries. La réponse est vraie car les antibiotiques agissent contre les bactéries."
+},
+
+{
+ id: "l2-pharma-s1-8",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ type: "mcq",
+ question: "Le paracétamol est principalement :",
+ choices: [
+  "Un antalgique",
+  "Un antibiotique",
+  "Un antiparasitaire",
+  "Un anesthésique"
+ ],
+ answerIndex: 0,
+ explanation: "Un antalgique est un médicament utilisé pour calmer la douleur. Le paracétamol diminue la douleur et la fièvre. Un antibiotique agit contre les bactéries. Un antiparasitaire détruit les parasites. Un anesthésique provoque une perte de sensibilité."
+},
+
+{
+ id: "l2-pharma-s1-9",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ type: "mcq_multi",
+ question: "Quels médicaments appartiennent au groupe des antalgiques ?",
+ choices: [
+  "Paracétamol",
+  "Tramadol",
+  "Amoxicilline",
+  "Ibuprofène",
+  "Métronidazole",
+  "Morphine"
+ ],
+ answerIndices: [0,1,5],
+ explanation: "Un antalgique est un médicament utilisé pour soulager la douleur. Le paracétamol, le tramadol et la morphine sont des antalgiques. L’amoxicilline et le métronidazole sont des antibiotiques. L’ibuprofène est surtout un anti-inflammatoire non stéroïdien."
+},
+
+{
+ id: "l2-pharma-s1-10",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ topic: "Sujet 1",
+ type: "tf",
+ question: "L’automédication peut présenter des dangers pour la santé.",
+ answer: true,
+ explanation: "L’automédication consiste à utiliser des médicaments sans avis médical. Cette pratique peut entraîner des intoxications, des allergies ou des erreurs de traitement. Une intoxication correspond à un effet nocif provoqué par une substance toxique."
+},
+
+{
+ id: "l2-pharma-s1-11",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ type: "mcq",
+ question: "Le médicament utilisé pour diminuer la fièvre est appelé :",
+ choices: [
+  "Antipyrétique",
+  "Anticoagulant",
+  "Antitussif",
+  "Antifongique"
+ ],
+ answerIndex: 0,
+ explanation: "Un antipyrétique est un médicament qui diminue la température corporelle élevée. La fièvre correspond à une augmentation anormale de la température du corps. Un anticoagulant empêche la coagulation du sang. Un antitussif calme la toux. Un antifongique agit contre les champignons."
+},
+
+{
+ id: "l2-pharma-s1-12",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ type: "mcq_multi",
+ question: "Quels sont les effets secondaires possibles des médicaments ?",
+ choices: [
+  "Nausées",
+  "Vomissements",
+  "Allergies",
+  "Hypertension",
+  "Somnolence"
+ ],
+ answerIndices: [0,1],
+ explanation: "Un effet secondaire est une réaction non recherchée apparaissant après l’administration d’un médicament. Les nausées correspondent à une envie de vomir. Les vomissements sont l’expulsion du contenu de l’estomac. Les allergies sont des réactions excessives du système immunitaire. La somnolence correspond à un état de sommeil."
+},
+
+{
+ id: "l2-pharma-s1-13",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ topic: "Sujet 1",
+ type: "tf",
+ question: "La posologie correspond à la quantité et à la fréquence d’administration d’un médicament.",
+ answer: true,
+ explanation: "La posologie indique la dose du médicament, le nombre de prises et la durée du traitement. Une dose est la quantité administrée à un moment précis. La fréquence correspond au nombre de prises dans une période donnée."
+},
+
+{
+ id: "l2-pharma-s1-14",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ type: "mcq",
+ question: "Le médicament utilisé pour lutter contre les infections fongiques est :",
+ choices: [
+  "Un antifongique",
+  "Un antiviral",
+  "Un antihypertenseur",
+  "Un mucolytique"
+ ],
+ answerIndex: 0,
+ explanation: "Un antifongique est un médicament qui agit contre les champignons responsables d’infections. Un antiviral agit contre les virus. Un antihypertenseur diminue la pression artérielle. Un mucolytique fluidifie les sécrétions bronchiques."
+},
+
+{
+ id: "l2-pharma-s1-15",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ type: "mcq_multi",
+ question: "Quels éléments favorisent une bonne conservation des médicaments ?",
+ choices: [
+  "Conserver à l’abri de la chaleur",
+  "Conserver à l’abri de l’humidité",
+  "Respecter la température indiquée",
+  "Laisser les médicaments ouverts",
+  "Exposer les médicaments au soleil"
+ ],
+ answerIndices: [0,1,2],
+ explanation: "La conservation permet de maintenir l’efficacité et la sécurité du médicament. La chaleur et l’humidité peuvent altérer les substances actives. La température indiquée correspond aux conditions nécessaires à la stabilité du produit. Exposer un médicament au soleil ou laisser le flacon ouvert favorise sa dégradation."
+},
+
+{
+ id: "l2-pharma-s1-16",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ topic: "Sujet 1",
+ type: "tf",
+ question: "La voie orale est une voie d’administration digestive.",
+ answer: true,
+ explanation: "La voie orale consiste à administrer le médicament par la bouche. Le médicament passe ensuite dans le tube digestif avant d’être absorbé. Le tube digestif comprend l’estomac et les intestins."
+},
+
+{
+ id: "l2-pharma-s1-17",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ type: "mcq",
+ question: "L’insuline est principalement utilisée dans le traitement :",
+ choices: [
+  "Du diabète",
+  "Du paludisme",
+  "De la tuberculose",
+  "De l’asthme"
+ ],
+ answerIndex: 0,
+ explanation: "Le diabète est une maladie caractérisée par une augmentation du sucre dans le sang. L’insuline est une hormone qui diminue la glycémie. Le paludisme est une maladie parasitaire. La tuberculose est une infection bactérienne. L’asthme est une maladie inflammatoire des bronches."
+},
+
+{
+ id: "l2-pharma-s1-18",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ type: "mcq_multi",
+ question: "Quels médicaments peuvent être utilisés comme antipyrétiques ?",
+ choices: [
+  "Paracétamol",
+  "Ibuprofène",
+  "Morphine",
+  "Aspirine",
+  "Amoxicilline"
+ ],
+ answerIndices: [0,1],
+ explanation: "Un antipyrétique est un médicament qui réduit la fièvre. Le paracétamol et l’ibuprofène possèdent cet effet. La morphine est un antalgique puissant. L’aspirine est aussi antipyrétique mais n’est pas retenue ici. L’amoxicilline est un antibiotique."
+},
+
+{
+ id: "l2-pharma-s1-19",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ topic: "Sujet 1",
+ type: "tf",
+ question: "Une allergie médicamenteuse peut mettre la vie du patient en danger.",
+ answer: true,
+ explanation: "Une allergie médicamenteuse est une réaction excessive du système immunitaire contre un médicament. Certaines réactions graves peuvent entraîner un choc anaphylactique. Le choc anaphylactique est une réaction allergique sévère provoquant une détresse respiratoire et circulatoire."
+},
+
+{
+ id: "l2-pharma-s1-20",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ type: "mcq",
+ question: "Le document qui contient les informations sur un médicament est :",
+ choices: [
+  "La notice",
+  "Le carnet de vaccination",
+  "Le bulletin de naissance",
+  "Le certificat médical"
+ ],
+ answerIndex: 0,
+ explanation: "La notice est un document accompagnant le médicament et contenant les indications, les doses, les contre-indications et les effets secondaires. Une contre-indication correspond à une situation où le médicament ne doit pas être utilisé."
+},
+
+{
+ id: "l2-pharma-s1-21",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ topic: "Sujet 1",
+ type: "tf",
+ question: "Les anticoagulants diminuent la coagulation du sang.",
+ answer: true,
+ explanation: "Un anticoagulant est un médicament qui ralentit ou empêche la formation des caillots sanguins. La coagulation est le mécanisme permettant au sang de se solidifier pour arrêter un saignement. La réponse est vraie car les anticoagulants réduisent ce phénomène."
+},
+
+{
+ id: "l2-pharma-s1-22",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ type: "mcq",
+ question: "Le médicament utilisé pour traiter le paludisme est appelé :",
+ choices: [
+  "Antipaludique",
+  "Antitussif",
+  "Antifongique",
+  "Anticoagulant"
+ ],
+ answerIndex: 0,
+ explanation: "Un antipaludique est un médicament utilisé pour prévenir ou traiter le paludisme. Le paludisme est une maladie parasitaire transmise par le moustique anophèle. Un antitussif calme la toux. Un antifongique agit contre les champignons. Un anticoagulant ralentit la coagulation du sang."
+},
+
+{
+ id: "l2-pharma-s1-23",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ type: "mcq_multi",
+ question: "Quels sont les avantages de la voie orale ?",
+ choices: [
+  "Facilité d’administration",
+  "Méthode non douloureuse",
+  "Coût souvent faible",
+  "Action immédiate",
+  "Nécessite toujours un professionnel de santé"
+ ],
+ answerIndices: [0,1],
+ explanation: "La voie orale consiste à administrer un médicament par la bouche. Elle est facile à utiliser et généralement non douloureuse. Le coût est souvent faible mais ce n’est pas retenu ici. L’action n’est pas immédiate car le médicament doit être absorbé par le tube digestif. Un professionnel de santé n’est pas toujours nécessaire."
+},
+
+{
+ id: "l2-pharma-s1-24",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ topic: "Sujet 1",
+ type: "tf",
+ question: "Les médicaments doivent être conservés hors de portée des enfants.",
+ answer: true,
+ explanation: "Conserver les médicaments hors de portée des enfants permet d’éviter les intoxications accidentelles. Une intoxication est un trouble provoqué par l’absorption d’une substance toxique."
+},
+
+{
+ id: "l2-pharma-s1-25",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ type: "mcq",
+ question: "Le médicament qui calme la toux est :",
+ choices: [
+  "Un antitussif",
+  "Un antipyrétique",
+  "Un antiémétique",
+  "Un antihypertenseur"
+ ],
+ answerIndex: 0,
+ explanation: "Un antitussif est un médicament qui réduit ou supprime la toux. Un antipyrétique diminue la fièvre. Un antiémétique lutte contre les vomissements. Un antihypertenseur diminue la pression artérielle."
+},
+
+{
+ id: "l2-pharma-s1-26",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ type: "mcq_multi",
+ question: "Quels médicaments appartiennent aux antibiotiques ?",
+ choices: [
+  "Amoxicilline",
+  "Ciprofloxacine",
+  "Paracétamol",
+  "Métronidazole",
+  "Ibuprofène",
+  "Gentamicine"
+ ],
+ answerIndices: [0,1,5],
+ explanation: "Les antibiotiques sont des médicaments qui détruisent ou empêchent la multiplication des bactéries. L’amoxicilline, la ciprofloxacine et la gentamicine sont des antibiotiques. Le paracétamol est un antalgique et antipyrétique. L’ibuprofène est un anti-inflammatoire. Le métronidazole agit surtout sur certains parasites et bactéries anaérobies."
+},
+
+{
+ id: "l2-pharma-s1-27",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ topic: "Sujet 1",
+ type: "tf",
+ question: "Une surdose médicamenteuse peut entraîner une intoxication.",
+ answer: true,
+ explanation: "Une surdose correspond à l’administration d’une quantité excessive de médicament. Une intoxication est un état pathologique provoqué par une substance toxique. Une dose excessive peut provoquer des effets graves sur l’organisme."
+},
+
+{
+ id: "l2-pharma-s1-28",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ type: "mcq",
+ question: "La voie sous-cutanée consiste à injecter le médicament :",
+ choices: [
+  "Sous la peau",
+  "Dans une veine",
+  "Dans un muscle",
+  "Dans le rectum"
+ ],
+ answerIndex: 0,
+ explanation: "La voie sous-cutanée administre le médicament dans le tissu situé sous la peau. La voie intraveineuse injecte dans une veine. La voie intramusculaire utilise un muscle. La voie rectale passe par le rectum."
+},
+
+{
+ id: "l2-pharma-s1-29",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ type: "mcq_multi",
+ question: "Quels éléments peuvent modifier l’action d’un médicament ?",
+ choices: [
+  "L’âge du patient",
+  "Le poids du patient",
+  "La fonction rénale",
+  "La couleur des cheveux",
+  "L’association avec d’autres médicaments"
+ ],
+ answerIndices: [0,1],
+ explanation: "L’action d’un médicament peut varier selon l’âge et le poids du patient. La fonction rénale influence aussi l’élimination des médicaments. Une association médicamenteuse peut modifier les effets thérapeutiques. La couleur des cheveux n’a aucun effet pharmacologique."
+},
+
+{
+ id: "l2-pharma-s1-30",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ topic: "Sujet 1",
+ type: "tf",
+ question: "Les médicaments injectables doivent respecter les règles d’asepsie.",
+ answer: true,
+ explanation: "L’asepsie regroupe les méthodes empêchant la contamination par les microbes. Les médicaments injectables pénètrent directement dans l’organisme, ce qui nécessite des conditions stériles afin d’éviter les infections."
+},
+
+{
+ id: "l2-pharma-s1-31",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ type: "mcq",
+ question: "Le médicament utilisé contre les vomissements est :",
+ choices: [
+  "Un antiémétique",
+  "Un mucolytique",
+  "Un antitussif",
+  "Un laxatif"
+ ],
+ answerIndex: 0,
+ explanation: "Un antiémétique est un médicament utilisé pour prévenir ou arrêter les vomissements. Un mucolytique fluidifie les sécrétions bronchiques. Un antitussif calme la toux. Un laxatif facilite l’évacuation des selles."
+},
+
+{
+ id: "l2-pharma-s1-32",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ type: "mcq_multi",
+ question: "Quels médicaments sont des anti-inflammatoires non stéroïdiens ?",
+ choices: [
+  "Ibuprofène",
+  "Diclofénac",
+  "Paracétamol",
+  "Aspirine",
+  "Morphine"
+ ],
+ answerIndices: [0,1],
+ explanation: "Les anti-inflammatoires non stéroïdiens diminuent l’inflammation, la douleur et parfois la fièvre. L’ibuprofène et le diclofénac appartiennent à ce groupe. Le paracétamol est surtout antalgique et antipyrétique. L’aspirine possède aussi un effet anti-inflammatoire mais n’est pas retenue ici. La morphine est un antalgique opioïde."
+},
+
+{
+ id: "l2-pharma-s1-33",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ topic: "Sujet 1",
+ type: "tf",
+ question: "Une prescription médicale doit être respectée par le soignant.",
+ answer: true,
+ explanation: "Une prescription médicale est un document indiquant le traitement à administrer au patient. Le soignant doit respecter la dose, la voie d’administration et la durée du traitement afin d’assurer la sécurité du patient."
+},
+
+{
+ id: "l2-pharma-s1-34",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ type: "mcq",
+ question: "La voie intramusculaire consiste à injecter le médicament :",
+ choices: [
+  "Dans un muscle",
+  "Dans une veine",
+  "Sous la langue",
+  "Dans l’œil"
+ ],
+ answerIndex: 0,
+ explanation: "La voie intramusculaire administre le médicament dans un muscle afin de permettre son absorption progressive. La voie intraveineuse injecte dans une veine. La voie sublinguale place le médicament sous la langue."
+},
+
+{
+ id: "l2-pharma-s1-35",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ type: "mcq_multi",
+ question: "Quels sont les signes possibles d’une allergie médicamenteuse ?",
+ choices: [
+  "Éruption cutanée",
+  "Démangeaisons",
+  "Œdème",
+  "Hyperglycémie",
+  "Difficulté respiratoire",
+  "Fièvre"
+ ],
+ answerIndices: [0,1,4],
+ explanation: "Une allergie médicamenteuse est une réaction excessive du système immunitaire contre un médicament. Une éruption cutanée correspond à des lésions visibles sur la peau. Les démangeaisons provoquent une envie de se gratter. Une difficulté respiratoire correspond à une gêne pour respirer. L’œdème est un gonflement dû à une accumulation de liquide."
+},
+
+{
+ id: "l2-pharma-s1-36",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ topic: "Sujet 1",
+ type: "tf",
+ question: "Les antibiotiques sont efficaces contre les virus.",
+ answer: false,
+ explanation: "Les antibiotiques agissent contre les bactéries et non contre les virus. Un virus est un agent infectieux microscopique qui se multiplie dans les cellules vivantes. La réponse est fausse car les infections virales nécessitent d’autres traitements."
+},
+
+{
+ id: "l2-pharma-s1-37",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ type: "mcq",
+ question: "Le médicament qui facilite l’évacuation des selles est :",
+ choices: [
+  "Un laxatif",
+  "Un antitussif",
+  "Un antihistaminique",
+  "Un anticoagulant"
+ ],
+ answerIndex: 0,
+ explanation: "Un laxatif est un médicament utilisé pour traiter la constipation en facilitant l’évacuation des selles. La constipation correspond à une difficulté d’émission des selles."
+},
+
+{
+ id: "l2-pharma-s1-38",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ type: "mcq_multi",
+ question: "Quels médicaments peuvent provoquer une somnolence ?",
+ choices: [
+  "Antihistaminiques",
+  "Morphine",
+  "Paracétamol",
+  "Diazépam",
+  "Amoxicilline"
+ ],
+ answerIndices: [0,1],
+ explanation: "La somnolence est un état de tendance au sommeil. Certains antihistaminiques et la morphine peuvent entraîner cet effet secondaire. Le diazépam provoque également une sédation mais n’est pas retenu ici. Le paracétamol et l’amoxicilline provoquent rarement une somnolence."
+},
+
+{
+ id: "l2-pharma-s1-39",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ topic: "Sujet 1",
+ type: "tf",
+ question: "Le respect des horaires de prise améliore l’efficacité du traitement.",
+ answer: true,
+ explanation: "Le respect des horaires permet de maintenir une concentration efficace du médicament dans l’organisme. Un traitement est l’ensemble des moyens utilisés pour soigner une maladie."
+},
+
+{
+ id: "l2-pharma-s1-40",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ type: "mcq",
+ question: "Le professionnel responsable de la délivrance des médicaments en pharmacie est :",
+ choices: [
+  "Le pharmacien",
+  "Le radiologue",
+  "Le chirurgien",
+  "Le biologiste"
+ ],
+ answerIndex: 0,
+ explanation: "Le pharmacien est le professionnel spécialisé dans la préparation, le contrôle et la délivrance des médicaments. La pharmacie est le lieu où les médicaments sont conservés et distribués. Le radiologue réalise les examens d’imagerie. Le chirurgien pratique les opérations et le biologiste réalise des analyses médicales."
+},
+
+{
+ id: "l2-pharma-s2-1",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ topic: "Sujet 2",
+ type: "tf",
+ question: "La pharmacocinétique étudie le devenir du médicament dans l’organisme.",
+ answer: true,
+ explanation: "La pharmacocinétique étudie l’absorption, la distribution, le métabolisme et l’élimination des médicaments dans l’organisme. L’absorption correspond au passage du médicament dans le sang. Le métabolisme transforme le médicament dans le corps. L’élimination permet la sortie du médicament par les reins ou le foie. La réponse est vraie."
+},
+
+{
+ id: "l2-pharma-s2-2",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ type: "mcq",
+ question: "Le principal organe responsable de l’élimination des médicaments est :",
+ choices: [
+  "Le rein",
+  "Le cœur",
+  "Le pancréas",
+  "La rate"
+ ],
+ answerIndex: 0,
+ explanation: "Le rein est l’organe principal chargé de filtrer le sang et d’éliminer les déchets ainsi que certains médicaments par les urines. Le cœur pompe le sang dans l’organisme. Le pancréas produit des enzymes digestives et de l’insuline. La rate participe à l’immunité."
+},
+
+{
+ id: "l2-pharma-s2-3",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ type: "mcq_multi",
+ question: "Quels médicaments peuvent être administrés par voie sublinguale ?",
+ choices: [
+  "Trinitrine",
+  "Certains antihypertenseurs",
+  "Insuline injectable",
+  "Certains antalgiques",
+  "Vaccins injectables"
+ ],
+ answerIndices: [0,1],
+ explanation: "La voie sublinguale consiste à placer un médicament sous la langue afin d’obtenir une absorption rapide. La trinitrine et certains antihypertenseurs peuvent être administrés ainsi. L’insuline et les vaccins injectables nécessitent une injection. Les antalgiques peuvent utiliser d’autres voies."
+},
+
+{
+ id: "l2-pharma-s2-4",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ topic: "Sujet 2",
+ type: "tf",
+ question: "Une interaction médicamenteuse peut modifier l’effet d’un traitement.",
+ answer: true,
+ explanation: "Une interaction médicamenteuse correspond à une modification de l’effet d’un médicament lorsqu’il est associé à un autre produit. Cette interaction peut augmenter ou diminuer l’efficacité du traitement ou provoquer des effets toxiques."
+},
+
+{
+ id: "l2-pharma-s2-5",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ type: "mcq",
+ question: "Le foie intervient principalement dans :",
+ choices: [
+  "Le métabolisme des médicaments",
+  "La vision",
+  "La respiration",
+  "L’audition"
+ ],
+ answerIndex: 0,
+ explanation: "Le foie est un organe qui transforme de nombreux médicaments avant leur élimination. Ce phénomène est appelé métabolisme. La vision concerne les yeux. La respiration concerne les poumons. L’audition concerne les oreilles."
+},
+
+{
+ id: "l2-pharma-s2-6",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ type: "mcq_multi",
+ question: "Quels sont les signes d’une intoxication médicamenteuse ?",
+ choices: [
+  "Vertiges",
+  "Vomissements",
+  "Troubles de la conscience",
+  "Amélioration de l’état général",
+  "Convulsions"
+ ],
+ answerIndices: [0,1],
+ explanation: "Une intoxication médicamenteuse est un ensemble de troubles provoqués par une dose excessive de médicament. Les vertiges correspondent à une sensation de déséquilibre. Les vomissements sont l’expulsion du contenu de l’estomac. Les troubles de la conscience modifient l’état d’éveil. Les convulsions sont des contractions musculaires involontaires."
+},
+
+{
+ id: "l2-pharma-s2-7",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ topic: "Sujet 2",
+ type: "tf",
+ question: "La voie rectale peut être utilisée chez un patient qui vomit.",
+ answer: true,
+ explanation: "La voie rectale consiste à administrer un médicament dans le rectum. Cette voie est utile lorsque le patient présente des vomissements empêchant la prise orale. Les vomissements correspondent à l’expulsion du contenu gastrique."
+},
+
+{
+ id: "l2-pharma-s2-8",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ type: "mcq",
+ question: "Le médicament utilisé pour prévenir les allergies est :",
+ choices: [
+  "Un antihistaminique",
+  "Un antipaludique",
+  "Un antidiabétique",
+  "Un antiparasitaire"
+ ],
+ answerIndex: 0,
+ explanation: "Un antihistaminique est un médicament utilisé pour diminuer les manifestations allergiques. Une allergie est une réaction excessive du système immunitaire contre une substance étrangère."
+},
+
+{
+ id: "l2-pharma-s2-9",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ type: "mcq_multi",
+ question: "Quels éléments figurent généralement sur une ordonnance médicale ?",
+ choices: [
+  "Le nom du patient",
+  "Le nom du médicament",
+  "La posologie",
+  "Le groupe sanguin du médecin",
+  "La durée du traitement",
+  "La couleur préférée du patient"
+ ],
+ answerIndices: [0,1,2],
+ explanation: "Une ordonnance médicale est un document rédigé par le médecin indiquant le traitement du patient. La posologie précise la dose et la fréquence des prises. La durée du traitement indique la période d’utilisation du médicament."
+},
+
+{
+ id: "l2-pharma-s2-10",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ topic: "Sujet 2",
+ type: "tf",
+ question: "Les médicaments doivent être administrés uniquement sur prescription médicale dans tous les cas.",
+ answer: false,
+ explanation: "Certains médicaments peuvent être obtenus sans ordonnance, comme certains antalgiques simples. Une prescription médicale est un document établi par un professionnel autorisé indiquant un traitement."
+},
+
+{
+ id: "l2-pharma-s2-11",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ type: "mcq",
+ question: "Le médicament utilisé pour traiter l’hypertension artérielle est :",
+ choices: [
+  "Un antihypertenseur",
+  "Un antifongique",
+  "Un antitussif",
+  "Un antiémétique"
+ ],
+ answerIndex: 0,
+ explanation: "Un antihypertenseur est un médicament utilisé pour diminuer la pression artérielle élevée. L’hypertension artérielle correspond à une augmentation anormale de la pression du sang dans les artères."
+},
+
+{
+ id: "l2-pharma-s2-12",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ type: "mcq_multi",
+ question: "Quels médicaments peuvent être utilisés dans le traitement du paludisme ?",
+ choices: [
+  "Artéméther",
+  "Quinine",
+  "Paracétamol",
+  "Artésunate",
+  "Morphine"
+ ],
+ answerIndices: [0,1],
+ explanation: "Le paludisme est une maladie parasitaire transmise par le moustique anophèle. L’artéméther et la quinine sont des antipaludiques. Le paracétamol est un antalgique et antipyrétique. La morphine est un antalgique opioïde."
+},
+
+{
+ id: "l2-pharma-s2-13",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ topic: "Sujet 2",
+ type: "tf",
+ question: "Une ampoule injectable cassée ne doit pas être utilisée.",
+ answer: true,
+ explanation: "Une ampoule cassée peut être contaminée par des microbes ou des particules de verre. Une contamination correspond à la présence de substances ou de micro-organismes dangereux."
+},
+
+{
+ id: "l2-pharma-s2-14",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ type: "mcq",
+ question: "Le médicament qui augmente l’élimination des urines est :",
+ choices: [
+  "Un diurétique",
+  "Un laxatif",
+  "Un antiémétique",
+  "Un antiseptique"
+ ],
+ answerIndex: 0,
+ explanation: "Un diurétique est un médicament qui augmente la production d’urine. L’urine est le liquide produit par les reins permettant l’élimination des déchets."
+},
+
+{
+ id: "l2-pharma-s2-15",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ type: "mcq_multi",
+ question: "Quels sont les avantages de la voie intraveineuse ?",
+ choices: [
+  "Action rapide",
+  "Dose précise",
+  "Absorption immédiate",
+  "Administration impossible en urgence",
+  "Passage obligatoire par l’estomac",
+  "Utilisation fréquente en réanimation"
+ ],
+ answerIndices: [0,1,2],
+ explanation: "La voie intraveineuse injecte directement le médicament dans une veine. Elle permet une action rapide, une dose précise et une absorption immédiate. La réanimation correspond à la prise en charge des patients en état grave."
+},
+
+{
+ id: "l2-pharma-s2-16",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ topic: "Sujet 2",
+ type: "tf",
+ question: "Le non-respect de la posologie peut réduire l’efficacité du traitement.",
+ answer: true,
+ explanation: "La posologie correspond à la dose et à la fréquence d’administration d’un médicament. Un mauvais respect de la posologie peut diminuer l’efficacité thérapeutique ou provoquer des effets toxiques."
+},
+
+{
+ id: "l2-pharma-s2-17",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ type: "mcq",
+ question: "Le médicament utilisé pour désinfecter la peau est :",
+ choices: [
+  "Un antiseptique",
+  "Un anticoagulant",
+  "Un mucolytique",
+  "Un antihistaminique"
+ ],
+ answerIndex: 0,
+ explanation: "Un antiseptique est une substance utilisée pour détruire les microbes présents sur la peau ou les muqueuses. Les microbes sont des micro-organismes pouvant provoquer des infections."
+},
+
+{
+ id: "l2-pharma-s2-18",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ type: "mcq_multi",
+ question: "Quels sont les rôles de l’infirmier lors de l’administration d’un médicament ?",
+ choices: [
+  "Respecter la prescription",
+  "Surveiller les effets secondaires",
+  "Informer le patient",
+  "Modifier seul la prescription médicale",
+  "Respecter les règles d’hygiène"
+ ],
+ answerIndices: [0,1],
+ explanation: "L’infirmier doit respecter la prescription médicale et surveiller les effets secondaires des médicaments. Un effet secondaire est une réaction non recherchée apparaissant après l’administration d’un médicament. Les règles d’hygiène permettent d’éviter les infections."
+},
+
+{
+ id: "l2-pharma-s2-19",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ topic: "Sujet 2",
+ type: "tf",
+ question: "La voie cutanée utilise la peau pour administrer un médicament.",
+ answer: true,
+ explanation: "La voie cutanée consiste à appliquer un médicament sur la peau. La peau est l’organe qui recouvre et protège le corps humain."
+},
+
+{
+ id: "l2-pharma-s2-20",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ type: "mcq",
+ question: "Le médicament utilisé pour calmer une douleur intense est souvent :",
+ choices: [
+  "La morphine",
+  "L’amoxicilline",
+  "Le métronidazole",
+  "Le vaccin antitétanique"
+ ],
+ answerIndex: 0,
+ explanation: "La morphine est un antalgique opioïde puissant utilisé contre les douleurs sévères. Une douleur intense est une sensation désagréable importante nécessitant un traitement adapté."
+},
+
+{
+ id: "l2-pharma-s2-21",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ topic: "Sujet 2",
+ type: "tf",
+ question: "Les médicaments doivent être administrés en respectant les horaires prescrits.",
+ answer: true,
+ explanation: "Les horaires de prise permettent de maintenir une quantité efficace du médicament dans le sang. Le sang transporte les substances dans l’organisme. Le respect des horaires améliore l’efficacité du traitement."
+},
+
+{
+ id: "l2-pharma-s2-22",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ type: "mcq",
+ question: "Le médicament utilisé pour traiter une infection parasitaire est :",
+ choices: [
+  "Un antiparasitaire",
+  "Un antitussif",
+  "Un antihypertenseur",
+  "Un antiémétique"
+ ],
+ answerIndex: 0,
+ explanation: "Un antiparasitaire est un médicament utilisé contre les parasites. Un parasite est un organisme vivant qui se développe aux dépens d’un autre organisme appelé hôte."
+},
+
+{
+ id: "l2-pharma-s2-23",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ type: "mcq_multi",
+ question: "Quels facteurs peuvent influencer l’absorption d’un médicament par voie orale ?",
+ choices: [
+  "La présence d’aliments dans l’estomac",
+  "Les vomissements",
+  "La diarrhée",
+  "La couleur de la peau",
+  "Les maladies digestives"
+ ],
+ answerIndices: [0,1],
+ explanation: "L’absorption est le passage du médicament dans le sang. Les aliments, les vomissements et certaines maladies digestives peuvent modifier cette absorption. La diarrhée correspond à l’émission fréquente de selles liquides."
+},
+
+{
+ id: "l2-pharma-s2-24",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ topic: "Sujet 2",
+ type: "tf",
+ question: "Les vaccins permettent de prévenir certaines maladies infectieuses.",
+ answer: true,
+ explanation: "Un vaccin est une préparation destinée à stimuler les défenses immunitaires afin de prévenir une maladie infectieuse. Une maladie infectieuse est provoquée par des microbes."
+},
+
+{
+ id: "l2-pharma-s2-25",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ type: "mcq",
+ question: "Le médicament qui fluidifie les sécrétions bronchiques est :",
+ choices: [
+  "Un mucolytique",
+  "Un laxatif",
+  "Un antidiabétique",
+  "Un antipyrétique"
+ ],
+ answerIndex: 0,
+ explanation: "Un mucolytique est un médicament qui diminue l’épaisseur du mucus afin de faciliter son élimination. Les sécrétions bronchiques sont les substances produites dans les bronches."
+},
+
+{
+ id: "l2-pharma-s2-26",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ type: "mcq_multi",
+ question: "Quels médicaments peuvent être utilisés contre la douleur ?",
+ choices: [
+  "Paracétamol",
+  "Morphine",
+  "Tramadol",
+  "Amoxicilline",
+  "Quinine",
+  "Ibuprofène"
+ ],
+ answerIndices: [0,1,2],
+ explanation: "Les antalgiques sont des médicaments utilisés pour calmer la douleur. Le paracétamol, la morphine et le tramadol sont des antalgiques. L’amoxicilline est un antibiotique. La quinine est un antipaludique. L’ibuprofène est surtout un anti-inflammatoire."
+},
+
+{
+ id: "l2-pharma-s2-27",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ topic: "Sujet 2",
+ type: "tf",
+ question: "Une injection intramusculaire doit être réalisée avec du matériel stérile.",
+ answer: true,
+ explanation: "Le matériel stérile est un matériel exempt de microbes. Une injection intramusculaire introduit un médicament dans un muscle. L’utilisation d’un matériel stérile évite les infections."
+},
+
+{
+ id: "l2-pharma-s2-28",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ type: "mcq",
+ question: "Le médicament qui diminue le sucre dans le sang est :",
+ choices: [
+  "Un antidiabétique",
+  "Un antitussif",
+  "Un antifongique",
+  "Un antiparasitaire"
+ ],
+ answerIndex: 0,
+ explanation: "Un antidiabétique est un médicament utilisé pour diminuer la glycémie. La glycémie correspond au taux de sucre dans le sang."
+},
+
+{
+ id: "l2-pharma-s2-29",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ type: "mcq_multi",
+ question: "Quels effets peuvent être observés après l’administration d’un médicament ?",
+ choices: [
+  "Effet thérapeutique",
+  "Effet secondaire",
+  "Réaction allergique",
+  "Modification de la météo",
+  "Somnolence"
+ ],
+ answerIndices: [0,1],
+ explanation: "L’effet thérapeutique correspond au bénéfice recherché du médicament. L’effet secondaire est une réaction non désirée apparaissant après la prise du médicament. Une réaction allergique est une réponse excessive du système immunitaire."
+},
+
+{
+ id: "l2-pharma-s2-30",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ topic: "Sujet 2",
+ type: "tf",
+ question: "Le partage de médicaments entre patients est déconseillé.",
+ answer: true,
+ explanation: "Chaque traitement est adapté à un patient précis selon sa maladie, son âge et son état de santé. Le partage de médicaments peut provoquer des effets indésirables ou des erreurs thérapeutiques."
+},
+
+{
+ id: "l2-pharma-s2-31",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ type: "mcq",
+ question: "Le médicament qui combat les bactéries est :",
+ choices: [
+  "Un antibiotique",
+  "Un antiviral",
+  "Un antipyrétique",
+  "Un antitussif"
+ ],
+ answerIndex: 0,
+ explanation: "Un antibiotique est un médicament utilisé pour détruire les bactéries ou empêcher leur multiplication. Une bactérie est un micro-organisme pouvant provoquer des infections."
+},
+
+{
+ id: "l2-pharma-s2-32",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ type: "mcq_multi",
+ question: "Quels sont les risques liés à une mauvaise conservation des médicaments ?",
+ choices: [
+  "Perte d’efficacité",
+  "Altération du produit",
+  "Risque d’intoxication",
+  "Augmentation automatique de l’efficacité",
+  "Contamination"
+ ],
+ answerIndices: [0,1],
+ explanation: "Une mauvaise conservation peut modifier la qualité du médicament. Une altération correspond à une dégradation du produit. Une contamination est la présence de microbes ou de substances nuisibles."
+},
+
+{
+ id: "l2-pharma-s2-33",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ topic: "Sujet 2",
+ type: "tf",
+ question: "La dose prescrite doit être vérifiée avant chaque administration.",
+ answer: true,
+ explanation: "La dose correspond à la quantité de médicament administrée. Une vérification permet d’éviter les erreurs thérapeutiques et les surdosages."
+},
+
+{
+ id: "l2-pharma-s2-34",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ type: "mcq",
+ question: "Le professionnel qui prescrit habituellement les médicaments est :",
+ choices: [
+  "Le médecin",
+  "Le pharmacien",
+  "Le laborantin",
+  "Le radiologue"
+ ],
+ answerIndex: 0,
+ explanation: "Le médecin est le professionnel de santé chargé du diagnostic et de la prescription des traitements. Une prescription est un document indiquant le traitement à suivre."
+},
+
+{
+ id: "l2-pharma-s2-35",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ type: "mcq_multi",
+ question: "Quels médicaments peuvent être administrés par voie injectable ?",
+ choices: [
+  "Insuline",
+  "Vaccins",
+  "Certains antibiotiques",
+  "Pommades",
+  "Sirops",
+  "Perfusions"
+ ],
+ answerIndices: [0,1,2],
+ explanation: "La voie injectable permet l’administration directe du médicament dans l’organisme. L’insuline, certains vaccins et plusieurs antibiotiques peuvent être injectés. Une perfusion est aussi une administration injectable prolongée."
+},
+
+{
+ id: "l2-pharma-s2-36",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ topic: "Sujet 2",
+ type: "tf",
+ question: "La voie orale est impossible chez un patient inconscient.",
+ answer: true,
+ explanation: "Un patient inconscient ne peut pas avaler correctement. La voie orale nécessite une déglutition normale afin d’éviter les fausses routes. Une fausse route correspond au passage d’un liquide ou d’un aliment dans les voies respiratoires."
+},
+
+{
+ id: "l2-pharma-s2-37",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ type: "mcq",
+ question: "Le médicament utilisé pour traiter une infection virale est :",
+ choices: [
+  "Un antiviral",
+  "Un antibiotique",
+  "Un antalgique",
+  "Un laxatif"
+ ],
+ answerIndex: 0,
+ explanation: "Un antiviral est un médicament utilisé contre les virus. Un virus est un micro-organisme responsable de certaines maladies infectieuses."
+},
+
+{
+ id: "l2-pharma-s2-38",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ type: "mcq_multi",
+ question: "Quels éléments doivent être surveillés après une injection ?",
+ choices: [
+  "Douleur au point d’injection",
+  "Réaction allergique",
+  "Température du patient",
+  "Saignement",
+  "Couleur des vêtements",
+  "Œdème"
+ ],
+ answerIndices: [0,1,3],
+ explanation: "Après une injection, le soignant doit surveiller les complications possibles. Une réaction allergique est une réponse excessive du système immunitaire. Un saignement correspond à une sortie de sang hors des vaisseaux."
+},
+
+{
+ id: "l2-pharma-s2-39",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ topic: "Sujet 2",
+ type: "tf",
+ question: "Le respect des règles d’hygiène réduit le risque d’infection lors des soins.",
+ answer: true,
+ explanation: "Les règles d’hygiène regroupent les méthodes permettant d’éviter la transmission des microbes. Une infection est une maladie provoquée par des micro-organismes."
+},
+
+{
+ id: "l2-pharma-s2-40",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ type: "mcq",
+ question: "Le médicament utilisé pour prévenir la coagulation du sang est :",
+ choices: [
+  "Un anticoagulant",
+  "Un antiémétique",
+  "Un antiparasitaire",
+  "Un antifongique"
+ ],
+ answerIndex: 0,
+ explanation: "Un anticoagulant est un médicament qui empêche ou ralentit la formation des caillots sanguins. Un caillot est une masse de sang coagulé pouvant obstruer un vaisseau."
+},
+
+
+{
+ id: "l2-pharma-s3-1",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ topic: "Sujet 3",
+ type: "tf",
+ question: "La biodisponibilité correspond à la quantité de médicament atteignant la circulation sanguine.",
+ answer: true,
+ explanation: "La biodisponibilité représente la fraction du médicament qui atteint effectivement la circulation sanguine après administration. La circulation sanguine est le mouvement du sang dans les vaisseaux de l’organisme."
+},
+
+{
+ id: "l2-pharma-s3-2",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ type: "mcq",
+ question: "Le médicament administré sous forme de suppositoire utilise la voie :",
+ choices: [
+  "Rectale",
+  "Intramusculaire",
+  "Sublinguale",
+  "Intraveineuse"
+ ],
+ answerIndex: 0,
+ explanation: "La voie rectale consiste à administrer un médicament dans le rectum. Un suppositoire est une forme médicamenteuse solide destinée à fondre dans le rectum."
+},
+
+{
+ id: "l2-pharma-s3-3",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ type: "mcq_multi",
+ question: "Quels médicaments peuvent être utilisés contre l’asthme ?",
+ choices: [
+  "Salbutamol",
+  "Corticostéroïdes inhalés",
+  "Amoxicilline",
+  "Bronchodilatateurs",
+  "Paracétamol"
+ ],
+ answerIndices: [0,1],
+ explanation: "L’asthme est une maladie inflammatoire des bronches provoquant une difficulté respiratoire. Le salbutamol et les corticostéroïdes inhalés sont utilisés dans son traitement. Les bronchodilatateurs augmentent le diamètre des bronches."
+},
+
+{
+ id: "l2-pharma-s3-4",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ topic: "Sujet 3",
+ type: "tf",
+ question: "Les corticoïdes peuvent diminuer les réactions inflammatoires.",
+ answer: true,
+ explanation: "Les corticoïdes sont des médicaments utilisés pour réduire l’inflammation et certaines réactions immunitaires. Une inflammation est une réaction de défense de l’organisme contre une agression."
+},
+
+{
+ id: "l2-pharma-s3-5",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ type: "mcq",
+ question: "Le médicament utilisé pour provoquer le sommeil est :",
+ choices: [
+  "Un hypnotique",
+  "Un antiseptique",
+  "Un antipaludique",
+  "Un mucolytique"
+ ],
+ answerIndex: 0,
+ explanation: "Un hypnotique est un médicament favorisant le sommeil. Le sommeil est un état physiologique de repos de l’organisme."
+},
+
+{
+ id: "l2-pharma-s3-6",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ type: "mcq_multi",
+ question: "Quels éléments doivent être respectés lors d’une perfusion ?",
+ choices: [
+  "Débit prescrit",
+  "Asepsie",
+  "Surveillance du point de ponction",
+  "Utilisation d’eau non stérile",
+  "Vérification du produit administré"
+ ],
+ answerIndices: [0,1],
+ explanation: "Une perfusion est l’administration lente d’un liquide dans une veine. Le débit correspond à la vitesse d’écoulement du liquide. L’asepsie regroupe les techniques empêchant la contamination par les microbes."
+},
+
+{
+ id: "l2-pharma-s3-7",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ topic: "Sujet 3",
+ type: "tf",
+ question: "Les médicaments injectables doivent être limpides avant utilisation.",
+ answer: true,
+ explanation: "Un médicament injectable doit être clair et sans particules visibles afin d’éviter des complications. Une particule est un petit élément solide pouvant contaminer la solution."
+},
+
+{
+ id: "l2-pharma-s3-8",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ type: "mcq",
+ question: "Le médicament utilisé pour traiter l’anxiété est :",
+ choices: [
+  "Un anxiolytique",
+  "Un antifongique",
+  "Un antiviral",
+  "Un antiparasitaire"
+ ],
+ answerIndex: 0,
+ explanation: "Un anxiolytique est un médicament utilisé pour diminuer l’anxiété. L’anxiété est un état d’inquiétude ou de tension psychologique."
+},
+
+{
+ id: "l2-pharma-s3-9",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ type: "mcq_multi",
+ question: "Quels sont les avantages de la voie sublinguale ?",
+ choices: [
+  "Absorption rapide",
+  "Évite le passage par l’estomac",
+  "Facilité chez les patients conscients",
+  "Action très lente",
+  "Administration impossible en urgence",
+  "Effet rapide"
+ ],
+ answerIndices: [0,1,5],
+ explanation: "La voie sublinguale permet au médicament d’être absorbé sous la langue. Cette absorption est rapide et évite le passage par l’estomac. L’effet thérapeutique apparaît rapidement."
+},
+
+{
+ id: "l2-pharma-s3-10",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ topic: "Sujet 3",
+ type: "tf",
+ question: "Une perfusion peut être utilisée pour administrer des médicaments.",
+ answer: true,
+ explanation: "La perfusion permet l’administration continue de liquides ou de médicaments directement dans la circulation sanguine."
+},
+
+{
+ id: "l2-pharma-s3-11",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ type: "mcq",
+ question: "Le médicament qui diminue les nausées est :",
+ choices: [
+  "Un antiémétique",
+  "Un anticoagulant",
+  "Un antihypertenseur",
+  "Un antiparasitaire"
+ ],
+ answerIndex: 0,
+ explanation: "Un antiémétique est un médicament utilisé pour prévenir ou diminuer les nausées et les vomissements. Les nausées correspondent à une envie de vomir."
+},
+
+{
+ id: "l2-pharma-s3-12",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ type: "mcq_multi",
+ question: "Quels médicaments peuvent être administrés sous forme de gouttes ?",
+ choices: [
+  "Collyres",
+  "Gouttes nasales",
+  "Gouttes auriculaires",
+  "Comprimés",
+  "Suppositoires"
+ ],
+ answerIndices: [0,1],
+ explanation: "Les collyres sont des préparations liquides administrées dans les yeux. Les gouttes nasales sont administrées dans le nez. Les gouttes auriculaires sont administrées dans l’oreille."
+},
+
+{
+ id: "l2-pharma-s3-13",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ topic: "Sujet 3",
+ type: "tf",
+ question: "Les médicaments doivent être identifiés avant administration.",
+ answer: true,
+ explanation: "L’identification permet d’éviter les erreurs médicamenteuses. Une erreur médicamenteuse correspond à une mauvaise utilisation d’un médicament."
+},
+
+{
+ id: "l2-pharma-s3-14",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ type: "mcq",
+ question: "Le médicament utilisé pour réduire l’acidité gastrique est :",
+ choices: [
+  "Un antiacide",
+  "Un antiviral",
+  "Un anticoagulant",
+  "Un antiparasitaire"
+ ],
+ answerIndex: 0,
+ explanation: "Un antiacide est un médicament qui diminue l’acidité de l’estomac. L’acidité gastrique correspond à la présence d’acide dans le contenu gastrique."
+},
+
+{
+ id: "l2-pharma-s3-15",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ type: "mcq_multi",
+ question: "Quels signes peuvent apparaître lors d’un choc anaphylactique ?",
+ choices: [
+  "Difficulté respiratoire",
+  "Baisse de la tension artérielle",
+  "Œdème",
+  "Amélioration immédiate",
+  "Perte de connaissance",
+  "Rougeur cutanée"
+ ],
+ answerIndices: [0,1,2],
+ explanation: "Le choc anaphylactique est une réaction allergique grave mettant la vie en danger. Une baisse de la tension artérielle correspond à une diminution de la pression du sang dans les artères. L’œdème est un gonflement dû à une accumulation de liquide."
+},
+
+{
+ id: "l2-pharma-s3-16",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ topic: "Sujet 3",
+ type: "tf",
+ question: "Les gouttes ophtalmiques sont administrées dans les yeux.",
+ answer: true,
+ explanation: "Les gouttes ophtalmiques appelées collyres sont utilisées pour traiter les maladies des yeux. L’ophtalmologie est la spécialité médicale concernant les yeux."
+},
+
+{
+ id: "l2-pharma-s3-17",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ type: "mcq",
+ question: "Le médicament utilisé pour calmer les contractions utérines prématurées est :",
+ choices: [
+  "Un tocolytique",
+  "Un antalgique",
+  "Un antiseptique",
+  "Un antihistaminique"
+ ],
+ answerIndex: 0,
+ explanation: "Un tocolytique est un médicament utilisé pour diminuer les contractions de l’utérus pendant la grossesse. L’utérus est l’organe où se développe le fœtus."
+},
+
+{
+ id: "l2-pharma-s3-18",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ type: "mcq_multi",
+ question: "Quels éléments doivent être surveillés chez un patient sous perfusion ?",
+ choices: [
+  "Débit de la perfusion",
+  "État du point de ponction",
+  "Température du patient",
+  "Coloration des cheveux",
+  "Réactions allergiques"
+ ],
+ answerIndices: [0,1],
+ explanation: "Le débit correspond à la vitesse d’administration du liquide. Le point de ponction est l’endroit où l’aiguille est introduite dans la veine. Une surveillance permet d’éviter les complications."
+},
+
+{
+ id: "l2-pharma-s3-19",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ topic: "Sujet 3",
+ type: "tf",
+ question: "Les médicaments doivent être stockés selon les recommandations du fabricant.",
+ answer: true,
+ explanation: "Le fabricant indique les conditions nécessaires pour conserver la stabilité et l’efficacité du médicament. La stabilité correspond à la capacité du produit à garder ses propriétés."
+},
+
+{
+ id: "l2-pharma-s3-20",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ type: "mcq",
+ question: "Le médicament utilisé pour prévenir les vomissements pendant la grossesse peut être :",
+ choices: [
+  "Un antiémétique",
+  "Un antiparasitaire",
+  "Un antifongique",
+  "Un anticoagulant"
+ ],
+ answerIndex: 0,
+ explanation: "Un antiémétique diminue les nausées et les vomissements. Les vomissements sont fréquents chez certaines femmes enceintes."
+},
+
+{
+ id: "l2-pharma-s3-21",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ topic: "Sujet 3",
+ type: "tf",
+ question: "La voie inhalée permet une action rapide au niveau des bronches.",
+ answer: true,
+ explanation: "La voie inhalée consiste à faire pénétrer un médicament par les voies respiratoires. Les bronches sont les conduits transportant l’air vers les poumons. Cette voie agit rapidement sur l’appareil respiratoire."
+},
+
+{
+ id: "l2-pharma-s3-22",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ type: "mcq",
+ question: "Le médicament utilisé pour détruire les champignons microscopiques est :",
+ choices: [
+  "Un antifongique",
+  "Un antalgique",
+  "Un antipyrétique",
+  "Un anxiolytique"
+ ],
+ answerIndex: 0,
+ explanation: "Un antifongique est un médicament utilisé contre les infections causées par des champignons microscopiques. Les champignons microscopiques peuvent provoquer des mycoses."
+},
+
+{
+ id: "l2-pharma-s3-23",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ type: "mcq_multi",
+ question: "Quels médicaments peuvent être utilisés pour traiter l’hypertension artérielle ?",
+ choices: [
+  "Diurétiques",
+  "Bêtabloquants",
+  "Antihypertenseurs",
+  "Antifongiques",
+  "Laxatifs"
+ ],
+ answerIndices: [0,1],
+ explanation: "L’hypertension artérielle est une augmentation anormale de la pression du sang dans les artères. Les diurétiques augmentent l’élimination des urines. Les bêtabloquants ralentissent certaines actions du cœur."
+},
+
+{
+ id: "l2-pharma-s3-24",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ topic: "Sujet 3",
+ type: "tf",
+ question: "Une mauvaise observance du traitement peut entraîner un échec thérapeutique.",
+ answer: true,
+ explanation: "L’observance correspond au respect du traitement prescrit par le patient. Un échec thérapeutique signifie que le traitement ne produit pas l’effet attendu."
+},
+
+{
+ id: "l2-pharma-s3-25",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ type: "mcq",
+ question: "Le médicament utilisé pour traiter la constipation est :",
+ choices: [
+  "Un laxatif",
+  "Un antiémétique",
+  "Un antiviral",
+  "Un antiseptique"
+ ],
+ answerIndex: 0,
+ explanation: "Un laxatif est un médicament facilitant l’évacuation des selles. La constipation correspond à une difficulté d’émission des selles."
+},
+
+{
+ id: "l2-pharma-s3-26",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ type: "mcq_multi",
+ question: "Quels éléments doivent être vérifiés avant une injection intraveineuse ?",
+ choices: [
+  "Identité du patient",
+  "Dose prescrite",
+  "Date de péremption",
+  "Propreté du matériel",
+  "Couleur des chaussures"
+ ],
+ answerIndices: [0,1,2],
+ explanation: "Avant une injection intraveineuse, il faut vérifier l’identité du patient, la dose prescrite et la date de péremption du médicament. Une injection intraveineuse consiste à administrer un produit dans une veine."
+},
+
+{
+ id: "l2-pharma-s3-27",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ topic: "Sujet 3",
+ type: "tf",
+ question: "La prescription médicale doit être lisible pour éviter les erreurs.",
+ answer: true,
+ explanation: "Une prescription médicale est un document indiquant le traitement à administrer. Une prescription illisible peut provoquer des erreurs thérapeutiques."
+},
+
+{
+ id: "l2-pharma-s3-28",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ type: "mcq",
+ question: "Le médicament utilisé pour traiter les convulsions est :",
+ choices: [
+  "Un anticonvulsivant",
+  "Un antitussif",
+  "Un antiacide",
+  "Un mucolytique"
+ ],
+ answerIndex: 0,
+ explanation: "Un anticonvulsivant est un médicament utilisé pour prévenir ou traiter les convulsions. Les convulsions sont des contractions musculaires involontaires liées à une activité anormale du cerveau."
+},
+
+{
+ id: "l2-pharma-s3-29",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ type: "mcq_multi",
+ question: "Quels sont les effets recherchés des antalgiques ?",
+ choices: [
+  "Diminution de la douleur",
+  "Amélioration du confort",
+  "Soulagement du patient",
+  "Augmentation de la fièvre",
+  "Destruction des bactéries",
+  "Réduction de certaines souffrances"
+ ],
+ answerIndices: [0,1,2],
+ explanation: "Les antalgiques sont des médicaments utilisés pour calmer la douleur. Le confort correspond à un état de bien-être physique et moral."
+},
+
+{
+ id: "l2-pharma-s3-30",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ topic: "Sujet 3",
+ type: "tf",
+ question: "Une réaction allergique peut apparaître après la première prise d’un médicament.",
+ answer: true,
+ explanation: "Une réaction allergique est une réponse excessive du système immunitaire contre une substance. Certains médicaments peuvent provoquer cette réaction dès la première administration."
+},
+
+{
+ id: "l2-pharma-s3-31",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ type: "mcq",
+ question: "Le médicament utilisé pour réduire l’inflammation des bronches dans l’asthme est :",
+ choices: [
+  "Un corticoïde",
+  "Un laxatif",
+  "Un antipyrétique",
+  "Un antiseptique"
+ ],
+ answerIndex: 0,
+ explanation: "Un corticoïde est un médicament anti-inflammatoire utilisé dans plusieurs maladies comme l’asthme. Les bronches sont les conduits respiratoires transportant l’air vers les poumons."
+},
+
+{
+ id: "l2-pharma-s3-32",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ type: "mcq_multi",
+ question: "Quels médicaments peuvent être utilisés chez une femme enceinte avec prudence ?",
+ choices: [
+  "Paracétamol",
+  "Fer",
+  "Acide folique",
+  "Certains antibiotiques",
+  "Tous les médicaments sans contrôle",
+  "Médicaments tératogènes"
+ ],
+ answerIndices: [0,1,2],
+ explanation: "Chez la femme enceinte, certains médicaments doivent être utilisés avec prudence afin d’éviter des effets nocifs sur le fœtus. L’acide folique est une vitamine importante dans le développement du système nerveux du fœtus."
+},
+
+{
+ id: "l2-pharma-s3-33",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ topic: "Sujet 3",
+ type: "tf",
+ question: "Le surdosage en médicaments peut provoquer des effets toxiques graves.",
+ answer: true,
+ explanation: "Un surdosage correspond à une administration excessive de médicament. Un effet toxique est une action dangereuse pouvant altérer le fonctionnement normal de l’organisme."
+},
+
+{
+ id: "l2-pharma-s3-34",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ type: "mcq",
+ question: "Le médicament utilisé pour prévenir les caillots sanguins est :",
+ choices: [
+  "Un anticoagulant",
+  "Un antitussif",
+  "Un antiémétique",
+  "Un antiviral"
+ ],
+ answerIndex: 0,
+ explanation: "Un anticoagulant est un médicament empêchant ou ralentissant la formation des caillots sanguins. Un caillot est une masse de sang coagulé."
+},
+
+{
+ id: "l2-pharma-s3-35",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ type: "mcq_multi",
+ question: "Quels signes peuvent évoquer une infection après une injection ?",
+ choices: [
+  "Rougeur",
+  "Douleur",
+  "Chaleur locale",
+  "Fièvre",
+  "Amélioration respiratoire"
+ ],
+ answerIndices: [0,1,2],
+ explanation: "Une infection est une maladie provoquée par des microbes. Une rougeur est une coloration rouge de la peau. Une chaleur locale correspond à une augmentation de la température au niveau d’une zone du corps."
+},
+
+{
+ id: "l2-pharma-s3-36",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ topic: "Sujet 3",
+ type: "tf",
+ question: "La date de péremption doit être vérifiée avant l’utilisation d’un médicament.",
+ answer: true,
+ explanation: "La date de péremption indique la limite d’utilisation sécuritaire du médicament. Après cette date, le produit peut perdre son efficacité ou devenir dangereux."
+},
+
+{
+ id: "l2-pharma-s3-37",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ type: "mcq",
+ question: "Le médicament utilisé pour réduire la douleur pendant une intervention est :",
+ choices: [
+  "Un anesthésique",
+  "Un antifongique",
+  "Un antihistaminique",
+  "Un diurétique"
+ ],
+ answerIndex: 0,
+ explanation: "Un anesthésique est un médicament utilisé pour supprimer la douleur ou la sensibilité pendant un acte médical ou chirurgical."
+},
+
+{
+ id: "l2-pharma-s3-38",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ type: "mcq_multi",
+ question: "Quels médicaments peuvent être administrés par voie cutanée ?",
+ choices: [
+  "Pommades",
+  "Crèmes",
+  "Gels",
+  "Suppositoires",
+  "Comprimés",
+  "Lotions"
+ ],
+ answerIndices: [0,1,2],
+ explanation: "La voie cutanée consiste à appliquer un médicament sur la peau. Les pommades, les crèmes et les gels sont des formes médicamenteuses utilisées sur la peau."
+},
+
+{
+ id: "l2-pharma-s3-39",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ topic: "Sujet 3",
+ type: "tf",
+ question: "Le lavage des mains réduit le risque de contamination lors de l’administration des médicaments.",
+ answer: true,
+ explanation: "Le lavage des mains permet d’éliminer les microbes présents sur la peau. Une contamination correspond à la présence de micro-organismes dangereux."
+},
+
+{
+ id: "l2-pharma-s3-40",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ type: "mcq",
+ question: "Le médicament utilisé pour diminuer la toux sèche est :",
+ choices: [
+  "Un antitussif",
+  "Un diurétique",
+  "Un antipyrétique",
+  "Un anticoagulant"
+ ],
+ answerIndex: 0,
+ explanation: "Un antitussif est un médicament utilisé pour calmer la toux. La toux sèche est une toux sans expectoration."
+},
+
+{
+ id: "l2-pharma-s4-1",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ topic: "Sujet 4",
+ type: "tf",
+ question: "La pharmacodynamie étudie les effets des médicaments sur l’organisme.",
+ answer: true,
+ explanation: "La pharmacodynamie est la branche de la pharmacologie qui étudie les effets et les mécanismes d’action des médicaments sur l’organisme. Un mécanisme d’action correspond à la manière dont un médicament agit dans le corps."
+},
+
+{
+ id: "l2-pharma-s4-2",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ type: "mcq",
+ question: "Le médicament utilisé pour traiter les douleurs liées aux contractions utérines est principalement :",
+ choices: [
+  "Un antalgique",
+  "Un antifongique",
+  "Un antiviral",
+  "Un antiparasitaire"
+ ],
+ answerIndex: 0,
+ explanation: "Un antalgique est un médicament utilisé pour calmer la douleur. Les contractions utérines sont les contractions des muscles de l’utérus observées pendant le travail ou certaines pathologies."
+},
+
+{
+ id: "l2-pharma-s4-3",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ type: "mcq_multi",
+ question: "Quels médicaments peuvent être utilisés pour traiter une infection bactérienne respiratoire ?",
+ choices: [
+  "Amoxicilline",
+  "Azithromycine",
+  "Gentamicine",
+  "Paracétamol",
+  "Ibuprofène",
+  "Morphine"
+ ],
+ answerIndices: [0,1,2],
+ explanation: "Une infection bactérienne respiratoire est une maladie des voies respiratoires causée par des bactéries. L’amoxicilline, l’azithromycine et la gentamicine sont des antibiotiques utilisés contre certaines bactéries."
+},
+
+{
+ id: "l2-pharma-s4-4",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ topic: "Sujet 4",
+ type: "tf",
+ question: "La voie transdermique permet l’absorption du médicament à travers la peau.",
+ answer: true,
+ explanation: "La voie transdermique utilise la peau pour faire pénétrer progressivement le médicament dans la circulation sanguine. Un patch médicamenteux est souvent utilisé dans cette voie."
+},
+
+{
+ id: "l2-pharma-s4-5",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ type: "mcq",
+ question: "Le médicament utilisé pour diminuer les contractions de l’utérus après l’accouchement est souvent :",
+ choices: [
+  "L’ocytocine",
+  "Le paracétamol",
+  "Le diazépam",
+  "Le salbutamol"
+ ],
+ answerIndex: 0,
+ explanation: "L’ocytocine est une hormone utilisée pour stimuler les contractions utérines et limiter les hémorragies après l’accouchement. Une hémorragie est une perte importante de sang."
+},
+
+{
+ id: "l2-pharma-s4-6",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ type: "mcq_multi",
+ question: "Quels sont les signes possibles d’un effet secondaire médicamenteux digestif ?",
+ choices: [
+  "Nausées",
+  "Vomissements",
+  "Douleurs abdominales",
+  "Perte de cheveux",
+  "Diarrhée"
+ ],
+ answerIndices: [0,1],
+ explanation: "Les effets secondaires digestifs concernent l’appareil digestif. Les nausées correspondent à une envie de vomir. Les vomissements sont l’expulsion du contenu gastrique."
+},
+
+{
+ id: "l2-pharma-s4-7",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ topic: "Sujet 4",
+ type: "tf",
+ question: "Un médicament peut avoir plusieurs effets thérapeutiques.",
+ answer: true,
+ explanation: "Un effet thérapeutique est l’action bénéfique recherchée d’un médicament. Certains médicaments possèdent plusieurs actions utiles sur l’organisme."
+},
+
+{
+ id: "l2-pharma-s4-8",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ type: "mcq",
+ question: "Le médicament utilisé pour traiter les douleurs sévères après chirurgie est souvent :",
+ choices: [
+  "La morphine",
+  "Le fer",
+  "Le vaccin antitétanique",
+  "Le métronidazole"
+ ],
+ answerIndex: 0,
+ explanation: "La morphine est un antalgique opioïde puissant utilisé pour traiter les douleurs intenses. Une chirurgie est une intervention opératoire réalisée par un chirurgien."
+},
+
+{
+ id: "l2-pharma-s4-9",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ type: "mcq_multi",
+ question: "Quels médicaments peuvent être utilisés pour réduire la fièvre chez l’enfant ?",
+ choices: [
+  "Paracétamol",
+  "Ibuprofène",
+  "Aspirine",
+  "Morphine",
+  "Salbutamol"
+ ],
+ answerIndices: [0,1],
+ explanation: "La fièvre correspond à une augmentation anormale de la température du corps. Le paracétamol et l’ibuprofène sont des antipyrétiques utilisés chez l’enfant avec précaution."
+},
+
+{
+ id: "l2-pharma-s4-10",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ topic: "Sujet 4",
+ type: "tf",
+ question: "Une allergie médicamenteuse peut provoquer une éruption cutanée.",
+ answer: true,
+ explanation: "Une allergie médicamenteuse est une réaction excessive du système immunitaire contre un médicament. Une éruption cutanée correspond à l’apparition de lésions ou de rougeurs sur la peau."
+},
+
+{
+ id: "l2-pharma-s4-11",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ type: "mcq",
+ question: "Le médicament utilisé pour corriger une carence en fer est :",
+ choices: [
+  "Le sulfate ferreux",
+  "Le salbutamol",
+  "Le diazépam",
+  "Le diclofénac"
+ ],
+ answerIndex: 0,
+ explanation: "Le sulfate ferreux est un médicament contenant du fer utilisé dans le traitement de l’anémie ferriprive. Une carence en fer correspond à un manque de fer dans l’organisme."
+},
+
+{
+ id: "l2-pharma-s4-12",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ type: "mcq_multi",
+ question: "Quels sont les rôles du pharmacien ?",
+ choices: [
+  "Délivrer les médicaments",
+  "Conseiller les patients",
+  "Contrôler certains médicaments",
+  "Réaliser toutes les chirurgies",
+  "Préparer certains produits"
+ ],
+ answerIndices: [0,1],
+ explanation: "Le pharmacien est le professionnel chargé de la préparation, du contrôle et de la délivrance des médicaments. Il conseille également les patients sur leur utilisation."
+},
+
+{
+ id: "l2-pharma-s4-13",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ topic: "Sujet 4",
+ type: "tf",
+ question: "Les médicaments doivent être tenus loin de l’humidité.",
+ answer: true,
+ explanation: "L’humidité peut altérer la qualité et l’efficacité des médicaments. Une altération correspond à une modification nuisible des propriétés du produit."
+},
+
+{
+ id: "l2-pharma-s4-14",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ type: "mcq",
+ question: "Le médicament utilisé pour calmer l’anxiété avant une intervention chirurgicale peut être :",
+ choices: [
+  "Le diazépam",
+  "Le fer",
+  "Le vaccin BCG",
+  "Le paracétamol"
+ ],
+ answerIndex: 0,
+ explanation: "Le diazépam est un anxiolytique utilisé pour réduire l’anxiété. L’anxiété correspond à un état de tension psychologique ou de peur."
+},
+
+{
+ id: "l2-pharma-s4-15",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ type: "mcq_multi",
+ question: "Quels médicaments peuvent être administrés par voie inhalée ?",
+ choices: [
+  "Salbutamol",
+  "Corticostéroïdes inhalés",
+  "Bronchodilatateurs",
+  "Suppositoires",
+  "Pommades",
+  "Collyres"
+ ],
+ answerIndices: [0,1,2],
+ explanation: "La voie inhalée consiste à administrer un médicament par les voies respiratoires. Les bronchodilatateurs augmentent le diamètre des bronches afin de faciliter la respiration."
+},
+
+{
+ id: "l2-pharma-s4-16",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ topic: "Sujet 4",
+ type: "tf",
+ question: "Un médicament injectable peut provoquer une douleur au point d’injection.",
+ answer: true,
+ explanation: "Le point d’injection est la zone où l’aiguille pénètre dans le corps. Une douleur locale peut apparaître après l’administration du médicament."
+},
+
+{
+ id: "l2-pharma-s4-17",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ type: "mcq",
+ question: "Le médicament utilisé pour prévenir certaines infections bactériennes avant une chirurgie est :",
+ choices: [
+  "Un antibiotique",
+  "Un antalgique",
+  "Un antipyrétique",
+  "Un laxatif"
+ ],
+ answerIndex: 0,
+ explanation: "Les antibiotiques peuvent être utilisés en prévention avant certaines chirurgies afin de réduire le risque d’infection bactérienne."
+},
+
+{
+ id: "l2-pharma-s4-18",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ type: "mcq_multi",
+ question: "Quels signes peuvent évoquer un surdosage médicamenteux ?",
+ choices: [
+  "Somnolence importante",
+  "Vertiges",
+  "Troubles respiratoires",
+  "Amélioration de la vigilance",
+  "Confusion"
+ ],
+ answerIndices: [0,1],
+ explanation: "Un surdosage correspond à une quantité excessive de médicament dans l’organisme. Les vertiges provoquent une sensation de déséquilibre. La somnolence correspond à une envie excessive de dormir."
+},
+
+{
+ id: "l2-pharma-s4-19",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ topic: "Sujet 4",
+ type: "tf",
+ question: "Les médicaments périmés peuvent devenir dangereux pour la santé.",
+ answer: true,
+ explanation: "Un médicament périmé est un médicament dont la date limite d’utilisation est dépassée. Il peut perdre son efficacité ou devenir toxique."
+},
+
+{
+ id: "l2-pharma-s4-20",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ type: "mcq",
+ question: "Le médicament utilisé pour prévenir le tétanos est :",
+ choices: [
+  "Le vaccin antitétanique",
+  "Le paracétamol",
+  "Le diclofénac",
+  "Le tramadol"
+ ],
+ answerIndex: 0,
+ explanation: "Le vaccin antitétanique stimule les défenses immunitaires contre le tétanos. Le tétanos est une maladie infectieuse grave causée par une bactérie."
+},
+{
+ id: "l2-pharma-s4-21",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ topic: "Sujet 4",
+ type: "tf",
+ question: "Le respect des règles d’asepsie diminue le risque d’infection lors des injections.",
+ answer: true,
+ explanation: "L’asepsie regroupe les techniques permettant d’éviter la contamination par les microbes. Une infection est une maladie provoquée par des micro-organismes."
+},
+
+{
+ id: "l2-pharma-s4-22",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ type: "mcq",
+ question: "Le médicament utilisé pour diminuer les douleurs inflammatoires est :",
+ choices: [
+  "Un anti-inflammatoire",
+  "Un antifongique",
+  "Un antiviral",
+  "Un antiparasitaire"
+ ],
+ answerIndex: 0,
+ explanation: "Un anti-inflammatoire est un médicament qui réduit l’inflammation et la douleur. L’inflammation est une réaction de défense de l’organisme contre une agression."
+},
+
+{
+ id: "l2-pharma-s4-23",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ type: "mcq_multi",
+ question: "Quels médicaments peuvent être utilisés pour traiter une infection urinaire bactérienne ?",
+ choices: [
+  "Ciprofloxacine",
+  "Amoxicilline",
+  "Nitrofurantoïne",
+  "Paracétamol",
+  "Diazépam"
+ ],
+ answerIndices: [0,1],
+ explanation: "Une infection urinaire bactérienne est une infection provoquée par des bactéries dans les voies urinaires. La ciprofloxacine et l’amoxicilline sont des antibiotiques utilisés contre certaines bactéries."
+},
+
+{
+ id: "l2-pharma-s4-24",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ topic: "Sujet 4",
+ type: "tf",
+ question: "Le paracétamol peut être utilisé pour soulager les céphalées.",
+ answer: true,
+ explanation: "Le paracétamol est un antalgique utilisé pour calmer la douleur et réduire la fièvre. Les céphalées correspondent aux maux de tête."
+},
+
+{
+ id: "l2-pharma-s4-25",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ type: "mcq",
+ question: "Le médicament utilisé pour ouvrir les bronches pendant une crise d’asthme est :",
+ choices: [
+  "Le salbutamol",
+  "Le métronidazole",
+  "Le sulfate ferreux",
+  "Le diazépam"
+ ],
+ answerIndex: 0,
+ explanation: "Le salbutamol est un bronchodilatateur utilisé dans le traitement de l’asthme. Les bronches sont les conduits transportant l’air vers les poumons."
+},
+
+{
+ id: "l2-pharma-s4-26",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ type: "mcq_multi",
+ question: "Quels éléments doivent être surveillés chez un patient prenant des anticoagulants ?",
+ choices: [
+  "Saignements",
+  "Ecchymoses",
+  "Résultats biologiques",
+  "Coloration des cheveux",
+  "Vertiges"
+ ],
+ answerIndices: [0,1],
+ explanation: "Les anticoagulants sont des médicaments diminuant la coagulation du sang. Une ecchymose est une tache bleuâtre causée par un saignement sous la peau."
+},
+
+{
+ id: "l2-pharma-s4-27",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ topic: "Sujet 4",
+ type: "tf",
+ question: "Certains médicaments doivent être conservés au réfrigérateur.",
+ answer: true,
+ explanation: "Le réfrigérateur permet de maintenir certains médicaments à une température adaptée afin de préserver leur efficacité. La température influence la stabilité des produits."
+},
+
+{
+ id: "l2-pharma-s4-28",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ type: "mcq",
+ question: "Le médicament utilisé pour traiter une mycose vaginale est :",
+ choices: [
+  "Un antifongique",
+  "Un antihypertenseur",
+  "Un anticoagulant",
+  "Un antipaludique"
+ ],
+ answerIndex: 0,
+ explanation: "Une mycose vaginale est une infection provoquée par des champignons microscopiques. Les antifongiques sont utilisés pour traiter ces infections."
+},
+
+{
+ id: "l2-pharma-s4-29",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ type: "mcq_multi",
+ question: "Quels médicaments peuvent être utilisés contre les douleurs postopératoires ?",
+ choices: [
+  "Morphine",
+  "Paracétamol",
+  "Tramadol",
+  "Vaccin antitétanique",
+  "Salbutamol",
+  "Ibuprofène"
+ ],
+ answerIndices: [0,1,2],
+ explanation: "Les douleurs postopératoires sont les douleurs apparaissant après une intervention chirurgicale. La morphine, le paracétamol et le tramadol sont des antalgiques utilisés dans cette situation."
+},
+
+{
+ id: "l2-pharma-s4-30",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ topic: "Sujet 4",
+ type: "tf",
+ question: "Les médicaments doivent être administrés uniquement au patient concerné.",
+ answer: true,
+ explanation: "Chaque traitement est adapté à un patient précis selon sa maladie, son âge et son état clinique. Une erreur d’administration peut entraîner des complications."
+},
+
+{
+ id: "l2-pharma-s4-31",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ type: "mcq",
+ question: "Le médicament utilisé pour calmer les douleurs liées aux règles est :",
+ choices: [
+  "Un antalgique",
+  "Un antifongique",
+  "Un antiviral",
+  "Un antiseptique"
+ ],
+ answerIndex: 0,
+ explanation: "Les antalgiques sont utilisés pour diminuer les douleurs menstruelles. Les règles correspondent à l’écoulement sanguin périodique provenant de l’utérus."
+},
+
+{
+ id: "l2-pharma-s4-32",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ type: "mcq_multi",
+ question: "Quels sont les avantages des médicaments génériques ?",
+ choices: [
+  "Coût souvent moins élevé",
+  "Même principe actif que le princeps",
+  "Accessibilité",
+  "Aucune efficacité",
+  "Danger systématique"
+ ],
+ answerIndices: [0,1],
+ explanation: "Un médicament générique contient le même principe actif que le médicament princeps. Le principe actif est la substance responsable de l’effet thérapeutique."
+},
+
+{
+ id: "l2-pharma-s4-33",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ topic: "Sujet 4",
+ type: "tf",
+ question: "La surveillance infirmière permet de détecter les effets indésirables des médicaments.",
+ answer: true,
+ explanation: "Les effets indésirables sont des réactions nocives ou non recherchées provoquées par un médicament. La surveillance infirmière permet de les identifier rapidement."
+},
+
+{
+ id: "l2-pharma-s4-34",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ type: "mcq",
+ question: "Le médicament utilisé pour prévenir les vomissements après une chirurgie est :",
+ choices: [
+  "Un antiémétique",
+  "Un antipyrétique",
+  "Un antihypertenseur",
+  "Un antifongique"
+ ],
+ answerIndex: 0,
+ explanation: "Un antiémétique est un médicament utilisé pour prévenir ou arrêter les vomissements. Une chirurgie est une intervention opératoire."
+},
+
+{
+ id: "l2-pharma-s4-35",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ type: "mcq_multi",
+ question: "Quels signes peuvent évoquer une réaction allergique médicamenteuse ?",
+ choices: [
+  "Prurit",
+  "Rougeur cutanée",
+  "Œdème",
+  "Augmentation de l’appétit",
+  "Difficulté respiratoire",
+  "Bradycardie"
+ ],
+ answerIndices: [0,1,2],
+ explanation: "Le prurit correspond à des démangeaisons. Une rougeur cutanée est une coloration rouge de la peau. L’œdème est un gonflement dû à une accumulation de liquide."
+},
+
+{
+ id: "l2-pharma-s4-36",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ topic: "Sujet 4",
+ type: "tf",
+ question: "Un médicament mal conservé peut perdre son efficacité.",
+ answer: true,
+ explanation: "Une mauvaise conservation peut altérer les propriétés du médicament. L’efficacité thérapeutique correspond à la capacité du produit à produire l’effet recherché."
+},
+
+{
+ id: "l2-pharma-s4-37",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ type: "mcq",
+ question: "Le médicament utilisé pour traiter une infection parasitaire intestinale est :",
+ choices: [
+  "Un antiparasitaire",
+  "Un anxiolytique",
+  "Un antiacide",
+  "Un anticoagulant"
+ ],
+ answerIndex: 0,
+ explanation: "Les antiparasitaires sont utilisés contre les parasites présents dans l’organisme. Les parasites intestinaux vivent dans le tube digestif."
+},
+
+{
+ id: "l2-pharma-s4-38",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ type: "mcq_multi",
+ question: "Quels médicaments peuvent être utilisés en cas de fièvre élevée ?",
+ choices: [
+  "Paracétamol",
+  "Ibuprofène",
+  "Aspirine",
+  "Morphine",
+  "Salbutamol",
+  "Diazépam"
+ ],
+ answerIndices: [0,1,2],
+ explanation: "La fièvre est une élévation anormale de la température corporelle. Le paracétamol, l’ibuprofène et l’aspirine possèdent des propriétés antipyrétiques."
+},
+
+{
+ id: "l2-pharma-s4-39",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ topic: "Sujet 4",
+ type: "tf",
+ question: "Le non-respect de la dose prescrite peut être dangereux.",
+ answer: true,
+ explanation: "La dose correspond à la quantité de médicament administrée. Une dose insuffisante peut être inefficace et une dose excessive peut provoquer une intoxication."
+},
+
+{
+ id: "l2-pharma-s4-40",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ type: "mcq",
+ question: "Le médicament utilisé pour calmer une réaction allergique est :",
+ choices: [
+  "Un antihistaminique",
+  "Un antifongique",
+  "Un antipaludique",
+  "Un mucolytique"
+ ],
+ answerIndex: 0,
+ explanation: "Les antihistaminiques sont des médicaments utilisés pour réduire les manifestations allergiques. Une réaction allergique est une réponse excessive du système immunitaire."
+},
+{
+ id: "l2-pharma-s5-1",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ topic: "Sujet 5",
+ type: "tf",
+ question: "Un médicament peut être administré pour prévenir une maladie.",
+ answer: true,
+ explanation: "Un médicament est une substance utilisée pour prévenir, diagnostiquer ou traiter une maladie. La prévention consiste à éviter l’apparition d’une maladie."
+},
+
+{
+ id: "l2-pharma-s5-2",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ type: "mcq",
+ question: "Le médicament utilisé pour traiter les infections dues aux virus est :",
+ choices: [
+  "Un antiviral",
+  "Un antibiotique",
+  "Un antalgique",
+  "Un antifongique"
+ ],
+ answerIndex: 0,
+ explanation: "Un antiviral est un médicament utilisé contre les virus. Un virus est un agent infectieux microscopique qui se développe dans les cellules vivantes."
+},
+
+{
+ id: "l2-pharma-s5-3",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ type: "mcq_multi",
+ question: "Quels éléments doivent être vérifiés avant de donner un comprimé au patient ?",
+ choices: [
+  "Nom du patient",
+  "Dose prescrite",
+  "Date de péremption",
+  "Voie d’administration",
+  "Couleur du lit",
+  "Nom du médicament"
+ ],
+ answerIndices: [0,1,2],
+ explanation: "Avant l’administration d’un comprimé, il faut vérifier le nom du patient, la dose prescrite et la date de péremption. Un comprimé est une forme solide destinée à être avalée."
+},
+
+{
+ id: "l2-pharma-s5-4",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ topic: "Sujet 5",
+ type: "tf",
+ question: "Les antibiotiques ne doivent pas être arrêtés sans avis médical.",
+ answer: true,
+ explanation: "Les antibiotiques sont des médicaments utilisés contre les bactéries. L’arrêt précoce du traitement peut favoriser la résistance bactérienne. Une résistance bactérienne correspond à la capacité des bactéries à survivre malgré le traitement."
+},
+
+{
+ id: "l2-pharma-s5-5",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ type: "mcq",
+ question: "Le médicament utilisé pour calmer les démangeaisons allergiques est :",
+ choices: [
+  "Un antihistaminique",
+  "Un diurétique",
+  "Un antiémétique",
+  "Un laxatif"
+ ],
+ answerIndex: 0,
+ explanation: "Un antihistaminique est un médicament utilisé contre les réactions allergiques. Les démangeaisons correspondent à une sensation provoquant l’envie de se gratter."
+},
+
+{
+ id: "l2-pharma-s5-6",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ type: "mcq_multi",
+ question: "Quels médicaments peuvent être utilisés contre la douleur et la fièvre ?",
+ choices: [
+  "Paracétamol",
+  "Ibuprofène",
+  "Aspirine",
+  "Gentamicine",
+  "Diazépam",
+  "Morphine"
+ ],
+ answerIndices: [0,1,2],
+ explanation: "Le paracétamol, l’ibuprofène et l’aspirine possèdent des propriétés antalgiques et antipyrétiques. Un antalgique calme la douleur. Un antipyrétique réduit la fièvre."
+},
+
+{
+ id: "l2-pharma-s5-7",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ topic: "Sujet 5",
+ type: "tf",
+ question: "La voie intradermique injecte le médicament dans le derme.",
+ answer: true,
+ explanation: "La voie intradermique consiste à injecter un produit dans le derme. Le derme est une couche profonde de la peau."
+},
+
+{
+ id: "l2-pharma-s5-8",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ type: "mcq",
+ question: "Le médicament utilisé pour traiter une crise d’épilepsie est :",
+ choices: [
+  "Un anticonvulsivant",
+  "Un antiacide",
+  "Un antifongique",
+  "Un antiparasitaire"
+ ],
+ answerIndex: 0,
+ explanation: "Un anticonvulsivant est un médicament utilisé pour prévenir ou traiter les convulsions. L’épilepsie est une maladie neurologique provoquant des crises convulsives."
+},
+
+{
+ id: "l2-pharma-s5-9",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ type: "mcq_multi",
+ question: "Quels signes peuvent indiquer une intolérance médicamenteuse ?",
+ choices: [
+  "Nausées",
+  "Vomissements",
+  "Éruption cutanée",
+  "Troubles digestifs",
+  "Amélioration de l’état général"
+ ],
+ answerIndices: [0,1],
+ explanation: "Une intolérance médicamenteuse correspond à une mauvaise réaction de l’organisme à un médicament. Les nausées sont une envie de vomir. Les vomissements correspondent à l’expulsion du contenu gastrique."
+},
+
+{
+ id: "l2-pharma-s5-10",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ topic: "Sujet 5",
+ type: "tf",
+ question: "Les médicaments doivent être administrés selon la voie prescrite.",
+ answer: true,
+ explanation: "La voie d’administration correspond au chemin utilisé pour introduire un médicament dans l’organisme. Une erreur de voie peut provoquer des complications graves."
+},
+
+{
+ id: "l2-pharma-s5-11",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ type: "mcq",
+ question: "Le médicament utilisé pour augmenter les contractions utérines pendant le travail est :",
+ choices: [
+  "L’ocytocine",
+  "Le salbutamol",
+  "Le tramadol",
+  "Le diazépam"
+ ],
+ answerIndex: 0,
+ explanation: "L’ocytocine est une hormone utilisée pour stimuler les contractions de l’utérus pendant le travail. L’utérus est l’organe où se développe le fœtus."
+},
+
+{
+ id: "l2-pharma-s5-12",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ type: "mcq_multi",
+ question: "Quels médicaments peuvent être utilisés contre les infections parasitaires ?",
+ choices: [
+  "Métronidazole",
+  "Albendazole",
+  "Artéméther",
+  "Paracétamol",
+  "Ibuprofène"
+ ],
+ answerIndices: [0,1],
+ explanation: "Les antiparasitaires sont des médicaments utilisés contre les parasites. L’albendazole agit contre certains vers intestinaux. Le métronidazole agit contre certains parasites."
+},
+
+{
+ id: "l2-pharma-s5-13",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ topic: "Sujet 5",
+ type: "tf",
+ question: "Une mauvaise dilution d’un médicament injectable peut être dangereuse.",
+ answer: true,
+ explanation: "La dilution consiste à mélanger un médicament avec un liquide approprié afin d’obtenir une concentration adaptée. Une mauvaise dilution peut provoquer un surdosage ou une irritation."
+},
+
+{
+ id: "l2-pharma-s5-14",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ type: "mcq",
+ question: "Le médicament utilisé pour diminuer les contractions prématurées chez la femme enceinte est :",
+ choices: [
+  "Un tocolytique",
+  "Un antifongique",
+  "Un antalgique",
+  "Un antiacide"
+ ],
+ answerIndex: 0,
+ explanation: "Un tocolytique est un médicament utilisé pour diminuer les contractions utérines prématurées. Une contraction utérine correspond au resserrement du muscle de l’utérus."
+},
+
+{
+ id: "l2-pharma-s5-15",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ type: "mcq_multi",
+ question: "Quels éléments peuvent favoriser une erreur médicamenteuse ?",
+ choices: [
+  "Prescription illisible",
+  "Fatigue du personnel",
+  "Mauvaise identification du patient",
+  "Bonne communication",
+  "Vérification des doses",
+  "Absence de surveillance"
+ ],
+ answerIndices: [0,1,2],
+ explanation: "Une erreur médicamenteuse correspond à une mauvaise utilisation d’un médicament. Une prescription illisible ou une mauvaise identification du patient augmentent ce risque."
+},
+
+{
+ id: "l2-pharma-s5-16",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ topic: "Sujet 5",
+ type: "tf",
+ question: "Le respect de l’hygiène des mains est essentiel avant l’administration d’un médicament.",
+ answer: true,
+ explanation: "L’hygiène des mains permet d’éliminer les microbes et de réduire les infections. Les microbes sont des micro-organismes pouvant provoquer des maladies."
+},
+
+{
+ id: "l2-pharma-s5-17",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ type: "mcq",
+ question: "Le médicament utilisé pour soulager les brûlures gastriques est :",
+ choices: [
+  "Un antiacide",
+  "Un antiviral",
+  "Un anticoagulant",
+  "Un anxiolytique"
+ ],
+ answerIndex: 0,
+ explanation: "Un antiacide diminue l’acidité de l’estomac. Les brûlures gastriques correspondent à des sensations douloureuses liées à l’acidité gastrique."
+},
+
+{
+ id: "l2-pharma-s5-18",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ type: "mcq_multi",
+ question: "Quels médicaments peuvent être utilisés dans le traitement du diabète ?",
+ choices: [
+  "Insuline",
+  "Metformine",
+  "Antidiabétiques oraux",
+  "Morphine",
+  "Antibiotiques"
+ ],
+ answerIndices: [0,1],
+ explanation: "Le diabète est une maladie caractérisée par une augmentation du sucre dans le sang. L’insuline et la metformine sont utilisées pour contrôler la glycémie."
+},
+
+{
+ id: "l2-pharma-s5-19",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ topic: "Sujet 5",
+ type: "tf",
+ question: "Les médicaments doivent être conservés dans leur emballage d’origine.",
+ answer: true,
+ explanation: "L’emballage d’origine protège le médicament contre la lumière, l’humidité et les erreurs d’identification."
+},
+
+{
+ id: "l2-pharma-s5-20",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ type: "mcq",
+ question: "Le médicament utilisé pour réduire les douleurs musculaires inflammatoires est souvent :",
+ choices: [
+  "Le diclofénac",
+  "Le vaccin BCG",
+  "Le salbutamol",
+  "Le fer"
+ ],
+ answerIndex: 0,
+ explanation: "Le diclofénac est un anti-inflammatoire utilisé pour réduire certaines douleurs musculaires et articulaires."
+},
+{
+ id: "l2-pharma-s5-21",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ topic: "Sujet 5",
+ type: "tf",
+ question: "Une perfusion doit être surveillée régulièrement pendant son administration.",
+ answer: true,
+ explanation: "Une perfusion est l’administration lente et continue d’un liquide dans une veine. La surveillance permet de détecter rapidement les complications."
+},
+
+{
+ id: "l2-pharma-s5-22",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ type: "mcq",
+ question: "Le médicament utilisé pour fluidifier les sécrétions bronchiques est :",
+ choices: [
+  "Un mucolytique",
+  "Un anticoagulant",
+  "Un antiviral",
+  "Un antihistaminique"
+ ],
+ answerIndex: 0,
+ explanation: "Un mucolytique est un médicament qui diminue l’épaisseur du mucus afin de faciliter son élimination par les voies respiratoires."
+},
+
+{
+ id: "l2-pharma-s5-23",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ type: "mcq_multi",
+ question: "Quels signes peuvent apparaître lors d’un choc allergique grave ?",
+ choices: [
+  "Difficulté respiratoire",
+  "Œdème",
+  "Baisse de la tension artérielle",
+  "Coloration des cheveux",
+  "Perte de connaissance"
+ ],
+ answerIndices: [0,1],
+ explanation: "Un choc allergique grave appelé choc anaphylactique est une urgence médicale. L’œdème correspond à un gonflement causé par une accumulation de liquide."
+},
+
+{
+ id: "l2-pharma-s5-24",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ topic: "Sujet 5",
+ type: "tf",
+ question: "Les médicaments injectables doivent être préparés dans des conditions propres.",
+ answer: true,
+ explanation: "Les conditions propres permettent d’éviter la contamination des produits injectables. Une contamination correspond à la présence de microbes ou de substances dangereuses."
+},
+
+{
+ id: "l2-pharma-s5-25",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ type: "mcq",
+ question: "Le médicament utilisé pour calmer les douleurs pendant le travail obstétrical peut être :",
+ choices: [
+  "Le tramadol",
+  "Le salbutamol",
+  "Le vaccin antitétanique",
+  "Le métronidazole"
+ ],
+ answerIndex: 0,
+ explanation: "Le tramadol est un antalgique utilisé pour soulager certaines douleurs modérées à sévères. Le travail obstétrical correspond à l’ensemble des phénomènes aboutissant à l’accouchement."
+},
+
+{
+ id: "l2-pharma-s5-26",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ type: "mcq_multi",
+ question: "Quels éléments doivent être respectés lors de la conservation des vaccins ?",
+ choices: [
+  "Chaîne du froid",
+  "Température adaptée",
+  "Protection contre la lumière",
+  "Exposition au soleil",
+  "Stockage dans un lieu humide",
+  "Surveillance du réfrigérateur"
+ ],
+ answerIndices: [0,1,2],
+ explanation: "La chaîne du froid correspond au maintien des vaccins à une température adaptée afin de préserver leur efficacité. Les vaccins sont des produits utilisés pour prévenir certaines maladies infectieuses."
+},
+
+{
+ id: "l2-pharma-s5-27",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ topic: "Sujet 5",
+ type: "tf",
+ question: "Certains médicaments peuvent provoquer une somnolence chez le patient.",
+ answer: true,
+ explanation: "La somnolence est une tendance excessive au sommeil pouvant être provoquée par certains médicaments comme les anxiolytiques ou certains antihistaminiques."
+},
+
+{
+ id: "l2-pharma-s5-28",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ type: "mcq",
+ question: "Le médicament utilisé pour traiter une infection des voies respiratoires causée par des champignons est :",
+ choices: [
+  "Un antifongique",
+  "Un antipyrétique",
+  "Un antiacide",
+  "Un laxatif"
+ ],
+ answerIndex: 0,
+ explanation: "Un antifongique est un médicament utilisé contre les infections provoquées par des champignons microscopiques."
+},
+
+{
+ id: "l2-pharma-s5-29",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ type: "mcq_multi",
+ question: "Quels sont les avantages des injections intramusculaires ?",
+ choices: [
+  "Absorption relativement rapide",
+  "Possibilité d’administrer certains produits huileux",
+  "Utilisation de volumes modérés",
+  "Administration impossible chez l’adulte",
+  "Aucune surveillance nécessaire"
+ ],
+ answerIndices: [0,1],
+ explanation: "La voie intramusculaire permet l’administration de certains médicaments dans un muscle. Cette voie favorise une absorption relativement rapide."
+},
+
+{
+ id: "l2-pharma-s5-30",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ topic: "Sujet 5",
+ type: "tf",
+ question: "Le patient doit être informé avant l’administration d’un médicament.",
+ answer: true,
+ explanation: "L’information du patient améliore la compréhension du traitement et favorise une bonne observance. L’observance correspond au respect du traitement prescrit."
+},
+
+{
+ id: "l2-pharma-s5-31",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ type: "mcq",
+ question: "Le médicament utilisé pour prévenir les nausées pendant la grossesse est :",
+ choices: [
+  "Un antiémétique",
+  "Un antifongique",
+  "Un anticoagulant",
+  "Un bronchodilatateur"
+ ],
+ answerIndex: 0,
+ explanation: "Un antiémétique est un médicament utilisé pour prévenir ou réduire les nausées et les vomissements."
+},
+
+{
+ id: "l2-pharma-s5-32",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ type: "mcq_multi",
+ question: "Quels médicaments peuvent être utilisés contre les douleurs articulaires inflammatoires ?",
+ choices: [
+  "Ibuprofène",
+  "Diclofénac",
+  "Aspirine",
+  "Insuline",
+  "Amoxicilline"
+ ],
+ answerIndices: [0,1],
+ explanation: "L’ibuprofène et le diclofénac sont des anti-inflammatoires utilisés pour traiter certaines douleurs articulaires. Une articulation est une zone reliant deux os."
+},
+
+{
+ id: "l2-pharma-s5-33",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ topic: "Sujet 5",
+ type: "tf",
+ question: "Le surdosage en paracétamol peut provoquer des lésions du foie.",
+ answer: true,
+ explanation: "Le foie est un organe participant au métabolisme des médicaments. Un surdosage en paracétamol peut provoquer une toxicité hépatique grave."
+},
+
+{
+ id: "l2-pharma-s5-34",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ type: "mcq",
+ question: "Le médicament utilisé pour calmer les contractions des bronches pendant une crise d’asthme est :",
+ choices: [
+  "Un bronchodilatateur",
+  "Un antiacide",
+  "Un antiparasitaire",
+  "Un laxatif"
+ ],
+ answerIndex: 0,
+ explanation: "Un bronchodilatateur est un médicament qui augmente le diamètre des bronches afin de faciliter le passage de l’air."
+},
+
+{
+ id: "l2-pharma-s5-35",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ type: "mcq_multi",
+ question: "Quels éléments peuvent influencer l’efficacité d’un médicament ?",
+ choices: [
+  "Âge du patient",
+  "Poids du patient",
+  "Maladies associées",
+  "Voie d’administration",
+  "Couleur des yeux",
+  "Température extérieure"
+ ],
+ answerIndices: [0,1,2],
+ explanation: "L’efficacité d’un médicament peut varier selon l’âge, le poids et l’état de santé du patient. La voie d’administration influence également l’absorption du produit."
+},
+
+{
+ id: "l2-pharma-s5-36",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ topic: "Sujet 5",
+ type: "tf",
+ question: "Les médicaments peuvent provoquer des effets secondaires inattendus.",
+ answer: true,
+ explanation: "Les effets secondaires sont des réactions non recherchées apparaissant après l’administration d’un médicament."
+},
+
+{
+ id: "l2-pharma-s5-37",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ type: "mcq",
+ question: "Le médicament utilisé pour traiter une constipation sévère est :",
+ choices: [
+  "Un laxatif",
+  "Un antiémétique",
+  "Un antihistaminique",
+  "Un antitussif"
+ ],
+ answerIndex: 0,
+ explanation: "Un laxatif est un médicament facilitant l’évacuation des selles. La constipation correspond à une difficulté d’émission des selles."
+},
+
+{
+ id: "l2-pharma-s5-38",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ type: "mcq_multi",
+ question: "Quels médicaments peuvent être utilisés dans le traitement du paludisme ?",
+ choices: [
+  "Quinine",
+  "Artéméther",
+  "Artésunate",
+  "Paracétamol",
+  "Morphine",
+  "Salbutamol"
+ ],
+ answerIndices: [0,1,2],
+ explanation: "Le paludisme est une maladie parasitaire transmise par le moustique anophèle. La quinine, l’artéméther et l’artésunate sont des antipaludiques."
+},
+
+{
+ id: "l2-pharma-s5-39",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ topic: "Sujet 5",
+ type: "tf",
+ question: "La surveillance du patient après l’administration d’un médicament est importante.",
+ answer: true,
+ explanation: "La surveillance permet d’évaluer l’efficacité du traitement et de détecter rapidement les effets indésirables."
+},
+
+{
+ id: "l2-pharma-s5-40",
+ level: "L1-Niveau Émergent",
+ subject: "Pharmacologie",
+ type: "mcq",
+ question: "Le médicament utilisé pour calmer une toux sèche irritative est :",
+ choices: [
+  "Un antitussif",
+  "Un diurétique",
+  "Un antipyrétique",
+  "Un antifongique"
+ ],
+ answerIndex: 0,
+ explanation: "Un antitussif est un médicament utilisé pour diminuer ou supprimer la toux sèche. Une toux sèche est une toux sans expectoration."
+},
 
 
 ];
