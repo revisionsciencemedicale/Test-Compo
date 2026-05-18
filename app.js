@@ -1645,19 +1645,27 @@
       setSelectOptionsSimple(document.getElementById('adminCatalogTopic'), topics.length ? topics : ['Aucun sujet'], topicValue);
     }
 
-    async function saveCatalogDraft() {
+    async function saveCatalogDraft(messageOk, messageLocal) {
+      // Enregistre immédiatement le catalogue (niveaux, matières, sujets).
+      // Avant correction, l'ajout restait seulement dans adminCatalogDraft et pouvait
+      // disparaître au rechargement ou ne pas apparaître dans « Commencer un quiz ».
+      adminCatalogDraft = normalizeCustomCatalog(adminCatalogDraft);
       const settings = normalizeAppSettings({ ...collectAdminSettings(), customCatalog: adminCatalogDraft });
       const status = document.getElementById('adminCatalogStatus');
+      let savedOnServer = true;
       try {
         await apiPost('/api/admin/save-settings', currentAuthPayload({ settings }));
-        if (status) status.textContent = 'Niveaux, matières et sujets enregistrés sur le serveur et appliqués.';
+        if (status) status.textContent = messageOk || 'Niveaux, matières et sujets enregistrés sur le serveur et appliqués.';
       } catch (e) {
-        if (status) status.textContent = 'Mode local : modifications enregistrées dans ce navigateur et appliquées.';
+        savedOnServer = false;
+        if (status) status.textContent = messageLocal || 'Mode local : modifications enregistrées dans ce navigateur et appliquées.';
       }
       appSettings = settings;
       localStorage.setItem(STORAGE_KEYS.appSettings, JSON.stringify(appSettings));
-      adminDECatalogIndexCache = null; bank = getQuestionBank();
+      adminDECatalogIndexCache = null;
+      bank = getQuestionBank();
       updateStartInfo();
+      return savedOnServer;
     }
 
     let validatedImportContext = null;
@@ -1711,13 +1719,14 @@
         }
         els.adminLogs.querySelectorAll('.catalogModePanel').forEach(panel => panel.classList.toggle('hidden', panel.dataset.catalogPanel !== mode));
       }));
-      document.getElementById('btnAddCatalogLevel')?.addEventListener('click', () => {
+      document.getElementById('btnAddCatalogLevel')?.addEventListener('click', async () => {
         const name = prompt('Nom du nouveau niveau :');
         if (!name || !name.trim()) return;
         adminCatalogDraft.levels = Array.from(new Set([...(adminCatalogDraft.levels || []), name.trim()]));
         adminCatalogDraft.subjectsByLevel[name.trim()] = adminCatalogDraft.subjectsByLevel[name.trim()] || [];
         renderCatalogAdmin(name.trim());
         invalidateImportContext();
+        await saveCatalogDraft('Niveau ajouté, enregistré et appliqué.', 'Niveau ajouté en mode local et appliqué.');
       });
       document.getElementById('btnRemoveCatalogLevel')?.addEventListener('click', async () => {
         const level = levelSelect?.value;
@@ -1751,7 +1760,7 @@
         adminDECatalogIndexCache = null; bank = getQuestionBank(); updateStartInfo(); renderCatalogAdmin(clean); invalidateImportContext();
         const status = document.getElementById('adminCatalogStatus'); if (status) status.textContent = 'Nom du niveau modifié et appliqué.';
       });
-      document.getElementById('btnAddCatalogSubject')?.addEventListener('click', () => {
+      document.getElementById('btnAddCatalogSubject')?.addEventListener('click', async () => {
         const level = levelSelect?.value;
         const name = prompt('Nom de la nouvelle matière :');
         if (!level || !name || !name.trim()) return;
@@ -1760,6 +1769,7 @@
         adminCatalogDraft.topicsByLevelSubject[level][name.trim()] = adminCatalogDraft.topicsByLevelSubject[level][name.trim()] || [];
         renderCatalogAdmin(level, name.trim());
         invalidateImportContext();
+        await saveCatalogDraft('Matière ajoutée, enregistrée et visible dans « Commencer un quiz ».', 'Matière ajoutée en mode local et visible dans ce navigateur.');
       });
       document.getElementById('btnRemoveCatalogSubjectFromList')?.addEventListener('click', () => {
         document.getElementById('btnRemoveCatalogSubject')?.click();
@@ -1782,7 +1792,7 @@
         adminDECatalogIndexCache = null; bank = getQuestionBank(); updateStartInfo(); renderCatalogAdmin(level, clean); invalidateImportContext();
         const status = document.getElementById('adminCatalogStatus'); if (status) status.textContent = 'Nom de la matière modifié et appliqué.';
       });
-      document.getElementById('btnRemoveCatalogSubject')?.addEventListener('click', () => {
+      document.getElementById('btnRemoveCatalogSubject')?.addEventListener('click', async () => {
         const level = levelSelect?.value;
         const subject = document.getElementById('adminCatalogSubjectRemove')?.value;
         if (!level || !subject || subject === 'Aucune matière') return;
@@ -1791,8 +1801,9 @@
         if (adminCatalogDraft.topicsByLevelSubject[level]) delete adminCatalogDraft.topicsByLevelSubject[level][subject];
         renderCatalogAdmin(level);
         invalidateImportContext();
+        await saveCatalogDraft('Matière retirée et enregistrée.', 'Matière retirée en mode local.');
       });
-      document.getElementById('btnAddCatalogTopic')?.addEventListener('click', () => {
+      document.getElementById('btnAddCatalogTopic')?.addEventListener('click', async () => {
         const level = levelSelect?.value;
         const subject = document.getElementById('adminCatalogTopicSubject')?.value;
         const topic = prompt('Nom du nouveau sujet :');
@@ -1800,8 +1811,9 @@
         adminCatalogDraft.topicsByLevelSubject[level] = adminCatalogDraft.topicsByLevelSubject[level] || {};
         adminCatalogDraft.topicsByLevelSubject[level][subject] = Array.from(new Set([...(adminCatalogDraft.topicsByLevelSubject[level][subject] || []), topic.trim()]));
         adminCatalogDraft.subjectsByLevel[level] = Array.from(new Set([...(adminCatalogDraft.subjectsByLevel[level] || []), subject]));
-        renderCatalogAdmin(level, subject);
+        renderCatalogAdmin(level, subject, topic.trim());
         invalidateImportContext();
+        await saveCatalogDraft('Sujet ajouté, enregistré et visible dans « Commencer un quiz ».', 'Sujet ajouté en mode local et visible dans ce navigateur.');
       });
       document.getElementById('btnRemoveCatalogTopic')?.addEventListener('click', async () => {
         const level = levelSelect?.value;
@@ -2203,33 +2215,44 @@
       });
     }
 
+    function stripImportedQuestionWrapper(src) {
+      let cleaned = String(src || '').trim();
+      cleaned = cleaned
+        .replace(/^\s*(?:window\.)?[A-Za-z_$][\w$]*\s*=\s*/s, '')
+        .replace(/^\s*(?:const|let|var)\s+[A-Za-z_$][\w$]*\s*=\s*/s, '')
+        .replace(/;\s*$/s, '')
+        .trim();
+      return cleaned;
+    }
+
+    function forceQuestionImportContext(question, forcedContext, index) {
+      const raw = question && typeof question === 'object' ? question : {};
+      const stamp = Date.now().toString(36);
+      const forcedId = `custom-${normalizeKey(forcedContext.level)}-${normalizeKey(forcedContext.subject)}-${normalizeKey(forcedContext.topic)}-${stamp}-${index}-${Math.random().toString(36).slice(2, 7)}`;
+      const merged = {
+        ...raw,
+        id: forcedId,
+        level: forcedContext.level,
+        subject: forcedContext.subject,
+        topic: forcedContext.topic,
+        category: `${forcedContext.level} — ${forcedContext.subject}`
+      };
+      return normalizeQuestion(merged);
+    }
+
     function parseImportedQuestions(text, forcedContext = null) {
       const src = String(text || '').trim();
       if (!src) throw new Error('Collez d’abord un tableau de questions ou choisissez un fichier .js.');
-      if (!forcedContext) throw new Error('Valide d’abord le niveau, la matière et le sujet dans la première partie.');
+      if (!forcedContext || !forcedContext.level || !forcedContext.subject || !forcedContext.topic) throw new Error('Valide d’abord le niveau, la matière et le sujet dans la première partie.');
       let value;
       try {
         value = JSON.parse(src);
       } catch (_) {
-        const cleaned = src
-          .replace(/^\s*(?:window\.)?[A-Z0-9_]+\s*=\s*/i, '')
-          .replace(/;\s*$/, '');
+        const cleaned = stripImportedQuestionWrapper(src);
         value = Function(`"use strict"; return (${cleaned});`)();
       }
       if (!Array.isArray(value)) throw new Error('Le contenu doit être un tableau de questions : [{...}, {...}].');
-      const normalized = value.map((q, index) => {
-        const merged = {
-          ...(q || {}),
-          level: forcedContext.level,
-          subject: forcedContext.subject,
-          topic: forcedContext.topic,
-        };
-        if (!merged.id) {
-          const stamp = Date.now().toString(36);
-          merged.id = `custom-${normalizeKey(forcedContext.level)}-${normalizeKey(forcedContext.subject)}-${normalizeKey(forcedContext.topic)}-${stamp}-${index}`;
-        }
-        return normalizeQuestion(merged);
-      }).filter(Boolean);
+      const normalized = value.map((q, index) => forceQuestionImportContext(q, forcedContext, index)).filter(Boolean);
       if (!normalized.length) throw new Error('Aucune question valide trouvée. Vérifiez type, question, choices/réponses et explication.');
       return normalized;
     }
@@ -2257,7 +2280,11 @@
     document.getElementById('btnApplyImport')?.addEventListener('click', async () => {
       const status = document.getElementById('adminImportStatus');
       try {
-        const imported = parseImportedQuestions(document.getElementById('adminImportScript')?.value || '', validatedImportContext);
+        const importArea = document.getElementById('adminImportScript');
+        const imported = parseImportedQuestions(importArea?.value || '', validatedImportContext);
+        // Réécrit le tableau affiché avec le choix validé : ainsi level, subject et topic
+        // sont visiblement remplacés dans chaque question avant l'enregistrement.
+        if (importArea) importArea.value = JSON.stringify(imported, null, 2);
         const existing = Array.isArray(appSettings.customQuestions) ? appSettings.customQuestions : [];
         const byId = new Map(existing.map(q => [q.id, q]));
         for (const q of imported) byId.set(q.id, q);
@@ -2277,7 +2304,11 @@
           }
         });
         adminCatalogDraft = catalog;
-        const settings = normalizeAppSettings({ ...collectAdminSettings(), customCatalog: catalog, customQuestions: Array.from(byId.values()) });
+        const settings = normalizeAppSettings({
+          ...collectAdminSettings(),
+          customCatalog: catalog,
+          customQuestions: Array.from(byId.values())
+        });
         let savedOnServer = true;
         try {
           await apiPost('/api/admin/save-settings', currentAuthPayload({ settings }));
@@ -2288,7 +2319,8 @@
         localStorage.setItem(STORAGE_KEYS.appSettings, JSON.stringify(appSettings));
         adminDECatalogIndexCache = null; bank = getQuestionBank();
         updateStartInfo();
-        renderCatalogAdmin(validatedImportContext.level, validatedImportContext.subject);
+        renderCatalogAdmin(validatedImportContext.level, validatedImportContext.subject, validatedImportContext.topic);
+        validatedImportContext = { ...validatedImportContext };
         setImportControlsEnabled(true);
         if (status) status.textContent = `${imported.length} question(s) ajoutée(s) à ${validatedImportContext.level} / ${validatedImportContext.subject} / ${validatedImportContext.topic}. ${savedOnServer ? 'Enregistré sur le serveur.' : 'Mode local : enregistré dans ce navigateur.'} Total importé : ${appSettings.customQuestions.length}.`;
         setTimeout(collapseAdminPanels, 250);
@@ -2958,6 +2990,11 @@
     return Array.from(new Set(topics.map((t) => safeText(t).trim()).filter(Boolean)));
   }
 
+  function getAllowedSubjectsIncludingCustom(level) {
+    const unique = (arr) => Array.from(new Set((arr || []).map((s) => safeText(s).trim()).filter(Boolean)));
+    return unique([...(getAllowedSubjectsForLevel(level) || []), ...(getCustomSubjectsForLevel(level) || [])]);
+  }
+
   function isRestrictedQuizLevel(level) {
     const n = normalizeKey(level);
     return n === normalizeKey("A1-Base Santé") ||
@@ -2984,7 +3021,10 @@
     // On n'ajoute donc pas les matières trouvées dans la banque globale de questions,
     // car elles peuvent appartenir à un autre niveau.
     if (restrictedSubjects.length > 0) {
-      return ["Toutes les matières", ...unique(restrictedSubjects)];
+      // Les matières ajoutées dans « Paramètres administrateur » doivent aussi
+      // apparaître pour le niveau choisi. Avant correction, les niveaux avec liste
+      // imposée (A1, L1, L2...) ignoraient customSubjects.
+      return ["Toutes les matières", ...unique(restrictedSubjects.concat(customSubjects))];
     }
 
     return ["Toutes les matières", ...unique(ALL_SUBJECTS.concat(customSubjects).concat(subjectsFromQuestionsSameLevel))];
@@ -3029,7 +3069,7 @@
     // Sécurité pour les matières autorisées par niveau qui n'ont pas encore de questions
     // ou dont les sujets n'ont pas encore été enregistrés : le menu reste visible avec
     // les sujets standards afin que l'utilisateur puisse sélectionner un thème.
-    const allowedSubjects = getAllowedSubjectsForLevel(currentLevelForTopics).map((s) => normalizeKey(s));
+    const allowedSubjects = getAllowedSubjectsIncludingCustom(currentLevelForTopics).map((s) => normalizeKey(s));
     const isAllowedSubject = allowedSubjects.includes(subjectKey);
     if (isAllowedSubject && topics.length === 0) {
       topics = ["Sujet 1", "Sujet 2", "Sujet 3", "Sujet 4", "Sujet 5"];
@@ -3159,7 +3199,7 @@
     out = out.filter(q => levelMatches(q.level, level));
 
     // Sécurité: même avec "Toutes les matières", on ne garde que les matières autorisées du niveau choisi.
-    const allowedSubjects = getAllowedSubjectsForLevel(level).map((s) => normalizeKey(s));
+    const allowedSubjects = getAllowedSubjectsIncludingCustom(level).map((s) => normalizeKey(s));
     if (allowedSubjects.length > 0) {
       out = out.filter(q => allowedSubjects.includes(normalizeKey(q.subject)));
     }
