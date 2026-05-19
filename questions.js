@@ -140338,7 +140338,7 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s1-1",
+ id: "l1-pharma-s1-1",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
  topic: "Sujet 1",
@@ -140349,9 +140349,10 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s1-2",
+ id: "l1-pharma-s1-2",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
+ topic: "Sujet 1",
  type: "mcq",
  question: "La substance responsable de l’effet thérapeutique d’un médicament est :",
  choices: [
@@ -140365,9 +140366,10 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s1-3",
+ id: "l1-pharma-s1-3",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
+ topic: "Sujet 1",
  type: "mcq_multi",
  question: "Quelles sont les voies parentérales d’administration des médicaments ?",
  choices: [
@@ -140383,7 +140385,7 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s1-4",
+ id: "l1-pharma-s1-4",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
  topic: "Sujet 1",
@@ -140394,9 +140396,10 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s1-5",
+ id: "l1-pharma-s1-5",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
+ topic: "Sujet 1",
  type: "mcq",
  question: "La voie d’administration la plus rapide est :",
  choices: [
@@ -140410,9 +140413,10 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s1-6",
+ id: "l1-pharma-s1-6",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
+ topic: "Sujet 1",
  type: "mcq_multi",
  question: "Avant d’administrer un médicament, quelles vérifications doivent être réalisées ?",
  choices: [
@@ -140427,7 +140431,7 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s1-7",
+ id: "l1-pharma-s1-7",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
  topic: "Sujet 1",
@@ -140438,9 +140442,10 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s1-8",
+ id: "l1-pharma-s1-8",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
+ topic: "Sujet 1",
  type: "mcq",
  question: "Le paracétamol est principalement :",
  choices: [
@@ -140454,9 +140459,10 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s1-9",
+ id: "l1-pharma-s1-9",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
+ topic: "Sujet 1",
  type: "mcq_multi",
  question: "Quels médicaments appartiennent au groupe des antalgiques ?",
  choices: [
@@ -140472,7 +140478,7 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s1-10",
+ id: "l1-pharma-s1-10",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
  topic: "Sujet 1",
@@ -140483,9 +140489,10 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s1-11",
+ id: "l1-pharma-s1-11",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
+ topic: "Sujet 1",
  type: "mcq",
  question: "Le médicament utilisé pour diminuer la fièvre est appelé :",
  choices: [
@@ -140499,9 +140506,10 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s1-12",
+ id: "l1-pharma-s1-12",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
+ topic: "Sujet 1",
  type: "mcq_multi",
  question: "Quels sont les effets secondaires possibles des médicaments ?",
  choices: [
@@ -140516,7 +140524,7 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s1-13",
+ id: "l1-pharma-s1-13",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
  topic: "Sujet 1",
@@ -140527,9 +140535,10 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s1-14",
+ id: "l1-pharma-s1-14",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
+ topic: "Sujet 1",
  type: "mcq",
  question: "Le médicament utilisé pour lutter contre les infections fongiques est :",
  choices: [
@@ -140543,9 +140552,10 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s1-15",
+ id: "l1-pharma-s1-15",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
+ topic: "Sujet 1",
  type: "mcq_multi",
  question: "Quels éléments favorisent une bonne conservation des médicaments ?",
  choices: [
@@ -140560,7 +140570,7 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s1-16",
+ id: "l1-pharma-s1-16",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
  topic: "Sujet 1",
@@ -140571,9 +140581,10 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s1-17",
+ id: "l1-pharma-s1-17",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
+ topic: "Sujet 1",
  type: "mcq",
  question: "L’insuline est principalement utilisée dans le traitement :",
  choices: [
@@ -140587,9 +140598,10 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s1-18",
+ id: "l1-pharma-s1-18",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
+ topic: "Sujet 1",
  type: "mcq_multi",
  question: "Quels médicaments peuvent être utilisés comme antipyrétiques ?",
  choices: [
@@ -140604,7 +140616,7 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s1-19",
+ id: "l1-pharma-s1-19",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
  topic: "Sujet 1",
@@ -140615,9 +140627,10 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s1-20",
+ id: "l1-pharma-s1-20",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
+ topic: "Sujet 1",
  type: "mcq",
  question: "Le document qui contient les informations sur un médicament est :",
  choices: [
@@ -140631,7 +140644,7 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s1-21",
+ id: "l1-pharma-s1-21",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
  topic: "Sujet 1",
@@ -140642,9 +140655,10 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s1-22",
+ id: "l1-pharma-s1-22",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
+ topic: "Sujet 1",
  type: "mcq",
  question: "Le médicament utilisé pour traiter le paludisme est appelé :",
  choices: [
@@ -140658,9 +140672,10 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s1-23",
+ id: "l1-pharma-s1-23",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
+ topic: "Sujet 1",
  type: "mcq_multi",
  question: "Quels sont les avantages de la voie orale ?",
  choices: [
@@ -140675,7 +140690,7 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s1-24",
+ id: "l1-pharma-s1-24",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
  topic: "Sujet 1",
@@ -140686,9 +140701,10 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s1-25",
+ id: "l1-pharma-s1-25",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
+ topic: "Sujet 1",
  type: "mcq",
  question: "Le médicament qui calme la toux est :",
  choices: [
@@ -140702,9 +140718,10 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s1-26",
+ id: "l1-pharma-s1-26",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
+ topic: "Sujet 1",
  type: "mcq_multi",
  question: "Quels médicaments appartiennent aux antibiotiques ?",
  choices: [
@@ -140720,7 +140737,7 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s1-27",
+ id: "l1-pharma-s1-27",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
  topic: "Sujet 1",
@@ -140731,9 +140748,10 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s1-28",
+ id: "l1-pharma-s1-28",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
+ topic: "Sujet 1",
  type: "mcq",
  question: "La voie sous-cutanée consiste à injecter le médicament :",
  choices: [
@@ -140747,9 +140765,10 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s1-29",
+ id: "l1-pharma-s1-29",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
+ topic: "Sujet 1",
  type: "mcq_multi",
  question: "Quels éléments peuvent modifier l’action d’un médicament ?",
  choices: [
@@ -140764,7 +140783,7 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s1-30",
+ id: "l1-pharma-s1-30",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
  topic: "Sujet 1",
@@ -140775,9 +140794,10 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s1-31",
+ id: "l1-pharma-s1-31",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
+ topic: "Sujet 1",
  type: "mcq",
  question: "Le médicament utilisé contre les vomissements est :",
  choices: [
@@ -140791,9 +140811,10 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s1-32",
+ id: "l1-pharma-s1-32",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
+ topic: "Sujet 1",
  type: "mcq_multi",
  question: "Quels médicaments sont des anti-inflammatoires non stéroïdiens ?",
  choices: [
@@ -140808,7 +140829,7 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s1-33",
+ id: "l1-pharma-s1-33",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
  topic: "Sujet 1",
@@ -140819,9 +140840,10 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s1-34",
+ id: "l1-pharma-s1-34",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
+ topic: "Sujet 1",
  type: "mcq",
  question: "La voie intramusculaire consiste à injecter le médicament :",
  choices: [
@@ -140835,9 +140857,10 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s1-35",
+ id: "l1-pharma-s1-35",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
+ topic: "Sujet 1",
  type: "mcq_multi",
  question: "Quels sont les signes possibles d’une allergie médicamenteuse ?",
  choices: [
@@ -140853,7 +140876,7 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s1-36",
+ id: "l1-pharma-s1-36",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
  topic: "Sujet 1",
@@ -140864,9 +140887,10 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s1-37",
+ id: "l1-pharma-s1-37",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
+ topic: "Sujet 1",
  type: "mcq",
  question: "Le médicament qui facilite l’évacuation des selles est :",
  choices: [
@@ -140880,9 +140904,10 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s1-38",
+ id: "l1-pharma-s1-38",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
+ topic: "Sujet 1",
  type: "mcq_multi",
  question: "Quels médicaments peuvent provoquer une somnolence ?",
  choices: [
@@ -140897,7 +140922,7 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s1-39",
+ id: "l1-pharma-s1-39",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
  topic: "Sujet 1",
@@ -140908,9 +140933,10 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s1-40",
+ id: "l1-pharma-s1-40",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
+ topic: "Sujet 1",
  type: "mcq",
  question: "Le professionnel responsable de la délivrance des médicaments en pharmacie est :",
  choices: [
@@ -140924,7 +140950,7 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s2-1",
+ id: "l1-pharma-s2-1",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
  topic: "Sujet 2",
@@ -140935,9 +140961,10 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s2-2",
+ id: "l1-pharma-s2-2",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
+ topic: "Sujet 2",
  type: "mcq",
  question: "Le principal organe responsable de l’élimination des médicaments est :",
  choices: [
@@ -140951,9 +140978,10 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s2-3",
+ id: "l1-pharma-s2-3",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
+ topic: "Sujet 2",
  type: "mcq_multi",
  question: "Quels médicaments peuvent être administrés par voie sublinguale ?",
  choices: [
@@ -140968,7 +140996,7 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s2-4",
+ id: "l1-pharma-s2-4",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
  topic: "Sujet 2",
@@ -140979,9 +141007,10 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s2-5",
+ id: "l1-pharma-s2-5",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
+ topic: "Sujet 2",
  type: "mcq",
  question: "Le foie intervient principalement dans :",
  choices: [
@@ -140995,9 +141024,10 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s2-6",
+ id: "l1-pharma-s2-6",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
+ topic: "Sujet 2",
  type: "mcq_multi",
  question: "Quels sont les signes d’une intoxication médicamenteuse ?",
  choices: [
@@ -141012,7 +141042,7 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s2-7",
+ id: "l1-pharma-s2-7",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
  topic: "Sujet 2",
@@ -141023,9 +141053,10 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s2-8",
+ id: "l1-pharma-s2-8",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
+ topic: "Sujet 2",
  type: "mcq",
  question: "Le médicament utilisé pour prévenir les allergies est :",
  choices: [
@@ -141039,9 +141070,10 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s2-9",
+ id: "l1-pharma-s2-9",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
+ topic: "Sujet 2",
  type: "mcq_multi",
  question: "Quels éléments figurent généralement sur une ordonnance médicale ?",
  choices: [
@@ -141057,7 +141089,7 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s2-10",
+ id: "l1-pharma-s2-10",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
  topic: "Sujet 2",
@@ -141068,9 +141100,10 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s2-11",
+ id: "l1-pharma-s2-11",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
+ topic: "Sujet 2",
  type: "mcq",
  question: "Le médicament utilisé pour traiter l’hypertension artérielle est :",
  choices: [
@@ -141084,9 +141117,10 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s2-12",
+ id: "l1-pharma-s2-12",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
+ topic: "Sujet 2",
  type: "mcq_multi",
  question: "Quels médicaments peuvent être utilisés dans le traitement du paludisme ?",
  choices: [
@@ -141101,7 +141135,7 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s2-13",
+ id: "l1-pharma-s2-13",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
  topic: "Sujet 2",
@@ -141112,9 +141146,10 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s2-14",
+ id: "l1-pharma-s2-14",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
+ topic: "Sujet 2",
  type: "mcq",
  question: "Le médicament qui augmente l’élimination des urines est :",
  choices: [
@@ -141128,9 +141163,10 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s2-15",
+ id: "l1-pharma-s2-15",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
+ topic: "Sujet 2",
  type: "mcq_multi",
  question: "Quels sont les avantages de la voie intraveineuse ?",
  choices: [
@@ -141146,7 +141182,7 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s2-16",
+ id: "l1-pharma-s2-16",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
  topic: "Sujet 2",
@@ -141157,9 +141193,10 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s2-17",
+ id: "l1-pharma-s2-17",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
+ topic: "Sujet 2",
  type: "mcq",
  question: "Le médicament utilisé pour désinfecter la peau est :",
  choices: [
@@ -141173,9 +141210,10 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s2-18",
+ id: "l1-pharma-s2-18",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
+ topic: "Sujet 2",
  type: "mcq_multi",
  question: "Quels sont les rôles de l’infirmier lors de l’administration d’un médicament ?",
  choices: [
@@ -141190,7 +141228,7 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s2-19",
+ id: "l1-pharma-s2-19",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
  topic: "Sujet 2",
@@ -141201,9 +141239,10 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s2-20",
+ id: "l1-pharma-s2-20",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
+ topic: "Sujet 2",
  type: "mcq",
  question: "Le médicament utilisé pour calmer une douleur intense est souvent :",
  choices: [
@@ -141217,7 +141256,7 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s2-21",
+ id: "l1-pharma-s2-21",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
  topic: "Sujet 2",
@@ -141228,9 +141267,10 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s2-22",
+ id: "l1-pharma-s2-22",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
+ topic: "Sujet 2",
  type: "mcq",
  question: "Le médicament utilisé pour traiter une infection parasitaire est :",
  choices: [
@@ -141244,9 +141284,10 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s2-23",
+ id: "l1-pharma-s2-23",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
+ topic: "Sujet 2",
  type: "mcq_multi",
  question: "Quels facteurs peuvent influencer l’absorption d’un médicament par voie orale ?",
  choices: [
@@ -141261,7 +141302,7 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s2-24",
+ id: "l1-pharma-s2-24",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
  topic: "Sujet 2",
@@ -141272,9 +141313,10 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s2-25",
+ id: "l1-pharma-s2-25",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
+ topic: "Sujet 2",
  type: "mcq",
  question: "Le médicament qui fluidifie les sécrétions bronchiques est :",
  choices: [
@@ -141288,9 +141330,10 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s2-26",
+ id: "l1-pharma-s2-26",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
+ topic: "Sujet 2",
  type: "mcq_multi",
  question: "Quels médicaments peuvent être utilisés contre la douleur ?",
  choices: [
@@ -141306,7 +141349,7 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s2-27",
+ id: "l1-pharma-s2-27",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
  topic: "Sujet 2",
@@ -141317,9 +141360,10 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s2-28",
+ id: "l1-pharma-s2-28",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
+ topic: "Sujet 2",
  type: "mcq",
  question: "Le médicament qui diminue le sucre dans le sang est :",
  choices: [
@@ -141333,9 +141377,10 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s2-29",
+ id: "l1-pharma-s2-29",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
+ topic: "Sujet 2",
  type: "mcq_multi",
  question: "Quels effets peuvent être observés après l’administration d’un médicament ?",
  choices: [
@@ -141350,7 +141395,7 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s2-30",
+ id: "l1-pharma-s2-30",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
  topic: "Sujet 2",
@@ -141361,9 +141406,10 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s2-31",
+ id: "l1-pharma-s2-31",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
+ topic: "Sujet 2",
  type: "mcq",
  question: "Le médicament qui combat les bactéries est :",
  choices: [
@@ -141377,9 +141423,10 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s2-32",
+ id: "l1-pharma-s2-32",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
+ topic: "Sujet 2",
  type: "mcq_multi",
  question: "Quels sont les risques liés à une mauvaise conservation des médicaments ?",
  choices: [
@@ -141394,7 +141441,7 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s2-33",
+ id: "l1-pharma-s2-33",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
  topic: "Sujet 2",
@@ -141405,9 +141452,10 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s2-34",
+ id: "l1-pharma-s2-34",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
+ topic: "Sujet 2",
  type: "mcq",
  question: "Le professionnel qui prescrit habituellement les médicaments est :",
  choices: [
@@ -141421,9 +141469,10 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s2-35",
+ id: "l1-pharma-s2-35",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
+ topic: "Sujet 2",
  type: "mcq_multi",
  question: "Quels médicaments peuvent être administrés par voie injectable ?",
  choices: [
@@ -141439,7 +141488,7 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s2-36",
+ id: "l1-pharma-s2-36",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
  topic: "Sujet 2",
@@ -141450,9 +141499,10 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s2-37",
+ id: "l1-pharma-s2-37",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
+ topic: "Sujet 2",
  type: "mcq",
  question: "Le médicament utilisé pour traiter une infection virale est :",
  choices: [
@@ -141466,9 +141516,10 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s2-38",
+ id: "l1-pharma-s2-38",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
+ topic: "Sujet 2",
  type: "mcq_multi",
  question: "Quels éléments doivent être surveillés après une injection ?",
  choices: [
@@ -141484,7 +141535,7 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s2-39",
+ id: "l1-pharma-s2-39",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
  topic: "Sujet 2",
@@ -141495,9 +141546,10 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s2-40",
+ id: "l1-pharma-s2-40",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
+ topic: "Sujet 2",
  type: "mcq",
  question: "Le médicament utilisé pour prévenir la coagulation du sang est :",
  choices: [
@@ -141512,7 +141564,7 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 
 
 {
- id: "l2-pharma-s3-1",
+ id: "l1-pharma-s3-1",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
  topic: "Sujet 3",
@@ -141523,9 +141575,10 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s3-2",
+ id: "l1-pharma-s3-2",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
+ topic: "Sujet 3",
  type: "mcq",
  question: "Le médicament administré sous forme de suppositoire utilise la voie :",
  choices: [
@@ -141539,9 +141592,10 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s3-3",
+ id: "l1-pharma-s3-3",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
+ topic: "Sujet 3",
  type: "mcq_multi",
  question: "Quels médicaments peuvent être utilisés contre l’asthme ?",
  choices: [
@@ -141556,7 +141610,7 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s3-4",
+ id: "l1-pharma-s3-4",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
  topic: "Sujet 3",
@@ -141567,9 +141621,10 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s3-5",
+ id: "l1-pharma-s3-5",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
+ topic: "Sujet 3",
  type: "mcq",
  question: "Le médicament utilisé pour provoquer le sommeil est :",
  choices: [
@@ -141583,9 +141638,10 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s3-6",
+ id: "l1-pharma-s3-6",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
+ topic: "Sujet 3",
  type: "mcq_multi",
  question: "Quels éléments doivent être respectés lors d’une perfusion ?",
  choices: [
@@ -141600,7 +141656,7 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s3-7",
+ id: "l1-pharma-s3-7",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
  topic: "Sujet 3",
@@ -141611,9 +141667,10 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s3-8",
+ id: "l1-pharma-s3-8",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
+ topic: "Sujet 3",
  type: "mcq",
  question: "Le médicament utilisé pour traiter l’anxiété est :",
  choices: [
@@ -141627,9 +141684,10 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s3-9",
+ id: "l1-pharma-s3-9",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
+ topic: "Sujet 3",
  type: "mcq_multi",
  question: "Quels sont les avantages de la voie sublinguale ?",
  choices: [
@@ -141645,7 +141703,7 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s3-10",
+ id: "l1-pharma-s3-10",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
  topic: "Sujet 3",
@@ -141656,9 +141714,10 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s3-11",
+ id: "l1-pharma-s3-11",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
+ topic: "Sujet 3",
  type: "mcq",
  question: "Le médicament qui diminue les nausées est :",
  choices: [
@@ -141672,9 +141731,10 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s3-12",
+ id: "l1-pharma-s3-12",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
+ topic: "Sujet 3",
  type: "mcq_multi",
  question: "Quels médicaments peuvent être administrés sous forme de gouttes ?",
  choices: [
@@ -141689,7 +141749,7 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s3-13",
+ id: "l1-pharma-s3-13",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
  topic: "Sujet 3",
@@ -141700,9 +141760,10 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s3-14",
+ id: "l1-pharma-s3-14",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
+ topic: "Sujet 3",
  type: "mcq",
  question: "Le médicament utilisé pour réduire l’acidité gastrique est :",
  choices: [
@@ -141716,9 +141777,10 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s3-15",
+ id: "l1-pharma-s3-15",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
+ topic: "Sujet 3",
  type: "mcq_multi",
  question: "Quels signes peuvent apparaître lors d’un choc anaphylactique ?",
  choices: [
@@ -141734,7 +141796,7 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s3-16",
+ id: "l1-pharma-s3-16",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
  topic: "Sujet 3",
@@ -141745,9 +141807,10 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s3-17",
+ id: "l1-pharma-s3-17",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
+ topic: "Sujet 3",
  type: "mcq",
  question: "Le médicament utilisé pour calmer les contractions utérines prématurées est :",
  choices: [
@@ -141761,9 +141824,10 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s3-18",
+ id: "l1-pharma-s3-18",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
+ topic: "Sujet 3",
  type: "mcq_multi",
  question: "Quels éléments doivent être surveillés chez un patient sous perfusion ?",
  choices: [
@@ -141778,7 +141842,7 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s3-19",
+ id: "l1-pharma-s3-19",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
  topic: "Sujet 3",
@@ -141789,9 +141853,10 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s3-20",
+ id: "l1-pharma-s3-20",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
+ topic: "Sujet 3",
  type: "mcq",
  question: "Le médicament utilisé pour prévenir les vomissements pendant la grossesse peut être :",
  choices: [
@@ -141805,7 +141870,7 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s3-21",
+ id: "l1-pharma-s3-21",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
  topic: "Sujet 3",
@@ -141816,9 +141881,10 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s3-22",
+ id: "l1-pharma-s3-22",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
+ topic: "Sujet 3",
  type: "mcq",
  question: "Le médicament utilisé pour détruire les champignons microscopiques est :",
  choices: [
@@ -141832,9 +141898,10 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s3-23",
+ id: "l1-pharma-s3-23",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
+ topic: "Sujet 3",
  type: "mcq_multi",
  question: "Quels médicaments peuvent être utilisés pour traiter l’hypertension artérielle ?",
  choices: [
@@ -141849,7 +141916,7 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s3-24",
+ id: "l1-pharma-s3-24",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
  topic: "Sujet 3",
@@ -141860,9 +141927,10 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s3-25",
+ id: "l1-pharma-s3-25",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
+ topic: "Sujet 3",
  type: "mcq",
  question: "Le médicament utilisé pour traiter la constipation est :",
  choices: [
@@ -141876,9 +141944,10 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s3-26",
+ id: "L1-pharma-s3-26",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
+ topic: "Sujet 3",
  type: "mcq_multi",
  question: "Quels éléments doivent être vérifiés avant une injection intraveineuse ?",
  choices: [
@@ -141893,7 +141962,7 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s3-27",
+ id: "l1-pharma-s3-27",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
  topic: "Sujet 3",
@@ -141904,9 +141973,10 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s3-28",
+ id: "l1-pharma-s3-28",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
+ topic: "Sujet 3",
  type: "mcq",
  question: "Le médicament utilisé pour traiter les convulsions est :",
  choices: [
@@ -141920,9 +141990,10 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s3-29",
+ id: "L1-pharma-s3-29",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
+ topic: "Sujet 3",
  type: "mcq_multi",
  question: "Quels sont les effets recherchés des antalgiques ?",
  choices: [
@@ -141938,7 +142009,7 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s3-30",
+ id: "l1-pharma-s3-30",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
  topic: "Sujet 3",
@@ -141949,9 +142020,10 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s3-31",
+ id: "l1-pharma-s3-31",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
+ topic: "Sujet 3",
  type: "mcq",
  question: "Le médicament utilisé pour réduire l’inflammation des bronches dans l’asthme est :",
  choices: [
@@ -141965,9 +142037,10 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s3-32",
+ id: "l1-pharma-s3-32",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
+ topic: "Sujet 3",
  type: "mcq_multi",
  question: "Quels médicaments peuvent être utilisés chez une femme enceinte avec prudence ?",
  choices: [
@@ -141983,7 +142056,7 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s3-33",
+ id: "l1-pharma-s3-33",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
  topic: "Sujet 3",
@@ -141994,9 +142067,10 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s3-34",
+ id: "l1-pharma-s3-34",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
+ topic: "Sujet 3",
  type: "mcq",
  question: "Le médicament utilisé pour prévenir les caillots sanguins est :",
  choices: [
@@ -142010,9 +142084,10 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s3-35",
+ id: "l1-pharma-s3-35",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
+ topic: "Sujet 3",
  type: "mcq_multi",
  question: "Quels signes peuvent évoquer une infection après une injection ?",
  choices: [
@@ -142027,7 +142102,7 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s3-36",
+ id: "l1-pharma-s3-36",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
  topic: "Sujet 3",
@@ -142038,9 +142113,10 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s3-37",
+ id: "l1-pharma-s3-37",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
+ topic: "Sujet 3",
  type: "mcq",
  question: "Le médicament utilisé pour réduire la douleur pendant une intervention est :",
  choices: [
@@ -142054,9 +142130,10 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s3-38",
+ id: "l1-pharma-s3-38",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
+ topic: "Sujet 3",
  type: "mcq_multi",
  question: "Quels médicaments peuvent être administrés par voie cutanée ?",
  choices: [
@@ -142072,7 +142149,7 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s3-39",
+ id: "l1-pharma-s3-39",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
  topic: "Sujet 3",
@@ -142083,9 +142160,10 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s3-40",
+ id: "l1-pharma-s3-40",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
+ topic: "Sujet 3",
  type: "mcq",
  question: "Le médicament utilisé pour diminuer la toux sèche est :",
  choices: [
@@ -142099,7 +142177,7 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s4-1",
+ id: "l1-pharma-s4-1",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
  topic: "Sujet 4",
@@ -142110,9 +142188,10 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s4-2",
+ id: "l1-pharma-s4-2",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
+ topic: "Sujet 4",
  type: "mcq",
  question: "Le médicament utilisé pour traiter les douleurs liées aux contractions utérines est principalement :",
  choices: [
@@ -142126,9 +142205,10 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s4-3",
+ id: "l1-pharma-s4-3",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
+ topic: "Sujet 4",
  type: "mcq_multi",
  question: "Quels médicaments peuvent être utilisés pour traiter une infection bactérienne respiratoire ?",
  choices: [
@@ -142144,7 +142224,7 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s4-4",
+ id: "l1-pharma-s4-4",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
  topic: "Sujet 4",
@@ -142155,9 +142235,10 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s4-5",
+ id: "l1-pharma-s4-5",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
+ topic: "Sujet 4",
  type: "mcq",
  question: "Le médicament utilisé pour diminuer les contractions de l’utérus après l’accouchement est souvent :",
  choices: [
@@ -142171,9 +142252,10 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s4-6",
+ id: "l1-pharma-s4-6",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
+ topic: "Sujet 4",
  type: "mcq_multi",
  question: "Quels sont les signes possibles d’un effet secondaire médicamenteux digestif ?",
  choices: [
@@ -142188,7 +142270,7 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s4-7",
+ id: "l1-pharma-s4-7",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
  topic: "Sujet 4",
@@ -142199,9 +142281,10 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s4-8",
+ id: "l1-pharma-s4-8",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
+ topic: "Sujet 4",
  type: "mcq",
  question: "Le médicament utilisé pour traiter les douleurs sévères après chirurgie est souvent :",
  choices: [
@@ -142215,9 +142298,10 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s4-9",
+ id: "l1-pharma-s4-9",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
+ topic: "Sujet 4",
  type: "mcq_multi",
  question: "Quels médicaments peuvent être utilisés pour réduire la fièvre chez l’enfant ?",
  choices: [
@@ -142232,7 +142316,7 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s4-10",
+ id: "l1-pharma-s4-10",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
  topic: "Sujet 4",
@@ -142243,9 +142327,10 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s4-11",
+ id: "l1-pharma-s4-11",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
+ topic: "Sujet 4",
  type: "mcq",
  question: "Le médicament utilisé pour corriger une carence en fer est :",
  choices: [
@@ -142259,9 +142344,10 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s4-12",
+ id: "l1-pharma-s4-12",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
+ topic: "Sujet 4",
  type: "mcq_multi",
  question: "Quels sont les rôles du pharmacien ?",
  choices: [
@@ -142276,7 +142362,7 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s4-13",
+ id: "l1-pharma-s4-13",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
  topic: "Sujet 4",
@@ -142287,9 +142373,10 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s4-14",
+ id: "l1-pharma-s4-14",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
+ topic: "Sujet 4",
  type: "mcq",
  question: "Le médicament utilisé pour calmer l’anxiété avant une intervention chirurgicale peut être :",
  choices: [
@@ -142303,9 +142390,10 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s4-15",
+ id: "l1-pharma-s4-15",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
+ topic: "Sujet 4",
  type: "mcq_multi",
  question: "Quels médicaments peuvent être administrés par voie inhalée ?",
  choices: [
@@ -142321,7 +142409,7 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s4-16",
+ id: "l1-pharma-s4-16",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
  topic: "Sujet 4",
@@ -142332,9 +142420,10 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s4-17",
+ id: "l1-pharma-s4-17",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
+ topic: "Sujet 4",
  type: "mcq",
  question: "Le médicament utilisé pour prévenir certaines infections bactériennes avant une chirurgie est :",
  choices: [
@@ -142348,9 +142437,10 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s4-18",
+ id: "l1-pharma-s4-18",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
+ topic: "Sujet 4",
  type: "mcq_multi",
  question: "Quels signes peuvent évoquer un surdosage médicamenteux ?",
  choices: [
@@ -142365,7 +142455,7 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s4-19",
+ id: "l1-pharma-s4-19",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
  topic: "Sujet 4",
@@ -142376,9 +142466,10 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s4-20",
+ id: "l1-pharma-s4-20",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
+ topic: "Sujet 4",
  type: "mcq",
  question: "Le médicament utilisé pour prévenir le tétanos est :",
  choices: [
@@ -142391,7 +142482,7 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
  explanation: "Le vaccin antitétanique stimule les défenses immunitaires contre le tétanos. Le tétanos est une maladie infectieuse grave causée par une bactérie."
 },
 {
- id: "l2-pharma-s4-21",
+ id: "l1-pharma-s4-21",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
  topic: "Sujet 4",
@@ -142402,9 +142493,10 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s4-22",
+ id: "l1-pharma-s4-22",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
+ topic: "Sujet 4",
  type: "mcq",
  question: "Le médicament utilisé pour diminuer les douleurs inflammatoires est :",
  choices: [
@@ -142418,9 +142510,10 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s4-23",
+ id: "l1-pharma-s4-23",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
+ topic: "Sujet 4",
  type: "mcq_multi",
  question: "Quels médicaments peuvent être utilisés pour traiter une infection urinaire bactérienne ?",
  choices: [
@@ -142435,7 +142528,7 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s4-24",
+ id: "l1-pharma-s4-24",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
  topic: "Sujet 4",
@@ -142446,9 +142539,10 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s4-25",
+ id: "l1-pharma-s4-25",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
+ topic: "Sujet 4",
  type: "mcq",
  question: "Le médicament utilisé pour ouvrir les bronches pendant une crise d’asthme est :",
  choices: [
@@ -142462,9 +142556,10 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s4-26",
+ id: "l1-pharma-s4-26",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
+ topic: "Sujet 4",
  type: "mcq_multi",
  question: "Quels éléments doivent être surveillés chez un patient prenant des anticoagulants ?",
  choices: [
@@ -142479,7 +142574,7 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s4-27",
+ id: "l1-pharma-s4-27",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
  topic: "Sujet 4",
@@ -142490,9 +142585,10 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s4-28",
+ id: "l1-pharma-s4-28",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
+ topic: "Sujet 4",
  type: "mcq",
  question: "Le médicament utilisé pour traiter une mycose vaginale est :",
  choices: [
@@ -142506,9 +142602,10 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s4-29",
+ id: "l1-pharma-s4-29",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
+ topic: "Sujet 4",
  type: "mcq_multi",
  question: "Quels médicaments peuvent être utilisés contre les douleurs postopératoires ?",
  choices: [
@@ -142524,7 +142621,7 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s4-30",
+ id: "l1-pharma-s4-30",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
  topic: "Sujet 4",
@@ -142535,9 +142632,10 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s4-31",
+ id: "l1-pharma-s4-31",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
+ topic: "Sujet 4",
  type: "mcq",
  question: "Le médicament utilisé pour calmer les douleurs liées aux règles est :",
  choices: [
@@ -142551,9 +142649,10 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s4-32",
+ id: "l1-pharma-s4-32",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
+ topic: "Sujet 4",
  type: "mcq_multi",
  question: "Quels sont les avantages des médicaments génériques ?",
  choices: [
@@ -142568,7 +142667,7 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s4-33",
+ id: "l1-pharma-s4-33",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
  topic: "Sujet 4",
@@ -142579,9 +142678,10 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s4-34",
+ id: "l1-pharma-s4-34",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
+ topic: "Sujet 4",
  type: "mcq",
  question: "Le médicament utilisé pour prévenir les vomissements après une chirurgie est :",
  choices: [
@@ -142595,9 +142695,10 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s4-35",
+ id: "l1-pharma-s4-35",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
+ topic: "Sujet 4",
  type: "mcq_multi",
  question: "Quels signes peuvent évoquer une réaction allergique médicamenteuse ?",
  choices: [
@@ -142613,7 +142714,7 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s4-36",
+ id: "l1-pharma-s4-36",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
  topic: "Sujet 4",
@@ -142624,9 +142725,10 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s4-37",
+ id: "l1-pharma-s4-37",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
+ topic: "Sujet 4",
  type: "mcq",
  question: "Le médicament utilisé pour traiter une infection parasitaire intestinale est :",
  choices: [
@@ -142640,9 +142742,10 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s4-38",
+ id: "l1-pharma-s4-38",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
+ topic: "Sujet 4",
  type: "mcq_multi",
  question: "Quels médicaments peuvent être utilisés en cas de fièvre élevée ?",
  choices: [
@@ -142658,7 +142761,7 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s4-39",
+ id: "l1-pharma-s4-39",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
  topic: "Sujet 4",
@@ -142669,9 +142772,10 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s4-40",
+ id: "l1-pharma-s4-40",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
+ topic: "Sujet 4",
  type: "mcq",
  question: "Le médicament utilisé pour calmer une réaction allergique est :",
  choices: [
@@ -142684,7 +142788,7 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
  explanation: "Les antihistaminiques sont des médicaments utilisés pour réduire les manifestations allergiques. Une réaction allergique est une réponse excessive du système immunitaire."
 },
 {
- id: "l2-pharma-s5-1",
+ id: "l1-pharma-s5-1",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
  topic: "Sujet 5",
@@ -142695,9 +142799,10 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s5-2",
+ id: "l1-pharma-s5-2",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
+ topic: "Sujet 5",
  type: "mcq",
  question: "Le médicament utilisé pour traiter les infections dues aux virus est :",
  choices: [
@@ -142711,9 +142816,10 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s5-3",
+ id: "l1-pharma-s5-3",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
+ topic: "Sujet 5",
  type: "mcq_multi",
  question: "Quels éléments doivent être vérifiés avant de donner un comprimé au patient ?",
  choices: [
@@ -142729,7 +142835,7 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s5-4",
+ id: "l1-pharma-s5-4",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
  topic: "Sujet 5",
@@ -142740,9 +142846,10 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s5-5",
+ id: "l1-pharma-s5-5",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
+ topic: "Sujet 5",
  type: "mcq",
  question: "Le médicament utilisé pour calmer les démangeaisons allergiques est :",
  choices: [
@@ -142756,9 +142863,10 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s5-6",
+ id: "l1-pharma-s5-6",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
+ topic: "Sujet 5",
  type: "mcq_multi",
  question: "Quels médicaments peuvent être utilisés contre la douleur et la fièvre ?",
  choices: [
@@ -142774,7 +142882,7 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s5-7",
+ id: "l1-pharma-s5-7",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
  topic: "Sujet 5",
@@ -142785,9 +142893,10 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s5-8",
+ id: "l1-pharma-s5-8",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
+ topic: "Sujet 5",
  type: "mcq",
  question: "Le médicament utilisé pour traiter une crise d’épilepsie est :",
  choices: [
@@ -142801,9 +142910,10 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s5-9",
+ id: "l1-pharma-s5-9",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
+ topic: "Sujet 5",
  type: "mcq_multi",
  question: "Quels signes peuvent indiquer une intolérance médicamenteuse ?",
  choices: [
@@ -142818,7 +142928,7 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s5-10",
+ id: "l1-pharma-s5-10",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
  topic: "Sujet 5",
@@ -142829,9 +142939,10 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s5-11",
+ id: "l1-pharma-s5-11",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
+ topic: "Sujet 5",
  type: "mcq",
  question: "Le médicament utilisé pour augmenter les contractions utérines pendant le travail est :",
  choices: [
@@ -142845,9 +142956,10 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s5-12",
+ id: "l1-pharma-s5-12",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
+ topic: "Sujet 5",
  type: "mcq_multi",
  question: "Quels médicaments peuvent être utilisés contre les infections parasitaires ?",
  choices: [
@@ -142862,7 +142974,7 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s5-13",
+ id: "l1-pharma-s5-13",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
  topic: "Sujet 5",
@@ -142873,9 +142985,10 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s5-14",
+ id: "l1-pharma-s5-14",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
+ topic: "Sujet 5",
  type: "mcq",
  question: "Le médicament utilisé pour diminuer les contractions prématurées chez la femme enceinte est :",
  choices: [
@@ -142889,9 +143002,10 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s5-15",
+ id: "l1-pharma-s5-15",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
+ topic: "Sujet 5",
  type: "mcq_multi",
  question: "Quels éléments peuvent favoriser une erreur médicamenteuse ?",
  choices: [
@@ -142907,7 +143021,7 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s5-16",
+ id: "l1-pharma-s5-16",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
  topic: "Sujet 5",
@@ -142918,9 +143032,10 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s5-17",
+ id: "l1-pharma-s5-17",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
+ topic: "Sujet 5",
  type: "mcq",
  question: "Le médicament utilisé pour soulager les brûlures gastriques est :",
  choices: [
@@ -142934,9 +143049,10 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s5-18",
+ id: "l1-pharma-s5-18",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
+ topic: "Sujet 5",
  type: "mcq_multi",
  question: "Quels médicaments peuvent être utilisés dans le traitement du diabète ?",
  choices: [
@@ -142951,7 +143067,7 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s5-19",
+ id: "l1-pharma-s5-19",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
  topic: "Sujet 5",
@@ -142962,9 +143078,10 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s5-20",
+ id: "l1-pharma-s5-20",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
+ topic: "Sujet 5",
  type: "mcq",
  question: "Le médicament utilisé pour réduire les douleurs musculaires inflammatoires est souvent :",
  choices: [
@@ -142977,7 +143094,7 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
  explanation: "Le diclofénac est un anti-inflammatoire utilisé pour réduire certaines douleurs musculaires et articulaires."
 },
 {
- id: "l2-pharma-s5-21",
+ id: "l1-pharma-s5-21",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
  topic: "Sujet 5",
@@ -142988,9 +143105,10 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s5-22",
+ id: "l1-pharma-s5-22",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
+ topic: "Sujet 5",
  type: "mcq",
  question: "Le médicament utilisé pour fluidifier les sécrétions bronchiques est :",
  choices: [
@@ -143004,9 +143122,10 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s5-23",
+ id: "l1-pharma-s5-23",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
+ topic: "Sujet 5",
  type: "mcq_multi",
  question: "Quels signes peuvent apparaître lors d’un choc allergique grave ?",
  choices: [
@@ -143021,7 +143140,7 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s5-24",
+ id: "l1-pharma-s5-24",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
  topic: "Sujet 5",
@@ -143032,9 +143151,10 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s5-25",
+ id: "l1-pharma-s5-25",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
+ topic: "Sujet 5",
  type: "mcq",
  question: "Le médicament utilisé pour calmer les douleurs pendant le travail obstétrical peut être :",
  choices: [
@@ -143048,9 +143168,10 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s5-26",
+ id: "l1-pharma-s5-26",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
+ topic: "Sujet 5",
  type: "mcq_multi",
  question: "Quels éléments doivent être respectés lors de la conservation des vaccins ?",
  choices: [
@@ -143066,7 +143187,7 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s5-27",
+ id: "l1-pharma-s5-27",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
  topic: "Sujet 5",
@@ -143077,9 +143198,10 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s5-28",
+ id: "l1-pharma-s5-28",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
+ topic: "Sujet 5",
  type: "mcq",
  question: "Le médicament utilisé pour traiter une infection des voies respiratoires causée par des champignons est :",
  choices: [
@@ -143093,9 +143215,10 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s5-29",
+ id: "l1-pharma-s5-29",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
+ topic: "Sujet 5",
  type: "mcq_multi",
  question: "Quels sont les avantages des injections intramusculaires ?",
  choices: [
@@ -143110,7 +143233,7 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s5-30",
+ id: "l1-pharma-s5-30",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
  topic: "Sujet 5",
@@ -143121,9 +143244,10 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s5-31",
+ id: "l1-pharma-s5-31",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
+ topic: "Sujet 5",
  type: "mcq",
  question: "Le médicament utilisé pour prévenir les nausées pendant la grossesse est :",
  choices: [
@@ -143137,9 +143261,10 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s5-32",
+ id: "l1-pharma-s5-32",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
+ topic: "Sujet 5",
  type: "mcq_multi",
  question: "Quels médicaments peuvent être utilisés contre les douleurs articulaires inflammatoires ?",
  choices: [
@@ -143154,7 +143279,7 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s5-33",
+ id: "l1-pharma-s5-33",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
  topic: "Sujet 5",
@@ -143165,9 +143290,10 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s5-34",
+ id: "l1-pharma-s5-34",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
+ topic: "Sujet 5",
  type: "mcq",
  question: "Le médicament utilisé pour calmer les contractions des bronches pendant une crise d’asthme est :",
  choices: [
@@ -143181,9 +143307,10 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s5-35",
+ id: "l1-pharma-s5-35",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
+ topic: "Sujet 5",
  type: "mcq_multi",
  question: "Quels éléments peuvent influencer l’efficacité d’un médicament ?",
  choices: [
@@ -143199,7 +143326,7 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s5-36",
+ id: "l1-pharma-s5-36",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
  topic: "Sujet 5",
@@ -143210,9 +143337,10 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s5-37",
+ id: "l1-pharma-s5-37",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
+ topic: "Sujet 5",
  type: "mcq",
  question: "Le médicament utilisé pour traiter une constipation sévère est :",
  choices: [
@@ -143226,9 +143354,10 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s5-38",
+ id: "l1-pharma-s5-38",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
+ topic: "Sujet 5",
  type: "mcq_multi",
  question: "Quels médicaments peuvent être utilisés dans le traitement du paludisme ?",
  choices: [
@@ -143244,7 +143373,7 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s5-39",
+ id: "l1-pharma-s5-39",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
  topic: "Sujet 5",
@@ -143255,9 +143384,10 @@ explanation: "  **Identification correcte** : processus visant à confirmer l'id
 },
 
 {
- id: "l2-pharma-s5-40",
+ id: "l1-pharma-s5-40",
  level: "L1-Niveau Émergent",
  subject: "Pharmacologie",
+ topic: "Sujet 5",
  type: "mcq",
  question: "Le médicament utilisé pour calmer une toux sèche irritative est :",
  choices: [

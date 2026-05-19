@@ -2861,7 +2861,8 @@
     "Immunologie",
     "Hématologie",
     "Droit administratif",
-    "Droit civil"
+    "Droit civil",
+    "Pharmacologie",
   ],
   "L2-Niveau Ascendant": [
     "Chirugie pédiatrique/Pathologies chirurrgicales",
