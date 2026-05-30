@@ -189,13 +189,49 @@
     return $('#selectLevel')?.value || $('#selectDETrack')?.value || 'Niveau';
   }
 
+
+
+  function getManualLocalInfoForBadge(username) {
+    const key = norm(username || '');
+    const source = window.UTILISATEURS_LOCAUX_INFOS || window.LOCAL_USER_INFOS || window.localUserInfos || {};
+    if (!key || !source || typeof source !== 'object') return null;
+    let found = source[username] || null;
+    if (!found) {
+      for (const [id, value] of Object.entries(source)) {
+        if (norm(id) === key) { found = value; break; }
+      }
+    }
+    if (!found || typeof found !== 'object') return null;
+    const last = text(found.nom || found.last_name || found.lastName || '');
+    const first = text(found.prenom || found.prénom || found.first_name || found.firstName || '');
+    const full = text(found.full_name || found.fullName || `${last} ${first}`.trim());
+    const level = found.niveau || found.level || (Array.isArray(found.levels) ? found.levels[0] : '');
+    return {
+      levels: Array.isArray(found.levels) ? found.levels : (level ? [level] : []),
+      first_name: first,
+      last_name: last,
+      full_name: full,
+      firstName: first,
+      lastName: last,
+      fullName: full,
+      source: 'local-manual',
+      dynamic: true,
+      localManual: true,
+    };
+  }
+
   function syncUserBadge() {
     const badge = $('#qdashUserName');
     const role = $('#qdashUserRole');
     const level = $('#qdashUserLevel');
     const current = localStorage.getItem('quizRevision.user.v1') || '';
     const lv = getCurrentLevelLabel();
-    const cfg = current && window.USERS && window.USERS[current] ? window.USERS[current] : null;
+    const manualCfg = getManualLocalInfoForBadge(current);
+    if (manualCfg && current) {
+      window.USERS = window.USERS || {};
+      window.USERS[current] = { ...(window.USERS[current] || {}), ...manualCfg };
+    }
+    const cfg = manualCfg || (current && window.USERS && window.USERS[current] ? window.USERS[current] : null);
     const first = text(cfg?.first_name || cfg?.firstName || '');
     const last = text(cfg?.last_name || cfg?.lastName || '');
     const full = text(cfg?.full_name || cfg?.fullName || `${last} ${first}`.trim());

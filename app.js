@@ -706,6 +706,7 @@
 
   async function grantAccess(username) {
     username = String(username || "").trim();
+    applyManualLocalUserInfo(username);
     const freeTrial = isFreeTrialUser(username);
     if (!username) {
       const msg = "Veuillez entrer votre nom d’utilisateur avant de vous connecter.";
@@ -753,7 +754,7 @@
     document.body.classList.add("qdash-auth-view");
     if (els.appContent) els.appContent.classList.remove("hidden");
 
-    if (els.currentUser) els.currentUser.textContent = freeTrial ? "Essai gratuit" : username;
+    if (els.currentUser) els.currentUser.textContent = freeTrial ? "Essai gratuit" : getUserDisplayName(username);
 
     if (els.btnModeQuiz) els.btnModeQuiz.style.display = "";
 
@@ -818,9 +819,63 @@
     return out;
   }
 
+
+
+  function normalizeManualLocalUserInfo(username) {
+    const key = normalizeKey(username || '');
+    const source = window.UTILISATEURS_LOCAUX_INFOS || window.LOCAL_USER_INFOS || window.localUserInfos || {};
+    if (!key || !source || typeof source !== 'object') return null;
+
+    let found = source[username] || null;
+    if (!found) {
+      for (const [id, value] of Object.entries(source)) {
+        if (normalizeKey(id) === key) {
+          found = value;
+          break;
+        }
+      }
+    }
+    if (!found || typeof found !== 'object') return null;
+
+    const lastName = String(found.nom || found.last_name || found.lastName || '').trim();
+    const firstName = String(found.prenom || found.prénom || found.first_name || found.firstName || '').trim();
+    const fullName = String(found.full_name || found.fullName || `${lastName} ${firstName}`.trim()).trim();
+    const level = found.niveau || found.level || (Array.isArray(found.levels) ? found.levels[0] : '');
+    const levels = Array.isArray(found.levels) ? found.levels : (level ? [level] : []);
+
+    return {
+      levels,
+      first_name: firstName,
+      firstName,
+      last_name: lastName,
+      lastName,
+      full_name: fullName,
+      fullName,
+      source: 'local-manual',
+      dynamic: true,
+      localManual: true,
+    };
+  }
+
+  function applyManualLocalUserInfo(username) {
+    const info = normalizeManualLocalUserInfo(username);
+    if (!info) return null;
+    window.USERS = window.USERS || {};
+    window.USERS[username] = { ...(window.USERS[username] || {}), ...info };
+    return window.USERS[username];
+  }
+
+  function getUserDisplayName(username) {
+    const cfg = applyManualLocalUserInfo(username) || (window.USERS && window.USERS[username]) || null;
+    const first = String(cfg?.first_name || cfg?.firstName || '').trim();
+    const last = String(cfg?.last_name || cfg?.lastName || '').trim();
+    const full = String(cfg?.full_name || cfg?.fullName || `${last} ${first}`.trim()).trim();
+    return full || username;
+  }
+
   function getCurrentUserConfig() {
     const user = localStorage.getItem(STORAGE_KEYS.user);
-    let cfg = window.USERS?.[user];
+    let cfg = applyManualLocalUserInfo(user) || window.USERS?.[user];
 
     // Correction locale : certains comptes créés en ligne ou en mode local peuvent
     // rester connectés quand le serveur est indisponible, mais ne pas encore être
