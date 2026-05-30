@@ -1966,7 +1966,7 @@ body.qdash-login-view .footer.container{
   visibility:hidden!important;
   pointer-events:none!important;
 }
-body.qdash-login-view #screenCode{
+body.qdash-login-view #screenCode:not(.hidden){
   display:block!important;
   visibility:visible!important;
 }

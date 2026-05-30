@@ -810,19 +810,24 @@
   else boot();
 })();
 
-/* Correction page de connexion : masquer totalement le tableau/menus tant que l'utilisateur n'est pas connecté */
+/* Correction connexion : masquer l'interface connectée sans bloquer l'authentification */
 (function(){
   'use strict';
   function syncLoginView(){
     var screenCode = document.getElementById('screenCode');
     var appContent = document.getElementById('appContent');
     var loginVisible = !!(screenCode && !screenCode.classList.contains('hidden'));
+
     document.body.classList.toggle('qdash-login-view', loginVisible);
     document.body.classList.toggle('qdash-auth-view', !loginVisible && !!(appContent && !appContent.classList.contains('hidden')));
-    if (loginVisible && appContent) {
-      appContent.classList.add('hidden');
+
+    if (loginVisible) {
       document.body.classList.remove('qdash-menu-open');
       document.body.classList.add('qdash-menu-collapsed');
+    } else {
+      // Très important : dès que la connexion est validée, on retire immédiatement
+      // le mode page de connexion afin que le CSS ne bloque jamais l'affichage du site.
+      document.body.classList.remove('qdash-login-view');
     }
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', syncLoginView, {once:true});

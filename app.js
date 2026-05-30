@@ -749,6 +749,8 @@
     }
 
     if (els.screenCode) els.screenCode.classList.add("hidden");
+    document.body.classList.remove("qdash-login-view");
+    document.body.classList.add("qdash-auth-view");
     if (els.appContent) els.appContent.classList.remove("hidden");
 
     if (els.currentUser) els.currentUser.textContent = freeTrial ? "Essai gratuit" : username;
@@ -781,6 +783,8 @@
     stopSessionHeartbeat();
     clearLocalLogin();
     if (els.screenCode) els.screenCode.classList.remove("hidden");
+    document.body.classList.add("qdash-login-view");
+    document.body.classList.remove("qdash-auth-view");
     if (els.appContent) els.appContent.classList.add("hidden");
     if (els.inputUsername) els.inputUsername.value = "";
     if (els.codeError) {
