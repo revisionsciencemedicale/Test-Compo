@@ -1628,3 +1628,330 @@ body.qdash-quiz-view #modeDE{
   position:relative !important;
   z-index:4 !important;
 }
+
+/* Adaptation complète aux petits écrans — 30/05/2026
+   Objectif : garder tous les éléments visibles sur téléphone sans casser la logique existante. */
+html{
+  -webkit-text-size-adjust:100%;
+  text-size-adjust:100%;
+  scroll-padding-top:72px;
+}
+body{
+  min-width:0 !important;
+  overflow-x:hidden !important;
+}
+img,video,canvas,svg{
+  max-width:100% !important;
+  height:auto;
+}
+.container,
+main.container,
+.footer.container{
+  max-width:100% !important;
+}
+.card,
+.dialog,
+.qdash-synthesis-card,
+.qdash-hero-banner,
+.qdash-help-row div,
+.qdash-stat,
+.question,
+.answer,
+.reviewItem,
+.dictItem{
+  max-width:100% !important;
+}
+.table-wrap,
+.admin-table-wrap,
+.qdash-table-wrap{
+  width:100% !important;
+  overflow-x:auto !important;
+  -webkit-overflow-scrolling:touch;
+}
+table{
+  max-width:100% !important;
+}
+
+@media (max-width: 900px){
+  #appContent.qdash-shell{
+    display:block !important;
+    min-height:100svh !important;
+    width:100% !important;
+  }
+  .qdash-sidebar{
+    position:fixed !important;
+    left:0 !important;
+    top:0 !important;
+    bottom:0 !important;
+    width:min(82vw, 286px) !important;
+    max-width:286px !important;
+    height:100svh !important;
+    overflow-y:auto !important;
+    -webkit-overflow-scrolling:touch;
+    transform:translateX(-105%) !important;
+  }
+  body.qdash-menu-open #qdashSidebar,
+  body.qdash-menu-open .qdash-sidebar{
+    transform:translateX(0) !important;
+  }
+  .header{
+    position:sticky !important;
+    top:0 !important;
+    width:100% !important;
+    grid-column:1 / -1 !important;
+  }
+  .header__inner.container{
+    width:100% !important;
+    padding:10px 12px !important;
+    display:flex !important;
+    align-items:center !important;
+    justify-content:space-between !important;
+    flex-wrap:wrap !important;
+    gap:8px !important;
+  }
+  .qdash-menu-toggle{
+    flex:0 0 42px !important;
+  }
+  .qdash-top-search{
+    order:3 !important;
+    flex:1 1 100% !important;
+    max-width:none !important;
+    width:100% !important;
+  }
+  .qdash-user-chip{
+    display:flex !important;
+    flex:1 1 auto !important;
+    min-width:0 !important;
+    justify-content:flex-end !important;
+    font-size:12px !important;
+    gap:7px !important;
+  }
+  .qdash-user-chip strong,
+  .qdash-user-chip small{
+    max-width:120px !important;
+    overflow:hidden !important;
+    text-overflow:ellipsis !important;
+    white-space:nowrap !important;
+  }
+  .qdash-avatar,.qdash-bell{
+    width:31px !important;
+    height:31px !important;
+    flex:0 0 31px !important;
+  }
+  .qdash-logout-btn,
+  #qdashHomeBtn,
+  .qdash-home-btn{
+    padding:8px 9px !important;
+    border-radius:11px !important;
+    font-size:12px !important;
+    white-space:nowrap !important;
+  }
+  main.container,
+  .footer.container{
+    width:100% !important;
+    padding-left:10px !important;
+    padding-right:10px !important;
+    grid-column:1 / -1 !important;
+  }
+  .card{
+    margin:12px 0 !important;
+    padding:14px !important;
+    border-radius:14px !important;
+  }
+}
+
+@media (max-width: 720px){
+  body{font-size:13px !important;}
+  .h1{font-size:20px !important;line-height:1.2 !important;}
+  .h2{font-size:17px !important;line-height:1.25 !important;}
+  .h3{font-size:15px !important;line-height:1.25 !important;}
+  .row,
+  .row--space,
+  .quiz__top,
+  .quiz__footer,
+  .header__actions{
+    width:100% !important;
+    align-items:stretch !important;
+    justify-content:flex-start !important;
+    gap:8px !important;
+  }
+  .row > *,
+  .quiz__footer > *,
+  .header__actions > *{
+    min-width:0 !important;
+  }
+  .btn,
+  button,
+  .qdash-theme-start-btn{
+    min-height:42px !important;
+    white-space:normal !important;
+  }
+  .btn{
+    width:auto;
+  }
+  .select,
+  .input,
+  textarea{
+    width:100% !important;
+    min-height:44px !important;
+    font-size:16px !important; /* évite le zoom automatique sur Android/iPhone */
+  }
+  #modeNormal .grid,
+  #modeDE .grid,
+  .grid,
+  .qdash-help-row,
+  .qdash-stat-grid{
+    grid-template-columns:1fr !important;
+    gap:10px !important;
+  }
+  #modeNormal .field,
+  #modeDE .field{
+    padding:12px !important;
+  }
+  .qdash-hero-banner{
+    min-height:auto !important;
+    padding:16px !important;
+    display:grid !important;
+    grid-template-columns:1fr !important;
+    gap:10px !important;
+    text-align:left !important;
+  }
+  .qdash-hero-banner h2{
+    font-size:20px !important;
+    line-height:1.2 !important;
+  }
+  .qdash-hero-banner p{
+    font-size:13px !important;
+  }
+  .qdash-hero-art{
+    justify-self:end !important;
+    font-size:38px !important;
+  }
+  .qdash-stat-grid{
+    margin:10px 0 0 !important;
+    max-width:none !important;
+  }
+  .qdash-stat{
+    grid-template-columns:auto minmax(0,1fr) !important;
+    padding:12px !important;
+  }
+  .qdash-synthesis-head{
+    flex-direction:column !important;
+    align-items:stretch !important;
+  }
+  #qdashSynthesisCount{
+    align-self:flex-start !important;
+  }
+  .qdash-synthesis-toggle{
+    flex-direction:column !important;
+    align-items:flex-start !important;
+  }
+  .qdash-theme-row,
+  .qdash-theme-row-with-select{
+    grid-template-columns:auto minmax(0,1fr) !important;
+    gap:9px !important;
+    padding:11px !important;
+  }
+  .qdash-theme-main strong,
+  .qdash-theme-main small{
+    overflow-wrap:anywhere !important;
+  }
+  .qdash-theme-count,
+  .qdash-theme-group-select,
+  .qdash-theme-start-btn{
+    grid-column:2 !important;
+    justify-self:stretch !important;
+    width:100% !important;
+  }
+  .question{
+    font-size:15px !important;
+    line-height:1.45 !important;
+    padding:12px !important;
+  }
+  .answer{
+    padding:11px !important;
+    line-height:1.35 !important;
+  }
+  .quiz__progress{
+    min-width:0 !important;
+    width:100% !important;
+  }
+  .dialog{
+    width:calc(100% - 18px) !important;
+    max-height:92svh !important;
+    overflow:auto !important;
+  }
+  .dialog__inner{
+    padding:13px !important;
+  }
+  .dictionary,
+  .review{
+    gap:10px !important;
+  }
+}
+
+@media (max-width: 420px){
+  .header__inner.container{
+    padding:8px !important;
+  }
+  .qdash-menu-toggle{
+    width:38px !important;
+    height:38px !important;
+    flex-basis:38px !important;
+    font-size:20px !important;
+  }
+  .qdash-logout-btn,
+  #qdashHomeBtn,
+  .qdash-home-btn{
+    font-size:11px !important;
+    padding:7px 8px !important;
+  }
+  .qdash-user-chip{
+    gap:5px !important;
+    font-size:11px !important;
+  }
+  .qdash-user-chip strong,
+  .qdash-user-chip small{
+    max-width:86px !important;
+  }
+  .qdash-avatar,.qdash-bell{
+    width:28px !important;
+    height:28px !important;
+    flex-basis:28px !important;
+  }
+  main.container,
+  .footer.container{
+    padding-left:8px !important;
+    padding-right:8px !important;
+  }
+  .card{
+    padding:12px !important;
+  }
+  .qdash-sidebar{
+    width:88vw !important;
+  }
+  .qdash-brand strong{font-size:18px !important;}
+  .qdash-level-card strong{font-size:24px !important;}
+  .qdash-top-search input{
+    padding:11px 12px !important;
+  }
+  .qdash-hero-banner h2{font-size:18px !important;}
+  .qdash-help-row div,
+  .qdash-synthesis-card{
+    padding:12px !important;
+  }
+  .qdash-theme-icon{
+    width:34px !important;
+    height:34px !important;
+    border-radius:12px !important;
+  }
+}
+
+@media (max-width: 340px){
+  .qdash-user-chip strong,
+  .qdash-user-chip small{max-width:68px !important;}
+  .qdash-logout-btn,
+  #qdashHomeBtn,
+  .qdash-home-btn{font-size:10.5px !important;padding:7px 6px !important;}
+  .qdash-top-search{order:4 !important;}
+}
