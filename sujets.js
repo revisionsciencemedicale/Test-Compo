@@ -52,6 +52,16 @@ window.SUJETS_PAR_MATIERE_QUIZ = {
   " Gynécologie-obstétrique (IDE)": ["Sujet 1", "Sujet 2", "Sujet 3", "Sujet 4", "Sujet 5"],
   " Consultation enfant sain": ["Sujet 1", "Sujet 2", "Sujet 3", "Sujet 4", "Sujet 5"],
   " Techniques de soins infirmiers": ["Sujet 1", "Sujet 2", "Sujet 3", "Sujet 4", "Sujet 5"],
+  " Pharmacologie": ["Sujet 1", "Sujet 2", "Sujet 3", "Sujet 4", "Sujet 5"],
+  " Clinique Obstetricale": ["Sujet 1", "Sujet 2", "Sujet 3", "Sujet 4", "Sujet 5"],
+  " Soins Palliatifs": ["Sujet 1", "Sujet 2", "Sujet 3", "Sujet 4", "Sujet 5"],
+  " Neurologie": ["Sujet 1", "Sujet 2", "Sujet 3", "Sujet 4", "Sujet 5"],
+  " Psychiatrie": ["Sujet 1", "Sujet 2", "Sujet 3", "Sujet 4", "Sujet 5"],
+  "Dermato-Venerologie": ["Sujet 1", "Sujet 2", "Sujet 3", "Sujet 4", "Sujet 5"],
+  "Fonction Publique": ["Sujet 1", "Sujet 2", "Sujet 3", "Sujet 4", "Sujet 5"],
+  "Pathologies médico-churigicale / Stomatologie": ["Sujet 1", "Sujet 2", "Sujet 3", "Sujet 4", "Sujet 5"],
+  "ORL": ["Sujet 1", "Sujet 2", "Sujet 3", "Sujet 4", "Sujet 5"],
+
 
 };
 
@@ -59,6 +69,7 @@ window.SUJETS_PAR_MATIERE_QUIZ = {
 (function addLicence3IDESubjects() {
   const licence3IDESubjects = [
     "Imagerie médicale",
+    "Documents normatifs",
     "Gestion des catastrophes",
     "Gouvernance et Organisation du Système de Santé Communautaire",
     "Organisation d’une séance de Vaccination / Sécurité des injections",
@@ -75,8 +86,13 @@ window.SUJETS_PAR_MATIERE_QUIZ = {
     "ORL",
     "Surveillances thérapeutiques 1",
     "Surveillance thérapeutique 2",
+    "Processus de mise en Stages",
+    "Stage en soins infirmiers et Obstétricaux",
     "Droit administratif",
     "Sécurité sociale",
+    "Fonction publique",
+    "Élaboration d’un projet de soins infirmiers",
+    "Mise en œuvre et évaluation d’un projet de soins infirmiers",
     "Entreprenariat / Gestion de la qualité",
     "Soins infirmiers spécialisés en médecine",
     "Soins palliatifs",
@@ -85,6 +101,9 @@ window.SUJETS_PAR_MATIERE_QUIZ = {
     "Supervision / Suivi - Evaluation",
     "Gestion Hospitalière",
     "Analyse des données quantitatives et qualitatives",
+    "Rédaction document final mémoire",
+    "Stages en soins infirmiers et obstétricaux + Rapport",
+    "Stage communautaire + Rapport",
   ];
   window.LICENCE3_IDE_SUBJECTS = licence3IDESubjects.slice();
 
@@ -103,6 +122,7 @@ window.SUJETS_PAR_MATIERE_QUIZ = {
     "Violences Basées sur Genre / Encadrement (Egalité - Equité)",
     "Santé sexuelle et reproductive des adolescents et des jeunes / Planification Familiale / IST / VIH-SIDA",
     "Imagerie médicale",
+    "Documents normatifs",
     "Gestion des catastrophes",
     "Gouvernance et Organisation du Système de Santé Communautaire",
     "Organisation d’une séance de Vaccination / Sécurité des injections",
@@ -111,8 +131,11 @@ window.SUJETS_PAR_MATIERE_QUIZ = {
     "Soins obstétricaux et néonataux d’urgence de base (SONUB)",
     "Soins obstétricaux et néonataux d’urgence complets (SONUC)",
     "Présentation de cas cliniques",
+    "Processus de mise en Stages",
+    "Stage en soins infirmiers et Obstétricaux",
     "Droit administratif / Responsabilité médicale",
     "Sécurité sociale",
+    "Fonction publique",
     "Supervision / Suivi - Evaluation",
     "Gestion Hospitalière / Rédaction Administrative",
     "Entrepreneuriat / Gestion de la qualité",
@@ -124,6 +147,9 @@ window.SUJETS_PAR_MATIERE_QUIZ = {
     "Gériatrie",
     "Soins palliatifs",
     "Analyse des données qualitatives et quantitatives",
+    "Rédaction de Mémoire",
+    "Stages en soins infirmiers et obstétricaux + Rapport",
+    "Stage communautaire + Rapport",
   ];
   window.LICENCE3_SFM_SUBJECTS = licence3SFMSubjects.slice();
   window.LICENCE2_SFM_SUBJECTS = licence3SFMSubjects.slice(); // alias de compatibilité
@@ -268,7 +294,7 @@ window.SUBJECTS_BY_LEVEL = {
     "Diététique",
     "Bactériologie",
     "Parasitologie",
-    "Pharmacologie",
+   "Pharmacologie",
     "IST/VIH",
     "Maladies parasitaires et infectieuses",
     "Pathologies respiratoires",

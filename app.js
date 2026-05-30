@@ -356,6 +356,7 @@
       const data = await apiGet('/api/settings');
       appSettings = normalizeAppSettings(data.settings || {});
       localStorage.setItem(STORAGE_KEYS.appSettings, JSON.stringify(appSettings));
+        notifySynthesisQuestionsUpdated('settings');
     } catch (_) {
       try {
         appSettings = normalizeAppSettings(JSON.parse(localStorage.getItem(STORAGE_KEYS.appSettings) || '{}'));
@@ -732,7 +733,6 @@
         if (canUseOfflineMode() && window.USERS && window.USERS[username]) {
           console.warn("Mode hors ligne activé pour", username);
           localStorage.setItem(STORAGE_KEYS.user, username);
-          alert("Mode local hors ligne activé. Certaines fonctions serveur peuvent être indisponibles.");
         } else {
           const msg = e.data?.error || e.message || "Connexion refusée par le serveur.";
           if (e.data?.forcedLogout) {
@@ -816,7 +816,46 @@
 
   function getCurrentUserConfig() {
     const user = localStorage.getItem(STORAGE_KEYS.user);
-    const cfg = window.USERS?.[user];
+    let cfg = window.USERS?.[user];
+
+    // Correction locale : certains comptes créés en ligne ou en mode local peuvent
+    // rester connectés quand le serveur est indisponible, mais ne pas encore être
+    // réinjectés dans window.USERS. Dans ce cas, on récupère d'abord le cache admin
+    // sauvegardé dans le navigateur afin que les listes Niveau / Matière / Sujet
+    // restent sélectionnables dans « Commencer un quiz ».
+    if (!cfg && user) {
+      try {
+        const cached = readJsonStorage(STORAGE_KEYS.adminCache, null);
+        const dynamicUsers = Array.isArray(cached?.dynamicUsers) ? cached.dynamicUsers : [];
+        const found = dynamicUsers.find((u) => normalizeKey(u.username || u.user || u.id || '') === normalizeKey(user));
+        if (found) {
+          cfg = {
+            levels: found.levels || found.niveaux || found.level || found.niveau || [],
+            first_name: found.first_name || found.firstName || found.prenom || found.prénom || '',
+            last_name: found.last_name || found.lastName || found.nom || '',
+            full_name: found.full_name || found.fullName || found.name || '',
+            source: found.source || 'cache',
+            dynamic: true,
+          };
+          window.USERS = window.USERS || {};
+          window.USERS[user] = cfg;
+        }
+      } catch (_) {}
+    }
+
+    // Sécurité non destructive : si un utilisateur est déjà connecté localement mais
+    // sans configuration retrouvée, on lui donne au minimum son niveau local A1 afin
+    // que les listes déroulantes ne soient jamais vides. Les administrateurs gardent
+    // leurs droits via window.ADMINS/window.USERS dès qu'ils sont disponibles.
+    if (!cfg && user && !isFreeTrialUser(user)) {
+      cfg = { levels: ['A1-Base Santé'], source: 'local-fallback' };
+      window.USERS = window.USERS || {};
+      window.USERS[user] = cfg;
+    }
+
+    if (cfg && cfg.level && !cfg.levels) cfg.levels = [cfg.level];
+    if (cfg && cfg.niveau && !cfg.levels) cfg.levels = [cfg.niveau];
+    if (cfg && cfg.levels === 'all') return cfg;
     if (cfg && Array.isArray(cfg.levels)) cfg.levels = normalizeAccountLevels(cfg.levels);
     return cfg;
   }
@@ -947,6 +986,7 @@
     let dynamicUsers = mergeAdminUsers(payload.dynamicUsers || []);
     appSettings = normalizeAppSettings(payload.appSettings || appSettings || {});
     localStorage.setItem(STORAGE_KEYS.appSettings, JSON.stringify(appSettings));
+        notifySynthesisQuestionsUpdated('settings');
     const dashboard = payload.dashboard || { connectedUsers: activeRows.length, quizDone: logs.filter(l => l.action === 'finish_quiz').length };
     const allQuestionsForLevels = []
       .concat(Array.isArray(window.QUIZ_QUESTIONS) ? window.QUIZ_QUESTIONS : [])
@@ -1665,6 +1705,7 @@
       }
       appSettings = settings;
       localStorage.setItem(STORAGE_KEYS.appSettings, JSON.stringify(appSettings));
+        notifySynthesisQuestionsUpdated('settings');
       adminDECatalogIndexCache = null;
       bank = getQuestionBank();
       updateStartInfo();
@@ -1741,6 +1782,7 @@
         const remainingCustomQuestions = (Array.isArray(appSettings.customQuestions) ? appSettings.customQuestions : []).filter(q => q.level !== level);
         appSettings = normalizeAppSettings({ ...collectAdminSettings(), customCatalog: adminCatalogDraft, customQuestions: remainingCustomQuestions });
         localStorage.setItem(STORAGE_KEYS.appSettings, JSON.stringify(appSettings));
+        notifySynthesisQuestionsUpdated('settings');
         try { await apiPost('/api/admin/save-settings', currentAuthPayload({ settings: appSettings })); } catch (_) {}
         adminDECatalogIndexCache = null; bank = getQuestionBank(); updateStartInfo(); renderCatalogAdmin(); invalidateImportContext();
         const status = document.getElementById('adminCatalogStatus'); if (status) status.textContent = 'Niveau retiré et modifications appliquées.';
@@ -1759,6 +1801,7 @@
         const customQuestions = (Array.isArray(appSettings.customQuestions) ? appSettings.customQuestions : []).map(q => q.level === oldLevel ? { ...q, level: clean } : q);
         appSettings = normalizeAppSettings({ ...collectAdminSettings(), customCatalog: adminCatalogDraft, customQuestions });
         localStorage.setItem(STORAGE_KEYS.appSettings, JSON.stringify(appSettings));
+        notifySynthesisQuestionsUpdated('settings');
         try { await apiPost('/api/admin/save-settings', currentAuthPayload({ settings: appSettings })); } catch (_) {}
         adminDECatalogIndexCache = null; bank = getQuestionBank(); updateStartInfo(); renderCatalogAdmin(clean); invalidateImportContext();
         const status = document.getElementById('adminCatalogStatus'); if (status) status.textContent = 'Nom du niveau modifié et appliqué.';
@@ -1791,6 +1834,7 @@
         const customQuestions = (Array.isArray(appSettings.customQuestions) ? appSettings.customQuestions : []).map(q => (q.level === level && q.subject === oldSubject) ? { ...q, subject: clean } : q);
         appSettings = normalizeAppSettings({ ...collectAdminSettings(), customCatalog: adminCatalogDraft, customQuestions });
         localStorage.setItem(STORAGE_KEYS.appSettings, JSON.stringify(appSettings));
+        notifySynthesisQuestionsUpdated('settings');
         try { await apiPost('/api/admin/save-settings', currentAuthPayload({ settings: appSettings })); } catch (_) {}
         adminDECatalogIndexCache = null; bank = getQuestionBank(); updateStartInfo(); renderCatalogAdmin(level, clean); invalidateImportContext();
         const status = document.getElementById('adminCatalogStatus'); if (status) status.textContent = 'Nom de la matière modifié et appliqué.';
@@ -1833,6 +1877,7 @@
         try { await apiPost('/api/admin/save-settings', currentAuthPayload({ settings })); } catch (_) { savedOnServer = false; }
         appSettings = settings;
         localStorage.setItem(STORAGE_KEYS.appSettings, JSON.stringify(appSettings));
+        notifySynthesisQuestionsUpdated('settings');
         adminDECatalogIndexCache = null; bank = getQuestionBank();
         updateStartInfo();
         renderCatalogAdmin(level, subject);
@@ -1901,6 +1946,7 @@
         try { await apiPost('/api/admin/save-settings', currentAuthPayload({ settings })); } catch (_) { savedOnServer = false; }
         appSettings = settings;
         localStorage.setItem(STORAGE_KEYS.appSettings, JSON.stringify(appSettings));
+        notifySynthesisQuestionsUpdated('settings');
         adminDECatalogIndexCache = null; bank = getQuestionBank();
         updateStartInfo();
         renderTopicEditor();
@@ -2196,6 +2242,7 @@
         }
         appSettings = settings;
         localStorage.setItem(STORAGE_KEYS.appSettings, JSON.stringify(appSettings));
+        notifySynthesisQuestionsUpdated('settings');
         adminDECatalogIndexCache = null; bank = getQuestionBank();
         updateStartInfo();
         const editor = document.getElementById('adminTopicEditor');
@@ -2320,6 +2367,7 @@
         }
         appSettings = settings;
         localStorage.setItem(STORAGE_KEYS.appSettings, JSON.stringify(appSettings));
+        notifySynthesisQuestionsUpdated('settings');
         adminDECatalogIndexCache = null; bank = getQuestionBank();
         updateStartInfo();
         renderCatalogAdmin(validatedImportContext.level, validatedImportContext.subject, validatedImportContext.topic);
@@ -2339,6 +2387,7 @@
         await apiPost('/api/admin/save-settings', currentAuthPayload({ settings }));
         appSettings = settings;
         localStorage.setItem(STORAGE_KEYS.appSettings, JSON.stringify(appSettings));
+        notifySynthesisQuestionsUpdated('settings');
         applyRuntimeSettings();
         adminDECatalogIndexCache = null; bank = getQuestionBank();
         updateStartInfo();
@@ -2353,6 +2402,7 @@
         // Mode local sans PostgreSQL : les paramètres restent appliqués dans ce navigateur.
         appSettings = settings;
         localStorage.setItem(STORAGE_KEYS.appSettings, JSON.stringify(appSettings));
+        notifySynthesisQuestionsUpdated('settings');
         applyRuntimeSettings();
         adminDECatalogIndexCache = null; bank = getQuestionBank();
         updateStartInfo();
@@ -2494,6 +2544,25 @@
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
+
+  function loadMedicalDictionary() {
+    if (Array.isArray(window.MEDICAL_DICTIONARY)) return Promise.resolve();
+    if (window.__medicalDictionaryLoading) return window.__medicalDictionaryLoading;
+    window.__medicalDictionaryLoading = new Promise((resolve) => {
+      const script = document.createElement("script");
+      script.src = "./dictionnaire.medical.js";
+      script.async = true;
+      script.onload = () => resolve();
+      script.onerror = () => {
+        console.warn("Dictionnaire médical non chargé.");
+        window.MEDICAL_DICTIONARY = window.MEDICAL_DICTIONARY || [];
+        resolve();
+      };
+      document.body.appendChild(script);
+    });
+    return window.__medicalDictionaryLoading;
+  }
+
   function normalizeDictionaryEntry(e) {
     if (!e || typeof e !== "object") return null;
     const term = safeText(e.term).trim();
@@ -2613,11 +2682,17 @@
     return { ...base, type: "mcq", choices, answerIndex };
   }
 
+  // Ne pas ajouter automatiquement les questions d’essai à la banque principale.
+  // Le site affiche uniquement les questions chargées depuis les fichiers *.manuel.js
+  // et celles ajoutées manuellement via l’administration.
   const QUIZ_QUESTIONS_SOURCE = (Array.isArray(window.QUIZ_QUESTIONS_QUIZ)
     ? window.QUIZ_QUESTIONS_QUIZ
-    : (Array.isArray(window.QUIZ_QUESTIONS) ? window.QUIZ_QUESTIONS : [])).concat(FREE_TRIAL_QUESTIONS);
+    : (Array.isArray(window.QUIZ_QUESTIONS) ? window.QUIZ_QUESTIONS : []));
   const DE_QUESTIONS_SOURCE = Array.isArray(window.QUIZ_QUESTIONS_DE) ? window.QUIZ_QUESTIONS_DE : [];
   const ALL_RAW_QUESTIONS = QUIZ_QUESTIONS_SOURCE.concat(DE_QUESTIONS_SOURCE);
+  // Exposition non destructive pour la synthèse automatique : elle permet de prendre
+  // en compte les questions ajoutées manuellement dans les fichiers JS et les questions EFF.
+  window.QDASH_ALL_RAW_QUESTIONS = ALL_RAW_QUESTIONS;
 
   const QUIZ_SUBJECT_TOPICS =
     (window.SUJETS_PAR_MATIERE_QUIZ && typeof window.SUJETS_PAR_MATIERE_QUIZ === "object")
@@ -2663,9 +2738,37 @@
       : {};
   })();
 
+
+  function notifySynthesisQuestionsUpdated(source = 'admin') {
+    try {
+      appSettings.__questionsVersion = (Number(appSettings.__questionsVersion) || 0) + 1;
+      if (typeof invalidateQuestionBankCache === 'function') invalidateQuestionBankCache();
+      window.dispatchEvent(new CustomEvent('qdash:questions-updated', { detail: { source } }));
+      if (typeof window.QDASH_REFRESH_SYNTHESIS === 'function') window.QDASH_REFRESH_SYNTHESIS();
+    } catch (_) {}
+  }
+
+  let questionBankCacheKey = '';
+  let questionBankCache = null;
+  function invalidateQuestionBankCache() {
+    questionBankCacheKey = '';
+    questionBankCache = null;
+  }
+  window.QDASH_INVALIDATE_QUESTION_BANK = invalidateQuestionBankCache;
+
   function getQuestionBank() {
-    const deletedIds = new Set(Array.isArray(appSettings.deletedQuestionIds) ? appSettings.deletedQuestionIds.map(String) : []);
-    const raw = ALL_RAW_QUESTIONS.concat(Array.isArray(appSettings.customQuestions) ? appSettings.customQuestions : []);
+    const customQuestions = Array.isArray(appSettings.customQuestions) ? appSettings.customQuestions : [];
+    const deletedList = Array.isArray(appSettings.deletedQuestionIds) ? appSettings.deletedQuestionIds : [];
+    const cacheKey = [
+      ALL_RAW_QUESTIONS.length,
+      customQuestions.length,
+      deletedList.length,
+      appSettings.__questionsVersion || 0
+    ].join('|');
+    if (questionBankCache && questionBankCacheKey === cacheKey) return questionBankCache;
+
+    const deletedIds = new Set(deletedList.map(String));
+    const raw = ALL_RAW_QUESTIONS.concat(customQuestions);
     const normalized = raw.map(normalizeQuestion).filter(Boolean);
     // Suppression des doublons par id : les questions modifiées dans l'administration
     // passent après la base et remplacent donc la version d'origine.
@@ -2674,7 +2777,24 @@
       if (!q.id) continue;
       byId.set(q.id, q);
     }
-    return Array.from(byId.values()).filter(q => !deletedIds.has(String(q.id)));
+    // Suppression globale des doublons de questions :
+    // - on garde une seule question quand le libellé est identique dans le même niveau ;
+    // - cela concerne les questions des fichiers manuels et celles ajoutées depuis l’administration ;
+    // - les questions d’un autre niveau sont conservées pour ne pas vider les comptes d’autres utilisateurs.
+    const seenQuestionTexts = new Set();
+    const cleanedQuestions = [];
+    for (const q of Array.from(byId.values())) {
+      if (!q || !q.id || deletedIds.has(String(q.id))) continue;
+      const questionText = normalizeKey(q.question || q.text || q.statement || "");
+      const levelKey = normalizeKey(q.level || "");
+      const duplicateKey = [levelKey, questionText].join("|");
+      if (questionText && seenQuestionTexts.has(duplicateKey)) continue;
+      if (questionText) seenQuestionTexts.add(duplicateKey);
+      cleanedQuestions.push(q);
+    }
+    questionBankCache = cleanedQuestions;
+    questionBankCacheKey = cacheKey;
+    return questionBankCache;
   }
 
   const ALL_LEVELS = [
@@ -2862,7 +2982,7 @@
     "Hématologie",
     "Droit administratif",
     "Droit civil",
-    "Pharmacologie",
+    "Pharmacologie"
   ],
   "L2-Niveau Ascendant": [
     "Chirugie pédiatrique/Pathologies chirurrgicales",
@@ -2912,14 +3032,19 @@
     "Soins infirmiers spécialisés en chirurgie",
     "Supervision / Suivi – Evaluation",
     "Gestion Hospitalière",
-    "Analyse des données quantitatives et qualitatives"
+    "Analyse des données quantitatives et qualitatives",
+    "Soins Palliatifs",
+    "Approche genre/santé sexuelle/santé de la reproduction des adolescents et des jeunes/gestion logistique",
+    "Psychiatrie",
+    "Dermato-Venerologie",
+    "Fonction Publique",
+    "Pathologies médico-churigicale / Stomatologie",
   ],
   "L3-Niveau Accompli SF": [
     "Pathologies gynécologiques III",
     "Pathologies obstétricales III",
     "Hygiène menstruelle",
     "Violences Basées sur Genre / Encadrement (Egalité - Equité)",
-    "Santé sexuelle et reproductive des adolescents et des jeunes / Planification Familiale / IST / VIH-SIDA",
     "Imagerie médicale",
     "Gestion des catastrophes",
     "Gouvernance et Organisation du Système de Santé Communautaire",
@@ -2940,7 +3065,17 @@
     "Prise en charge des substances psychoactives",
     "Gériatrie",
     "Soins palliatifs",
-    "Analyse des données qualitatives et quantitatives"
+    "Analyse des données qualitatives et quantitatives",
+    "Clinique Obstetricale",
+    "Soins Palliatifs",
+    "Neurologie",
+    "Approche genre/santé sexuelle/santé de la reproduction des adolescents et des jeunes/gestion logistique",
+    "Psychiatrie",
+    "Dermato-Venerologie",
+    "Fonction Publique",
+    "Pathologies médico-churigicale / Stomatologie",
+    "ORL",
+
   ],
   "A2-Niveau moyen": [
     "Sémiologie médical",
@@ -3389,7 +3524,11 @@
 
   function updateStartInfo() {
     adminDECatalogIndexCache = null; bank = getQuestionBank();
-    const levels = computeLevels();
+    if (!els.selectLevel || !els.selectSubject || !els.selectTopic) return;
+    let levels = computeLevels();
+    if (!Array.isArray(levels) || levels.length === 0) {
+      levels = ['A1-Base Santé'];
+    }
     if (isFreeTrialUser() && !levels.includes(session.level)) {
       // Ne plus forcer l'utilisateur d'essai sur le sujet d'essai.
       // Il doit voir l'aperçu général des niveaux, matières et sujets.
@@ -3402,7 +3541,8 @@ if (!levels.includes(session.level)) {
   session.level = levels[0];
   els.selectLevel.value = session.level;
 }
-    const subjects = computeSubjectsForLevel(els.selectLevel.value);
+    let subjects = computeSubjectsForLevel(els.selectLevel.value);
+    if (!Array.isArray(subjects) || subjects.length === 0) subjects = ['Toutes les matières'];
     const desiredSubject = subjects.includes(session.subject)
       ? session.subject
       : "Toutes les matières";
@@ -3994,6 +4134,94 @@ els.reviewList.appendChild(head);
     else updateDEStartInfo();
   }
 
+
+  // Démarrage direct d'un quiz depuis la synthèse des questions du tableau de bord.
+  // Cette fonction est exposée pour l'interface uniquement : elle ne modifie pas la banque de questions.
+  window.QDASH_START_GROUPED_QUIZ = async function qdashStartGroupedQuiz(payload) {
+    try {
+      const level = safeText(payload && payload.level) || (els.selectLevel && els.selectLevel.value) || session.level || "Tous les niveaux";
+      const subject = safeText(payload && payload.subject) || (els.selectSubject && els.selectSubject.value) || session.subject || "Toutes les matières";
+      const theme = safeText(payload && payload.theme) || (els.selectTopic && els.selectTopic.value) || "Thème";
+      const rawKeys = Array.isArray(payload && payload.keys) ? payload.keys.map(String) : (Array.isArray(payload && payload.ids) ? payload.ids.map(String) : []);
+      const keyParts = rawKeys.map((value) => String(value).split('||QDASH_SIG||'));
+      const keys = new Set(keyParts.map((parts) => parts[0]).filter(Boolean));
+      const sigKeys = new Set(keyParts.map((parts) => parts[1]).filter(Boolean));
+      const qdashQuestionKey = (q) => safeText((q && (q.id || q.question || q.text || q.statement)) || '');
+      const qdashNormalize = (value) => safeText(value).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9 ]/g, ' ').replace(/\s+/g, ' ').trim();
+      const qdashQuestionSignature = (q) => {
+        const indexedAnswer = q && Array.isArray(q.answerIndices) && Array.isArray(q.choices) ? q.answerIndices.map((n) => q.choices[n]).join(' ') : '';
+        const singleAnswer = q && Number.isInteger(q.answerIndex) && Array.isArray(q.choices) ? q.choices[q.answerIndex] : '';
+        return qdashNormalize([
+          q && (q.question || q.text || q.statement || ''),
+          q && Array.isArray(q.choices) ? q.choices.join(' ') : '',
+          q && Array.isArray(q.answer) ? q.answer.join(' ') : (q && (q.answer || q.correct || indexedAnswer || singleAnswer || ''))
+        ].join(' ')).replace(/^(q|question)\s*\d+\s*/, '');
+      };
+      const qdashRemoveDuplicates = (list) => {
+        const seen = new Set();
+        return list.filter((q) => {
+          const sig = qdashQuestionSignature(q) || qdashQuestionKey(q);
+          if (!sig || seen.has(sig)) return false;
+          seen.add(sig);
+          return true;
+        });
+      };
+
+      if (isFreeTrialUser()) {
+        if (level !== FREE_TRIAL_LEVEL || subject !== FREE_TRIAL_SUBJECT) {
+          alert(FREE_TRIAL_BLOCK_MESSAGE);
+          return;
+        }
+      }
+
+      bank = getQuestionBank();
+      let filtered = filterBank(bank, { level, subject, topic: "Tous les sujets" });
+      if (keys.size || sigKeys.size) {
+        filtered = filtered.filter((q) => keys.has(qdashQuestionKey(q)) || sigKeys.has(qdashQuestionSignature(q)));
+      }
+      filtered = qdashRemoveDuplicates(filtered);
+      if (!filtered.length) {
+        alert("Aucune question trouvée pour ce thème.");
+        return;
+      }
+
+      alert(
+        "Règles de score :\n\n" +
+          "Bonne réponse : +1\n" +
+          (appSettings.negativePoints ? "Mauvaise réponse : -1\n" : "Mauvaise réponse : 0\n") +
+          "Réponse non répondue : 0"
+      );
+
+      const picked = isFreeTrialUser()
+        ? filtered.slice(0, appSettings.freeTrialQuestions || 15)
+        : pickQuestions(filtered, appSettings.shuffleQuestions);
+
+      lastTimedQuestionIndex = -1;
+      session = {
+        startedAt: Date.now(),
+        level,
+        subject,
+        topic: theme,
+        questions: picked,
+        answersById: {},
+        choiceOrderById: {},
+        index: 0,
+        abandoned: false,
+        cheatAttempts: [],
+      };
+
+      if (!(await ensureQuizPhotoAllowed())) return;
+
+      const user = localStorage.getItem(STORAGE_KEYS.user);
+      logActivity(user, "start_quiz_theme", { level, subject, topic: theme, questionCount: picked.length });
+      showScreen(els.screenQuiz);
+      renderQuiz();
+    } catch (err) {
+      console.error("QDASH_START_GROUPED_QUIZ", err);
+      alert("Impossible de démarrer ce thème pour le moment.");
+    }
+  };
+
   // Events
   els.selectLevel.addEventListener("change", () => {
     if (currentMode !== "normal") return;
@@ -4098,12 +4326,14 @@ els.reviewList.appendChild(head);
   }
 
   if (els.btnDictionary) {
-    els.btnDictionary.addEventListener("click", () => {
+    els.btnDictionary.addEventListener("click", async () => {
       if (isFreeTrialUser()) {
         alert(FREE_TRIAL_BLOCK_MESSAGE);
         return;
       }
       showScreen(els.screenDictionary);
+      if (els.dictionaryList) els.dictionaryList.innerHTML = "<p class='muted'>Chargement léger du dictionnaire...</p>";
+      await loadMedicalDictionary();
       if (els.inputDictionarySearch) els.inputDictionarySearch.value = "";
       renderDictionary("");
       if (els.inputDictionarySearch) els.inputDictionarySearch.focus();
