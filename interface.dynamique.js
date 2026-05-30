@@ -809,3 +809,28 @@
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot, { once: true });
   else boot();
 })();
+
+/* Correction page de connexion : masquer totalement le tableau/menus tant que l'utilisateur n'est pas connecté */
+(function(){
+  'use strict';
+  function syncLoginView(){
+    var screenCode = document.getElementById('screenCode');
+    var appContent = document.getElementById('appContent');
+    var loginVisible = !!(screenCode && !screenCode.classList.contains('hidden'));
+    document.body.classList.toggle('qdash-login-view', loginVisible);
+    document.body.classList.toggle('qdash-auth-view', !loginVisible && !!(appContent && !appContent.classList.contains('hidden')));
+    if (loginVisible && appContent) {
+      appContent.classList.add('hidden');
+      document.body.classList.remove('qdash-menu-open');
+      document.body.classList.add('qdash-menu-collapsed');
+    }
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', syncLoginView, {once:true});
+  else syncLoginView();
+  var observer = new MutationObserver(syncLoginView);
+  ['screenCode','appContent'].forEach(function(id){
+    var el = document.getElementById(id);
+    if (el) observer.observe(el, {attributes:true, attributeFilter:['class']});
+  });
+  window.addEventListener('pageshow', syncLoginView);
+})();

@@ -1955,3 +1955,21 @@ table{
   .qdash-home-btn{font-size:10.5px !important;padding:7px 6px !important;}
   .qdash-top-search{order:4 !important;}
 }
+
+/* Correction 30/05/2026 : rien de l'interface connectée ne doit apparaître sur la page de connexion */
+body.qdash-login-view #appContent,
+body.qdash-login-view #qdashSidebar,
+body.qdash-login-view .header,
+body.qdash-login-view main.container,
+body.qdash-login-view .footer.container{
+  display:none!important;
+  visibility:hidden!important;
+  pointer-events:none!important;
+}
+body.qdash-login-view #screenCode{
+  display:block!important;
+  visibility:visible!important;
+}
+body.qdash-login-view{
+  overflow-x:hidden;
+}
