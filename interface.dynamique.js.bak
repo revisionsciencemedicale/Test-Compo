@@ -351,22 +351,6 @@
     updateDashboardStats();
   }
 
-  function forceExamModeVisible() {
-    // Correction 31/05/2026 : le menu EFF ne doit jamais laisser l'accueil
-    // réafficher le bouton rapide « Commencer un Quiz ». On force donc le
-    // vrai mode quiz + les listes Voie / Matière / Sujet de l'EFF visibles.
-    document.body.classList.remove('qdash-dashboard-view');
-    document.body.classList.add('qdash-quiz-view');
-    const normal = $('#modeNormal');
-    const de = $('#modeDE');
-    if (normal) normal.classList.add('hidden');
-    if (de) de.classList.remove('hidden');
-    const title = $('#startTitle');
-    if (title) title.textContent = 'Examen de fin de Formation';
-    const desc = $('#screenStart > .muted');
-    if (desc) desc.textContent = 'Choisis la voie, la matière et le sujet, puis démarre une session.';
-  }
-
   function bindShellEvents() {
     $('#qdashMenuToggle')?.addEventListener('click', (e) => {
       e.stopPropagation();
@@ -382,19 +366,6 @@
       closeMenu();
     });
 
-    // Correction 31/05/2026 : quand l'ancien bouton Accueil de l'en-tête est utilisé,
-    // rétablir aussi le vrai mode accueil afin que le bouton "Commencer un Quiz"
-    // placé au-dessus de "Synthèse des questions" réapparaisse uniquement sur l'accueil.
-    $('#btnHome')?.addEventListener('click', () => {
-      if (window.__QDASH_OPENING_EFF_FROM_MENU__) return;
-      window.setTimeout(() => {
-        if (window.__QDASH_OPENING_EFF_FROM_MENU__) return;
-        setActive('Dashboard');
-        showDashboardMode();
-        closeMenu();
-      }, 0);
-    });
-
     $('#qdashLogoutBtn')?.addEventListener('click', (e) => {
       e.preventDefault();
       e.stopPropagation();
@@ -403,21 +374,7 @@
     });
     $('#qdashNavQuiz')?.addEventListener('click', () => { setActive('Quiz'); forwardClick('btnHome'); forwardClick('btnModeQuiz'); showQuizMode('normal'); closeMenu(); });
     $('#qdashNavDictionary')?.addEventListener('click', () => { setActive('Dictionary'); forwardClick('btnDictionary'); closeMenu(); });
-    $('#qdashNavExam')?.addEventListener('click', () => {
-      setActive('Exam');
-      window.__QDASH_OPENING_EFF_FROM_MENU__ = true;
-      forwardClick('btnHome');
-      forwardClick('btnModeDE');
-      showQuizMode('de');
-      forceExamModeVisible();
-      window.setTimeout(() => {
-        forwardClick('btnModeDE');
-        showQuizMode('de');
-        forceExamModeVisible();
-        window.__QDASH_OPENING_EFF_FROM_MENU__ = false;
-      }, 0);
-      closeMenu();
-    });
+    $('#qdashNavExam')?.addEventListener('click', () => { setActive('Exam'); forwardClick('btnHome'); forwardClick('btnModeDE'); showQuizMode('de'); closeMenu(); });
     $('#qdashNavAdmin')?.addEventListener('click', () => { setActive('Admin'); forwardClick('btnAdmin'); closeMenu(); });
     $('#qdashLevelHome')?.addEventListener('click', () => { forwardClick('btnHome'); openMenu(); });
 
@@ -475,13 +432,6 @@
     `;
     start.appendChild(assistant);
 
-    const quizAccess = document.createElement('div');
-    quizAccess.className = 'qdash-dashboard-quiz-access';
-    quizAccess.innerHTML = `
-      <button type="button" id="qdashDashboardStartQuiz" class="btn btn--primary qdash-dashboard-start-quiz">▶ Commencer un Quiz</button>
-      <small>Accéder directement aux niveaux, matières et sujets du quiz.</small>
-    `;
-
     const synthesis = document.createElement('div');
     synthesis.className = 'qdash-synthesis-card is-collapsed';
     synthesis.id = 'qdashQuestionSynthesis';
@@ -493,20 +443,7 @@
       <p class="qdash-synthesis-note">Clique sur le bouton pour afficher les thèmes. Si un thème dépasse 40 questions, il est divisé en groupes de 40.</p>
       <div class="qdash-synthesis-list hidden" id="qdashSynthesisList"></div>
     `;
-    assistant.before(quizAccess);
-    quizAccess.after(synthesis);
-
-    const openNormalQuizFromDashboard = () => {
-      setActive('Quiz');
-      forwardClick('btnHomeQuiz');
-      forwardClick('btnModeQuiz');
-      showQuizMode('normal');
-      closeMenu();
-    };
-
-    $('#qdashDashboardStartQuiz')?.addEventListener('click', openNormalQuizFromDashboard);
-    $('#qdashHeroStartQuiz')?.addEventListener('click', openNormalQuizFromDashboard);
-
+    assistant.before(synthesis);
     $('#qdashSynthesisToggle')?.addEventListener('click', () => {
       const card = $('#qdashQuestionSynthesis');
       const list = $('#qdashSynthesisList');

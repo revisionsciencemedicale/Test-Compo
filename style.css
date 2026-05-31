@@ -1973,3 +1973,42 @@ body.qdash-login-view #screenCode:not(.hidden){
 body.qdash-login-view{
   overflow-x:hidden;
 }
+
+/* Correction visibilité : le bouton d’accès rapide au quiz ne s’affiche que sur l’accueil/tableau de bord.
+   Il disparaît dès qu’on ouvre Commencer un quiz ou Examen de fin de Formation. */
+body:not(.qdash-dashboard-view) #screenStart .qdash-dashboard-quiz-access,
+body.qdash-quiz-view #screenStart .qdash-dashboard-quiz-access{
+  display:none!important;
+}
+body.qdash-dashboard-view #screenStart .qdash-dashboard-quiz-access{
+  display:flex!important;
+}
+
+/* Correction accueil : bouton Commencer un Quiz placé au-dessus de la synthèse */
+.qdash-dashboard-quiz-access{
+  margin:18px 0 12px;
+  padding:18px;
+  border-radius:22px;
+  background:linear-gradient(135deg, rgba(37,99,235,.12), rgba(20,184,166,.14));
+  border:1px solid rgba(37,99,235,.18);
+  box-shadow:0 14px 30px rgba(15,23,42,.08);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:14px;
+  flex-wrap:wrap;
+}
+.qdash-dashboard-start-quiz{
+  min-width:220px;
+  font-size:16px;
+  font-weight:900;
+  padding:13px 20px;
+}
+.qdash-dashboard-quiz-access small{
+  color:#475569;
+  font-weight:800;
+}
+@media (max-width:640px){
+  .qdash-dashboard-quiz-access{align-items:stretch;}
+  .qdash-dashboard-start-quiz{width:100%;}
+}

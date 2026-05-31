@@ -4672,14 +4672,6 @@ els.reviewList.appendChild(head);
 
   if (els.btnHomeQuiz) {
     els.btnHomeQuiz.addEventListener("click", () => {
-      // Correction accueil après connexion : le bouton doit vraiment ouvrir
-      // l'écran de sélection du quiz, même quand l'interface d'accueil
-      // dynamique a masqué les listes avec la classe qdash-dashboard-view.
-      document.body.classList.remove("qdash-dashboard-view");
-      document.body.classList.add("qdash-quiz-view");
-      if (els.startTitle) els.startTitle.textContent = "Commencer un quiz";
-      const startDesc = els.screenStart ? els.screenStart.querySelector(":scope > .muted") : null;
-      if (startDesc) startDesc.textContent = "Choisis ton niveau, ta matière et ton sujet, puis démarre une session.";
       setMode("normal");
       showScreen(els.screenStart);
       updateStartInfo();

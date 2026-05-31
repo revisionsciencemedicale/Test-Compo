@@ -266,20 +266,11 @@
   }
 
   function mapSubjectToDE(subject) {
-    const raw = safeText(subject).trim();
-    const n = normalizeKey(raw);
-
-    if (n.includes("pediatr")) return "Pédiatrie";
-    if (n.includes("sante publique")) return "Santé Publique";
-    if (n.includes("gynecolog")) return "Gynécologie";
-    if (n.includes("planning")) return "Planning Famillial";
-    if (n.includes("churig") || n.includes("chirurg")) return "Chirurgie";
-    if (n.includes("medical") || n.includes("medecine") || n.includes("sémiologie") || n.includes("semiologie")) {
-      return "Médecine";
-    }
-    // Pour les matières ajoutées manuellement (ex: Pathologies),
-    // on conserve le nom saisi au lieu de l'exclure.
-    return raw;
+    // Correction EFF 31/05/2026 : ne plus regrouper les matières spécifiques
+    // dans les grandes catégories Médecine/Chirurgie/Pédiatrie. Le bouton
+    // « Examen de Fin de Formation » doit afficher et filtrer les matières
+    // telles qu'elles sont déclarées dans les listes spécifiques.
+    return safeText(subject).trim();
   }
 
   function mapLevelToDE(level) {
