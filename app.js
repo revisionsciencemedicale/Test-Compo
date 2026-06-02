@@ -2806,6 +2806,59 @@
     els.dictionaryList.appendChild(fragment);
   }
 
+  function buildMcqMultiFalseChoices(q) {
+    const subject = safeText(q && q.subject || "la matière").trim() || "la matière";
+    const topic = safeText(q && q.topic || "ce thème").trim() || "ce thème";
+    const questionText = normalizeKey(q && q.question || "");
+
+    let proposals;
+    if (/signe|symptome|symptome|manifestation|clinique|diagnostic|diagnostique|tableau/.test(questionText)) {
+      proposals = [
+        "Absence totale de retentissement clinique malgré la situation décrite",
+        "Disparition immédiate des signes sans aucune surveillance",
+        "Confirmation du diagnostic sur un seul élément isolé, sans examen ni contexte"
+      ];
+    } else if (/traitement|prise en charge|conduite|soin|surveillance|prevention|prévention|mesure|intervention|administration/.test(questionText)) {
+      proposals = [
+        "Arrêt de toute surveillance après le premier geste réalisé",
+        "Administration systématique d'un traitement non prescrit sans évaluation préalable",
+        "Report de la prise en charge sans réévaluation clinique"
+      ];
+    } else if (/cause|facteur|favorise|risque|etiologie|étiologie|complication/.test(questionText)) {
+      proposals = [
+        "Facteur sans rapport avec le contexte clinique de " + subject,
+        "Cause unique identique chez tous les patients sans exception",
+        "Élément qui exclut toujours la complication au lieu de la favoriser"
+      ];
+    } else if (/objectif|role|rôle|principe|definition|définition|critere|critère/.test(questionText)) {
+      proposals = [
+        "Principe contraire aux objectifs habituels de " + subject,
+        "Définition basée uniquement sur une opinion personnelle",
+        "Critère valable seulement hors du thème « " + topic + " »"
+      ];
+    } else {
+      proposals = [
+        "Proposition sans lien direct avec " + subject,
+        "Réponse contraire à la logique clinique du thème « " + topic + " »",
+        "Affirmation systématique applicable à tous les cas sans exception"
+      ];
+    }
+
+    const existing = new Set((Array.isArray(q && q.choices) ? q.choices : []).map((c) => normalizeKey(c)));
+    return proposals.filter((item) => item && !existing.has(normalizeKey(item))).slice(0, 3);
+  }
+
+  function ensureMcqMultiHasThreeFalseChoices(q, choices) {
+    if (!q || q.type !== "mcq_multi" || !Array.isArray(choices)) return choices;
+    const marker = "__qdash_auto_false_choices_added";
+    if (q[marker]) return choices;
+    const additions = buildMcqMultiFalseChoices(q)
+      .filter((item) => !choices.some((choice) => normalizeKey(choice) === normalizeKey(item)))
+      .map((item) => safeText(item));
+    if (!additions.length) return choices;
+    return choices.concat(additions.slice(0, 3));
+  }
+
   function normalizeQuestion(q) {
     if (!q || typeof q !== "object") return null;
     const level = safeText(q.level || "");
@@ -2831,7 +2884,10 @@
 
     // default: mcq (une ou plusieurs bonnes réponses)
     if (!Array.isArray(q.choices) || q.choices.length < 2) return null;
-    const choices = q.choices.map((c) => safeText(c));
+    let choices = q.choices.map((c) => safeText(c));
+    if (q.type === "mcq_multi" || Array.isArray(q.answerIndices)) {
+      choices = ensureMcqMultiHasThreeFalseChoices(q, choices);
+    }
 
     if (Array.isArray(q.answerIndices)) {
       const answerIndices = q.answerIndices
@@ -4167,6 +4223,81 @@ if (!levels.includes(session.level)) {
     return `${correct}/${total} correct • ${pct}% • Score: ${score} • répondu: ${answered}/${total} • Note sur 20: ${note20}/20`;
   }
 
+  function getResultFeedback(note) {
+    const n = Number(note);
+    if (n < 0) {
+      return {
+        color: '#000000',
+        emoji: '🚨',
+        message: "Alerte ! Il est urgent de revoir la méthode de travail et de reprendre les bases pour éviter l'échec."
+      };
+    }
+    if (n < 5) {
+      return {
+        color: '#dc2626',
+        emoji: '⚠️',
+        message: 'Réagis maintenant ! Le potentiel est là, mais il faut davantage d’efforts et de concentration.'
+      };
+    }
+    if (n < 8) {
+      return {
+        color: '#f97316',
+        emoji: '💪',
+        message: 'Ne lâche rien ! Tu progresses lentement mais sûrement. Continue à travailler avec régularité.'
+      };
+    }
+    if (n < 10) {
+      return {
+        color: '#ca8a04',
+        emoji: '🌟',
+        message: 'Presque la moyenne ! Un peu plus d’application et tu franchiras cette étape avec succès.'
+      };
+    }
+    if (n < 15) {
+      return {
+        color: '#16a34a',
+        emoji: '✅',
+        message: 'Mission accomplie ! Les résultats sont satisfaisants. Continue sur cette lancée pour aller encore plus loin.'
+      };
+    }
+    return {
+      color: '#7c3aed',
+      emoji: '🏆',
+      message: 'Excellence ! Tu démontres une excellente maîtrise des connaissances. Toutes nos félicitations !'
+    };
+  }
+
+  function renderResultSummaryWithFeedback(container, result, cheatText = '') {
+    if (!container) return;
+    container.innerHTML = '';
+    if (appSettings.finalScore === false) {
+      container.textContent = 'Quiz soumis avec succès. La note finale est masquée par l’administrateur.' + cheatText;
+      container.style.color = '';
+      return;
+    }
+
+    const noteValue = getNoteSur20(result);
+    const feedback = getResultFeedback(noteValue);
+    container.style.color = feedback.color;
+
+    const summary = document.createElement('div');
+    summary.textContent = formatResultSummary(result);
+
+    const message = document.createElement('div');
+    message.className = 'result__message';
+    message.textContent = `${feedback.emoji} ${feedback.message}`;
+
+    container.appendChild(summary);
+    container.appendChild(message);
+
+    if (cheatText) {
+      const cheat = document.createElement('div');
+      cheat.className = 'result__cheat';
+      cheat.textContent = cheatText.trim();
+      container.appendChild(cheat);
+    }
+  }
+
   function computeScore() {
     const total = session.questions.length;
     const marksById = getQuestionMarksOn20(session.questions);
@@ -4242,7 +4373,7 @@ function renderResult() {
       ? `
 Tentative de tricherie détectée : ${session.cheatAttempts.length} avertissement(s). Motif : ${session.cheatAttempts[0].reason}. Heure : ${new Date(session.cheatAttempts[0].at).toLocaleString()}. Les réponses données après cette tentative n’ont pas été prises en compte dans la note.`
       : '';
-    els.scoreText.textContent = (appSettings.finalScore === false ? "Quiz soumis avec succès. La note finale est masquée par l’administrateur." : formatResultSummary(result)) + cheatText;
+    renderResultSummaryWithFeedback(els.scoreText, result, cheatText);
     const user = localStorage.getItem(STORAGE_KEYS.user);
     logActivity(user, 'finish_quiz', { correct, answered, total, percentage: pct, score, note20 });
     localStorage.setItem(
@@ -4296,25 +4427,48 @@ els.reviewList.appendChild(head);
       meta.appendChild(tag3);
 
       const body = document.createElement("div");
-      body.className = "muted";
+      body.className = "reviewAnswerLine";
+
+      const addText = (text) => body.appendChild(document.createTextNode(text));
+      const addAnswerSpan = (text, className) => {
+        const span = document.createElement("span");
+        span.className = className;
+        span.textContent = text;
+        body.appendChild(span);
+      };
 
       if (q.type === "tf") {
         const your = typeof a.selectedBool === "boolean" ? (a.selectedBool ? "Vrai" : "Faux") : "—";
         const right = q.answer ? "Vrai" : "Faux";
-        body.textContent = `Ta réponse: ${your} • Bonne réponse: ${right}`;
+        addText("Ta réponse: ");
+        addAnswerSpan(your, ok ? "review-answer--correct" : "review-answer--wrong");
+        addText(" • Bonne réponse: ");
+        addAnswerSpan(right, "review-answer--correct");
       } else if (q.type === "mcq_multi") {
         const selected = normalizeSelectedIndices(a.selectedIndices, q.choices.length);
-        const your =
-          selected.length > 0 ? selected.map((i2) => q.choices[i2]).filter(Boolean).join(", ") : "—";
-        const right = q.answerIndices.map((i2) => q.choices[i2]).filter(Boolean).join(", ");
-        body.textContent = `Tes réponses: ${your} • Bonnes réponses: ${right}`;
+        const rightIndices = Array.isArray(q.answerIndices) ? q.answerIndices : [];
+        addText("Tes réponses: ");
+        if (selected.length > 0) {
+          selected.forEach((i2, index) => {
+            if (index > 0) addText(", ");
+            addAnswerSpan(q.choices[i2] || "", rightIndices.includes(i2) ? "review-answer--correct" : "review-answer--wrong");
+          });
+        } else {
+          addAnswerSpan("—", "review-answer--wrong");
+        }
+        addText(" • Bonnes réponses: ");
+        rightIndices.forEach((i2, index) => {
+          if (index > 0) addText(", ");
+          addAnswerSpan(q.choices[i2] || "", "review-answer--correct");
+        });
       } else {
-        const your =
-          Number.isInteger(a.selectedIndex) && q.choices[a.selectedIndex] != null
-            ? q.choices[a.selectedIndex]
-            : "—";
+        const hasSelected = Number.isInteger(a.selectedIndex) && q.choices[a.selectedIndex] != null;
+        const your = hasSelected ? q.choices[a.selectedIndex] : "—";
         const right = q.choices[q.answerIndex];
-        body.textContent = `Ta réponse: ${your} • Bonne réponse: ${right}`;
+        addText("Ta réponse: ");
+        addAnswerSpan(your, ok ? "review-answer--correct" : "review-answer--wrong");
+        addText(" • Bonne réponse: ");
+        addAnswerSpan(right, "review-answer--correct");
       }
 
       item.appendChild(qEl);
@@ -4323,7 +4477,7 @@ els.reviewList.appendChild(head);
 
       if (q.explanation) {
         const exp = document.createElement("div");
-        exp.className = "small muted";
+        exp.className = "small review-explanation";
         exp.style.marginTop = "8px";
         exp.textContent = `Explication: ${q.explanation}`;
         item.appendChild(exp);
