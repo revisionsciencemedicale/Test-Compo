@@ -307,6 +307,14 @@
       homeBtn.title = 'Retour à l’accueil';
       headerInner.appendChild(homeBtn);
 
+      const backBtn = document.createElement('button');
+      backBtn.id = 'qdashBackBtn';
+      backBtn.className = 'qdash-logout-btn qdash-back-btn';
+      backBtn.type = 'button';
+      backBtn.textContent = 'Retour';
+      backBtn.title = 'Revenir à la page précédente';
+      headerInner.appendChild(backBtn);
+
       const logoutBtn = document.createElement('button');
       logoutBtn.id = 'qdashLogoutBtn';
       logoutBtn.className = 'qdash-logout-btn';
@@ -380,6 +388,13 @@
       setActive('Dashboard');
       forwardClick('btnHome');
       showDashboardMode();
+      closeMenu();
+    });
+
+    $('#qdashBackBtn')?.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      forwardClick('btnBack');
       closeMenu();
     });
 

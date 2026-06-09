@@ -326,6 +326,10 @@ async function assertAdmin(client, username, sessionToken, admins) {
 
 function now() { return Date.now(); }
 
+function getSessionKey(username, sessionToken, admins) {
+  return admins.includes(username) ? `${username}:${sessionToken}` : username;
+}
+
 const loginAttempts = new Map();
 
 function getClientIp(req) {
@@ -360,7 +364,8 @@ async function initDb() {
   if (!pool) return;
   await pool.query(`
     CREATE TABLE IF NOT EXISTS active_sessions (
-      username TEXT PRIMARY KEY,
+      session_key TEXT PRIMARY KEY,
+      username TEXT NOT NULL,
       session_token TEXT NOT NULL,
       device_id TEXT,
       browser TEXT,
@@ -373,6 +378,26 @@ async function initDb() {
       ip TEXT
     );
   `);
+  // Compatibilité avec l'ancienne version : avant, username était la clé primaire.
+  // Maintenant, session_key vaut username pour les comptes simples, et username:sessionToken pour les admins.
+  await pool.query(`ALTER TABLE active_sessions ADD COLUMN IF NOT EXISTS session_key TEXT;`);
+  await pool.query(`UPDATE active_sessions SET session_key = username WHERE session_key IS NULL OR session_key = '';`);
+  await pool.query(`
+    DO $$
+    DECLARE pk_name TEXT;
+    BEGIN
+      SELECT conname INTO pk_name
+      FROM pg_constraint
+      WHERE conrelid = 'active_sessions'::regclass AND contype = 'p';
+      IF pk_name IS NOT NULL THEN
+        EXECUTE format('ALTER TABLE active_sessions DROP CONSTRAINT %I', pk_name);
+      END IF;
+    END $$;
+  `);
+  await pool.query(`ALTER TABLE active_sessions ALTER COLUMN session_key SET NOT NULL;`);
+  await pool.query(`CREATE UNIQUE INDEX IF NOT EXISTS idx_active_sessions_session_key ON active_sessions(session_key);`);
+  await pool.query(`CREATE INDEX IF NOT EXISTS idx_active_sessions_username ON active_sessions(username);`);
+  await pool.query(`CREATE INDEX IF NOT EXISTS idx_active_sessions_token ON active_sessions(username, session_token);`);
   await pool.query(`
     CREATE TABLE IF NOT EXISTS login_logs (
       id TEXT PRIMARY KEY,
@@ -440,6 +465,7 @@ async function cleanupExpired(client = pool) {
 function rowToSession(row) {
   if (!row) return null;
   return {
+    sessionKey: row.session_key || row.username,
     username: row.username,
     sessionToken: row.session_token,
     deviceId: row.device_id || '-',
@@ -614,12 +640,19 @@ const server = http.createServer(async (req, res) => {
 
       await client.query('BEGIN');
       try {
-        const existingResult = await client.query('SELECT * FROM active_sessions WHERE username = $1 FOR UPDATE', [username]);
+        const isAdminAccount = admins.includes(username);
+        const sessionKey = getSessionKey(username, sessionToken, admins);
+        const existingResult = await client.query(
+          isAdminAccount
+            ? 'SELECT * FROM active_sessions WHERE session_key = $1 FOR UPDATE'
+            : 'SELECT * FROM active_sessions WHERE username = $1 FOR UPDATE',
+          [isAdminAccount ? sessionKey : username]
+        );
         const existing = rowToSession(existingResult.rows[0]);
 
         const incomingDeviceId = String(device.deviceId || '-');
         const isSameSession = existing && existing.sessionToken === sessionToken && existing.deviceId === incomingDeviceId;
-        const isDifferentActiveAccess = existing && !isSameSession;
+        const isDifferentActiveAccess = !isAdminAccount && existing && !isSameSession;
 
         if (isDifferentActiveAccess) {
           await addLog(client, {
@@ -640,9 +673,10 @@ const server = http.createServer(async (req, res) => {
         const startedAt = existing?.startedAt || now();
         const lastSeen = now();
         await client.query(
-          `INSERT INTO active_sessions(username, session_token, device_id, browser, platform, user_agent, language, online, started_at, last_seen, ip)
-           VALUES($1,$2,$3,$4,$5,$6,$7,TRUE,$8,$9,$10)
-           ON CONFLICT(username) DO UPDATE SET
+          `INSERT INTO active_sessions(session_key, username, session_token, device_id, browser, platform, user_agent, language, online, started_at, last_seen, ip)
+           VALUES($1,$2,$3,$4,$5,$6,$7,$8,TRUE,$9,$10,$11)
+           ON CONFLICT(session_key) DO UPDATE SET
+             username = EXCLUDED.username,
              session_token = EXCLUDED.session_token,
              device_id = EXCLUDED.device_id,
              browser = EXCLUDED.browser,
@@ -652,9 +686,9 @@ const server = http.createServer(async (req, res) => {
              online = TRUE,
              last_seen = EXCLUDED.last_seen,
              ip = EXCLUDED.ip`,
-          [username, sessionToken, device.deviceId || '-', device.browser || '-', device.platform || '-', device.userAgent || '-', device.language || '-', startedAt, lastSeen, getClientIp(req)]
+          [sessionKey, username, sessionToken, device.deviceId || '-', device.browser || '-', device.platform || '-', device.userAgent || '-', device.language || '-', startedAt, lastSeen, getClientIp(req)]
         );
-        const session = { username, sessionToken, deviceId: device.deviceId || '-', browser: device.browser || '-', platform: device.platform || '-', userAgent: device.userAgent || '-', language: device.language || '-', online: true, startedAt, lastSeen, ip: getClientIp(req) };
+        const session = { sessionKey, username, sessionToken, deviceId: device.deviceId || '-', browser: device.browser || '-', platform: device.platform || '-', userAgent: device.userAgent || '-', language: device.language || '-', online: true, startedAt, lastSeen, ip: getClientIp(req) };
         await addLog(client, { user: username, action: 'login', device: publicSession(session) });
         await client.query('COMMIT');
         return sendJson(res, 200, { ok: true, user: username, admin: admins.includes(username), userConfig: users[username] });
@@ -702,10 +736,12 @@ const server = http.createServer(async (req, res) => {
       // d'identifiant appareil/navigateur. La session est recréée/rafraîchie tant que l'administrateur
       // ne l'a pas explicitement déconnectée dans revoked_sessions.
       const ts = now();
+      const sessionKey = getSessionKey(username, sessionToken, admins);
       await client.query(
-        `INSERT INTO active_sessions(username, session_token, device_id, browser, platform, user_agent, language, online, started_at, last_seen, ip)
-         VALUES($1,$2,$3,$4,$5,$6,$7,TRUE,$8,$8,$9)
-         ON CONFLICT(username) DO UPDATE SET
+        `INSERT INTO active_sessions(session_key, username, session_token, device_id, browser, platform, user_agent, language, online, started_at, last_seen, ip)
+         VALUES($1,$2,$3,$4,$5,$6,$7,$8,TRUE,$9,$9,$10)
+         ON CONFLICT(session_key) DO UPDATE SET
+           username = EXCLUDED.username,
            session_token = EXCLUDED.session_token,
            device_id = EXCLUDED.device_id,
            browser = EXCLUDED.browser,
@@ -715,7 +751,7 @@ const server = http.createServer(async (req, res) => {
            online = TRUE,
            last_seen = EXCLUDED.last_seen,
            ip = EXCLUDED.ip`,
-        [username, sessionToken, incomingDeviceId, device.browser || '-', device.platform || '-', device.userAgent || '-', device.language || '-', ts, getClientIp(req)]
+        [sessionKey, username, sessionToken, incomingDeviceId, device.browser || '-', device.platform || '-', device.userAgent || '-', device.language || '-', ts, getClientIp(req)]
       );
       return sendJson(res, 200, { ok: true, loggedIn: true, forceLogout: false, userConfig });
     });
@@ -738,10 +774,12 @@ const server = http.createServer(async (req, res) => {
       // Ne plus expirer automatiquement les comptes créés localement / depuis le site.
       // Si la ligne active a disparu après déploiement, on la recrée au lieu de déconnecter l'utilisateur.
       const ts = now();
+      const sessionKey = getSessionKey(username, sessionToken, admins);
       await client.query(
-        `INSERT INTO active_sessions(username, session_token, device_id, browser, platform, user_agent, language, online, started_at, last_seen, ip)
-         VALUES($1,$2,$3,$4,$5,$6,$7,TRUE,$8,$8,$9)
-         ON CONFLICT(username) DO UPDATE SET
+        `INSERT INTO active_sessions(session_key, username, session_token, device_id, browser, platform, user_agent, language, online, started_at, last_seen, ip)
+         VALUES($1,$2,$3,$4,$5,$6,$7,$8,TRUE,$9,$9,$10)
+         ON CONFLICT(session_key) DO UPDATE SET
+           username = EXCLUDED.username,
            session_token = EXCLUDED.session_token,
            device_id = EXCLUDED.device_id,
            browser = EXCLUDED.browser,
@@ -751,7 +789,7 @@ const server = http.createServer(async (req, res) => {
            online = TRUE,
            last_seen = EXCLUDED.last_seen,
            ip = EXCLUDED.ip`,
-        [username, sessionToken, incomingDeviceId, device.browser || '-', device.platform || '-', device.userAgent || '-', device.language || '-', ts, getClientIp(req)]
+        [sessionKey, username, sessionToken, incomingDeviceId, device.browser || '-', device.platform || '-', device.userAgent || '-', device.language || '-', ts, getClientIp(req)]
       );
       return sendJson(res, 200, { ok: true, loggedIn: true });
     });
@@ -781,13 +819,14 @@ const server = http.createServer(async (req, res) => {
         if (!allUsers[username]) return sendJson(res, 200, { ok: false });
         const device = body.device || {};
         const ts = now();
+        const sessionKey = getSessionKey(username, sessionToken, admins);
         await client.query(
-          `INSERT INTO active_sessions(username, session_token, device_id, browser, platform, user_agent, language, online, started_at, last_seen, ip)
-           VALUES($1,$2,$3,$4,$5,$6,$7,TRUE,$8,$8,$9)
-           ON CONFLICT(username) DO UPDATE SET session_token=EXCLUDED.session_token, device_id=EXCLUDED.device_id, browser=EXCLUDED.browser, platform=EXCLUDED.platform, user_agent=EXCLUDED.user_agent, language=EXCLUDED.language, online=TRUE, last_seen=EXCLUDED.last_seen, ip=EXCLUDED.ip`,
-          [username, sessionToken, device.deviceId || '-', device.browser || '-', device.platform || '-', device.userAgent || '-', device.language || '-', ts, getClientIp(req)]
+          `INSERT INTO active_sessions(session_key, username, session_token, device_id, browser, platform, user_agent, language, online, started_at, last_seen, ip)
+           VALUES($1,$2,$3,$4,$5,$6,$7,$8,TRUE,$9,$9,$10)
+           ON CONFLICT(session_key) DO UPDATE SET username=EXCLUDED.username, session_token=EXCLUDED.session_token, device_id=EXCLUDED.device_id, browser=EXCLUDED.browser, platform=EXCLUDED.platform, user_agent=EXCLUDED.user_agent, language=EXCLUDED.language, online=TRUE, last_seen=EXCLUDED.last_seen, ip=EXCLUDED.ip`,
+          [sessionKey, username, sessionToken, device.deviceId || '-', device.browser || '-', device.platform || '-', device.userAgent || '-', device.language || '-', ts, getClientIp(req)]
         );
-        session = { username, sessionToken, deviceId: device.deviceId || '-', browser: device.browser || '-', platform: device.platform || '-', userAgent: device.userAgent || '-', language: device.language || '-', online: true, startedAt: ts, lastSeen: ts, ip: getClientIp(req) };
+        session = { sessionKey, username, sessionToken, deviceId: device.deviceId || '-', browser: device.browser || '-', platform: device.platform || '-', userAgent: device.userAgent || '-', language: device.language || '-', online: true, startedAt: ts, lastSeen: ts, ip: getClientIp(req) };
       }
       await addLog(client, { user: username, action: String(body.action || 'activity'), details: body.details || {}, device: publicSession(session) });
       return sendJson(res, 200, { ok: true });
@@ -828,7 +867,7 @@ const server = http.createServer(async (req, res) => {
       const dynamicUsers = await client.query('SELECT * FROM app_users WHERE deleted=FALSE ORDER BY username ASC');
       return sendJson(res, 200, {
         ok: true,
-        activeSessions: Object.fromEntries(activeResult.rows.map((r) => [r.username, publicSession(rowToSession(r))])),
+        activeSessions: Object.fromEntries(activeResult.rows.map((r) => [r.session_key || `${r.username}:${r.session_token}`, publicSession(rowToSession(r))])),
         dynamicUsers: mergeUserRows(staticUsers, dynamicUsers.rows),
         dashboard: { connectedUsers: activeResult.rowCount }
       });
@@ -864,7 +903,7 @@ const server = http.createServer(async (req, res) => {
       const quizCount = logsResult.rows.filter(r => r.action === 'finish_quiz').length;
       return sendJson(res, 200, {
         ok: true,
-        activeSessions: Object.fromEntries(activeResult.rows.map((r) => [r.username, publicSession(rowToSession(r))])),
+        activeSessions: Object.fromEntries(activeResult.rows.map((r) => [r.session_key || `${r.username}:${r.session_token}`, publicSession(rowToSession(r))])),
         loginLogs: logsResult.rows.map(rowToLog),
         dashboard: { connectedUsers: activeResult.rowCount, quizDone: quizCount },
         // Important : la recherche utilisateur doit afficher TOUS les comptes existants :

@@ -55,6 +55,7 @@
     btnSaveSettings: document.getElementById("btnSaveSettings"),
     btnLogout: document.getElementById("btnLogout"),
     btnHome: document.getElementById("btnHome"),
+    btnBack: document.getElementById("btnBack"),
     btnHomeQuiz: document.getElementById("btnHomeQuiz"),
     currentUser: document.getElementById("currentUser"),
     btnAdmin: document.getElementById("btnAdmin"),
@@ -2686,6 +2687,11 @@
 
   function showScreen(which) {
     if (!which) return;
+    if (activeScreen && activeScreen !== which && !isReturningToPreviousScreen) {
+      screenHistory.push(activeScreen);
+      if (screenHistory.length > 25) screenHistory.shift();
+    }
+    activeScreen = which;
     if (which !== els.screenQuiz) {
       clearQuestionTimer();
       if (abandonListener) {
@@ -3321,6 +3327,7 @@
     "Pathologies médicales / Sémiologie",
     "Anatomie physiologie appareils",
     "Anatomie physiologie obstétricale",
+    "Anatomie Physiologie : Cellules et tissus/ostéologie/myologie/système nerveux/glandes endocrines",
     "Soins aux enfants",
     "Diététique",
     "Bactériologie",
@@ -3613,6 +3620,9 @@
   }
 
   let currentMode = "normal";
+  let activeScreen = null;
+  const screenHistory = [];
+  let isReturningToPreviousScreen = false;
 
   const DE_TRACKS_ALL = [
     { value: "INF/SAG-M", label: "INF/SAG-M" },
@@ -4855,6 +4865,29 @@ els.reviewList.appendChild(head);
 
   if (els.btnHome) {
     els.btnHome.addEventListener("click", goHome);
+  }
+
+  function goBackToPreviousScreen() {
+    const previousScreen = screenHistory.pop();
+    if (previousScreen) {
+      isReturningToPreviousScreen = true;
+      showScreen(previousScreen);
+      isReturningToPreviousScreen = false;
+      if (previousScreen === els.screenStart) {
+        if (currentMode === "normal") updateStartInfo();
+        else updateDEStartInfo();
+      }
+      return;
+    }
+    if (window.history && window.history.length > 1) {
+      window.history.back();
+      return;
+    }
+    goHome();
+  }
+
+  if (els.btnBack) {
+    els.btnBack.addEventListener("click", goBackToPreviousScreen);
   }
 
   if (els.btnHomeQuiz) {

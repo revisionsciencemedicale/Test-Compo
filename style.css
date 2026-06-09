@@ -47,6 +47,7 @@ body{
 .header__inner{display:flex; align-items:center; justify-content:space-between; padding:14px 0}
 .header__actions{display:flex; gap:10px; align-items:flex-start; flex-wrap:wrap}
 .header__home-stack{display:flex; flex-direction:column; gap:8px}
+.header__home-row{display:flex; gap:8px; align-items:center; flex-wrap:wrap}
 
 .brand{display:flex; align-items:center; gap:12px}
 .brand__mark{
@@ -1349,6 +1350,8 @@ body::before{content:"";position:fixed;inset:0;background:radial-gradient(700px 
 .qdash-user-chip{margin-left:0;display:flex;align-items:center;gap:10px;color:#fff;font-weight:800;}
 .qdash-logout-btn{border:0;background:rgba(255,255,255,.16);color:#fff;font-weight:800;border-radius:14px;padding:10px 14px;cursor:pointer;box-shadow:inset 0 0 0 1px rgba(255,255,255,.18);white-space:nowrap;}
 .qdash-logout-btn:hover{background:rgba(255,255,255,.24);transform:translateY(-1px);}
+.qdash-back-btn{display:inline-flex!important;align-items:center;justify-content:center;}
+#qdashBackBtn{visibility:visible!important;opacity:1!important;}
 .qdash-user-chip small{display:block;font-size:11px;opacity:.78;font-weight:650;}
 .qdash-avatar,.qdash-bell{display:grid;place-items:center;background:rgba(255,255,255,.16);width:36px;height:36px;border-radius:999px;}
 .header__actions{display:none!important;}
@@ -1747,7 +1750,9 @@ table{
   }
   .qdash-logout-btn,
   #qdashHomeBtn,
-  .qdash-home-btn{
+  #qdashBackBtn,
+  .qdash-home-btn,
+  .qdash-back-btn{
     padding:8px 9px !important;
     border-radius:11px !important;
     font-size:12px !important;
@@ -1909,7 +1914,9 @@ table{
   }
   .qdash-logout-btn,
   #qdashHomeBtn,
-  .qdash-home-btn{
+  #qdashBackBtn,
+  .qdash-home-btn,
+  .qdash-back-btn{
     font-size:11px !important;
     padding:7px 8px !important;
   }
@@ -1959,7 +1966,9 @@ table{
   .qdash-user-chip small{max-width:68px !important;}
   .qdash-logout-btn,
   #qdashHomeBtn,
-  .qdash-home-btn{font-size:10.5px !important;padding:7px 6px !important;}
+  #qdashBackBtn,
+  .qdash-home-btn,
+  .qdash-back-btn{font-size:10.5px !important;padding:7px 6px !important;}
   .qdash-top-search{order:4 !important;}
 }
 
