@@ -51,7 +51,7 @@
   function hash(text){ let h=0; text=String(text||''); for(let i=0;i<text.length;i++){ h=((h<<5)-h+text.charCodeAt(i))|0; } return Math.abs(h); }
   function match(list, text){ return list.find(x => x.re && x.re.test(text || '')) || null; }
   function page(){
-    const ids = [['screenCode','code'],['screenAdmin','admin'],['screenQuiz','quiz'],['screenResult','result'],['screenReview','review'],['screenDictionary','dictionary'],['screenStart','start']];
+    const ids = [['screenCode','code'],['screenAdmin','admin'],['screenQuiz','quiz'],['screenResult','result'],['screenReview','review'],['screenDictionary','dictionary'],['screenResumes','resumes'],['screenStart','start']];
     for (const [id, p] of ids){ const el=document.getElementById(id); if(el && !el.classList.contains('hidden')) return p; }
     return 'start';
   }
@@ -269,6 +269,7 @@
         <div class="qdash-nav-title">Apprendre</div>
         <button type="button" id="qdashNavQuiz" class="qdash-nav-item"><span>▶</span> Commencer un Quiz</button>
         <button type="button" id="qdashNavDictionary" class="qdash-nav-item"><span>▤</span> Dictionnaire Médical</button>
+        <button type="button" id="qdashNavResumes" class="qdash-nav-item"><span>📚</span> Résumés de Cours</button>
         <button type="button" id="qdashNavExam" class="qdash-nav-item"><span>◒</span> Examens de fin de Formation</button>
         <div class="qdash-nav-title qdash-admin-title">Administration</div>
         <button type="button" id="qdashNavAdmin" class="qdash-nav-item hidden"><span>⚙</span> Administration</button>
@@ -403,6 +404,7 @@
     });
     $('#qdashNavQuiz')?.addEventListener('click', () => { setActive('Quiz'); forwardClick('btnHome'); forwardClick('btnModeQuiz'); showQuizMode('normal'); closeMenu(); });
     $('#qdashNavDictionary')?.addEventListener('click', () => { setActive('Dictionary'); forwardClick('btnDictionary'); closeMenu(); });
+    $('#qdashNavResumes')?.addEventListener('click', () => { setActive('Resumes'); forwardClick('btnResumes'); closeMenu(); });
     $('#qdashNavExam')?.addEventListener('click', () => {
       setActive('Exam');
       window.__QDASH_OPENING_EFF_FROM_MENU__ = true;

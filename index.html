@@ -57,6 +57,7 @@
             <button class="btn btn--ghost" id="btnLogout" type="button" title="Changer d'utilisateur">Se déconnecter</button>
           </div>
           <button class="btn btn--ghost" id="btnDictionary" type="button">Dictionnaire médical</button>
+          <button class="btn btn--ghost" id="btnResumes" type="button">Résumés de Cours</button>
           <button class="btn btn--ghost hidden" id="btnAdmin" type="button">⚙️ Paramètres</button>
           <button class="btn btn--ghost hidden" id="btnReset" type="button" title="Reprendre le quiz en cours avec un nouvel ordre">Réinitialiser</button>
         </div>
@@ -190,6 +191,27 @@
         </div>
         <div class="dictionary" id="dictionaryList"></div>
       </section>
+
+      <section class="card hidden" id="screenResumes" aria-labelledby="resumesTitle">
+        <div class="row row--space">
+          <h2 id="resumesTitle" class="h2">Résumés de Cours</h2>
+          <button class="btn" id="btnBackToStartFromResumes" type="button">Accueil</button>
+        </div>
+        <p class="muted small" style="margin-top:-6px">
+          Sélectionne un niveau et une matière. Les fichiers sont prêts pour ajouter les contenus manuellement.
+        </p>
+        <div class="grid" style="margin-top:10px">
+          <div class="field">
+            <label for="selectResumeLevel" class="label">Niveau</label>
+            <select id="selectResumeLevel" class="select"></select>
+          </div>
+          <div class="field">
+            <label for="selectResumeSubject" class="label">Matière</label>
+            <select id="selectResumeSubject" class="select"></select>
+          </div>
+        </div>
+        <div class="resume-view" id="resumeView"></div>
+      </section>
     </main>
 
     <dialog class="dialog" id="settingsDialog" aria-labelledby="settingsTitle">
@@ -255,6 +277,12 @@
     <script src="./questions.licence3.sfm.js"></script>
     <script src="./questions.eff.js"></script>
     <script src="./questions.examen-fin-formation.manuel.js"></script>
+    <script src="./resume.a1-base-sante.js"></script>
+    <script src="./resume.a2-niveau-moyen.js"></script>
+    <script src="./resume.l1-niveau-emergent.js"></script>
+    <script src="./resume.l2-niveau-ascendant.js"></script>
+    <script src="./resume.l3-niveau-accompli-inf.js"></script>
+    <script src="./resume.l3-niveau-accompli-sf.js"></script>
     <script src="./app.js"></script>
     <script src="./interface.dynamique.js"></script>
   

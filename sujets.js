@@ -61,8 +61,9 @@ window.SUJETS_PAR_MATIERE_QUIZ = {
   "Fonction Publique": ["Sujet 1", "Sujet 2", "Sujet 3", "Sujet 4", "Sujet 5"],
   "Pathologies médico-churigicale / Stomatologie": ["Sujet 1", "Sujet 2", "Sujet 3", "Sujet 4", "Sujet 5"],
   "ORL": ["Sujet 1", "Sujet 2", "Sujet 3", "Sujet 4", "Sujet 5"],
-
-
+  "ophtalmologie": ["Sujet 1", "Sujet 2", "Sujet 3", "Sujet 4", "Sujet 5"],
+  "Gynécologie-Obstétrique": ["Sujet 1", "Sujet 2", "Sujet 3", "Sujet 4", "Sujet 5"],
+  
 };
 
 // Matières demandées pour L3-Niveau Accompli INF (6 sujets chacune)

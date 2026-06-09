@@ -15,6 +15,7 @@
     screenReview: document.getElementById("screenReview"),
     screenAdmin: document.getElementById("screenAdmin"),
     screenDictionary: document.getElementById("screenDictionary"),
+    screenResumes: document.getElementById("screenResumes"),
 
     selectLevel: document.getElementById("selectLevel"),
     selectSubject: document.getElementById("selectSubject"),
@@ -64,6 +65,13 @@
     btnBackToStartFromDictionary: document.getElementById("btnBackToStartFromDictionary"),
     inputDictionarySearch: document.getElementById("inputDictionarySearch"),
     dictionaryList: document.getElementById("dictionaryList"),
+
+    btnResumes: document.getElementById("btnResumes"),
+    btnBackToStartFromResumes: document.getElementById("btnBackToStartFromResumes"),
+    selectResumeLevel: document.getElementById("selectResumeLevel"),
+    selectResumeSubject: document.getElementById("selectResumeSubject"),
+    selectResumeTitle: document.getElementById("selectResumeTitle"),
+    resumeView: document.getElementById("resumeView"),
   };
 
   const STORAGE_KEYS = {
@@ -2700,6 +2708,7 @@
       els.screenReview,
       els.screenAdmin,
       els.screenDictionary,
+      els.screenResumes,
     ].filter(Boolean);
     for (const s of screens) s.classList.add("hidden");
     which.classList.remove("hidden");
@@ -2849,14 +2858,10 @@
   }
 
   function ensureMcqMultiHasThreeFalseChoices(q, choices) {
-    if (!q || q.type !== "mcq_multi" || !Array.isArray(choices)) return choices;
-    const marker = "__qdash_auto_false_choices_added";
-    if (q[marker]) return choices;
-    const additions = buildMcqMultiFalseChoices(q)
-      .filter((item) => !choices.some((choice) => normalizeKey(choice) === normalizeKey(item)))
-      .map((item) => safeText(item));
-    if (!additions.length) return choices;
-    return choices.concat(additions.slice(0, 3));
+    // Demande utilisateur : ne plus ajouter automatiquement les 3 fausses propositions
+    // pour les questions de type mcq_multi. On garde uniquement les propositions
+    // déjà présentes dans les fichiers de questions.
+    return Array.isArray(choices) ? choices : choices;
   }
 
   function normalizeQuestion(q) {
@@ -3383,22 +3388,19 @@
     "Neurochirurgie",
     "ORL",
     "Surveillances thérapeutiques",
-    "Surveillance thérapeutique",
     "Droit administratif",
-    "Élaboration d’un projet de soins infirmiers",
-    "Mise en œuvre et évaluation d’un projet de soins infirmiers",
     "Soins infirmiers spécialisés en médecine",
     "Soins palliatifs",
     "Soins infirmiers spécialisés en chirurgie",
-    "Supervision / Suivi – Evaluation",
     "Gestion Hospitalière",
     "Analyse des données quantitatives et qualitatives",
-    "Soins Palliatifs",
     "Approche genre/santé sexuelle/santé de la reproduction des adolescents et des jeunes/gestion logistique",
     "Psychiatrie",
+    "Psychosociologie de la santé",
     "Dermato-Venerologie",
     "Fonction Publique",
     "Pathologies médico-churigicale / Stomatologie",
+    "ophtalmologie",
   ],
   "L3-Niveau Accompli SF": [
     "Pathologies gynécologiques III",
@@ -3430,11 +3432,15 @@
     "Soins Palliatifs",
     "Neurologie",
     "Approche genre/santé sexuelle/santé de la reproduction des adolescents et des jeunes/gestion logistique",
-    "Psychiatrie",
+    "Psychosociologie de la santé",
     "Dermato-Venerologie",
     "Fonction Publique",
     "Pathologies médico-churigicale / Stomatologie",
     "ORL",
+    "ophtalmologie",
+    "Gynécologie-Obstétrique",
+    "Soins obstétricaux et néonataux d’urgence(SONU)",
+
 
   ],
   "A2-Niveau moyen": [
@@ -4471,9 +4477,36 @@ els.reviewList.appendChild(head);
         addAnswerSpan(right, "review-answer--correct");
       }
 
+      const choicesBox = document.createElement("div");
+      choicesBox.className = "reviewChoices";
+      const appendReviewChoice = (letterIndex, choiceText, isGoodAnswer) => {
+        const line = document.createElement("div");
+        line.className = `reviewChoice ${isGoodAnswer ? "reviewChoice--correct" : "reviewChoice--wrong"}`;
+        const letter = String.fromCharCode(65 + letterIndex);
+        line.textContent = `${letter}) ${choiceText}`;
+        choicesBox.appendChild(line);
+      };
+
+      if (q.type === "tf") {
+        [
+          { text: "Vrai", value: true },
+          { text: "Faux", value: false },
+        ].forEach((choice, choiceIndex) => {
+          appendReviewChoice(choiceIndex, choice.text, choice.value === q.answer);
+        });
+      } else if (Array.isArray(q.choices)) {
+        const rightIndices = q.type === "mcq_multi"
+          ? (Array.isArray(q.answerIndices) ? q.answerIndices : [])
+          : [q.answerIndex];
+        q.choices.forEach((choiceText, choiceIndex) => {
+          appendReviewChoice(choiceIndex, choiceText, rightIndices.includes(choiceIndex));
+        });
+      }
+
       item.appendChild(qEl);
       item.appendChild(meta);
       item.appendChild(body);
+      if (choicesBox.childElementCount > 0) item.appendChild(choicesBox);
 
       if (q.explanation) {
         const exp = document.createElement("div");
@@ -4877,6 +4910,176 @@ els.reviewList.appendChild(head);
       else updateDEStartInfo();
     });
   }
+
+
+  function isCurrentAdminUser() {
+    const current = safeText(localStorage.getItem(STORAGE_KEYS.user)).trim();
+    return !!(
+      current &&
+      Array.isArray(window.ADMINS) &&
+      window.ADMINS.some((admin) => normalizeKey(admin) === normalizeKey(current))
+    );
+  }
+
+  function isPlaceholderResume(item) {
+    return normalizeKey(item?.matiere) === normalizeKey("Exemple de matière") &&
+      normalizeKey(item?.titre) === normalizeKey("Exemple de résumé");
+  }
+
+  function getResumeBank() {
+    const raw = window.RESUMES_COURS || {};
+    const clean = {};
+    Object.entries(raw).forEach(([level, list]) => {
+      const key = String(level || "").toUpperCase();
+      if (key === "AUXI" || key === "INF/SAG-M") return;
+      clean[level] = Array.isArray(list) ? list.filter((item) => !isPlaceholderResume(item)) : [];
+    });
+    return clean;
+  }
+
+  function findResumeLevelName(level, levels) {
+    const n = normalizeKey(level);
+    return (levels || []).find((lv) => normalizeKey(lv) === n) || "";
+  }
+
+  function getResumeLevels() {
+    const bank = getResumeBank();
+    const bankLevels = Object.keys(bank);
+
+    // Les administrateurs voient tous les niveaux de résumés disponibles.
+    if (isCurrentAdminUser()) return bankLevels;
+
+    // Les autres utilisateurs ne voient que les résumés correspondant à leur niveau.
+    const allowedQuizLevels = (typeof computeLevels === "function" ? computeLevels() : [])
+      .filter((level) => level && normalizeKey(level) !== normalizeKey("Tous les niveaux"));
+
+    const allowed = [];
+    const seen = new Set();
+    allowedQuizLevels.forEach((level) => {
+      const matched = findResumeLevelName(level, bankLevels);
+      const key = normalizeKey(matched);
+      if (matched && !seen.has(key)) {
+        seen.add(key);
+        allowed.push(matched);
+      }
+    });
+    return allowed;
+  }
+
+  function getResumeItemsForLevel(level) {
+    const bank = getResumeBank();
+    return Array.isArray(bank[level]) ? bank[level] : [];
+  }
+
+  function getResumeSubjectsForLevel(level) {
+    const items = getResumeItemsForLevel(level);
+    const subjectsFromCatalog = typeof getAllowedSubjectsIncludingCustom === "function"
+      ? getAllowedSubjectsIncludingCustom(level)
+      : (typeof getAllowedSubjectsForLevel === "function" ? getAllowedSubjectsForLevel(level) : []);
+    const subjectsFromResumes = items.map((item) => safeText(item?.matiere).trim()).filter(Boolean);
+    const out = [];
+    const seen = new Set();
+    [...subjectsFromCatalog, ...subjectsFromResumes].forEach((subject) => {
+      const clean = safeText(subject).trim();
+      const key = normalizeKey(clean);
+      if (!clean || seen.has(key)) return;
+      seen.add(key);
+      out.push(clean);
+    });
+    return out;
+  }
+
+  function getResumesForSelection() {
+    const level = els.selectResumeLevel ? els.selectResumeLevel.value : "";
+    const subject = els.selectResumeSubject ? els.selectResumeSubject.value : "";
+    const items = getResumeItemsForLevel(level);
+    return items.filter((item) => !subject || normalizeKey(item.matiere) === normalizeKey(subject));
+  }
+
+  function renderResumeView() {
+    if (!els.resumeView) return;
+    const level = els.selectResumeLevel ? els.selectResumeLevel.value : "";
+    const subject = els.selectResumeSubject ? els.selectResumeSubject.value : "";
+    const items = getResumesForSelection();
+    const title = els.selectResumeTitle ? els.selectResumeTitle.value : "";
+    const selected = items.find((item) => item.titre === title) || items[0];
+    if (!level || level === "Aucun niveau") {
+      els.resumeView.innerHTML = "<p class='muted'>Aucun niveau de résumé disponible pour ce compte.</p>";
+      return;
+    }
+    if (!selected) {
+      const safeSubject = subject && subject !== "Aucune matière" ? subject : "Matière";
+      els.resumeView.innerHTML = `
+        <article class="resume-card">
+          <div class="pill">${escapeHtml(safeSubject)}</div>
+          <h3 class="h3">Résumé</h3>
+          <div class="resume-content"></div>
+        </article>
+      `;
+      return;
+    }
+    const content = String(selected.contenu || "").trim();
+    els.resumeView.innerHTML = `
+      <article class="resume-card">
+        <div class="pill">${escapeHtml(selected.matiere || "Matière")}</div>
+        <h3 class="h3">${escapeHtml(selected.titre || "Résumé")}</h3>
+        <div class="resume-content">${content ? escapeHtml(content).replace(/\n/g, "<br>") : ""}</div>
+      </article>
+    `;
+  }
+
+  function populateResumeTitles() {
+    const items = getResumesForSelection();
+    if (!els.selectResumeTitle) {
+      renderResumeView();
+      return;
+    }
+    const titles = items.map((item) => item.titre || "Résumé sans titre");
+    setOptions(els.selectResumeTitle, titles.length ? titles : ["Aucun résumé"], titles[0] || "Aucun résumé");
+    els.selectResumeTitle.disabled = !titles.length;
+    renderResumeView();
+  }
+
+  function populateResumeSubjects() {
+    if (!els.selectResumeSubject) return;
+    const level = els.selectResumeLevel ? els.selectResumeLevel.value : "";
+    const subjects = getResumeSubjectsForLevel(level);
+    setOptions(els.selectResumeSubject, subjects.length ? subjects : ["Aucune matière"], subjects[0] || "Aucune matière");
+    els.selectResumeSubject.disabled = !subjects.length;
+    populateResumeTitles();
+  }
+
+  function openResumesScreen() {
+    if (isFreeTrialUser()) {
+      alert(FREE_TRIAL_BLOCK_MESSAGE);
+      return;
+    }
+    const levels = getResumeLevels();
+    if (els.selectResumeLevel) {
+      const currentQuizLevel = els.selectLevel && els.selectLevel.value ? els.selectLevel.value : "";
+      const preferred = findResumeLevelName(currentQuizLevel, levels) || levels[0];
+      setOptions(els.selectResumeLevel, levels.length ? levels : ["Aucun niveau"], preferred || "Aucun niveau");
+      els.selectResumeLevel.disabled = levels.length <= 1;
+    }
+    populateResumeSubjects();
+    showScreen(els.screenResumes);
+  }
+
+  if (els.btnResumes) {
+    els.btnResumes.addEventListener("click", openResumesScreen);
+  }
+
+  if (els.btnBackToStartFromResumes) {
+    els.btnBackToStartFromResumes.addEventListener("click", () => {
+      showScreen(els.screenStart);
+      if (currentMode === "normal") updateStartInfo();
+      else updateDEStartInfo();
+    });
+  }
+
+  if (els.selectResumeLevel) els.selectResumeLevel.addEventListener("change", populateResumeSubjects);
+  if (els.selectResumeSubject) els.selectResumeSubject.addEventListener("change", populateResumeTitles);
+  if (els.selectResumeTitle) els.selectResumeTitle.addEventListener("change", renderResumeView);
 
   if (els.inputDictionarySearch) {
     els.inputDictionarySearch.addEventListener("input", () => {
