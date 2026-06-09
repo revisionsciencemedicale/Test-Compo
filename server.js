@@ -605,13 +605,17 @@ const server = http.createServer(async (req, res) => {
   }
 
   if (req.method === 'POST' && url.pathname === '/api/login') {
-    if (isRateLimited(req, 'login')) {
-      return sendJson(res, 429, { ok: false, error: 'Trop de tentatives. Réessayez plus tard.' });
-    }
     const body = await readJsonBody(req);
     const username = String(body.username || '').trim();
     const sessionToken = String(body.sessionToken || '').trim() || crypto.randomUUID();
     const device = body.device || {};
+
+    // Correction mobile : plusieurs téléphones peuvent partager la même adresse IP
+    // via le réseau mobile. La limitation reste active, mais elle est séparée par compte
+    // afin de ne pas bloquer injustement les autres appareils.
+    if (isRateLimited(req, `login:${username || 'empty'}`)) {
+      return sendJson(res, 429, { ok: false, error: 'Trop de tentatives. Réessayez plus tard.' });
+    }
 
     return withDb(res, async (client) => {
       if (!username) {

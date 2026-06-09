@@ -582,32 +582,49 @@
     return location.protocol === "file:" || !navigator.onLine;
   }
 
+  function sleep(ms) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+  }
+
+  function shouldRetryRequest(err) {
+    // Correction mobile : sur certains téléphones/réseaux, le premier appel fetch peut
+    // échouer brièvement ou recevoir une réponse 5xx pendant le réveil du serveur.
+    // On réessaie uniquement les erreurs temporaires, jamais les refus métier (401/403/409).
+    return !err.status || err.status === 408 || err.status === 425 || err.status === 429 || err.status >= 500;
+  }
+
+  async function fetchJsonWithRetry(path, options = {}, retries = 2) {
+    let lastError = null;
+    for (let attempt = 0; attempt <= retries; attempt += 1) {
+      try {
+        const res = await fetch(path, options);
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok) {
+          const err = new Error(data.error || "Erreur serveur");
+          err.status = res.status;
+          err.data = data;
+          throw err;
+        }
+        return data;
+      } catch (err) {
+        lastError = err;
+        if (attempt >= retries || !shouldRetryRequest(err)) throw err;
+        await sleep(450 * (attempt + 1));
+      }
+    }
+    throw lastError || new Error("Erreur réseau");
+  }
+
   async function apiPost(path, payload = {}) {
-    const res = await fetch(path, {
+    return fetchJsonWithRetry(path, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload),
     });
-    const data = await res.json().catch(() => ({}));
-    if (!res.ok) {
-      const err = new Error(data.error || "Erreur serveur");
-      err.status = res.status;
-      err.data = data;
-      throw err;
-    }
-    return data;
   }
 
   async function apiGet(path) {
-    const res = await fetch(path, { method: "GET", headers: { "Accept": "application/json" } });
-    const data = await res.json().catch(() => ({}));
-    if (!res.ok) {
-      const err = new Error(data.error || "Erreur serveur");
-      err.status = res.status;
-      err.data = data;
-      throw err;
-    }
-    return data;
+    return fetchJsonWithRetry(path, { method: "GET", headers: { "Accept": "application/json" } });
   }
 
   function getSessionToken() {
@@ -5173,27 +5190,45 @@ els.reviewList.appendChild(head);
     });
   }
 
+  let loginSubmitInProgress = false;
+
   if (els.formCode) {
     els.formCode.addEventListener("submit", async (e) => {
       e.preventDefault();
-      const username = (els.inputUsername?.value || "").trim();
-      if (!username) {
-        const msg = "Veuillez entrer votre nom d’utilisateur avant de vous connecter.";
-        if (els.codeError) {
-          els.codeError.textContent = msg;
-          els.codeError.style.display = "block";
-        }
-        alert(msg);
-        els.inputUsername?.focus();
-        return;
+      if (loginSubmitInProgress) return;
+      loginSubmitInProgress = true;
+      const submitButton = els.formCode.querySelector('button[type="submit"], input[type="submit"]');
+      const previousButtonText = submitButton && submitButton.tagName === 'BUTTON' ? submitButton.textContent : '';
+      if (submitButton) {
+        submitButton.disabled = true;
+        if (submitButton.tagName === 'BUTTON') submitButton.textContent = 'Connexion...';
       }
-      const ok = await grantAccess(username);
-      if (!ok) return;
-      els.inputStudentName.value = settings.studentName;
-      els.toggleShuffle.checked = settings.shuffleQuestions;
-      updateStartInfo();
-      setupDESelectors();
-      showScreen(els.screenStart);
+      try {
+        const username = (els.inputUsername?.value || "").trim();
+        if (!username) {
+          const msg = "Veuillez entrer votre nom d’utilisateur avant de vous connecter.";
+          if (els.codeError) {
+            els.codeError.textContent = msg;
+            els.codeError.style.display = "block";
+          }
+          alert(msg);
+          els.inputUsername?.focus();
+          return;
+        }
+        const ok = await grantAccess(username);
+        if (!ok) return;
+        els.inputStudentName.value = settings.studentName;
+        els.toggleShuffle.checked = settings.shuffleQuestions;
+        updateStartInfo();
+        setupDESelectors();
+        showScreen(els.screenStart);
+      } finally {
+        loginSubmitInProgress = false;
+        if (submitButton) {
+          submitButton.disabled = false;
+          if (submitButton.tagName === 'BUTTON') submitButton.textContent = previousButtonText;
+        }
+      }
     });
   }
 
