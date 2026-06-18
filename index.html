@@ -20,7 +20,7 @@
       <p class="muted">Entre tes identifiants pour accéder aux quiz.</p>
       <form id="formCode" class="field" style="max-width:280px;margin-top:14px">
         <label for="inputUsername" class="label">Nom d'utilisateur</label>
-        <div class="username-mask-wrap"><input id="inputUsername" class="input" type="password" placeholder="Ex: etudiant1" autocomplete="username" autofocus /><button id="btnToggleUsername" class="eye-toggle" type="button" aria-label="Afficher le nom d'utilisateur" title="Afficher / masquer">👁️‍🗨️</button></div>
+        <div class="username-mask-wrap"><input id="inputUsername" name="username" class="input" type="password" placeholder="Ex: etudiant1" autocomplete="current-password" autocapitalize="characters" spellcheck="false" required autofocus /><button id="btnToggleUsername" class="eye-toggle" type="button" aria-label="Afficher le nom d'utilisateur" title="Afficher / masquer">👁️‍🗨️</button></div>
         <div id="codeError" class="muted small" style="color:var(--bad);margin-top:8px;display:none"></div>
         <button class="btn btn--primary" type="submit" style="margin-top:12px">Se connecter</button>
       </form>

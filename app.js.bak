@@ -796,8 +796,14 @@
         localStorage.setItem(STORAGE_KEYS.user, username);
         startSessionHeartbeat(username);
       } catch (e) {
-        if (canUseOfflineMode() && window.USERS && window.USERS[username]) {
-          console.warn("Mode hors ligne activé pour", username);
+        const serverUnavailable = [0, 404, 405, 503].includes(Number(e.status || 0))
+          || /Failed to fetch|NetworkError|Unexpected token|Mode local|base PostgreSQL/i.test(String(e.data?.error || e.message || ''));
+        const localUserExists = !!(window.USERS && window.USERS[username]);
+
+        // Correction connexion mobile/static : si l'API serveur ou PostgreSQL n'est pas disponible,
+        // on autorise quand même les comptes présents dans codes.js. Le champ reste masqué comme un mot de passe.
+        if ((canUseOfflineMode() || serverUnavailable) && localUserExists) {
+          console.warn("Connexion locale activée pour", username);
           localStorage.setItem(STORAGE_KEYS.user, username);
         } else {
           const msg = e.data?.error || e.message || "Connexion refusée par le serveur.";

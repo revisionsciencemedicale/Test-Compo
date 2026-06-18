@@ -822,8 +822,14 @@
         localStorage.setItem(STORAGE_KEYS.user, username);
         startSessionHeartbeat(username);
       } catch (e) {
-        if (canUseOfflineMode() && window.USERS && window.USERS[username]) {
-          console.warn("Mode hors ligne activé pour", username);
+        const serverUnavailable = [0, 404, 405, 503].includes(Number(e.status || 0))
+          || /Failed to fetch|NetworkError|Unexpected token|Mode local|base PostgreSQL/i.test(String(e.data?.error || e.message || ''));
+        const localUserExists = !!(window.USERS && window.USERS[username]);
+
+        // Correction connexion mobile/static : si l'API serveur ou PostgreSQL n'est pas disponible,
+        // on autorise quand même les comptes présents dans codes.js. Le champ reste masqué comme un mot de passe.
+        if ((canUseOfflineMode() || serverUnavailable) && localUserExists) {
+          console.warn("Connexion locale activée pour", username);
           localStorage.setItem(STORAGE_KEYS.user, username);
         } else {
           const msg = e.data?.error || e.message || "Connexion refusée par le serveur.";
@@ -3371,7 +3377,8 @@
     "Hématologie",
     "Droit administratif",
     "Droit civil",
-    "Pharmacologie"
+    "Pharmacologie",
+    "Bonnes pratiques des Infirmier(e)s/Sages-femmes"
   ],
   "L2-Niveau Ascendant": [
     "Chirugie pédiatrique/Pathologies chirurrgicales",
@@ -3393,7 +3400,9 @@
     "Santé Publique",
     "Pathologies churigicale / Sémiologie",
     "Pathologies médicales / Sémiologie",
-    "Anglais de la santé"
+    "Anglais de la santé",
+    "Bonnes pratiques des Infirmier(e)s",
+    "Bonnes pratiques des Sages-femmes",
   ],
   "L3-Niveau Accompli INF": [
     "Imagerie médicale",
@@ -3411,6 +3420,9 @@
     "Ophtalmologie",
     "Neurochirurgie",
     "ORL",
+    "Pédiatrie (PCIMNE 'AGE DE 2 mois à 5 ans')",
+    "Pédiatrie (PCIMNE 'AGE DE 1 semaine à 2 mois')",
+    "Pédiatrie (PCIMNE 'AGE DE 0 à 1 semaine')",
     "Surveillances thérapeutiques",
     "Droit administratif",
     "Soins infirmiers spécialisés en médecine",
@@ -3425,6 +3437,7 @@
     "Fonction Publique",
     "Pathologies médico-churigicale / Stomatologie",
     "ophtalmologie",
+    "Bonnes pratiques des Infirmier(e)s"
   ],
   "L3-Niveau Accompli SF": [
     "Pathologies gynécologiques III",
@@ -3436,7 +3449,9 @@
     "Gouvernance et Organisation du Système de Santé Communautaire",
     "Organisation d’une séance de Vaccination / Sécurité des injections",
     "Psychiatrie",
-    "Pédiatrie (PCIMNE)",
+    "Pédiatrie (PCIMNE 'AGE DE 2 mois à 5 ans')",
+    "Pédiatrie (PCIMNE 'AGE DE 1 semaine à 2 mois')",
+    "Pédiatrie (PCIMNE 'AGE DE 0 à 1 semaine')",
     "Soins obstétricaux et néonataux d’urgence de base (SONUB)",
     "Soins obstétricaux et néonataux d’urgence complets (SONUC)",
     "Présentation de cas cliniques",
@@ -3464,6 +3479,7 @@
     "ophtalmologie",
     "Gynécologie-Obstétrique",
     "Soins obstétricaux et néonataux d’urgence(SONU)",
+    "Bonnes pratiques des Sages-femmes"
 
 
   ],

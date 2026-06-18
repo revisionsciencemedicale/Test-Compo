@@ -63,7 +63,9 @@ window.SUJETS_PAR_MATIERE_QUIZ = {
   "ORL": ["Sujet 1", "Sujet 2", "Sujet 3", "Sujet 4", "Sujet 5"],
   "ophtalmologie": ["Sujet 1", "Sujet 2", "Sujet 3", "Sujet 4", "Sujet 5"],
   "Gynécologie-Obstétrique": ["Sujet 1", "Sujet 2", "Sujet 3", "Sujet 4", "Sujet 5"],
-  
+  "Pédiatrie (PCIMNE 'AGE DE 2 mois à 5 ans')": ["Sujet 1", "Sujet 2", "Sujet 3", "Sujet 4", "Sujet 5"],
+  "Pédiatrie (PCIMNE 'AGE DE 1 semaine à 2 mois')": ["Sujet 1", "Sujet 2", "Sujet 3", "Sujet 4", "Sujet 5"],
+  "Pédiatrie (PCIMNE 'AGE DE 0 à 1 semaine')": ["Sujet 1", "Sujet 2", "Sujet 3", "Sujet 4", "Sujet 5"],
 };
 
 // Matières demandées pour L3-Niveau Accompli INF (6 sujets chacune)
