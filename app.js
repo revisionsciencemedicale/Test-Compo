@@ -3403,6 +3403,7 @@
     "Anglais de la santé",
     "Bonnes pratiques des Infirmier(e)s",
     "Bonnes pratiques des Sages-femmes",
+    "IST/VIH",
   ],
   "L3-Niveau Accompli INF": [
     "Imagerie médicale",
