@@ -445,6 +445,128 @@
     document.body?.classList.toggle('copy-blocked', !!appSettings.antiCopyPaste);
   }
 
+  function getFocusLossAntiCheatReason() {
+    const activeOptions = [];
+    if (appSettings.antiTabChange) activeOptions.push('Anti changement d’onglet ou réduction');
+    if (appSettings.antiScreenshot) activeOptions.push('Anti capture d’écran');
+    if (appSettings.antiCopyPaste) activeOptions.push('Anti copier/coller');
+    const suffix = activeOptions.length ? ` (${activeOptions.join(', ')})` : '';
+    return `Perte de focus : changement d’onglet, réduction ou sortie de la page${suffix}`;
+  }
+
+  function shouldAutoSubmitOnFocusLoss() {
+    return !!(appSettings.cheatDetection && (appSettings.antiTabChange || appSettings.antiScreenshot || appSettings.antiCopyPaste));
+  }
+
+  function captureQuizScreenshotDataUrl() {
+    return new Promise((resolve) => {
+      try {
+        const target = els.screenQuiz;
+        if (!target || target.classList.contains('hidden')) return resolve('');
+
+        const rect = target.getBoundingClientRect();
+        const width = Math.max(320, Math.ceil(rect.width || target.scrollWidth || window.innerWidth || 320));
+        const height = Math.max(240, Math.ceil(Math.min(target.scrollHeight || rect.height || window.innerHeight || 240, 1400)));
+        const clone = target.cloneNode(true);
+
+        const sourceFields = target.querySelectorAll('input, textarea, select');
+        const cloneFields = clone.querySelectorAll('input, textarea, select');
+        cloneFields.forEach((field, index) => {
+          const original = sourceFields[index];
+          if (!original) return;
+          if (field.tagName === 'TEXTAREA') field.textContent = original.value || '';
+          else if (field.tagName === 'SELECT') {
+            Array.from(field.options || []).forEach((option) => { option.selected = option.value === original.value; });
+          } else {
+            field.setAttribute('value', original.value || '');
+            if (original.checked) field.setAttribute('checked', 'checked');
+            else field.removeAttribute('checked');
+          }
+        });
+
+        clone.setAttribute('xmlns', 'http://www.w3.org/1999/xhtml');
+        clone.style.width = `${width}px`;
+        clone.style.minHeight = `${height}px`;
+        clone.style.margin = '0';
+        clone.style.background = '#ffffff';
+        clone.style.color = '#111827';
+        clone.style.boxSizing = 'border-box';
+
+        let cssText = '';
+        try {
+          cssText = Array.from(document.styleSheets).map((sheet) => {
+            try { return Array.from(sheet.cssRules || []).map((rule) => rule.cssText || '').join('\n'); }
+            catch (_) { return ''; }
+          }).join('\n');
+        } catch (_) { cssText = ''; }
+
+        const serialized = new XMLSerializer().serializeToString(clone);
+        const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}"><foreignObject width="100%" height="100%"><div xmlns="http://www.w3.org/1999/xhtml"><style>${cssText}</style>${serialized}</div></foreignObject></svg>`;
+        const img = new Image();
+        const timeout = setTimeout(() => resolve(''), 1200);
+        img.onload = () => {
+          clearTimeout(timeout);
+          try {
+            const maxWidth = 900;
+            const maxHeight = 1200;
+            const scale = Math.min(1, maxWidth / width, maxHeight / height);
+            const canvas = document.createElement('canvas');
+            canvas.width = Math.max(1, Math.round(width * scale));
+            canvas.height = Math.max(1, Math.round(height * scale));
+            const ctx = canvas.getContext('2d');
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+            const dataUrl = canvas.toDataURL('image/jpeg', 0.55);
+            resolve(dataUrl.length < 1800000 ? dataUrl : '');
+          } catch (_) {
+            resolve('');
+          }
+        };
+        img.onerror = () => {
+          clearTimeout(timeout);
+          resolve('');
+        };
+        img.src = `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`;
+      } catch (_) {
+        resolve('');
+      }
+    });
+  }
+
+  async function autoSubmitCurrentScoreAfterCheat(attempt) {
+    if (!attempt || session.autoCheatSubmitted || session.autoCheatSubmitPending) return;
+    session.autoCheatSubmitPending = true;
+    const screenshotDataUrl = await captureQuizScreenshotDataUrl();
+    const result = computeScore();
+    const note20 = formatNoteSur20(getNoteSur20(result));
+    session.autoCheatSubmitted = {
+      at: attempt.at,
+      reason: attempt.reason,
+      correct: result.correct,
+      answered: result.answered,
+      total: result.total,
+      score: result.score,
+      note20,
+      screenshotCaptured: !!screenshotDataUrl
+    };
+    session.autoCheatSubmitPending = false;
+
+    const user = localStorage.getItem(STORAGE_KEYS.user);
+    logActivity(user, 'auto_submit_cheat', {
+      reason: attempt.reason,
+      at: attempt.at,
+      correct: result.correct,
+      answered: result.answered,
+      total: result.total,
+      score: result.score,
+      note20,
+      autoSubmit: true,
+      screenshotCaptured: !!screenshotDataUrl,
+      screenshot: screenshotDataUrl || undefined
+    });
+  }
+
   function recordCheatAttempt(reason, options = {}) {
     if (!appSettings.cheatDetection) return;
     if (!session || !Array.isArray(session.questions) || !session.questions.length) return;
@@ -456,6 +578,9 @@
     if (now - session.startedAt < 1500) return;
 
     session.cheatAttempts = Array.isArray(session.cheatAttempts) ? session.cheatAttempts : [];
+    const previousAttempt = session.cheatAttempts[session.cheatAttempts.length - 1];
+    if (!options.allowDuplicate && previousAttempt && now - previousAttempt.at < 900) return;
+
     const attempt = { at: now, reason: reason || 'Tentative de tricherie' };
     session.cheatAttempts.push(attempt);
     session.cheatWarning = attempt;
@@ -465,6 +590,7 @@
     if (!session.cheatLockedAt) {
       session.cheatLockedAt = now;
       session.cheatSubmissionReason = attempt.reason;
+      autoSubmitCurrentScoreAfterCheat(attempt);
     }
 
     const user = localStorage.getItem(STORAGE_KEYS.user);
@@ -1250,7 +1376,9 @@
             const d = log.device || {}; const detailsObj = log.details || {};
             let extra = `Appareil: ${escapeHtml(d.platform || "-")} | Navigateur: ${escapeHtml(d.browser || "-")} | IP: ${escapeHtml(d.ip || "-")} | Dernière activité: ${formatDate(log.timestamp)}`;
             if (log.action === 'finish_quiz') extra += `<br>Quiz: ${escapeHtml(detailsObj.correct)}/${escapeHtml(detailsObj.total)} • Note: ${escapeHtml(detailsObj.note20 || '-')}/20`;
-            return `<div class="admin-log-item"><strong>${escapeHtml(log.user)}</strong> - ${escapeHtml(log.action)} - ${formatDate(log.timestamp)}<br><small>${extra}</small></div>`;
+            if (log.action === 'auto_submit_cheat') extra += `<br><strong>Auto envoi</strong> • Motif: ${escapeHtml(detailsObj.reason || '-')} • Note bloquée: ${escapeHtml(detailsObj.note20 || '-')}/20 • Capture: ${detailsObj.screenshotCaptured ? 'oui' : 'non'}`;
+            const screenshotHtml = detailsObj.screenshot ? `<div class="admin-log-screenshot"><img src="${escapeHtml(String(detailsObj.screenshot))}" alt="Capture automatique du quiz"></div>` : '';
+            return `<div class="admin-log-item"><strong>${escapeHtml(log.user)}</strong> - ${escapeHtml(log.action)} - ${formatDate(log.timestamp)}<br><small>${extra}</small>${screenshotHtml}</div>`;
           }).join("") || "<p class='muted'>Aucune activité enregistrée.</p>"}
         </div>
         </div>
@@ -4267,10 +4395,9 @@ if (!levels.includes(session.level)) {
   }
 
   function formatResultSummary(result) {
-    const { correct, answered, total, score } = result;
-    const pct = total === 0 ? 0 : Math.round((correct / total) * 100);
+    const { answered, total } = result;
     const note20 = formatNoteSur20(getNoteSur20(result));
-    return `${correct}/${total} correct • ${pct}% • Score: ${score} • répondu: ${answered}/${total} • Note sur 20: ${note20}/20`;
+    return `répondu: ${answered}/${total} • Note sur 20: ${note20}/20`;
   }
 
   function getResultFeedback(note) {
@@ -4403,14 +4530,11 @@ if (!levels.includes(session.level)) {
       }
     }
 
-    if (appSettings.autoPenalty && Array.isArray(session.cheatAttempts) && session.cheatAttempts.length) {
-      const penalty = session.cheatAttempts.length;
-      score -= penalty;
-      note20 -= penalty;
-    }
+    // Aucune pénalité n'est appliquée en cas de tentative de tricherie.
+    // La note reste uniquement celle obtenue avant la première tentative détectée.
 
-    // La note sur 20 applique directement la pondération et les pénalités de chaque question.
-    // Exemple : 5 questions => 4 points/question ; score -1 => -4/20.
+    // La note sur 20 applique directement la pondération de chaque question.
+    // Les réponses données après la première tentative détectée sont ignorées pour la note.
     return { correct, wrong, answered, total, score, note20, marksById: marksResultById };
   }
 
@@ -4419,13 +4543,18 @@ function renderResult() {
     const { correct, answered, total, score } = result;
     const pct = total === 0 ? 0 : Math.round((correct / total) * 100);
     const note20 = formatNoteSur20(getNoteSur20(result));
-    const cheatText = Array.isArray(session.cheatAttempts) && session.cheatAttempts.length
+    const firstCheatAttempt = Array.isArray(session.cheatAttempts) && session.cheatAttempts.length ? session.cheatAttempts[0] : null;
+    const autoSubmitInfo = session.autoCheatSubmitted || firstCheatAttempt;
+    const cheatText = autoSubmitInfo
       ? `
-Tentative de tricherie détectée : ${session.cheatAttempts.length} avertissement(s). Motif : ${session.cheatAttempts[0].reason}. Heure : ${new Date(session.cheatAttempts[0].at).toLocaleString()}. Les réponses données après cette tentative n’ont pas été prises en compte dans la note.`
+Auto envoi
+Motif : ${autoSubmitInfo.reason}.
+Heure : ${new Date(autoSubmitInfo.at).toLocaleString('fr-FR')}.
+Les réponses données après cette tentative n’ont pas été prises en compte dans la note.`
       : '';
     renderResultSummaryWithFeedback(els.scoreText, result, cheatText);
     const user = localStorage.getItem(STORAGE_KEYS.user);
-    logActivity(user, 'finish_quiz', { correct, answered, total, percentage: pct, score, note20 });
+    logActivity(user, 'finish_quiz', { correct, answered, total, percentage: pct, score, note20, autoSubmit: !!session.autoCheatSubmitted, autoSubmitInfo: session.autoCheatSubmitted || null });
     localStorage.setItem(
   STORAGE_KEYS.lastResult,
   JSON.stringify({
@@ -5292,17 +5421,22 @@ els.reviewList.appendChild(head);
 
   document.addEventListener('visibilitychange', () => {
     if (!document.hidden || !isQuizVisible()) return;
-    if (appSettings.antiTabChange) recordCheatAttempt('Changement d’onglet ou réduction de la page');
+    if (shouldAutoSubmitOnFocusLoss()) recordCheatAttempt(getFocusLossAntiCheatReason());
     else if (appSettings.notifyCheat) recordCheatAttempt('Appel ou notification reçu pendant le quiz');
   });
 
   window.addEventListener('pagehide', () => {
     if (!isQuizVisible()) return;
-    if (appSettings.antiTabChange) recordCheatAttempt('Changement d’onglet, réduction ou sortie de la page');
+    if (shouldAutoSubmitOnFocusLoss()) recordCheatAttempt(getFocusLossAntiCheatReason());
   });
 
   window.addEventListener('blur', () => {
-    if (!isQuizVisible() || !appSettings.notifyCheat) return;
+    if (!isQuizVisible()) return;
+    if (shouldAutoSubmitOnFocusLoss()) {
+      recordCheatAttempt(getFocusLossAntiCheatReason());
+      return;
+    }
+    if (!appSettings.notifyCheat) return;
     // Le navigateur ne donne pas accès directement aux appels/notifications.
     // On assimile seulement une vraie perte de focus après le début du quiz à ce motif.
     recordCheatAttempt('Appel, notification ou perte de focus pendant le quiz');

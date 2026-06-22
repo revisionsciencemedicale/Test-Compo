@@ -2063,3 +2063,23 @@ body.qdash-dashboard-view #screenStart .qdash-dashboard-quiz-access{
   line-height:1.55!important;
   font-weight:900!important;
 }
+
+
+.admin-log-screenshot{
+  margin-top:8px;
+  padding:6px;
+  border:1px solid rgba(15,23,42,.12);
+  border-radius:10px;
+  background:#ffffff;
+  max-width:420px;
+}
+.admin-log-screenshot img{
+  display:block;
+  width:100%;
+  height:auto;
+  border-radius:8px;
+}
+.result__cheat{
+  margin-top:10px;
+  white-space:pre-line;
+}
