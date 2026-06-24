@@ -1,0 +1,1 @@
+Site prêt pour GitHub Pages : connexion locale directe avec codes.js. Aucun serveur Node/Express n'est nécessaire.

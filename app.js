@@ -820,6 +820,41 @@
     };
   }
 
+
+  // Mode GitHub Pages / site statique : la connexion se fait directement
+  // avec les comptes présents dans codes.js, sans appeler /api/login.
+  function findLocalUsername(input) {
+    const key = normalizeKey(input || '');
+    if (!key) return '';
+    const sources = [
+      window.USERS || {},
+      window.UTILISATEURS_LOCAUX_INFOS || {},
+      window.LOCAL_USER_INFOS || {},
+      window.localUserInfos || {},
+    ];
+    for (const source of sources) {
+      if (!source || typeof source !== 'object') continue;
+      for (const id of Object.keys(source)) {
+        if (normalizeKey(id) === key) return id;
+      }
+    }
+    if (Array.isArray(window.ADMINS)) {
+      const admin = window.ADMINS.find((id) => normalizeKey(id) === key);
+      if (admin) return admin;
+    }
+    return '';
+  }
+
+  function getLocalUserConfig(input) {
+    const username = findLocalUsername(input);
+    if (!username) return null;
+    applyManualLocalUserInfo(username);
+    return {
+      username,
+      config: (window.USERS && window.USERS[username]) || (window.UTILISATEURS_LOCAUX_INFOS && window.UTILISATEURS_LOCAUX_INFOS[username]) || {},
+    };
+  }
+
   async function logActivity(user, action, details = {}) {
     if (isFreeTrialUser(user)) return;
     try {
@@ -849,6 +884,11 @@
       return { loggedIn: true, forceLogout: false };
     }
     if (!user || !token) {
+      // Sur GitHub Pages, il n'y a pas de session serveur : si le code existe
+      // dans codes.js, on garde la connexion locale active.
+      if (user && getLocalUserConfig(user)) {
+        return { loggedIn: true, forceLogout: false, localStaticMode: true };
+      }
       return { loggedIn: false, forceLogout: false };
     }
     try {
@@ -866,8 +906,8 @@
       }
       return status;
     } catch {
-      if (canUseOfflineMode() && window.USERS && window.USERS[user]) {
-        return { loggedIn: true, forceLogout: false, offlineMode: true };
+      if (getLocalUserConfig(user)) {
+        return { loggedIn: true, forceLogout: false, localStaticMode: true };
       }
       // Ne pas déconnecter automatiquement un compte créé sur le site si le serveur répond mal.
       return { loggedIn: true, forceLogout: false, pendingServerCheck: true };
@@ -922,11 +962,13 @@
 
   async function grantAccess(username) {
     username = String(username || "").trim();
+    const localAccount = username === FREE_TRIAL_USER ? null : getLocalUserConfig(username);
+    if (localAccount) username = localAccount.username;
     applyManualLocalUserInfo(username);
     const freeTrial = username === FREE_TRIAL_USER || isFreeTrialUser(username);
     freeTrialSessionActive = freeTrial;
     if (!username) {
-      const msg = "Veuillez entrer votre nom d’utilisateur avant de vous connecter.";
+      const msg = "Veuillez entrer votre code avant de vous connecter.";
       if (els.codeError) {
         els.codeError.textContent = msg;
         els.codeError.style.display = "block";
@@ -934,42 +976,22 @@
       alert(msg);
       return false;
     }
-    if (!freeTrial) {
-      try {
-        const data = await apiPost("/api/login", {
-          username,
-          sessionToken: getSessionToken(),
-          device: getDeviceInfo(),
-        });
-        if (data.userConfig) {
-          window.USERS = window.USERS || {};
-          window.USERS[username] = data.userConfig;
-        }
-        localStorage.setItem(STORAGE_KEYS.user, username);
-        startSessionHeartbeat(username);
-      } catch (e) {
-        const serverUnavailable = [0, 404, 405, 503].includes(Number(e.status || 0))
-          || /Failed to fetch|NetworkError|Unexpected token|Mode local|base PostgreSQL/i.test(String(e.data?.error || e.message || ''));
-        const localUserExists = !!(window.USERS && window.USERS[username]);
 
-        // Correction connexion mobile/static : si l'API serveur ou PostgreSQL n'est pas disponible,
-        // on autorise quand même les comptes présents dans codes.js. Le champ reste masqué comme un mot de passe.
-        if ((canUseOfflineMode() || serverUnavailable) && localUserExists) {
-          console.warn("Connexion locale activée pour", username);
-          localStorage.setItem(STORAGE_KEYS.user, username);
-        } else {
-          const msg = e.data?.error || e.message || "Connexion refusée par le serveur.";
-          if (e.data?.forcedLogout) {
-            clearLocalLogin();
-          }
-          if (els.codeError) {
-            els.codeError.textContent = msg.replace(/\n/g, " ");
-            els.codeError.style.display = "block";
-          }
-          alert(msg);
-          return false;
+    if (!freeTrial) {
+      // Connexion locale directe : aucune requête serveur n'est envoyée.
+      // Les codes sont lus dans codes.js, ce qui fonctionne sur GitHub Pages.
+      if (!localAccount) {
+        const msg = "Code incorrect ou non autorisé. Vérifie le code saisi.";
+        if (els.codeError) {
+          els.codeError.textContent = msg;
+          els.codeError.style.display = "block";
         }
+        alert(msg);
+        return false;
       }
+      localStorage.setItem(STORAGE_KEYS.user, username);
+      localStorage.removeItem(STORAGE_KEYS.sessionToken);
+      stopSessionHeartbeat();
     }
 
     if (els.screenCode) els.screenCode.classList.add("hidden");
@@ -994,7 +1016,7 @@
     if (els.btnDictionary) els.btnDictionary.style.display = "";
     if (els.btnReset) els.btnReset.classList.add("hidden");
 
-    if (!freeTrial && els.btnAdmin && window.ADMINS && window.ADMINS.includes(username)) {
+    if (!freeTrial && els.btnAdmin && window.ADMINS && window.ADMINS.some((admin) => normalizeKey(admin) === normalizeKey(username))) {
       els.btnAdmin.classList.remove("hidden");
     } else if (els.btnAdmin) {
       els.btnAdmin.classList.add("hidden");
